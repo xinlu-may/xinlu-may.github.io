@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心路新路 後台管理系統</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #2ecc71;
+    --green-dark: #27ae60;
+    --blue: #3498db;
+    --red: #e74c3c;
+    --orange: #f39c12;
+    --purple: #9b59b6;
+    --teal: #1abc9c;
+    --bg: #f0f4f8;
+    --sidebar: #1a2332;
+    --sidebar-hover: #243447;
+    --white: #ffffff;
+    --text: #2c3e50;
+    --text-light: #7f8c8d;
+    --border: #e1e8ed;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── Sidebar ── */
+  #sidebar {
+    width: 240px;
+    background: var(--sidebar);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+    overflow-y: auto;
+  }
+  .sidebar-logo {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sidebar-logo h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1.3;
+  }
+  .sidebar-logo p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+  }
+  .nav-section {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .nav-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1.2px;
+    padding: 4px 20px 8px;
+    text-transform: uppercase;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
+  .nav-item.active {
+    background: var(--sidebar-hover);
+    color: #fff;
+    border-left-color: var(--green);
+  }
+  .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+  .logout-btn {
+    margin-top: auto;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logout-btn:hover { color: #fff; }
+
+  /* ── Main ── */
+  #main {
+    margin-left: 240px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .topbar {
+    background: var(--white);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .topbar h1 { font-size: 18px; font-weight: 700; }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .badge {
+    background: var(--green);
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  .content { padding: 28px; }
+
+  /* ── Login ── */
+  #login-screen {
+    position: fixed; inset: 0;
+    background: linear-gradient(135deg, #1a2332 0%, #243447 100%);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999;
+  }
+  .login-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    width: 360px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .login-box h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .login-box p {
+    color: var(--text-light);
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+  .login-logo {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  /* ── Forms ── */
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.15s;
+    background: #fff;
+    color: var(--text);
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--green);
+  }
+  .form-group textarea { min-height: 140px; resize: vertical; }
+
+  /* ── Buttons ── */
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-green:hover { background: var(--green-dark); }
+  .btn-blue { background: var(--blue); color: #fff; }
+  .btn-blue:hover { background: #2980b9; }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn-red:hover { background: #c0392b; }
+  .btn-gray { background: #ecf0f1; color: var(--text); }
+  .btn-gray:hover { background: #dfe6e9; }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--green);
+    color: var(--green);
+  }
+  .btn-outline:hover { background: var(--green); color: #fff; }
+  .btn-sm { padding: 6px 14px; font-size: 12px; }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .card-header h3 { font-size: 16px; font-weight: 700; }
+
+  /* ── Stats ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .stat-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .stat-card h4 { font-size: 24px; font-weight: 800; line-height: 1; }
+  .stat-card p { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+
+  /* ── Table ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    background: #f8fafc;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+  .td-actions { display: flex; gap: 6px; }
+
+  /* ── Alert ── */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .alert-success { background: #d5f5e3; color: #1e8449; }
+  .alert-error { background: #fadbd8; color: #c0392b; }
+  .alert-info { background: #d6eaf8; color: #1a5276; }
+
+  /* ── Tab ── */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.15s;
+  }
+  .tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+  .tab-btn:hover { color: var(--text); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── Story cards ── */
+  .story-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .story-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--green);
+    transition: transform 0.15s;
+  }
+  .story-card:hover { transform: translateY(-2px); }
+  .story-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .story-card .meta { font-size: 12px; color: var(--text-light); margin-bottom: 10px; }
+  .story-card p { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .story-card .actions { margin-top: 14px; display: flex; gap: 8px; }
+
+  /* ── Modal ── */
+  .modal-bg {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    width: 600px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .modal-header h3 { font-size: 18px; font-weight: 700; }
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--text-light);
+    line-height: 1;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  /* ── Misc ── */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 15px; }
+
+  .spinner {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .hidden { display: none !important; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .color-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  @media (max-width: 768px) {
+    #sidebar { width: 200px; }
+    #main { margin-left: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">🌱</div>
+    <h2>心路新路 後台管理</h2>
+    <p>請輸入管理員帳號密碼登入</p>
+    <div id="login-alert" class="hidden"></div>
+    <div class="form-group">
+      <label>電子郵件</label>
+      <input type="email" id="login-email" placeholder="your@email.com" value="">
+    </div>
+    <div class="form-group">
+      <label>密碼</label>
+      <input type="password" id="login-pwd" placeholder="••••••••">
+    </div>
+    <button class="btn btn-green" style="width:100%;justify-content:center;padding:13px;" onclick="doLogin()">
+      <span id="login-btn-text">登入</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══ SIDEBAR ══ -->
+<div id="sidebar">
+  <div class="sidebar-logo">
+    <h2>🌱 心路新路</h2>
+    <p>後台管理系統</p>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">總覽</div>
+    <div class="nav-item active" onclick="showPage('dashboard')">
+      <span class="icon">📊</span> 儀表板
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">內容管理</div>
+    <div class="nav-item" onclick="showPage('stories')">
+      <span class="icon">📖</span> 生命故事花園
+    </div>
+    <div class="nav-item" onclick="showPage('columns')">
+      <span class="icon">✍️</span> 心路專欄
+    </div>
+    <div class="nav-item" onclick="showPage('activities')">
+      <span class="icon">🎪</span> 最新活動
+    </div>
+    <div class="nav-item" onclick="showPage('camps')">
+      <span class="icon">⛺</span> 兒童營隊
+    </div>
+    <div class="nav-item" onclick="showPage('speeches')">
+      <span class="icon">🎤</span> 演講足跡
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">互動</div>
+    <div class="nav-item" onclick="showPage('comments')">
+      <span class="icon">💬</span> 留言管理
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">系統</div>
+    <div class="nav-item" onclick="showPage('setup')">
+      <span class="icon">⚙️</span> 資料庫設定
+    </div>
+  </div>
+
+  <div class="logout-btn" onclick="doLogout()">
+    <span>🚪</span> 登出
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+  <div class="topbar">
+    <h1 id="page-title">儀表板</h1>
+    <div class="topbar-right">
+      <span id="user-email" style="font-size:13px;color:#7f8c8d;"></span>
+      <span class="badge">管理員</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── 全域訊息 ── -->
+    <div id="global-alert" class="hidden"></div>
+
+    <!-- ══ 儀表板 ══ -->
+    <div id="page-dashboard" class="page active">
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#d5f5e3;">📖</div>
+          <div><h4 id="stat-stories">-</h4><p>生命故事</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#d6eaf8;">✍️</div>
+          <div><h4 id="stat-columns">-</h4><p>心路專欄</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fdebd0;">🎪</div>
+          <div><h4 id="stat-activities">-</h4><p>活動記錄</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#e8daef;">🎤</div>
+          <div><h4 id="stat-speeches">-</h4><p>演講足跡</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fad7d7;">💬</div>
+          <div><h4 id="stat-comments">-</h4><p>讀者留言</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#d1f2eb;">⛺</div>
+          <div><h4 id="stat-camps">-</h4><p>兒童營隊</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>🌟 快速操作</h3>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;">
+          <button class="btn btn-green" onclick="showPage('stories');openStoryModal()">➕ 新增生命故事</button>
+          <button class="btn btn-blue" onclick="showPage('columns');openColumnModal()">➕ 新增專欄文章</button>
+          <button class="btn btn-outline" onclick="showPage('activities');openActivityModal()">➕ 新增活動</button>
+          <button class="btn btn-outline" onclick="showPage('speeches');openSpeechModal()">➕ 新增演講</button>
+          <button class="btn btn-outline" onclick="showPage('camps');openCampModal()">➕ 新增營隊</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>📋 網站頁面架構</h3></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--green);">
+            <strong style="font-size:13px;">1. 首頁</strong>
+          </div>
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--blue);">
+            <strong style="font-size:13px;">2. 關於老師</strong>
+          </div>
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--orange);">
+            <strong style="font-size:13px;">3. 服務項目</strong>
+          </div>
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--purple);">
+            <strong style="font-size:13px;">4. 測評系統（WWAS）</strong>
+          </div>
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--teal);">
+            <strong style="font-size:13px;">5. 最新活動</strong>
+          </div>
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--green);">
+            <strong style="font-size:13px;">6. 兒童營隊</strong>
+          </div>
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--blue);">
+            <strong style="font-size:13px;">7. 演講足跡</strong>
+          </div>
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--orange);">
+            <strong style="font-size:13px;">8. 心路專欄</strong>
+          </div>
+          <div style="padding:14px;background:#f8fafc;border-radius:8px;border-left:3px solid var(--purple);">
+            <strong style="font-size:13px;">9. 聯絡我們</strong>
+          </div>
+          <div style="padding:14px;background:#d5f5e3;border-radius:8px;border-left:3px solid var(--green);">
+            <strong style="font-size:13px;">10. 生命故事花園 ✨</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 生命故事花園 ══ -->
+    <div id="page-stories" class="page">
+      <div class="card">
+        <div class="card-header">
+          <h3>📖 生命故事花園</h3>
+          <button class="btn btn-green btn-sm" onclick="openStoryModal()">➕ 新增故事</button>
+        </div>
+        <p style="color:var(--text-light);font-size:13px;margin-bottom:16px;">
+          目前收錄：爸爸的故事、媽媽的故事、阿姨的故事
+        </p>
+        <div id="stories-list">
+          <div class="empty-state"><div class="icon">⏳</div><p>載入中...</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 心路專欄 ══ -->
+    <div id="page-columns" class="page">
+      <div class="card">
+        <div class="card-header">
+          <h3>✍️ 心路專欄文章</h3>
+          <button class="btn btn-green btn-sm" onclick="openColumnModal()">➕ 新增文章</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>標題</th>
+                <th>分類</th>
+                <th>Emoji</th>
+                <th>狀態</th>
+                <th>建立日期</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="columns-tbody">
+              <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">載入中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 最新活動 ══ -->
+    <div id="page-activities" class="page">
+      <div class="card">
+        <div class="card-header">
+          <h3>🎪 最新活動</h3>
+          <button class="btn btn-green btn-sm" onclick="openActivityModal()">➕ 新增活動</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>活動名稱</th>
+                <th>日期</th>
+                <th>地點</th>
+                <th>置頂</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="activities-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">載入中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 兒童營隊 ══ -->
+    <div id="page-camps" class="page">
+      <div class="card">
+        <div class="card-header">
+          <h3>⛺ 兒童營隊</h3>
+          <button class="btn btn-green btn-sm" onclick="openCampModal()">➕ 新增營隊</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>營隊名稱</th>
+                <th>屆別</th>
+                <th>年份</th>
+                <th>人數</th>
+                <th>簡介</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="camps-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">載入中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 演講足跡 ══ -->
+    <div id="page-speeches" class="page">
+      <div class="card">
+        <div class="card-header">
+          <h3>🎤 演講足跡</h3>
+          <button class="btn btn-green btn-sm" onclick="openSpeechModal()">➕ 新增演講</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>演講主題</th>
+                <th>主辦單位</th>
+                <th>日期</th>
+                <th>地點</th>
+                <th>類型</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="speeches-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">載入中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 留言管理 ══ -->
+    <div id="page-comments" class="page">
+      <div class="card">
+        <div class="card-header">
+          <h3>💬 讀者留言</h3>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-gray btn-sm" onclick="loadComments('pending')">待審核</button>
+            <button class="btn btn-gray btn-sm" onclick="loadComments('approved')">已核准</button>
+            <button class="btn btn-gray btn-sm" onclick="loadComments('all')">全部</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>留言者</th>
+                <th>文章</th>
+                <th>內容</th>
+                <th>時間</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="comments-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">載入中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 資料庫設定 ══ -->
+    <div id="page-setup" class="page">
+      <div class="card">
+        <div class="card-header"><h3>⚙️ 資料庫初始設定</h3></div>
+        <div class="alert alert-info">
+          💡 第一次使用請先點「建立所有資料表」，這樣系統才能正常儲存資料。
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;max-width:400px;">
+          <button class="btn btn-green" onclick="setupAllTables()">🗄️ 建立所有資料表</button>
+          <button class="btn btn-blue" onclick="insertSampleData()">📝 匯入爸爸的生命故事（範例）</button>
+        </div>
+        <div id="setup-log" style="margin-top:20px;background:#1a2332;color:#2ecc71;padding:16px;border-radius:8px;font-family:monospace;font-size:13px;min-height:100px;display:none;white-space:pre-wrap;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>🔗 連線資訊</h3></div>
+        <div class="form-group">
+          <label>Supabase Project URL</label>
+          <input type="text" value="https://iqxzsflawxzvniycmaub.supabase.co" readonly style="background:#f8fafc;">
+        </div>
+        <div class="form-group">
+          <label>狀態</label>
+          <div id="connection-status" class="alert alert-info">檢查中...</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="checkConnection()">🔄 重新檢查連線</button>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ══ MODALS ══ -->
+
+<!-- 生命故事 Modal -->
+<div class="modal-bg" id="modal-story">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="story-modal-title">新增生命故事</h3>
+      <button class="modal-close" onclick="closeModal('modal-story')">✕</button>
+    </div>
+    <input type="hidden" id="story-id">
+    <div class="form-group">
+      <label>故事分類 *</label>
+      <select id="story-category">
+        <option value="爸爸的故事">爸爸的故事</option>
+        <option value="媽媽的故事">媽媽的故事</option>
+        <option value="阿姨的故事">阿姨的故事</option>
+        <option value="其他">其他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>標題 *</label>
+      <input type="text" id="story-title" placeholder="例：我要幫上帝蓋教會">
+    </div>
+    <div class="form-group">
+      <label>副標題</label>
+      <input type="text" id="story-subtitle" placeholder="例：爸爸邱鐘明先生的見證">
+    </div>
+    <div class="form-group">
+      <label>封面引言（顯示在卡片上）</label>
+      <textarea id="story-quote" placeholder="例：離開賺錢至上的空虛、失望，進入全然奉獻的喜樂、平安" style="min-height:80px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>故事全文 *</label>
+      <textarea id="story-content" placeholder="請輸入完整的生命故事內容..." style="min-height:200px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>主題顏色</label>
+      <select id="story-color">
+        <option value="#2ecc71">🟢 綠色（生命）</option>
+        <option value="#3498db">🔵 藍色（平靜）</option>
+        <option value="#9b59b6">🟣 紫色（智慧）</option>
+        <option value="#e67e22">🟠 橙色（溫暖）</option>
+        <option value="#e74c3c">🔴 紅色（熱情）</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>排列順序（數字越小越前面）</label>
+      <input type="number" id="story-order" value="1" min="1">
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px;">
+      <button class="btn btn-gray" onclick="closeModal('modal-story')">取消</button>
+      <button class="btn btn-green" onclick="saveStory()">💾 儲存故事</button>
+    </div>
+  </div>
+</div>
+
+<!-- 專欄 Modal -->
+<div class="modal-bg" id="modal-column">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="column-modal-title">新增專欄文章</h3>
+      <button class="modal-close" onclick="closeModal('modal-column')">✕</button>
+    </div>
+    <input type="hidden" id="column-id">
+    <div class="form-group">
+      <label>Emoji 圖示</label>
+      <input type="text" id="column-emoji" placeholder="例：🌱" maxlength="4" style="width:80px;">
+    </div>
+    <div class="form-group">
+      <label>文章標題 *</label>
+      <input type="text" id="column-title" placeholder="文章標題">
+    </div>
+    <div class="form-group">
+      <label>分類</label>
+      <input type="text" id="column-category" placeholder="例：身心健康、家庭教育">
+    </div>
+    <div class="form-group">
+      <label>文章內容 *</label>
+      <textarea id="column-content" style="min-height:200px;" placeholder="文章全文..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>狀態</label>
+      <select id="column-status">
+        <option value="published">已發布</option>
+        <option value="draft">草稿</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;">
+      <button class="btn btn-gray" onclick="closeModal('modal-column')">取消</button>
+      <button class="btn btn-green" onclick="saveColumn()">💾 儲存文章</button>
+    </div>
+  </div>
+</div>
+
+<!-- 活動 Modal -->
+<div class="modal-bg" id="modal-activity">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>新增活動</h3>
+      <button class="modal-close" onclick="closeModal('modal-activity')">✕</button>
+    </div>
+    <input type="hidden" id="activity-id">
+    <div class="form-group">
+      <label>活動名稱 *</label>
+      <input type="text" id="activity-title" placeholder="活動名稱">
+    </div>
+    <div class="form-group">
+      <label>活動日期 *</label>
+      <input type="date" id="activity-date">
+    </div>
+    <div class="form-group">
+      <label>地點</label>
+      <input type="text" id="activity-location" placeholder="活動地點">
+    </div>
+    <div class="form-group">
+      <label>活動描述</label>
+      <textarea id="activity-desc" style="min-height:100px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>報名連結</label>
+      <input type="url" id="activity-link" placeholder="https://...">
+    </div>
+    <div class="form-group" style="display:flex;align-items:center;gap:10px;">
+      <input type="checkbox" id="activity-pinned" style="width:auto;">
+      <label for="activity-pinned" style="margin:0;">📌 置頂顯示（兒童營隊相關活動）</label>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;">
+      <button class="btn btn-gray" onclick="closeModal('modal-activity')">取消</button>
+      <button class="btn btn-green" onclick="saveActivity()">💾 儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 營隊 Modal -->
+<div class="modal-bg" id="modal-camp">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>新增兒童營隊</h3>
+      <button class="modal-close" onclick="closeModal('modal-camp')">✕</button>
+    </div>
+    <input type="hidden" id="camp-id">
+    <div class="form-group">
+      <label>營隊名稱 *</label>
+      <input type="text" id="camp-title" placeholder="例：2024 夏令全齡智慧成長營">
+    </div>
+    <div class="form-group">
+      <label>屆別</label>
+      <input type="text" id="camp-session" placeholder="例：第12屆">
+    </div>
+    <div class="form-group">
+      <label>年份</label>
+      <input type="number" id="camp-year" placeholder="2024">
+    </div>
+    <div class="form-group">
+      <label>參加人數</label>
+      <input type="number" id="camp-participants" placeholder="30">
+    </div>
+    <div class="form-group">
+      <label>營隊簡介</label>
+      <textarea id="camp-desc" style="min-height:100px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>主題</label>
+      <input type="text" id="camp-theme" placeholder="例：身心韌性、全齡學習">
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;">
+      <button class="btn btn-gray" onclick="closeModal('modal-camp')">取消</button>
+      <button class="btn btn-green" onclick="saveCamp()">💾 儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 演講 Modal -->
+<div class="modal-bg" id="modal-speech">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>新增演講記錄</h3>
+      <button class="modal-close" onclick="closeModal('modal-speech')">✕</button>
+    </div>
+    <input type="hidden" id="speech-id">
+    <div class="form-group">
+      <label>演講主題 *</label>
+      <input type="text" id="speech-title" placeholder="演講主題">
+    </div>
+    <div class="form-group">
+      <label>主辦單位 *</label>
+      <input type="text" id="speech-org" placeholder="主辦單位名稱">
+    </div>
+    <div class="form-group">
+      <label>演講日期 *</label>
+      <input type="date" id="speech-date">
+    </div>
+    <div class="form-group">
+      <label>地點</label>
+      <input type="text" id="speech-location" placeholder="地點">
+    </div>
+    <div class="form-group">
+      <label>演講類型</label>
+      <select id="speech-type">
+        <option value="專題演講">專題演講</option>
+        <option value="工作坊">工作坊</option>
+        <option value="研討會">研討會</option>
+        <option value="企業培訓">企業培訓</option>
+        <option value="學校演講">學校演講</option>
+        <option value="其他">其他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>備注</label>
+      <textarea id="speech-notes" style="min-height:80px;"></textarea>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;">
+      <button class="btn btn-gray" onclick="closeModal('modal-speech')">取消</button>
+      <button class="btn btn-green" onclick="saveSpeech()">💾 儲存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ SUPABASE CONFIG ══
+const SUPABASE_URL = 'https://iqxzsflawxzvniycmaub.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ══ AUTH ══
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pwd   = document.getElementById('login-pwd').value;
+  const btn   = document.getElementById('login-btn-text');
+  if (!email || !pwd) { showLoginAlert('請填寫帳號和密碼', 'error'); return; }
+  btn.innerHTML = '<span class="spinner"></span> 登入中...';
+  const { data, error } = await db.auth.signInWithPassword({ email, password: pwd });
+  if (error) {
+    showLoginAlert('帳號或密碼錯誤：' + error.message, 'error');
+    btn.textContent = '登入';
+  } else {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('user-email').textContent = data.user.email;
+    loadDashboard();
+    checkConnection();
+  }
+}
+
+async function doLogout() {
+  await db.auth.signOut();
+  location.reload();
+}
+
+function showLoginAlert(msg, type) {
+  const el = document.getElementById('login-alert');
+  el.className = `alert alert-${type}`;
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
+
+// ══ PAGE NAV ══
+const pageTitles = {
+  dashboard: '儀表板',
+  stories:   '📖 生命故事花園',
+  columns:   '✍️ 心路專欄',
+  activities:'🎪 最新活動',
+  camps:     '⛺ 兒童營隊',
+  speeches:  '🎤 演講足跡',
+  comments:  '💬 留言管理',
+  setup:     '⚙️ 資料庫設定'
+};
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + name + "'"))
+      n.classList.add('active');
+  });
+  document.getElementById('page-title').textContent = pageTitles[name] || name;
+  if (name === 'stories')    loadStories();
+  if (name === 'columns')    loadColumns();
+  if (name === 'activities') loadActivities();
+  if (name === 'camps')      loadCamps();
+  if (name === 'speeches')   loadSpeeches();
+  if (name === 'comments')   loadComments('all');
+  if (name === 'dashboard')  loadDashboard();
+}
+
+// ══ MODAL ══
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ══ DASHBOARD ══
+async function loadDashboard() {
+  const tables = [
+    { table: 'life_stories', el: 'stat-stories' },
+    { table: 'columns',      el: 'stat-columns' },
+    { table: 'activities',   el: 'stat-activities' },
+    { table: 'speeches',     el: 'stat-speeches' },
+    { table: 'comments',     el: 'stat-comments' },
+    { table: 'camps',        el: 'stat-camps' },
+  ];
+  for (const t of tables) {
+    const { count } = await db.from(t.table).select('*', { count: 'exact', head: true });
+    const el = document.getElementById(t.el);
+    if (el) el.textContent = count ?? '0';
+  }
+}
+
+// ══ LIFE STORIES ══
+async function loadStories() {
+  const { data, error } = await db.from('life_stories').select('*').order('sort_order');
+  const container = document.getElementById('stories-list');
+  if (error) {
+    container.innerHTML = `<div class="alert alert-error">❌ 資料表尚未建立，請先到「資料庫設定」初始化。</div>`;
+    return;
+  }
+  if (!data || data.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">🌱</div><p>還沒有故事，點右上角新增第一個故事</p></div>`;
+    return;
+  }
+  container.innerHTML = `<div class="story-grid">${data.map(s => `
+    <div class="story-card" style="border-left-color:${s.color||'#2ecc71'}">
+      <div class="meta">${s.category} · #${s.sort_order}</div>
+      <h4>${s.title}</h4>
+      ${s.subtitle ? `<div style="font-size:12px;color:var(--text-light);margin-bottom:6px;">${s.subtitle}</div>` : ''}
+      ${s.quote ? `<p style="font-style:italic;color:var(--text-light);">"${s.quote.slice(0,60)}..."</p>` : ''}
+      <p style="margin-top:8px;">${(s.content||'').slice(0,100)}...</p>
+      <div class="actions">
+        <button class="btn btn-blue btn-sm" onclick="editStory(${s.id})">✏️ 編輯</button>
+        <button class="btn btn-red btn-sm" onclick="deleteStory(${s.id})">🗑️ 刪除</button>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function openStoryModal(data) {
+  document.getElementById('story-id').value = data?.id || '';
+  document.getElementById('story-category').value = data?.category || '爸爸的故事';
+  document.getElementById('story-title').value = data?.title || '';
+  document.getElementById('story-subtitle').value = data?.subtitle || '';
+  document.getElementById('story-quote').value = data?.quote || '';
+  document.getElementById('story-content').value = data?.content || '';
+  document.getElementById('story-color').value = data?.color || '#2ecc71';
+  document.getElementById('story-order').value = data?.sort_order || 1;
+  document.getElementById('story-modal-title').textContent = data ? '編輯生命故事' : '新增生命故事';
+  openModal('modal-story');
+}
+
+async function editStory(id) {
+  const { data } = await db.from('life_stories').select('*').eq('id', id).single();
+  if (data) openStoryModal(data);
+}
+
+async function saveStory() {
+  const id = document.getElementById('story-id').value;
+  const payload = {
+    category:   document.getElementById('story-category').value,
+    title:      document.getElementById('story-title').value.trim(),
+    subtitle:   document.getElementById('story-subtitle').value.trim(),
+    quote:      document.getElementById('story-quote').value.trim(),
+    content:    document.getElementById('story-content').value.trim(),
+    color:      document.getElementById('story-color').value,
+    sort_order: parseInt(document.getElementById('story-order').value) || 1,
+  };
+  if (!payload.title || !payload.content) { alert('請填寫標題和故事內容'); return; }
+  let error;
+  if (id) {
+    ({ error } = await db.from('life_stories').update(payload).eq('id', id));
+  } else {
+    ({ error } = await db.from('life_stories').insert(payload));
+  }
+  if (error) { alert('儲存失敗：' + error.message); return; }
+  closeModal('modal-story');
+  loadStories();
+  showGlobalAlert('✅ 故事儲存成功！', 'success');
+}
+
+async function deleteStory(id) {
+  if (!confirm('確定要刪除這個故事嗎？')) return;
+  const { error } = await db.from('life_stories').delete().eq('id', id);
+  if (error) { alert('刪除失敗：' + error.message); return; }
+  loadStories();
+}
+
+// ══ COLUMNS ══
+async function loadColumns() {
+  const { data, error } = await db.from('columns').select('*').order('created_at', { ascending: false });
+  const tbody = document.getElementById('columns-tbody');
+  if (error || !data) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--red);">❌ 請先到「資料庫設定」初始化資料表</td></tr>`;
+    return;
+  }
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">尚無文章</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map((c, i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${c.title}</strong></td>
+      <td>${c.category || '-'}</td>
+      <td style="font-size:20px;">${c.emoji || '📝'}</td>
+      <td><span style="background:${c.status==='published'?'#d5f5e3':'#fdebd0'};color:${c.status==='published'?'#1e8449':'#935116'};padding:3px 8px;border-radius:20px;font-size:12px;">${c.status==='published'?'已發布':'草稿'}</span></td>
+      <td>${c.created_at ? new Date(c.created_at).toLocaleDateString('zh-TW') : '-'}</td>
+      <td class="td-actions">
+        <button class="btn btn-blue btn-sm" onclick="editColumn(${c.id})">✏️</button>
+        <button class="btn btn-red btn-sm" onclick="deleteColumn(${c.id})">🗑️</button>
+      </td>
+    </tr>`).join('');
+}
+
+function openColumnModal(data) {
+  document.getElementById('column-id').value = data?.id || '';
+  document.getElementById('column-emoji').value = data?.emoji || '';
+  document.getElementById('column-title').value = data?.title || '';
+  document.getElementById('column-category').value = data?.category || '';
+  document.getElementById('column-content').value = data?.content || '';
+  document.getElementById('column-status').value = data?.status || 'published';
+  document.getElementById('column-modal-title').textContent = data ? '編輯文章' : '新增文章';
+  openModal('modal-column');
+}
+
+async function editColumn(id) {
+  const { data } = await db.from('columns').select('*').eq('id', id).single();
+  if (data) openColumnModal(data);
+}
+
+async function saveColumn() {
+  const id = document.getElementById('column-id').value;
+  const payload = {
+    emoji:    document.getElementById('column-emoji').value.trim(),
+    title:    document.getElementById('column-title').value.trim(),
+    category: document.getElementById('column-category').value.trim(),
+    content:  document.getElementById('column-content').value.trim(),
+    status:   document.getElementById('column-status').value,
+  };
+  if (!payload.title) { alert('請填寫標題'); return; }
+  let error;
+  if (id) {
+    ({ error } = await db.from('columns').update(payload).eq('id', id));
+  } else {
+    ({ error } = await db.from('columns').insert(payload));
+  }
+  if (error) { alert('儲存失敗：' + error.message); return; }
+  closeModal('modal-column');
+  loadColumns();
+  showGlobalAlert('✅ 文章儲存成功！', 'success');
+}
+
+async function deleteColumn(id) {
+  if (!confirm('確定刪除此文章？')) return;
+  await db.from('columns').delete().eq('id', id);
+  loadColumns();
+}
+
+// ══ ACTIVITIES ══
+async function loadActivities() {
+  const { data, error } = await db.from('activities').select('*').order('event_date', { ascending: false });
+  const tbody = document.getElementById('activities-tbody');
+  if (error || !data) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--red);">❌ 請先初始化資料表</td></tr>`;
+    return;
+  }
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;">尚無活動</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(a => `
+    <tr>
+      <td><strong>${a.title}</strong></td>
+      <td>${a.event_date || '-'}</td>
+      <td>${a.location || '-'}</td>
+      <td>${a.is_pinned ? '📌 置頂' : '-'}</td>
+      <td><span style="background:#d5f5e3;color:#1e8449;padding:3px 8px;border-radius:20px;font-size:12px;">進行中</span></td>
+      <td class="td-actions">
+        <button class="btn btn-blue btn-sm" onclick="editActivity(${a.id})">✏️</button>
+        <button class="btn btn-red btn-sm" onclick="deleteActivity(${a.id})">🗑️</button>
+      </td>
+    </tr>`).join('');
+}
+
+function openActivityModal(data) {
+  document.getElementById('activity-id').value = data?.id || '';
+  document.getElementById('activity-title').value = data?.title || '';
+  document.getElementById('activity-date').value = data?.event_date || '';
+  document.getElementById('activity-location').value = data?.location || '';
+  document.getElementById('activity-desc').value = data?.description || '';
+  document.getElementById('activity-link').value = data?.registration_link || '';
+  document.getElementById('activity-pinned').checked = data?.is_pinned || false;
+  openModal('modal-activity');
+}
+
+async function editActivity(id) {
+  const { data } = await db.from('activities').select('*').eq('id', id).single();
+  if (data) openActivityModal(data);
+}
+
+async function saveActivity() {
+  const id = document.getElementById('activity-id').value;
+  const payload = {
+    title:             document.getElementById('activity-title').value.trim(),
+    event_date:        document.getElementById('activity-date').value,
+    location:          document.getElementById('activity-location').value.trim(),
+    description:       document.getElementById('activity-desc').value.trim(),
+    registration_link: document.getElementById('activity-link').value.trim(),
+    is_pinned:         document.getElementById('activity-pinned').checked,
+  };
+  let error;
+  if (id) {
+    ({ error } = await db.from('activities').update(payload).eq('id', id));
+  } else {
+    ({ error } = await db.from('activities').insert(payload));
+  }
+  if (error) { alert('儲存失敗：' + error.message); return; }
+  closeModal('modal-activity');
+  loadActivities();
+  showGlobalAlert('✅ 活動儲存成功！', 'success');
+}
+
+async function deleteActivity(id) {
+  if (!confirm('確定刪除？')) return;
+  await db.from('activities').delete().eq('id', id);
+  loadActivities();
+}
+
+// ══ CAMPS ══
+async function loadCamps() {
+  const { data, error } = await db.from('camps').select('*').order('year', { ascending: false });
+  const tbody = document.getElementById('camps-tbody');
+  if (error || !data) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--red);">❌ 請先初始化資料表</td></tr>`;
+    return;
+  }
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;">尚無營隊資料</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(c => `
+    <tr>
+      <td><strong>${c.title}</strong></td>
+      <td>${c.session || '-'}</td>
+      <td>${c.year || '-'}</td>
+      <td>${c.participants || '-'} 人</td>
+      <td>${(c.description||'').slice(0,40)}${c.description?.length>40?'...':''}</td>
+      <td class="td-actions">
+        <button class="btn btn-blue btn-sm" onclick="editCamp(${c.id})">✏️</button>
+        <button class="btn btn-red btn-sm" onclick="deleteCamp(${c.id})">🗑️</button>
+      </td>
+    </tr>`).join('');
+}
+
+function openCampModal(data) {
+  document.getElementById('camp-id').value = data?.id || '';
+  document.getElementById('camp-title').value = data?.title || '';
+  document.getElementById('camp-session').value = data?.session || '';
+  document.getElementById('camp-year').value = data?.year || new Date().getFullYear();
+  document.getElementById('camp-participants').value = data?.participants || '';
+  document.getElementById('camp-desc').value = data?.description || '';
+  document.getElementById('camp-theme').value = data?.theme || '';
+  openModal('modal-camp');
+}
+
+async function editCamp(id) {
+  const { data } = await db.from('camps').select('*').eq('id', id).single();
+  if (data) openCampModal(data);
+}
+
+async function saveCamp() {
+  const id = document.getElementById('camp-id').value;
+  const payload = {
+    title:        document.getElementById('camp-title').value.trim(),
+    session:      document.getElementById('camp-session').value.trim(),
+    year:         parseInt(document.getElementById('camp-year').value) || null,
+    participants: parseInt(document.getElementById('camp-participants').value) || null,
+    description:  document.getElementById('camp-desc').value.trim(),
+    theme:        document.getElementById('camp-theme').value.trim(),
+  };
+  let error;
+  if (id) {
+    ({ error } = await db.from('camps').update(payload).eq('id', id));
+  } else {
+    ({ error } = await db.from('camps').insert(payload));
+  }
+  if (error) { alert('儲存失敗：' + error.message); return; }
+  closeModal('modal-camp');
+  loadCamps();
+  showGlobalAlert('✅ 營隊資料儲存成功！', 'success');
+}
+
+async function deleteCamp(id) {
+  if (!confirm('確定刪除？')) return;
+  await db.from('camps').delete().eq('id', id);
+  loadCamps();
+}
+
+// ══ SPEECHES ══
+async function loadSpeeches() {
+  const { data, error } = await db.from('speeches').select('*').order('speech_date', { ascending: false });
+  const tbody = document.getElementById('speeches-tbody');
+  if (error || !data) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--red);">❌ 請先初始化資料表</td></tr>`;
+    return;
+  }
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;">尚無演講記錄</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(s => `
+    <tr>
+      <td><strong>${s.title}</strong></td>
+      <td>${s.organization || '-'}</td>
+      <td>${s.speech_date || '-'}</td>
+      <td>${s.location || '-'}</td>
+      <td><span style="background:#e8daef;color:#6c3483;padding:3px 8px;border-radius:20px;font-size:12px;">${s.type || '-'}</span></td>
+      <td class="td-actions">
+        <button class="btn btn-blue btn-sm" onclick="editSpeech(${s.id})">✏️</button>
+        <button class="btn btn-red btn-sm" onclick="deleteSpeech(${s.id})">🗑️</button>
+      </td>
+    </tr>`).join('');
+}
+
+function openSpeechModal(data) {
+  document.getElementById('speech-id').value = data?.id || '';
+  document.getElementById('speech-title').value = data?.title || '';
+  document.getElementById('speech-org').value = data?.organization || '';
+  document.getElementById('speech-date').value = data?.speech_date || '';
+  document.getElementById('speech-location').value = data?.location || '';
+  document.getElementById('speech-type').value = data?.type || '專題演講';
+  document.getElementById('speech-notes').value = data?.notes || '';
+  openModal('modal-speech');
+}
+
+async function editSpeech(id) {
+  const { data } = await db.from('speeches').select('*').eq('id', id).single();
+  if (data) openSpeechModal(data);
+}
+
+async function saveSpeech() {
+  const id = document.getElementById('speech-id').value;
+  const payload = {
+    title:        document.getElementById('speech-title').value.trim(),
+    organization: document.getElementById('speech-org').value.trim(),
+    speech_date:  document.getElementById('speech-date').value,
+    location:     document.getElementById('speech-location').value.trim(),
+    type:         document.getElementById('speech-type').value,
+    notes:        document.getElementById('speech-notes').value.trim(),
+  };
+  let error;
+  if (id) {
+    ({ error } = await db.from('speeches').update(payload).eq('id', id));
+  } else {
+    ({ error } = await db.from('speeches').insert(payload));
+  }
+  if (error) { alert('儲存失敗：' + error.message); return; }
+  closeModal('modal-speech');
+  loadSpeeches();
+  showGlobalAlert('✅ 演講記錄儲存成功！', 'success');
+}
+
+async function deleteSpeech(id) {
+  if (!confirm('確定刪除？')) return;
+  await db.from('speeches').delete().eq('id', id);
+  loadSpeeches();
+}
+
+// ══ COMMENTS ══
+async function loadComments(filter = 'all') {
+  let query = db.from('comments').select('*').order('created_at', { ascending: false });
+  if (filter === 'pending')  query = query.eq('status', 'pending');
+  if (filter === 'approved') query = query.eq('status', 'approved');
+  const { data, error } = await query;
+  const tbody = document.getElementById('comments-tbody');
+  if (error || !data) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--red);">❌ 請先初始化資料表</td></tr>`;
+    return;
+  }
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;">尚無留言</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(c => `
+    <tr>
+      <td>${c.author_name || '匿名'}</td>
+      <td>${c.article_title || '-'}</td>
+      <td>${(c.content||'').slice(0,60)}...</td>
+      <td style="font-size:12px;">${c.created_at ? new Date(c.created_at).toLocaleDateString('zh-TW') : '-'}</td>
+      <td><span style="background:${c.status==='approved'?'#d5f5e3':'#fdebd0'};color:${c.status==='approved'?'#1e8449':'#935116'};padding:3px 8px;border-radius:20px;font-size:12px;">${c.status==='approved'?'已核准':'待審核'}</span></td>
+      <td class="td-actions">
+        ${c.status!=='approved' ? `<button class="btn btn-green btn-sm" onclick="approveComment(${c.id})">✅</button>` : ''}
+        <button class="btn btn-red btn-sm" onclick="deleteComment(${c.id})">🗑️</button>
+      </td>
+    </tr>`).join('');
+}
+
+async function approveComment(id) {
+  await db.from('comments').update({ status: 'approved' }).eq('id', id);
+  loadComments('all');
+}
+
+async function deleteComment(id) {
+  if (!confirm('確定刪除此留言？')) return;
+  await db.from('comments').delete().eq('id', id);
+  loadComments('all');
+}
+
+// ══ SETUP ══
+async function setupAllTables() {
+  const log = document.getElementById('setup-log');
+  log.style.display = 'block';
+  log.textContent = '開始建立資料表...\n\n';
+
+  const sqls = [
+    {
+      name: 'life_stories（生命故事）',
+      sql: `CREATE TABLE IF NOT EXISTS life_stories (
+        id SERIAL PRIMARY KEY,
+        category TEXT NOT NULL DEFAULT '爸爸的故事',
+        title TEXT NOT NULL,
+        subtitle TEXT,
+        quote TEXT,
+        content TEXT,
+        color TEXT DEFAULT '#2ecc71',
+        sort_order INTEGER DEFAULT 1,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );`
+    },
+    {
+      name: 'columns（心路專欄）',
+      sql: `CREATE TABLE IF NOT EXISTS columns (
+        id SERIAL PRIMARY KEY,
+        emoji TEXT,
+        title TEXT NOT NULL,
+        category TEXT,
+        content TEXT,
+        status TEXT DEFAULT 'published',
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );`
+    },
+    {
+      name: 'activities（最新活動）',
+      sql: `CREATE TABLE IF NOT EXISTS activities (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        event_date DATE,
+        location TEXT,
+        description TEXT,
+        registration_link TEXT,
+        is_pinned BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );`
+    },
+    {
+      name: 'camps（兒童營隊）',
+      sql: `CREATE TABLE IF NOT EXISTS camps (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        session TEXT,
+        year INTEGER,
+        participants INTEGER,
+        description TEXT,
+        theme TEXT,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );`
+    },
+    {
+      name: 'speeches（演講足跡）',
+      sql: `CREATE TABLE IF NOT EXISTS speeches (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        organization TEXT,
+        speech_date DATE,
+        location TEXT,
+        type TEXT DEFAULT '專題演講',
+        notes TEXT,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );`
+    },
+    {
+      name: 'comments（讀者留言）',
+      sql: `CREATE TABLE IF NOT EXISTS comments (
+        id SERIAL PRIMARY KEY,
+        author_name TEXT,
+        author_email TEXT,
+        article_title TEXT,
+        article_id INTEGER,
+        content TEXT,
+        status TEXT DEFAULT 'pending',
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );`
+    },
+  ];
+
+  for (const s of sqls) {
+    const { error } = await db.rpc('exec_sql', { sql: s.sql }).catch(() => ({ error: { message: 'RPC not available' } }));
+    if (error) {
+      log.textContent += `⚠️  ${s.name}：請手動在 Supabase SQL Editor 執行\n`;
+    } else {
+      log.textContent += `✅ ${s.name} 建立成功\n`;
+    }
+  }
+
+  log.textContent += `\n📋 如果顯示需要手動執行，請：\n`;
+  log.textContent += `1. 到 Supabase → SQL Editor\n`;
+  log.textContent += `2. 複製下方的 SQL 並執行\n`;
+  log.textContent += `3. 回來重新整理此頁面\n\n`;
+  log.textContent += `── 完整 SQL（複製到 Supabase 執行）──\n\n`;
+  sqls.forEach(s => { log.textContent += s.sql + '\n\n'; });
+}
+
+async function insertSampleData() {
+  const { error } = await db.from('life_stories').insert({
+    category: '爸爸的故事',
+    title: '我要幫上帝蓋教會',
+    subtitle: '爸爸邱鐘明先生的見證',
+    quote: '離開賺錢至上的空虛、失望，進入全然奉獻的喜樂、平安',
+    content: `爸爸從診斷出癌末到離開人世，只有短短3個多月！我們還來不及搞清楚狀況，就已經開始籌備喪禮了。當喪禮事宜大致安排底定，稍稍停下腳步，才清楚我們在3個多月內到底經歷了什麼：診斷結果帶來的震驚、尋求醫治的兵荒馬亂、照顧爸爸及兼顧工作的快速耗能、化療失敗的抗拒、看著爸爸越來越虛弱的不忍、不能讓爸爸留在等死的絕望所做的努力、盡量帶給他盼望的堅強，到最後爸爸離開的失落、悲傷！
+
+如果沒有神，我們無法有這麼多平安、喜樂和力量走過這一段。我想爸爸到天上時，也同樣會對上帝發出這個感恩，因為如果沒有神，爸爸或許會含恨而終！
+
+爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，但付出的卻是與家人疏離、孑然一身的代價。
+
+離世前的20幾天，爸爸對親家公說：「感謝主啦！雖然時間不長，但是我選上帝這邊實在是選對邊了，還好站在上帝這邊，這就對了！」
+
+3個多月以來，爸爸反覆講述的就是「我要幫上帝蓋教會、感謝主、讚美主」，每回講起來，總是帶著期待及滿滿的笑容。`,
+    color: '#2ecc71',
+    sort_order: 1,
+  });
+  if (error) {
+    alert('匯入失敗：' + error.message + '\n\n請先建立資料表！');
+  } else {
+    showGlobalAlert('✅ 爸爸的生命故事已成功匯入！', 'success');
+    showPage('stories');
+  }
+}
+
+// ══ CONNECTION CHECK ══
+async function checkConnection() {
+  const el = document.getElementById('connection-status');
+  if (!el) return;
+  const { data, error } = await db.from('life_stories').select('count', { count: 'exact', head: true });
+  if (error && error.code !== 'PGRST116') {
+    el.className = 'alert alert-info';
+    el.textContent = '⚠️ 已連線，但資料表尚未建立。請點「建立所有資料表」。';
+  } else if (error) {
+    el.className = 'alert alert-error';
+    el.textContent = '❌ 連線失敗：' + error.message;
+  } else {
+    el.className = 'alert alert-success';
+    el.textContent = '✅ Supabase 連線正常！';
+  }
+}
+
+// ══ GLOBAL ALERT ══
+function showGlobalAlert(msg, type = 'success') {
+  const el = document.getElementById('global-alert');
+  el.className = `alert alert-${type}`;
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  setTimeout(() => el.classList.add('hidden'), 4000);
+}
+
+// ══ ENTER KEY LOGIN ══
+document.getElementById('login-pwd').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// ══ AUTO LOGIN CHECK ══
+(async () => {
+  const { data: { session } } = await db.auth.getSession();
+  if (session) {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('user-email').textContent = session.user.email;
+    loadDashboard();
+    checkConnection();
+  }
+})();
+</script>
+</body>
+</html>
