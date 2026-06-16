@@ -15,7 +15,7 @@
             line-height: 1.8;
             color: #333;
             background-color: #fcfcfc;
-            padding-top: 90px;
+            padding-top: 100px;
         }
         
         .container {
@@ -24,7 +24,7 @@
             padding: 0 20px;
         }
 
-        /* 1. 導覽列：大字體 */
+        /* 1. 導覽列 */
         .main-nav {
             position: fixed;
             top: 0;
@@ -35,7 +35,7 @@
         }
         .nav-container {
             display: block;
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             padding: 15px 20px;
         }
@@ -48,14 +48,18 @@
             margin-bottom: 10px;
             text-align: center;
         }
+        
+        /* 導覽列清單優化 */
         .nav-links {
             display: block;
             list-style: none;
             text-align: center;
+            vertical-align: middle;
         }
         .nav-links li {
             display: inline-block;
-            margin: 5px 12px;
+            margin: 5px 10px;
+            vertical-align: middle;
         }
         .nav-links a {
             color: #555;
@@ -67,6 +71,21 @@
             color: #2C5E3B;
             font-weight: bold;
         }
+
+        /* 🌟 依老師指示：特製緊鄰在「聯絡我們」旁邊的綠色 LINE 膠囊按鈕 🌟 */
+        .menu-line-btn {
+            display: inline-block; 
+            background: #06C755; 
+            color: white !important; 
+            padding: 6px 18px; 
+            border-radius: 20px; 
+            font-weight: bold !important; 
+            font-size: 17px !important; 
+            box-shadow: 0 3px 8px rgba(6,199,85,0.2);
+            word-break: keep-all;
+            margin-left: 5px;
+        }
+        .line-word { display: inline-block; white-space: nowrap; }
 
         /* 2. Hero 區：大字體 */
         .hero-section {
@@ -175,30 +194,16 @@
             font-size: 18px;
             color: #2C5E3B; 
             font-weight: bold; 
-            text-decoration: underline;
+            text-underline-offset: 4px;
         }
-
-        /* 官方 LINE 特製按鈕樣式，確保詞彙不拆行 */
-        .line-btn {
-            display: inline-block; 
-            background: #06C755; 
-            color: white; 
-            padding: 16px 35px; 
-            border-radius: 35px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            font-size: 20px; 
-            box-shadow: 0 4px 15px rgba(6,199,85,0.3);
-            margin-top: 15px;
-            word-break: keep-all;
-        }
-        .line-word { display: inline-block; white-space: nowrap; }
 
         /* 手機版適應 */
         @media (max-width: 768px) {
+            body { padding-top: 150px; }
             .card-table, .card-table tr, .card-table td { display: block; width: 100%; }
             .card-table { border-spacing: 0; }
             .card-cell { margin-bottom: 25px; }
+            .menu-line-btn { display: inline-block; width: 80%; margin: 8px auto 0 auto; padding: 8px 15px; }
         }
         @media (min-width: 768px) {
             .logo { display: inline-block; margin-bottom: 0; text-align: left; }
@@ -208,10 +213,12 @@
 </head>
 <body>
 
-    <!-- 1. 全新訪客思維導覽列 -->
+    <!-- 1. 導覽列 -->
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="logo">心路新路全齡會所</a>
+            
+            <!-- 選單內容：完美將官方 LINE 嵌在「聯絡我們」的旁邊 -->
             <ul class="nav-links">
                 <li><a href="index.html" class="active">首頁</a></li>
                 <li><a href="about.html">關於老師</a></li>
@@ -223,12 +230,19 @@
                 <li><a href="life-stories.html">生命花園</a></li>
                 <li><a href="blog.html">心路專欄</a></li>
                 <li><a href="contact.html">聯絡我們</a></li>
+                
+                <!-- 🌟 網址百分之百修正版，綠色高質感外觀，緊鄰聯絡我們 🌟 -->
+                <li>
+                    <a href="https://lin.ee/@431trrjk" target="_blank" class="menu-line-btn">
+                        <span class="line-word">💬 點我加</span><span class="line-word">官方 LINE</span>
+                    </a>
+                </li>
             </ul>
             <div style="clear: both;"></div>
         </div>
     </nav>
 
-    <!-- 2. Hero 2.0 溫慢陽光區 -->
+    <!-- 2. Hero 陽光區 -->
     <header class="hero-section">
         <div style="max-width: 850px; margin: 0 auto;">
             <h1 class="hero-title">每個生命都值得被正確看見</h1>
@@ -246,7 +260,7 @@
         </div>
     </header>
 
-    <!-- 3. 第三區塊：需求導引區 -->
+    <!-- 3. 需求導引卡片區 -->
     <div class="container">
         <h2 class="section-title">你現在最需要的是什麼？</h2>
         
@@ -291,7 +305,7 @@
         </table>
     </div>
 
-    <!-- 4. 第四區塊：雪媚老師品牌信賴感 ＋ 官方 LINE 綠色通道嵌入 -->
+    <!-- 4. 品牌信賴區 -->
     <section class="teacher-section">
         <div style="max-width: 800px; margin: 0 auto;">
             <p class="quote">
@@ -306,15 +320,6 @@
             </div>
             
             <a href="about.html" class="about-link">深入了解雪媚老師的生命故事</a>
-            <br><br><br>
-            
-            <!-- 💬 官方 LINE 專屬爆款按鈕：詞彙完美黏合，絕對不亂斷行 -->
-            <a href="https://lin.ee/431trrjk" target="_blank" class="line-btn">
-                <span class="line-word">💬 點我加入</span> 
-                <span class="line-word">雪媚老師官方 LINE</span> 
-                <span class="line-word">諮詢與預約陪伴</span>
-            </a>
-            
         </div>
     </section>
 
