@@ -12,10 +12,10 @@
         }
         body {
             font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            line-height: 1.8; /* 稍微拉開行距，更好讀 */
+            line-height: 1.8;
             color: #333;
             background-color: #fcfcfc;
-            padding-top: 90px; /* 配合變大的導覽列拉開間距 */
+            padding-top: 90px;
         }
         
         .container {
@@ -24,7 +24,7 @@
             padding: 0 20px;
         }
 
-        /* 1. 導覽列：字體放大 */
+        /* 1. 導覽列：大字體 */
         .main-nav {
             position: fixed;
             top: 0;
@@ -40,7 +40,7 @@
             padding: 15px 20px;
         }
         .logo {
-            font-size: 26px; /* 從 22px 放大 */
+            font-size: 26px;
             font-weight: bold;
             color: #2C5E3B;
             text-decoration: none;
@@ -60,7 +60,7 @@
         .nav-links a {
             color: #555;
             text-decoration: none;
-            font-size: 18px; /* 從 15px 放大 */
+            font-size: 18px;
             transition: color 0.3s;
         }
         .nav-links a:hover, .nav-links .active {
@@ -68,7 +68,7 @@
             font-weight: bold;
         }
 
-        /* 2. Hero 區：字體放大 */
+        /* 2. Hero 區：大字體 */
         .hero-section {
             padding: 100px 20px;
             text-align: center;
@@ -78,20 +78,20 @@
             border-bottom: 1px solid #e0e0e0;
         }
         .hero-title {
-            font-size: 46px; /* 從 36px 放大 */
+            font-size: 46px;
             color: #1B5E20;
             margin-bottom: 25px;
             letter-spacing: 1px;
             font-weight: 800;
         }
         .hero-subtitle {
-            font-size: 24px; /* 從 20px 放大 */
+            font-size: 24px;
             color: #37474F;
             margin-bottom: 20px;
             font-weight: 600;
         }
         .hero-desc {
-            font-size: 19px; /* 從 16px 放大 */
+            font-size: 19px;
             color: #546E7A;
             line-height: 1.8;
             max-width: 700px;
@@ -102,14 +102,15 @@
         }
         .btn {
             display: inline-block;
-            padding: 15px 32px; /* 按鈕稍微加大更方便點擊 */
+            padding: 15px 32px;
             margin: 10px;
             border-radius: 35px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 18px; /* 從 15px 放大 */
+            font-size: 18px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             transition: transform 0.2s;
+            word-break: keep-all;
         }
         .btn:hover {
             transform: translateY(-2px);
@@ -118,9 +119,9 @@
         .btn-blue { background: #0288D1; color: white; }
         .btn-orange { background: #F57C00; color: white; }
 
-        /* 3. 卡片區：字體放大 */
+        /* 3. 卡片區：大字體 */
         .section-title {
-            font-size: 34px; /* 從 28px 放大 */
+            font-size: 34px;
             color: #333;
             text-align: center;
             margin: 70px 0 40px 0;
@@ -139,18 +140,18 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             background: #ffffff;
         }
-        .card-cell h3 { font-size: 22px; margin-bottom: 15px; } /* 從 19px 放大 */
-        .card-cell p { color: #555; font-size: 17px; line-height: 1.7; min-height: 50px; } /* 從 14px 放大 */
+        .card-cell h3 { font-size: 22px; margin-bottom: 15px; }
+        .card-cell p { color: #555; font-size: 17px; line-height: 1.7; min-height: 50px; }
         .card-link { display: inline-block; margin-top: 18px; font-weight: bold; text-decoration: none; font-size: 17px; }
 
-        /* 4. 品牌信賴區：字體放大 */
+        /* 4. 品牌信賴區：大字體 */
         .teacher-section {
             padding: 70px 20px;
             background: #F4F6F4;
             text-align: center;
         }
         .quote {
-            font-size: 24px; /* 從 20px 放大 */
+            font-size: 24px;
             color: #2C5E3B;
             line-height: 1.8;
             font-style: italic;
@@ -168,7 +169,7 @@
             border-radius: 25px;
             color: #444;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-size: 17px; /* 從 14px 放大 */
+            font-size: 17px;
         }
         .about-link {
             font-size: 18px;
@@ -177,6 +178,28 @@
             text-decoration: underline;
         }
 
+        /* 官方 LINE 特製按鈕樣式，確保詞彙不拆行 */
+        .line-btn {
+            display: inline-block; 
+            background: #06C755; 
+            color: white; 
+            padding: 16px 35px; 
+            border-radius: 35px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 20px; 
+            box-shadow: 0 4px 15px rgba(6,199,85,0.3);
+            margin-top: 15px;
+            word-break: keep-all;
+        }
+        .line-word { display: inline-block; white-space: nowrap; }
+
+        /* 手機版適應 */
+        @media (max-width: 768px) {
+            .card-table, .card-table tr, .card-table td { display: block; width: 100%; }
+            .card-table { border-spacing: 0; }
+            .card-cell { margin-bottom: 25px; }
+        }
         @media (min-width: 768px) {
             .logo { display: inline-block; margin-bottom: 0; text-align: left; }
             .nav-links { display: inline-block; float: right; margin-top: 5px; }
@@ -185,6 +208,7 @@
 </head>
 <body>
 
+    <!-- 1. 全新訪客思維導覽列 -->
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="logo">心路新路全齡會所</a>
@@ -204,6 +228,7 @@
         </div>
     </nav>
 
+    <!-- 2. Hero 2.0 溫慢陽光區 -->
     <header class="hero-section">
         <div style="max-width: 850px; margin: 0 auto;">
             <h1 class="hero-title">每個生命都值得被正確看見</h1>
@@ -221,6 +246,7 @@
         </div>
     </header>
 
+    <!-- 3. 第三區塊：需求導引區 -->
     <div class="container">
         <h2 class="section-title">你現在最需要的是什麼？</h2>
         
@@ -265,6 +291,7 @@
         </table>
     </div>
 
+    <!-- 4. 第四區塊：雪媚老師品牌信賴感 ＋ 官方 LINE 綠色通道嵌入 -->
     <section class="teacher-section">
         <div style="max-width: 800px; margin: 0 auto;">
             <p class="quote">
@@ -277,7 +304,17 @@
                 <span class="tag">🌿 親職與婚姻講師</span>
                 <span class="tag">🌿 全齡健康幸福推動者</span>
             </div>
+            
             <a href="about.html" class="about-link">深入了解雪媚老師的生命故事</a>
+            <br><br><br>
+            
+            <!-- 💬 官方 LINE 專屬爆款按鈕：詞彙完美黏合，絕對不亂斷行 -->
+            <a href="https://lin.ee/431trrjk" target="_blank" class="line-btn">
+                <span class="line-word">💬 點我加入</span> 
+                <span class="line-word">雪媚老師官方 LINE</span> 
+                <span class="line-word">諮詢與預約陪伴</span>
+            </a>
+            
         </div>
     </section>
 
