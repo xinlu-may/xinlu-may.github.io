@@ -49,13 +49,13 @@
             text-align: center;
         }
         
-        /* 導覽列選單清單：使用 flex 彈性佈局，強迫所有人保持在同一水平線上 */
+        /* 導覽列選單清單：彈性佈局，強迫保持在同一水平線上 */
         .nav-links {
             list-style: none;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-wrap: wrap; /* 空間不夠時允許整齊換行，但不會錯位 */
+            flex-wrap: wrap;
             gap: 15px;
             width: 100%;
         }
@@ -75,7 +75,7 @@
             font-weight: bold;
         }
 
-        /* 🌟 完美微調：緊鄰在「聯絡我們」右手邊的高質感綠色 LINE 按鈕 🌟 */
+        /* 緊鄰在「聯絡我們」右手邊的高質感綠色 LINE 按鈕 */
         .menu-line-btn {
             display: inline-block !important; 
             background: #06C755 !important; 
@@ -95,7 +95,7 @@
         }
         .line-word { display: inline-block; white-space: nowrap; }
 
-        /* 2. Hero 區：大字體 */
+        /* 2. Hero 區 */
         .hero-section {
             padding: 100px 20px;
             text-align: center;
@@ -146,7 +146,7 @@
         .btn-blue { background: #0288D1; color: white; }
         .btn-orange { background: #F57C00; color: white; }
 
-        /* 3. 卡片區：大字體 */
+        /* 3. 卡片區 */
         .section-title {
             font-size: 34px;
             color: #333;
@@ -171,19 +171,22 @@
         .card-cell p { color: #555; font-size: 17px; line-height: 1.7; min-height: 50px; }
         .card-link { display: inline-block; margin-top: 18px; font-weight: bold; text-decoration: none; font-size: 17px; }
 
-        /* 4. 品牌信賴區：大字體 */
+        /* 4. 品牌信賴區 */
         .teacher-section {
-            padding: 70px 20px;
+            padding: 80px 20px;
             background: #F4F6F4;
             text-align: center;
         }
+        /* 依老師指定：詩歌體引言優化換行，字體放大加粗 */
         .quote {
             font-size: 24px;
             color: #2C5E3B;
-            line-height: 1.8;
-            font-style: italic;
-            max-width: 800px;
-            margin: 0 auto 35px auto;
+            line-height: 2.0;
+            font-style: normal;
+            max-width: 850px;
+            margin: 0 auto 40px auto;
+            font-weight: 600;
+            text-align: center;
         }
         .tag-container {
             margin-bottom: 30px;
@@ -205,7 +208,7 @@
             text-underline-offset: 4px;
         }
 
-        /* 手機版適應排版 */
+        /* 手機版適應 */
         @media (max-width: 768px) {
             body { padding-top: 240px; }
             .nav-links { gap: 10px; }
@@ -213,6 +216,7 @@
             .card-table { border-spacing: 0; }
             .card-cell { margin-bottom: 25px; }
             .menu-line-btn { display: inline-block; width: 85%; margin: 5px auto 0 auto; text-align: center; }
+            .quote { font-size: 19.5px; line-height: 1.8; }
         }
         @media (min-width: 768px) {
             .logo { display: inline-block; margin-bottom: 0; text-align: left; }
@@ -228,7 +232,6 @@
         <div class="nav-container">
             <a href="index.html" class="logo">心路新路全齡會所</a>
             
-            <!-- 選單內容：將官方 LINE 完美、安全地嵌入為選單的最後一項 -->
             <ul class="nav-links">
                 <li><a href="index.html" class="active">首頁</a></li>
                 <li><a href="about.html">關於老師</a></li>
@@ -241,9 +244,9 @@
                 <li><a href="blog.html">心路專欄</a></li>
                 <li><a href="contact.html">聯絡我們</a></li>
                 
-                <!-- 🌟 移除多餘字體與亂碼，精準對齊「聯絡我們」右手邊 🌟 -->
+                <!-- 官方 LINE 綠色小膠囊按鈕，緊鄰聯絡我們右側 -->
                 <li>
-                    <a href="https://lin.ee/@431trrjk" target="_blank" class="menu-line-btn">
+                    <a href="https://lin.ee/@431trrjk" target="_blank" class="menu-line-btn">[cite: 1]
                         <span class="line-word">💬 點我加官方 LINE</span>
                     </a>
                 </li>
@@ -317,10 +320,14 @@
 
     <!-- 4. 品牌信賴區 -->
     <section class="teacher-section">
-        <div style="max-width: 800px; margin: 0 auto;">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <!-- 🌟 依老師指定：完美照您的詩歌體換行與指定文案呈現 🌟 -->
             <p class="quote">
-                「二十多年來，我陪伴無數家庭、兒童、青少年與成人走過生命低谷、修復關係、重新認識自己。<br>
-                我最大的盼望，是陪伴更多人在生命故事中，發現上帝早已放在他們裡面的美好。」
+                「20多年來，我陪伴無數家庭<br>
+                兒童、青少年與成人走過生命低谷<br>
+                修復關係，重新認識自己<br><br>
+                我最大的盼望是陪伴更多人在生命故事中，<br>
+                發現上帝早已放在他們裡面的美好。」
             </p>
             <div class="tag-container">
                 <span class="tag">🌿 教牧協談師</span>
