@@ -7,7 +7,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.9; color: #333; background-color: #fafbfa; padding-top: 80px; }
-        .container { max-width: 950px; margin: 0 auto; padding: 40px 20px; }
+        .container { max-width: 950px; margin: 0 auto; padding: 30px 15px; }
         
         /* 頂部導覽列 */
         .main-nav { position: fixed; top: 0; width: 100%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; }
@@ -16,31 +16,48 @@
         .back-home { color: #555; text-decoration: none; font-size: 18px; font-weight: bold; }
 
         /* 大 Banner */
-        .hero-banner { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); padding: 70px 20px; text-align: center; border-radius: 20px; margin-bottom: 40px; }
+        .hero-banner { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); padding: 50px 15px; text-align: center; border-radius: 20px; margin-bottom: 30px; }
         .tag-badge { display: inline-block; background: #2C5E3B; color: white; padding: 6px 18px; border-radius: 15px; font-size: 16px; font-weight: bold; margin-bottom: 18px; }
         
         /* 內容區塊 */
-        .content-block { background: white; padding: 45px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 30px; }
+        .content-block { background: white; padding: 35px 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 30px; }
         .block-title { font-size: 28px; color: #1B5E20; margin-bottom: 25px; border-left: 6px solid #2C5E3B; padding-left: 15px; font-weight: bold; }
         .content-p { font-size: 18px; color: #444; margin-bottom: 20px; }
 
-        /* 課程資訊表格：智慧型手機寬度控制 */
-        .info-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .info-table td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: top; font-size: 18px; }
-        
-        /* 關鍵排版優化：限制左邊格子寬度，讓右邊資歷大舒展 */
-        .info-table td.title { 
-            font-weight: bold; 
-            color: #2C5E3B; 
-            width: 22%; 
-            min-width: 85px; 
-            letter-spacing: 2px; 
-        }
+        /* 完美排版：手機上完全不再使用表格，改用區塊排列 */
+        .info-item { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .info-label { font-size: 20px; font-weight: bold; color: #2C5E3B; margin-bottom: 8px; display: block; }
+        .info-text { font-size: 18px; color: #444; line-height: 1.7; display: block; }
 
-        /* 行動呼籲爆款按鈕 */
-        .cta-box { text-align: center; padding: 50px 40px; background: #FFFDE7; border-radius: 15px; border: 2px dashed #FBC02D; margin-top: 10px; }
-        .cta-btn { display: inline-block; background: #2C5E3B; color: white; padding: 18px 45px; border-radius: 35px; font-size: 22px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(44,94,59,0.3); transition: transform 0.2s; margin-top: 20px; }
-        .cta-btn:hover { transform: translateY(-2px); }
+        /* 行動呼籲按鈕區 */
+        .cta-box { text-align: center; padding: 40px 20px; background: #FFFDE7; border-radius: 15px; border: 2px dashed #FBC02D; margin-top: 10px; }
+        
+        /* 核心關鍵：強迫按鈕內的文字與詞彙絕對不能在手機上被打斷拆行 */
+        .cta-btn { 
+            display: inline-block; 
+            background: #2C5E3B; 
+            color: white; 
+            padding: 16px 30px; 
+            border-radius: 35px; 
+            font-size: 20px; 
+            font-weight: bold; 
+            text-decoration: none; 
+            box-shadow: 0 4px 15px rgba(44,94,59,0.3); 
+            margin-top: 20px;
+            white-space: normal;
+            word-break: keep-all; /* 讓中文詞彙黏在一起，要換行就整組換行 */
+        }
+        
+        /* 讓按鈕內的詞彙保持完美結構 */
+        .btn-word { display: inline-block; white-space: nowrap; }
+
+        /* 針對手機畫面的精準微調 */
+        @media (max-width: 600px) {
+            .hero-banner { padding: 40px 10px; }
+            .content-block { padding: 25px 15px; }
+            .block-title { font-size: 24px; }
+            .content-p, .info-text, .cta-btn { font-size: 17px; }
+        }
     </style>
 </head>
 <body>
@@ -55,11 +72,16 @@
 
     <div class="container">
         
-        <!-- 核心 Banner -->
+        <!-- 核心 Banner：依老師指示完美控制中文字詞排版 -->
         <header class="hero-banner">
             <span class="tag-badge">口碑傳承 ‧ 邁入第 21 期</span>
-            <h1 style="font-size: 42px; color: #1B5E20; margin-bottom: 15px; font-weight: 800;">🌿 從聖經中尋見真我</h1>
-            <p style="font-size: 24px; color: #37474F; font-weight: bold;">在經典的光照中，梳理生命故事，找回最真實、被愛的自己</p>
+            <h1 style="font-size: 34px; color: #1B5E20; margin-bottom: 20px; font-weight: 800; line-height: 1.4;">
+                🌿 從聖經中尋見真我
+            </h1>
+            <p style="font-size: 20px; color: #37474F; font-weight: bold; line-height: 1.6;">
+                在經典的光照中，<br>
+                梳理生命故事，找回最真實、被愛的自己
+            </p>
         </header>
 
         <!-- 區塊一：痛點共鳴 -->
@@ -70,55 +92,63 @@
                 卻在安靜下來的深夜，突然覺得內心有些空洞、疲憊，甚至不知道「我是誰」？<br>
                 在人際或家庭關係中，那些反覆出現的受傷模式，讓你感到無力改變嗎？
             </p>
-            <p style="font-size: 19px; font-weight: bold; color: #2C5E3B; margin-top: 10px;">
-                「每個生命都值得被正確看見。」我們不需要變得完美才能被愛，而是需要給自己一個空間，重新看見上帝放在我們裡面最起初的美好。
+            <p style="font-size: 18px; font-weight: bold; color: #2C5E3B; margin-top: 10px; line-height: 1.6;">
+                「每個生命都值得被正確看見。」<br>
+                我們不需要變得完美才能被愛，而是需要給自己一個空間，重新看見上帝放在我們裡面最起初的美好。
             </p>
         </section>
 
         <!-- 區塊二：核心特色 -->
         <section class="content-block">
             <h2 class="block-title">二十期淬鍊，這門課程能帶給你的改變</h2>
-            <p class="content-p">這不只是一場知識性的讀書會，更是一場結合<b>心理覺察</b>與<b>信仰協談</b>的生命重整旅程：</p>
-            <ul style="padding-left: 25px; color: #444; font-size: 18px;">
-                <li style="margin-bottom: 12px;"><b>內在冰山覺察</b>：學習有意識地梳理情緒、看見未被滿足的渴望，改善與自己、與家人的關係。</li>
-                <li style="margin-bottom: 12px;"><b>信仰光照陪伴</b>：跳脫律法式的框架，回到聖經中，體驗真正被無條件接納與修復的力量。</li>
-                <li style="margin-bottom: 12px;"><b>安全傾聽團體</b>：在充滿愛、尊重與保密的成長環境中，彼此支持，聽見生命撞擊生命的感動。</li>
-            </ul>
+            <p class="content-p" style="font-weight: bold; color: #2C5E3B;">這不只是一場知識性的讀書會，更是一場結合心理覺察與信仰協談的生命重整旅程：</p>
+            
+            <div style="margin-top: 15px;">
+                <p class="content-p"><b>‧ 內在冰山覺察</b>：學習有意識地梳理情緒、看見未被滿足的渴望，改善與自己、與家人的關係。</p>
+                <p class="content-p"><b>‧ 信仰光照陪伴</b>：跳脫律法式的框架，回到聖經中，體驗真正被無條件接納與修復的力量。</p>
+                <p class="content-p"><b>‧ 安全傾聽團體</b>：在充滿愛、尊重與保密的成長環境中，彼此支持，聽見生命撞擊生命的感動。</p>
+            </div>
         </section>
 
-        <!-- 區塊三：完美排版課程資訊表格 -->
+        <!-- 區塊三：全新結構化課程資訊（徹底告別手機表格擠壓問題） -->
         <section class="content-block">
             <h2 class="block-title">讀書會課程資訊</h2>
-            <table class="info-table">
-                <tr>
-                    <td class="title">講師<br>簡介</td>
-                    <td><b>雪媚老師</b><br><span style="font-size: 17px; color: #444; line-height: 1.6;">（教牧協談師 ‧ 教牧學博士研究生 ‧ 親職與婚姻講師，具備 20 期以上帶領資深經驗）[cite: 1]。</span></td>
-                </tr>
-                <tr>
-                    <td class="title">適合<br>對象</td>
-                    <td>想深入認識自我、修復內在創傷、改善婚姻/親職關係，或想在信仰中找到生命價值的成人。</td>
-                </tr>
-                <tr>
-                    <td class="title">進行<br>方式</td>
-                    <td>精選經典教材研讀 ＋ 講師專業引導協談 ＋ 學員生命故事分享與整理。</td>
-                </tr>
-                <tr>
-                    <td class="title">開課<br>時間</td>
-                    <td>（即將開課，歡迎加入意願登記群組接收第一手資訊！）</td>
-                </tr>
-            </table>
+            
+            <div class="info-item">
+                <span class="info-label">🌿 講師簡介</span>
+                <span class="info-text"><b>雪媚老師</b>（教牧協談師 ‧ 教牧學博士研究生 ‧ 親職與婚姻講師，具備 20 期以上帶領資深經驗）[cite: 1]。</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">🌿 適合對象</span>
+                <span class="info-text">想深入認識自我、修復內在創傷、改善婚姻與親職關係，或想在信仰中找到生命價值的成人。</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">🌿 進行方式</span>
+                <span class="info-text">精選經典教材研讀 ＋ 講師專業引導協談 ＋ 學員生命故事分享與整理。</span>
+            </div>
+
+            <div class="info-item" style="border: none; padding-bottom: 0;">
+                <span class="info-label">🌿 開課時間</span>
+                <span class="info-text">（即將開課，歡迎加入意願登記群組接收第一手資訊！）</span>
+            </div>
         </section>
 
-        <!-- 區塊四：破解版綠色通道按鈕 -->
+        <!-- 區塊四：最新修正、絕不亂斷行的爆款按鈕 -->
         <section class="cta-box">
-            <h2 style="font-size: 28px; color: #B71C1C; margin-bottom: 15px; font-weight: bold;">🌟 最新一期 ‧ 限額招募意願登記中</h2>
-            <p style="color: #444; font-size: 18px; line-height: 1.8;">
-                為了確保每位學員都能獲得最深度陪伴與互動品質，本成長團體採<b>嚴格限額制</b>。<br>
+            <h2 style="font-size: 24px; color: #B71C1C; margin-bottom: 15px; font-weight: bold;">🌟 最新一期 ‧ 限額招募意願登記中</h2>
+            <p style="color: #444; font-size: 17px; line-height: 1.7;">
+                為了確保每位學員都能獲得最深度陪伴與互動品質，本成長團體採嚴格限額制。<br>
                 歡迎點擊下方按鈕，直接加入我們的招生服務群組，搶先鎖定保留名額！
             </p>
             
-            <!-- 已經為您寫好強制開啟 LINE 群組的破解網址 -->
-            <a href="https://line.me/R/ti/g/Ba5eCG3vKS" target="_blank" class="cta-btn">🌿 點我直接加入 21、22 期讀書會意願群組</a>
+            <!-- 使用智慧分組標籤，確保關鍵詞不被切斷 -->
+            <a href="https://line.me/R/ti/g/Ba5eCG3vKS" target="_blank" class="cta-btn">
+                <span class="btn-word">🌿 點我直接加入</span> 
+                <span class="btn-word">21、22期</span> 
+                <span class="btn-word">讀書會意願群組</span>
+            </a>
             
             <p style="margin-top: 20px; font-size: 15px; color: #777;">（加入後請傳送隨意貼圖，讓我們知道您想了解《尋見真我》讀書會唷！）</p>
         </section>
