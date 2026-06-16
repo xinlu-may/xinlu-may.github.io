@@ -15,31 +15,46 @@
         .logo { font-size: 24px; font-weight: bold; color: #2C5E3B; text-decoration: none; }
         .back-home { color: #555; text-decoration: none; font-size: 18px; font-weight: bold; }
 
-        /* 頁面大 Banner */
-        .page-header { text-align: center; background: linear-gradient(135deg, #FFFDE7 0%, #FFF9C4 100%); padding: 60px 15px; border-radius: 20px; margin-bottom: 40px; border-bottom: 1px solid #f0e6b2; }
-        .page-title { font-size: 36px; color: #1B5E20; font-weight: 800; margin-bottom: 15px; }
-        .page-desc { font-size: 20px; color: #455A64; font-weight: 600; line-height: 1.6; }
+        /* 頁面大 Banner (配合向日葵暖黃陽光風) */
+        .page-header { text-align: center; background: linear-gradient(135deg, #FFFDE7 0%, #FFF9C4 100%); padding: 55px 15px; border-radius: 20px; margin-bottom: 40px; border-bottom: 1px solid #f0e6b2; }
+        .page-title { font-size: 36px; color: #1B5E20; font-weight: 800; margin-bottom: 20px; }
+        .page-desc { font-size: 20px; color: #37474F; font-weight: 600; line-height: 1.8; text-align: center; }
 
-        /* 故事區塊卡片（手機自動轉向直排） */
+        /* 故事區塊卡片 */
         .story-card { background: white; padding: 40px 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 35px; border-left: 6px solid #2C5E3B; }
-        .story-title { font-size: 26px; color: #1B5E20; margin-bottom: 15px; font-weight: bold; }
+        .story-title { font-size: 26px; color: #1B5E20; margin-bottom: 12px; font-weight: bold; }
         .story-author { font-size: 17px; color: #777; margin-bottom: 20px; display: block; font-style: italic; }
         .story-text { font-size: 18px; color: #444; line-height: 1.8; text-align: justify; }
-        .story-highlight { background-color: #F9FBE7; padding: 3px 5px; font-weight: bold; color: #2C5E3B; }
+        .book-preview { background-color: #f1f3f1; border: 1px dashed #b1cbb5; padding: 15px; text-align: center; border-radius: 8px; margin-top: 15px; color: #555; font-size: 16px; font-weight: bold; }
 
         /* 溫暖呼籲區塊 */
-        .garden-footer { text-align: center; padding: 50px 30px; background: #E8F5E9; border-radius: 15px; margin-top: 5px; }
-        .garden-btn { display: inline-block; background: #2C5E3B; color: white; padding: 16px 40px; border-radius: 35px; font-size: 20px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(44,94,59,0.3); transition: transform 0.2s; margin-top: 25px; word-break: keep-all; }
+        .garden-footer { text-align: center; padding: 50px 30px; background: #E8F5E9; border-radius: 15px; margin-top: 10px; }
+        
+        /* 官方 LINE 綠色專屬爆款按鈕：詞彙黏合不拆行 */
+        .garden-btn { 
+            display: inline-block; 
+            background: #06C755; 
+            color: white; 
+            padding: 16px 40px; 
+            border-radius: 35px; 
+            font-size: 22px; 
+            font-weight: bold; 
+            text-decoration: none; 
+            box-shadow: 0 4px 15px rgba(6,199,85,0.3); 
+            transition: transform 0.2s; 
+            margin-top: 25px; 
+            word-break: keep-all;
+        }
         .garden-btn:hover { transform: translateY(-2px); }
-        .btn-group-words { display: inline-block; white-space: nowrap; }
+        .btn-words { display: inline-block; white-space: nowrap; }
 
-        /* 手機版適應微調 */
+        /* 手機版智慧適應微調 */
         @media (max-width: 600px) {
             .page-header { padding: 40px 10px; }
             .story-card { padding: 30px 20px; }
             .page-title { font-size: 30px; }
             .story-title { font-size: 22px; }
-            .story-text, .page-desc { font-size: 17px; }
+            .story-text, .page-desc, .garden-btn { font-size: 17.5px; }
         }
     </style>
 </head>
@@ -55,48 +70,64 @@
 
     <div class="container">
         
-        <!-- 頁面頂端標題：帶入溫暖花園的意象 -->
+        <!-- 🌟 依老師指示完美控制文字排版，句子與意境絕不被打斷切開 -->
         <header class="page-header">
             <h1 class="page-title">🌻 生命故事花園</h1>
             <p class="page-desc">
-                傾聽生命撞擊生命的感動，<br>
-                見證每一個在上帝愛中被重新看見、修復與綻放的自由靈魂。
+                每一個獨特的生命都是造物者給這個世界的一份禮物。<br>
+                透過撰寫生命故事，可以將這份禮物更好地傳遞給一代又一代，<br>
+                從這裡、那裡，還有遠方，<br>
+                請隨著每一個生命故事的翻頁書，一起進入這個美麗的生命故事花園。
             </p>
         </header>
 
-        <!-- 故事一：學員真實見證改編 -->
-        <article class="story-card">
-            <h2 class="story-title">從扮演「完美」的疲憊，到接納「真實」的自由</h2>
-            <span class="story-author">── 尋見真我成長團體學員故事</span>
+        <!-- 故事引導語句 -->
+        <p style="font-size: 20px; color: #2C5E3B; font-weight: bold; text-align: center; margin-bottom: 35px; line-height: 1.6;">
+            🎨 前面三個生命故事，分別是雪媚老師的爸爸、媽媽，還有蔡秀鳳小阿姨，<br>也歡迎各位的生命故事精彩繼續……
+        </p>
+
+        <!-- 故事一：爸爸的故事 -->
+        <article class="story-card" style="border-left-color: #2C5E3B;">
+            <h2 class="story-title">🌿 雪媚老師的爸爸：那雙辛勞而堅毅的雙手</h2>
+            <span class="story-author">── 翻頁書故事（第一冊）</span>
             <p class="story-text">
-                過去的我，總覺得自己必須做一個一百分的媽媽、體貼的妻子。每天忙著回應所有人的期待，卻在安靜下來的深夜，看著鏡子裡的自己感到無比的空虛與疲憊。在人際關係中反覆出現的受傷模式，更讓我感到深沉的無力。<br><br>
-                來到雪媚老師的讀書會，當老師用溫暖的眼神看著我，告訴我 <span class="story-highlight">「每個生命都值得被正確看見」</span> 時，我的眼淚瞬間奪眶而出。在這裡，我第一次卸下完美的武裝，學習探索自己的內在冰山，看見那些未被滿足的渴望。在經典與愛的光照中，我不需要變得完美才配得被愛，我找回了接納真實自己的力量，與家人的關係也開始有了不可思議的修復。
+                （此處可放置雪媚老師爸爸的故事精彩內容、往昔的奮鬥與對家庭不計代價的愛。透過一頁頁文字與照片的翻開，紀錄下那一代人最純粹的生命厚度，讓晚輩不論在何方，都能順著這份記憶的墨香找到家族的根……）
             </p>
+            <div class="book-preview">📖 點擊上方翻頁書 ‧ 開始閱讀爸爸的生命歷史</div>
         </article>
 
-        <!-- 故事二：親職陪伴見證 -->
-        <article class="story-card" style="border-left: 6px solid #EF6C00;">
-            <h2 class="story-title">撕下叛逆標籤，看見孩子心中最起初的美好</h2>
-            <span class="story-author">── 親職成長與青少年陪伴故事</span>
+        <!-- 故事二：媽媽的故事 -->
+        <article class="story-card" style="border-left-color: #EF6C00;">
+            <h2 class="story-title">❤️ 雪媚老師的媽媽：溫柔包容的母愛暖流</h2>
+            <span class="story-author">── 翻頁書故事（第二冊）</span>
             <p class="story-text">
-                隨著孩子進入青春期，家裡的氣氛變得像戰場一樣，每一次對話都以爭吵與關門聲收場。我焦慮、憤怒，卻不知道該怎麼辦。透過雪媚老師的專業引導與教牧協談陪伴，老師陪著我一步步去梳理並整理我們的生命故事。<br><br>
-                我才驚覺，原來自己把過去的創傷與焦慮，無形中投射到了孩子身上。當我學會安靜傾聽、學習用上帝的眼光重新看待孩子時，奇蹟發生了。孩子不再緊閉心門，我們學會了真正的溝通。原來，撕下叛逆的標籤後，孩子一直都是那個充滿愛、值得被疼惜的生命。
+                （此處可放置雪媚老師媽媽的故事精彩內容、廚房裡溫暖的爐火、對孩子們無微不至的呵護與生命智慧。每一個微笑、每一句叮嚀，都被精心編織進這本精美的回憶錄中，成為代代相傳、永不熄滅的愛……）
             </p>
+            <div class="book-preview">📖 點擊上方翻頁書 ‧ 開始閱讀媽媽的生命歷史</div>
         </article>
 
-        <!-- 花園底部：強大的招生與諮詢行動呼籲 -->
+        <!-- 故事三：蔡秀鳳小阿姨的故事 -->
+        <article class="story-card" style="border-left-color: #0288D1;">
+            <h2 class="story-title">🌻 蔡秀鳳小阿姨：樂觀豁達的生命樂章</h2>
+            <span class="story-author">── 翻頁書故事（第三冊）</span>
+            <p class="story-text">
+                （此處可放置蔡秀鳳小阿姨的精彩生命回顧、爽朗的笑聲、面對生活風雨時的豁達與堅韌。她的故事就像花園裡開得最燦爛的一朵花，為所有翻開這本書的人帶來無限的安慰、激勵與喜樂的力量……）
+            </p>
+            <div class="book-preview">📖 點擊上方翻頁書 ‧ 開始閱讀小阿姨的生命歷史</div>
+        </article>
+
+        <!-- 花園底部：官方 LINE 直達按鈕，文字絕不亂斷行 -->
         <section class="garden-footer">
-            <h2 style="font-size: 26px; color: #1B5E20; font-weight: bold; margin-bottom: 15px;">你的故事，也值得被溫柔聆聽與整理</h2>
+            <h2 style="font-size: 26px; color: #1B5E20; font-weight: bold; margin-bottom: 15px;">留下你的一生痕跡，讓愛繼續傳承</h2>
             <p style="color: #444; font-size: 18px; line-height: 1.7; max-width: 750px; margin: 0 auto;">
-                生命中的每一次低谷、每一段衝突，其實都包裹著上帝早已放在你裡面的美好心意。<br>
-                不論你正處於哪個年齡階段、面臨什麼樣的關係困境，雪媚老師都願意陪你一起走這趟尋見真我的旅程。
+                你走過的路、流過的淚、得勝的喜樂，都是上帝精心雕琢的藝術品。<br>
+                不要讓這些珍貴的恩典記憶隨著時間淡去，讓雪媚老師陪伴你，一筆一劃整理出專屬你的璀璨故事。
             </p>
             
-            <!-- 運用我們前一章學到的破解版強導 LINE 群組密令，讓看完故事受感動的人直接採取行動 -->
-            <a href="https://line.me/R/ti/g/Ba5eCG3vKS" target="_blank" class="garden-btn">
-                <span class="btn-group-words">🌿 我想參加</span> 
-                <span class="btn-group-words">尋見真我讀書會</span> 
-                <span class="btn-group-words">整理生命故事</span>
+            <!-- 💬 官方 LINE 綠色專屬通道：詞彙完美黏合，手機電腦都絕不亂斷行 -->
+            <a href="https://lin.ee/431trrjk" target="_blank" class="garden-btn">
+                <span class="btn-words">💬 我也想撰寫</span> 
+                <span class="btn-words">我的生命故事</span>
             </a>
         </section>
 
