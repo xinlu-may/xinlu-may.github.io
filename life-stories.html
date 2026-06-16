@@ -6,8 +6,8 @@
     <title>生命故事花園 - 心路新路全齡健康幸福會所</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.8; color: #333; background-color: #f7f9f6; padding-top: 80px; }
-        .container { max-width: 1050px; margin: 0 auto; padding: 20px 15px; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.9; color: #333; background-color: #fafbfa; padding-top: 80px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 15px; }
         
         /* 頂部導覽列 */
         .main-nav { position: fixed; top: 0; width: 100%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; }
@@ -15,49 +15,131 @@
         .logo { font-size: 24px; font-weight: bold; color: #2C5E3B; text-decoration: none; }
         .back-home { color: #555; text-decoration: none; font-size: 18px; font-weight: bold; }
 
-        /* 花園大 Banner */
-        .page-header { text-align: center; background: linear-gradient(135deg, #FFFDE7 0%, #FFF9C4 100%); padding: 45px 15px; border-radius: 20px; margin-bottom: 35px; border-bottom: 1px solid #f0e6b2; }
-        .page-title { font-size: 36px; color: #1B5E20; font-weight: 800; margin-bottom: 15px; }
-        .page-desc { font-size: 20px; color: #37474F; font-weight: 600; line-height: 1.8; }
+        /* 🌟 核心升級：精緻繽紛花朵邊框 ＋ 反白花園底圖大框框 🌟 */
+        .page-header { 
+            text-align: center; 
+            position: relative;
+            /* 墊上一張真實花園的照片（使用高品質公開花園圖） */
+            background-image: url('https://images.unsplash.com/photo-1500622944204-b135684e99fd?q=80&w=1200');
+            background-size: cover;
+            background-position: center;
+            padding: 55px 20px; 
+            border-radius: 20px; 
+            margin-bottom: 30px; 
+            overflow: hidden;
+            /* 繽紛的花朵顏色當作精美邊框 */
+            border: 6px solid transparent;
+            border-image: linear-gradient(45deg, #FF8A80, #FFD54F, #AED581, #4DD0E1, #BA68C8) 1;
+        }
+        /* 稍微反白處理（柔白半透明遮罩墊在文字下面） */
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.88); /* 高反白透光度 */
+            z-index: 1;
+        }
+        .header-content {
+            position: relative;
+            z-index: 2; /* 讓文字浮在反白層之上 */
+        }
+        .page-title { font-size: 36px; color: #1B5E20; font-weight: 800; margin-bottom: 20px; }
+        .page-desc { font-size: 20px; color: #2C3E50; font-weight: 600; line-height: 1.8; text-align: center; }
 
-        /* 🌟 實體擬真書大外框樣式 🌟 */
-        .book-wrapper { background: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 40px; margin-bottom: 40px; border: 1px solid #e2e8f0; }
-        .book-title-header { text-align: center; color: #2C5E3B; font-size: 28px; font-weight: bold; margin-bottom: 30px; border-bottom: 2px solid #E8F5E9; padding-bottom: 15px; }
-        
-        /* 雙頁排版（電腦版） */
-        .book-container { display: flex; gap: 40px; position: relative; min-height: 520px; }
-        .book-page { width: 50%; padding: 10px 5px; display: none; }
+        /* 官方 LINE 綠色通道按鈕 */
+        .garden-btn-container { text-align: center; margin-bottom: 40px; }
+        .garden-btn { 
+            display: inline-block; 
+            background: #06C755; 
+            color: white; 
+            padding: 15px 45px; 
+            border-radius: 35px; 
+            font-size: 21px; 
+            font-weight: bold; 
+            text-decoration: none; 
+            box-shadow: 0 4px 15px rgba(6,199,85,0.3); 
+            transition: transform 0.2s; 
+        }
+        .garden-btn:hover { transform: translateY(-2px); }
+
+        /* 🌟 核心升級：全新九宮格生命花園佈局 🌟 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+        .grid-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #eef2f0;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 280px;
+        }
+        /* 游標移上去時有高質感的上浮放大與亮麗邊框效果 */
+        .grid-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(44,94,59,0.12);
+            border-color: #AED581;
+        }
+        .card-icon { font-size: 50px; margin-bottom: 10px; display: block; }
+        .card-title { font-size: 20px; font-weight: bold; color: #1B5E20; margin-bottom: 10px; }
+        .card-badge { display: inline-block; font-size: 13px; background: #E8F5E9; color: #2E7D32; padding: 3px 10px; border-radius: 10px; font-weight: bold; margin-bottom: 12px; }
+        .card-intro { font-size: 15px; color: #666; line-height: 1.6; text-align: justify; }
+
+        /* 預留的空花朵格子樣式 */
+        .flower-placeholder {
+            background: linear-gradient(135deg, #ffffff 0%, #fcfdfe 100%);
+            cursor: default;
+        }
+        .flower-placeholder:hover {
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            border-color: #eef2f0;
+        }
+
+        /* 📖 數位翻頁書彈出顯示區（預設隱藏，點擊前三格才會展開） */
+        .book-section-wrapper {
+            display: none; /* 點擊封面後才顯示 */
+            background: #ffffff; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 35px rgba(0,0,0,0.08); 
+            padding: 40px; 
+            margin-top: 40px;
+            border-top: 5px solid #2C5E3B;
+        }
+        .book-title-header { text-align: center; color: #2C5E3B; font-size: 26px; font-weight: bold; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #E8F5E9; }
+        .book-container { display: flex; gap: 40px; position: relative; min-height: 500px; }
+        .book-page { width: 50%; padding: 5px; display: none; }
         .book-page.active { display: block; }
-        
-        /* 擬真書中央陰影線 */
-        .book-spine { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: linear-gradient(90deg, rgba(0,0,0,0.05), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.05)); display: block; }
-        
-        /* 書頁內部文字排版 */
-        .page-num { font-size: 14px; color: #999; display: block; text-align: center; margin-top: 25px; border-top: 1px dashed #eee; padding-top: 10px; font-weight: bold; }
-        .book-text { font-size: 18.5px; color: #37474F; line-height: 1.9; text-align: justify; white-space: pre-line; }
-        .chapter-title { font-size: 24px; color: #1B5E20; font-weight: bold; margin-bottom: 20px; border-left: 5px solid #2C5E3B; padding-left: 12px; }
-
-        /* 控制按鈕區 */
-        .controls { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; background: #f8faf8; padding: 15px 20px; border-radius: 30px; }
-        .control-btn { background: #2C5E3B; color: white; border: none; padding: 10px 25px; border-radius: 20px; font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .book-spine { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: linear-gradient(90deg, rgba(0,0,0,0.05), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.05)); }
+        .page-num { font-size: 14px; color: #999; display: block; text-align: center; margin-top: 25px; border-top: 1px dashed #eee; padding-top: 10px; }
+        .book-text { font-size: 18px; color: #37474F; line-height: 1.9; text-align: justify; white-space: pre-line; }
+        .chapter-title { font-size: 23px; color: #1B5E20; font-weight: bold; margin-bottom: 20px; border-left: 5px solid #2C5E3B; padding-left: 12px; }
+        .controls { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; background: #f8faf8; padding: 12px 20px; border-radius: 30px; }
+        .control-btn { background: #2C5E3B; color: white; border: none; padding: 10px 22px; border-radius: 20px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .control-btn:disabled { background: #ccc; cursor: not-allowed; }
-        .progress-text { font-size: 17px; font-weight: bold; color: #555; }
 
-        /* 溫暖呼籲區 */
-        .garden-footer { text-align: center; padding: 50px 30px; background: #E8F5E9; border-radius: 15px; margin-top: 40px; }
-        .garden-btn { display: inline-block; background: #06C755; color: white; padding: 16px 40px; border-radius: 35px; font-size: 22px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(6,199,85,0.3); margin-top: 25px; word-break: keep-all; }
-        .btn-words { display: inline-block; white-space: nowrap; }
-
-        /* 手機版 RWD 智慧自適應變形 */
-        @media (max-width: 768px) {
-            .book-container { display: block; min-height: auto; }
+        /* 手機版適應 */
+        @media (max-width: 900px) {
+            .grid-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .grid-container { grid-template-columns: 1fr; }
+            .book-container { display: block; }
             .book-page { width: 100%; }
             .book-spine { display: none; }
-            .book-wrapper { padding: 20px 15px; }
-            .book-text { font-size: 17.5px; }
-            .page-header { padding: 35px 10px; }
             .page-title { font-size: 28px; }
-            .page-desc, .garden-btn { font-size: 17.5px; }
+            .page-desc, .garden-btn { font-size: 17px; }
         }
     </style>
 </head>
@@ -73,342 +155,258 @@
 
     <div class="container">
         
-        <!-- 頁面頂端標題：美學防斷行介紹 -->
+        <!-- 🌟 依老師指示：反白真實花園背景 ＋ 繽紛花朵邊框大框框 🌟 -->
         <header class="page-header">
-            <h1 class="page-title">🌻 生命故事花園</h1>
-            <p class="page-desc">
-                每一個獨特的生命都是造物者給這個世界的一份禮物。<br>
-                透過撰寫生命故事，可以將這份禮物更好地傳遞給一代又一代，<br>
-                從這裡、那裡，還有遠方，<br>
-                請隨著每一個生命故事的翻頁書，一起進入這個美麗的生命故事花園。
-            </p>
+            <div class="header-content">
+                <h1 class="page-title">🌻 生命故事花園</h1>
+                <p class="page-desc">
+                    每一個獨特的生命都是造物者給這個世界的一份禮物。<br>
+                    透過撰寫生命故事，可以將這份禮物更好地傳遞給一代又一代，<br>
+                    從這裡、那裡，還有遠方，<br>
+                    請隨著每一個生命故事的翻頁書，一起進入這個美麗的生命故事花園。
+                </p>
+            </div>
         </header>
 
-        <p style="font-size: 20px; color: #2C5E3B; font-weight: bold; text-align: center; margin-bottom: 35px; line-height: 1.6;">
-            🎨 前面三個生命故事，分別是雪媚老師的爸爸、媽媽，還有蔡秀鳳小阿姨，<br>也歡迎各位的生命故事精彩繼續……
+        <!-- 官方 LINE 諮詢預約按鈕 -->
+        <div class="garden-btn-container">
+            <a href="https://lin.ee/@431trrjk" target="_blank" class="garden-btn">
+                💬 我也想撰寫我的生命故事
+            </a>
+        </div>
+
+        <!-- 承接段落 -->
+        <p style="font-size: 20px; color: #2C5E3B; font-weight: bold; text-align: center; margin-top: 10px; margin-bottom: 25px;">
+            ✨ 歡迎各位的生命故事，精彩繼續……
         </p>
 
-        <!-- 🌟 🌟 🌟 邱鐘明弟兄擬真翻頁書實體呈現 🌟 🌟 🌟 -->
-        <div class="book-wrapper">
-            <div class="book-title-header">📖 數位翻頁書專區：第一冊《我要幫上帝蓋教會》</div>
+        <!-- 🌟 🌟 🌟 老師心目中的「九宮格花園寶盒」導覽區 🌟 🌟 🌟 -->
+        <div class="grid-container">
+            
+            <!-- 格子 1：爸爸的封面 (點擊可開啟下方翻頁書) -->
+            <div class="grid-card" onclick="openBook('dad')">
+                <div>
+                    <span class="card-icon">📕</span>
+                    <span class="card-badge">第一冊 ‧ 邱鐘明弟兄</span>
+                    <h3 class="card-title">我要幫上帝蓋教會</h3>
+                </div>
+                <p class="card-intro">離開賺錢至上的空虛、失望，進入全然奉獻的喜樂與平安。邱鐘明弟兄溫暖動人的生命凱歌與主愛見證[cite: 1, 2]。</p>
+            </div>
+
+            <!-- 格子 2：媽媽的封面 -->
+            <div class="grid-card" onclick="openBook('mom')">
+                <div>
+                    <span class="card-icon">📙</span>
+                    <span class="card-badge">第二冊 ‧ 邱蔡淑金女士</span>
+                    <h3 class="card-title">阿金傳記小說</h3>
+                </div>
+                <p class="card-intro">「是金子，在哪裡都能閃閃發亮！」紀錄雪媚老師媽媽一生的溫柔包容、樂觀豁達與代代相傳的暖流智慧[cite: 2]。</p>
+            </div>
+
+            <!-- 格子 3：小阿姨的封面 -->
+            <div class="grid-card" onclick="openBook('aunt')">
+                <div>
+                    <span class="card-icon">📘</span>
+                    <span class="card-badge">第三冊 ‧ 蔡秀鳳小阿姨</span>
+                    <h3 class="card-title">樂觀豁達的生命樂章</h3>
+                </div>
+                <p class="card-intro">記載著小阿姨爽朗的笑聲、面對生活風雨時的那份清心、堅韌與灑脫。如同花園裡綻放得最燦爛的一抹色彩。</p>
+            </div>
+
+            <!-- 格子 4：預留花朵卡片 1 -->
+            <div class="grid-card flower-placeholder">
+                <div>
+                    <span class="card-icon">🌹</span>
+                    <span class="card-badge" style="background:#FFF3E0; color:#E65100;">玫瑰寶盒</span>
+                    <h3 class="card-title" style="color:#888;">虛位以待 ‧ 芬芳盛開</h3>
+                </div>
+                <p class="card-intro" style="color:#999; text-align:center;">期待下一位學員在此寫下專屬您的生命精彩回憶錄……</p>
+            </div>
+
+            <!-- 格子 5：預留花朵卡片 2 -->
+            <div class="grid-card flower-placeholder">
+                <div>
+                    <span class="card-icon">🌷</span>
+                    <span class="card-badge" style="background:#FCE4EC; color:#C2185B;">鬱金香寶盒</span>
+                    <h3 class="card-title" style="color:#888;">虛位以待 ‧ 靜候生命</h3>
+                </div>
+                <p class="card-intro" style="color:#999; text-align:center;">生命中的每一次低谷與衝突，都包裹著造物者早已為您預備的美好心意。</p>
+            </div>
+
+            <!-- 格子 6：預留花朵卡片 3 -->
+            <div class="grid-card flower-placeholder">
+                <div>
+                    <span class="card-icon">🌸</span>
+                    <span class="card-badge" style="background:#F3E5F5; color:#4A148C;">櫻花寶盒</span>
+                    <h3 class="card-title" style="color:#888;">虛位以待 ‧ 恩典凝聚</h3>
+                </div>
+                <p class="card-intro" style="color:#999; text-align:center;">留下您一生得勝的喜樂足跡，將這份生命禮物完整傳遞給下一代。</p>
+            </div>
+
+            <!-- 格子 7：預留花朵卡片 4 -->
+            <div class="grid-card flower-placeholder">
+                <div>
+                    <span class="card-icon">🌼</span>
+                    <span class="card-badge" style="background:#FFFDE7; color:#F57F17;">雛菊寶盒</span>
+                    <h3 class="card-title" style="color:#888;">虛位以待 ‧ 真我綻放</h3>
+                </div>
+                <p class="card-intro" style="color:#999; text-align:center;">在經典與愛的光照中，梳理過去，讓上帝賜予您的起初原型快樂發光。</p>
+            </div>
+
+            <!-- 格子 8：預留花朵卡片 5 -->
+            <div class="grid-card flower-placeholder">
+                <div>
+                    <span class="card-icon">🌺</span>
+                    <span class="card-badge" style="background:#EBF8FA; color:#006064;">扶桑寶盒</span>
+                    <h3 class="card-title" style="color:#888;">虛位以待 ‧ 關係滋養</h3>
+                </div>
+                <p class="card-intro" style="color:#999; text-align:center;">拿掉沉重與焦慮，用上帝的全新眼光看見自己與家人最起初的美好。</p>
+            </div>
+
+            <!-- 格子 9：預留花朵卡片 6 -->
+            <div class="grid-card flower-placeholder">
+                <div>
+                    <span class="card-icon">蓮</span>
+                    <span class="card-badge" style="background:#E8F5E9; color:#1B5E20;">清蓮寶盒</span>
+                    <h3 class="card-title" style="color:#888;">虛位以待 ‧ 恩澤流長</h3>
+                </div>
+                <p class="card-intro" style="color:#999; text-align:center;">歡迎點擊最上方的按鈕聯繫雪媚老師，開啟您的生命故事整理之旅。</p>
+            </div>
+
+        </div>
+
+        <!-- 📖 📖 📖 翻頁書動態彈出展示區 📖 📖 📖 -->
+        <div class="book-section-wrapper" id="bookSection">
+            <div class="book-title-header" id="currentBookTitle">📖 正在閱讀生命見證</div>
             
             <div class="book-container">
-                <!-- 中央書溝陰影（手機版會自動隱藏） -->
                 <div class="book-spine"></div>
 
-                <!-- ─── 頁面 01 (封面) ─── -->
-                <div class="book-page book-page-content active" id="p1">
+                <!-- 這裡放置爸爸的完整內文 (分組由 JS 控制) -->
+                <div class="book-page active" id="p1">
                     <div style="text-align: center; padding: 40px 10px; background: #F1F8E9; border-radius: 8px; height: 100%;">
-                        <h2 style="font-size: 32px; color: #1B5E20; margin-bottom: 15px; font-weight: bold;">我要幫上帝蓋教會</h2>
-                        <p style="font-size: 22px; color: #2E7D32; font-weight: bold; margin-bottom: 30px;">見證主愛的邱鐘明弟兄</p>
-                        <p style="font-size: 18px; color: #555; margin-bottom: 40px;">◎ 邱雪媚 整理撰寫</p>
-                        <div style="border-top: 2px solid #C8E6C9; padding-top: 25px; max-width: 280px; margin: 0 auto;">
-                            <p style="font-size: 17px; color: #444; font-weight: bold; line-height: 1.6;">
-                                離開賺錢至上的空虛、失望<br>
-                                進入全然奉獻的喜樂、平安
-                            </p>
-                        </div>
+                        <h2 style="font-size: 30px; color: #1B5E20; margin-bottom: 15px; font-weight: bold;">我要幫上帝蓋教會</h2>
+                        <p style="font-size: 20px; color: #2E7D32; font-weight: bold; margin-bottom: 30px;">見證主愛的邱鐘明弟兄</p>
+                        <p style="font-size: 16px; color: #555; margin-bottom: 30px;">◎ 邱雪媚[cite: 2] 整理撰寫</p>
+                        <p style="font-size: 16px; color: #444; font-weight: bold;">離開賺錢至上的空虛、失望，進入全然奉獻的喜樂、平安[cite: 2]</p>
                     </div>
                     <span class="page-num">封面 ‧ 頁面 01</span>
                 </div>
 
-                <!-- ─── 頁面 02 ─── -->
-                <div class="book-page book-page-content" id="p2">
+                <div class="book-page" id="p2">
                     <h3 class="chapter-title">寫在前面</h3>
-                    <div class="book-text">
-                        爸爸從診斷出癌末到離開人世，只有短短3個多月！我們還來不及搞清楚狀況，就已經開始籌備喪禮了。當喪禮事宜大致安排底定，稍稍停下腳步，才清楚我們在3個多月內到底經歷了什麼：診斷結果帶來的震驚、尋求醫治的兵荒馬亂、照顧爸爸及兼顧工作的快速耗能、化療失敗的抗拒、看著爸爸越來越虛弱的不忍、不能讓爸爸留在等死的絕望所做的努力、盡量帶給他盼望的堅強，到最後爸爸離開的失落、悲傷！
-                        
-                        如果沒有神，我們無法有這麼多平安、喜樂和力量走過這一段。我想爸爸到天上時，也同樣會對上帝發出這個感恩，因為如果沒有神，爸爸或許會含恨而終！
-                    </div>
+                    <div class="book-text">爸爸從診斷出癌末到離開人世，只有短短3個多月[cite: 3]！我們還來不及搞清楚狀況，就已經開始籌備喪禮了[cite: 3]。當喪禮事宜大致安排底定，稍稍停下腳步，才清楚我們在3個多月內到底經歷了什麼：診斷結果帶來的震驚、尋求醫治的兵荒馬亂、照顧爸爸及兼顧工作的快速耗能、化療失敗的抗拒、看著爸爸越來越虛弱的不忍、不能讓爸爸留在等死的絕望所做的努力、盡量帶給他盼望的堅強，到最後爸爸離開的失落、悲傷[cite: 3]！
+                    如果沒有神，我們無法有這麼多平安、喜樂和力量走過這一段[cite: 3]。</div>
                     <span class="page-num">頁面 02</span>
                 </div>
 
-                <!-- ─── 頁面 03 ─── -->
-                <div class="book-page book-page-content" id="p3">
-                    <div class="book-text">
-                        爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，但付出的卻是與家人疏離、孑然一身的代價；所遭遇的橫逆，沒有讓他享受到錢帶來的好處，只是不斷經歷事業險些歸於無有的驚濤駭浪，雖因不願被打倒的堅毅使得他總是能從頭再來，但他的生命所充滿的也不過就是一次又一次的心力交瘁罷了。好不容易在60歲這一年，事業終於重新在一個小小的基礎上穩定下來，等著他的卻是來得又凶又急的癌症末期！拼了一輩子的人生回報給他的就是3個多月的病痛煎熬，甚至下半身癱瘓的不堪，叫他怎能甘心！如果沒有神，我不知道爸爸如何承受生命是這樣劃上句點。
-                    </div>
+                <div class="book-page" id="p3">
+                    <div class="book-text">爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，但付出的卻是與家人疏離、孑然一身的代價[cite: 3]；所遭遇的橫逆，沒有讓他享受到錢帶來的好處，只是不斷經歷事業險些歸於無有的驚濤駭浪，雖因不願被打倒的堅毅使得他總是能從頭再來，但他的生命所充滿的也不過就是一次又一次的心力交瘁罷了[cite: 3]。好不容易在60歲這一年，事業終於重新在一個小小的基礎上穩定下來，等著他的卻是來得又凶又急的癌症末期[cite: 3]！</div>
                     <span class="page-num">頁面 03</span>
                 </div>
 
-                <!-- ─── 頁面 04 ─── -->
-                <div class="book-page book-page-content" id="p4">
-                    <div class="book-text">
-                        離世前的20幾天，爸爸對親家公說：「感謝主啦！雖然時間不長，但是我選上帝這邊實在是選對邊了，還好站在上帝這邊，這就對了！」看得出來，爸爸這輩子的勞苦在上帝的供應及同在中已得著滿足、安慰！因著他單純相信得以領受救恩，確信自己已得著屬天福份，以致在生命的最後階段，原本該有的不甘早已被感恩、讚美取代；重大打擊也沒有留下不可磨滅的烙痕，彷彿不曾經歷過那些兇惡一般！
-                        
-                        我們看到的是如安穩在母親懷中的恬靜、安詳，並熱切想回報神的心願，3個多月以來，爸爸反覆講述的就是「我要幫上帝蓋教會、感謝主、讚美主」，每回講起來，總是帶著期待及滿滿的笑容。
-                    </div>
+                <div class="book-page" id="p4">
+                    <div class="book-text">離世前的20幾天，爸爸對親家公說：「感謝主啦！雖然時間不長，但是我選上帝這邊實在是選對邊了，還好站在上帝這邊，這就對了[cite: 3]！」看得出來，爸爸這輩子的勞苦在上帝的供應及同在中已得著滿足、安慰[cite: 3]！因著他單純相信得以領受救恩，確信自己已得著屬天福份，以致在生命的最後階段，原本該有的不甘早已被感恩、讚美取代[cite: 3]；重大打擊也沒有留下不可磨滅的烙痕，彷彿不曾經歷過那些兇惡一般[cite: 3]！我們看到的是如安穩在母親懷中的恬靜、安詳。</div>
                     <span class="page-num">頁面 04</span>
                 </div>
 
-                <!-- ─── 頁面 05 ─── -->
-                <div class="book-page book-page-content" id="p5">
-                    <div class="book-text">
-                        遺憾還是有的，太晚認識神、來不及作見證、不能為新教會的建造出一份力、太少與家人相聚……………。爸爸最後的心願之一就是不想他的親友有同樣的遺憾，所以想要作見證，讓人同得這福音的好處。
-                        
-                        親愛的朋友，希望您能領受爸爸的祝福，看完爸爸的故事後，能激勵您趁著還來得及的時候，將生命重心擺對，減少遺憾，並在生命終了前，也能慶幸自己選對了邊。
-                        
-                        大女兒 邱雪媚
-                    </div>
+                <div class="book-page" id="p5">
+                    <div class="book-text">遺憾還是有的，太晚認識神、來不及作見證、不能為新教會的建造出一份力、太少與家人相聚……………[cite: 3]。爸爸最後的心願之一就是不想他的親友有同樣的遺憾，所以想要作見證，讓人同得這福音的好處[cite: 3]。
+                    親愛的朋友，希望您能領受爸爸的祝福，看完爸爸的故事後，能激勵您趁著還來得及的時候，將生命重心擺對，減少遺憾，並在生命終了前，也能慶幸自己選對了邊[cite: 3]。
+                    大女兒 邱雪媚[cite: 3]</div>
                     <span class="page-num">頁面 05</span>
                 </div>
 
-                <!-- ─── 頁面 06 ─── -->
-                <div class="book-page book-page-content" id="p6">
+                <div class="book-page" id="p6">
                     <h3 class="chapter-title">美好的最後一程</h3>
-                    <div class="book-text">
-                        爸爸走了！
-                        民國96年4月17日，凌晨3:23
-                        淡水馬偕安寧病房3216室
-                        在睡夢中、平靜安詳。
-                        
-                        當大家接到通知趕到醫院後，圍在爸爸身邊。我們分享彼此的傷心、不捨，有眼淚；我們分享來自上帝的祝福、爸爸的祝福，有笑聲。我們最擔心的媽媽也被保守在主賞賜的平安中，一起唱爸爸最愛的「耶和華祝福滿滿」，一起禱告。神的平安充滿在整個房間，上帝真的很愛我們……
-                    </div>
+                    <div class="book-text">爸爸走了[cite: 3]！民國96年4月17日，凌晨3:23[cite: 3]，淡水馬偕安寧病房3216室[cite: 3]，在睡夢中、平靜安詳[cite: 3]。
+                    當大家接到通知趕到醫院後，圍在爸爸身邊。我們分享彼此的傷心、不捨，有眼淚；我們分享來自上帝的祝福、爸爸的祝福，有笑聲。我們最擔心的媽媽也被保守在主賞賜的平安中，一起唱爸爸最愛的「耶和華祝福滿滿」，一起禱告。神的平安充滿在整個房間。</div>
                     <span class="page-num">頁面 06</span>
                 </div>
 
-                <!-- ─── 頁面 07 ─── -->
-                <div class="book-page book-page-content" id="p7">
-                    <div class="book-text">
-                        96年4月2日是爸爸診斷出癌末以來，第一次氣喘嚴重發作；驚魂甫定的爸爸說：「那感覺很恐怖，像溺水一樣，好像命要沒了！」從那之後有幾天的時間爸爸不敢睡，害怕一睡不起，我想那是他離死亡最近的一回。
-                        
-                        整個晚上要一直牽著他的手，他才敢闔眼；但沒多久，在旁陪伴的人一定會被他叫醒，直到聽見有人回應、搜尋可以握著的手，再緊緊握著，他才放心。有一天，不擅表達內心感受的爸爸第一次虛弱的說：「不敢睡……」我知道上帝心疼他，不捨他無法入睡的煎熬，我將爸爸帶到神面前，同理了爸爸的恐懼及連日來的疲憊。
-                    </div>
+                <div class="book-page" id="p7">
+                    <h3 class="chapter-title">董事長的位置是上帝的！</h3>
+                    <div class="book-text">在辦公室他作了一個很滿意的改變：他從本來董事長的位置移到總經理的位置，爸爸說：「從今以後，這個工廠是上帝的，所以董事長的位置要空出來給上帝坐。」並對上帝說：「現在工廠是祢的，祢來帶領，祢怎麼說，我怎麼做。」把工廠交給上帝的爸爸，也在同年6月4日，受洗歸入主的名下，正式成為神的兒女！他希望未來的人生目標，能在大陸蓋蓋教會。</div>
                     <span class="page-num">頁面 07</span>
                 </div>
 
-                <!-- ─── 頁面 08 ─── -->
-                <div class="book-page book-page-content" id="p8">
-                    <div class="book-text">
-                        我們有了以下的對話：
-                        「爸爸，要不要告訴上帝你想要的方式？當上帝要來接你的時候，你希望是在白天，我們都在，你可以跟我們說再見；還是希望在睡夢中，讓上帝帶回去？」
-                        「可以選喔？」
-                        「我們可以告訴上帝你的心願呀！」
-                        (爸爸想了一下)
-                        「我看還是睡著的時候回去好了！」
-                        「你不是怕睡著的時候會不再醒來嗎？」
-                        「我想過，但這樣比較舒服，比較不會甘苦(台語)。」
-                        「喔！那我們來告訴上帝。」(我為爸爸禱告)
-                        「你跟祂講好了沒？」
-                        「講好了！」
-                        「好，那我要睡了喔！」
-                        終於，他放心的睡著了！
-                    </div>
+                <div class="book-page" id="p8">
+                    <h3 class="chapter-title">要赦免！</h3>
+                    <div class="book-text">記得安寧病房的護理師告訴我們，當醫師問他說：「在這樣人生的苦難中，你認為人生的意義是什麼？」沒讀過多少書的爸爸不假思索緩緩道出：「要赦免！」令護理師當場落淚，她感動於爸爸雖剛信主，就對這個信仰的核心體會得如此精確，我們之所以能得到這個救恩，就是因著主的赦免。爸爸在生命的最後階段真是學像耶穌，原諒了過去打擊他的人。</div>
                     <span class="page-num">頁面 08</span>
-                </div>
-
-                <!-- ─── 頁面 09 ─── -->
-                <div class="book-page book-page-content" id="p9">
-                    <div class="book-text">
-                        接下來，一向不喜歡講話的爸爸特別喜歡要我們跟他講話，他常說：「來講話呀！」你問他要講什麼，他只說：「不知道呀，你就是講呀！」所以找話題或翻聖經是那些天的主要工作，其間充滿了許多溫馨、有趣的對話，平常很ㄍ一ㄥ、話少的爸爸，變得可愛、溫和、幽默，就連護士也很愛逗他開心，那些時刻是很甜美的！
-                        
-                        十天後，爸爸開始進入嗜睡，在之前，他說幾次：「我好累，想休息了。」我們想或許上帝接他回去的時間近了，為了讓他有預備，我們開始陸陸續續描述天堂的景象。
-                    </div>
-                    <span class="page-num">頁面 09</span>
-                </div>
-
-                <!-- ─── 頁面 10 ─── -->
-                <div class="book-page book-page-content" id="p10">
-                    <div class="book-text">
-                        記得有一次，我以為他聽著聽著睡著了，於是描述完啟示錄21章21節後（十二個門是十二顆珍珠，每門是一顆珍珠；城內的街道是精金，好像明透的玻璃。），我稍事休息，沒想到閉著眼睛的爸爸突然冒出一句：「喔！那珍珠很漂亮。」我與妹妹嚇一跳並相視而笑，不敢偷懶再繼續。
-                        
-                        之後大部分時間，他是睡著的，當我們叫他時，雖然他可以動作、回答，但很快又睡著，我們知道他真的累了；上帝也知道，於是4月17日的凌晨，護士進來查房時，看著爸爸嚥下最後一口氣。上帝息了他世上的勞苦，帶他回天家了。
-                    </div>
-                    <span class="page-num">頁面 10</span>
-                </div>
-
-                <!-- ─── 頁面 11 ─── -->
-                <div class="book-page book-page-content" id="p11">
-                    <h3 class="chapter-title">闖出一片天的鄉下窮孩子</h3>
-                    <div class="book-text">
-                        爸爸是嘉義鄉下種田窮人家的小孩，家裡有六個小孩。當兵之前都在家裡幫忙種田，大姑姑講，爸爸話少但勤勞，手腳動作雖不像大伯那麼快，但總是安安份份、認認真真做到太陽下山。
-                        
-                        雖然話少，但是腦筋動得不少。家裡有一塊田地，因為土地成分酸性較重，總有一部份稻子種不活；爸爸想出一個辦法，將稻草切碎，混進泥土中，用意要中和酸性，結果真的提高稻子的存活率！大姑姑說爸爸是有了想法，就會付諸實行的人。
-                    </div>
-                    <span class="page-num">頁面 11</span>
-                </div>
-
-                <!-- ─── 頁面 12 ─── -->
-                <div class="book-page book-page-content" id="p12">
-                    <div class="book-text">
-                        當完了兵，不甘心被困在只能種田的鄉下，期待闖出自己一片天的爸爸，寫信給經營布行的大姑丈，表示不想再回去種田了，希望大姑丈幫忙在高雄市找個工作。大姑丈建議爸爸跟著他學賣布，收入遠高過當時只有幾百塊薪水的「頭路」(台語：工作之意)。於是年紀輕輕來到高雄，成為布行的學徒。
-                        
-                        一段時間後，爸爸跟兄弟合租了一個店面。不過，他卻沒有認真看店，因為心都跑到前面店家那位漂亮的美容專櫃小姐身上。美麗活潑的美容師當然看不上木訥的窮小子。不過，所謂「一皮天下無難事」，聽說當年爸爸為了追媽媽，天天到人家店裡看電視，趕都趕不走。終於在民國61年，把漂亮的媽媽娶回家。
-                    </div>
-                    <span class="page-num">頁面 12</span>
-                </div>
-
-                <!-- ─── 頁面 13 ─── -->
-                <div class="book-page book-page-content" id="p13">
-                    <h3 class="chapter-title">開創與轉行</h3>
-                    <div class="book-text">
-                        憑藉兩人的努力，很快在同一條街上開設屬於自己的「賜美布行」，當起了老闆。兩人合作無間，每天一早，爸爸便用機車載滿幾箱布料，到大高雄地區市場擺地攤，媽媽則獨自看店賣布。隨著攜手努力，很快有能力貸款買房子。那時爸爸算得上五子登科吧！妻子、孩子、房子、銀子、車子都有了！爸爸總是驕傲的說他是白手起家！
-                        
-                        無奈好景不常，成衣加工業興起，買布做衣服成了不划算的事，生意一天不如一天。爸媽再度發揮合作精神，由爸爸隻身北上彰化員林學習鞋材加工技術，預備開工廠，另闢財源；媽媽則獨自在高雄照顧店及五個孩子。
-                    </div>
-                    <span class="page-num">頁面 13</span>
-                </div>
-
-                <!-- ─── 頁面 14 ─── -->
-                <div class="book-page book-page-content" id="p14">
-                    <h3 class="chapter-title">中年轉行、不畏艱辛</h3>
-                    <div class="book-text">
-                        當時爸爸已年近四十，算是中年的開始，但是堅毅、勤勞的個性讓他可以放下老闆身段，在別人的工廠當學徒，跟工人住一起；也曾經為了省運費，將機車從高雄騎到彰化，屁股坐痛不說，還迷了路，但從沒聽他抱怨過。
-                        
-                        雖然一年後就開了自己的廠，但是接下來的六年間，非但沒有改善經濟，反倒因工廠支出龐大，生活變得捉襟見肘，更需靠借貸度日。雖有一個工廠，但是沒有錢可以用。不過，依舊如常上班、拜訪客戶、巡視工廠。承受著沉重壓力的冷漠父親，定意不被環境打敗，無論多苦都往自己肚裡吞，這點在他後來生病時更是表露無疑！
-                    </div>
-                    <span class="page-num">頁面 14</span>
-                </div>
-
-                <!-- ─── 頁面 15 ─── -->
-                <div class="book-page book-page-content" id="p15">
-                    <h3 class="chapter-title">西進大陸與巨變</h3>
-                    <div class="book-text">
-                        苦撐一段時日的爸爸在民國84年毅然決然帶著借來的二百多萬、前進大陸！在人生地不熟的大陸再一次從零開始！不會講「普通話」的爸爸學的第一句普通話是：「不要講家鄉話！」用來管理不同地區的員工。沒想到短短兩年就獲利約六百萬。有了六百萬，就想要破千萬；有了一個廠，就想要第二個廠、第三個廠……賺來的錢又投入廠房擴充。
-                        
-                        就在工廠前景一片看好之際，因為某些作業疏失，爸爸被政府單位強制帶走「協助調查」，有半年的時間，音訊全無！我們飽受驚嚇，看到雖年近五十、但始終鬥志高昂的爸爸，第一次失魂落魄、意志消沈地表示：「不然，回台灣好了！」爸爸真的感到被打敗了。
-                    </div>
-                    <span class="page-num">頁面 15</span>
-                </div>
-
-                <!-- ─── 頁面 16 ─── -->
-                <div class="book-page book-page-content" id="p16">
-                    <h3 class="chapter-title">上帝公義的手介入</h3>
-                    <div class="book-text">
-                        在艱困時期，神讓家裡的人一個個因信靠主而有力量。前前後後有幾百人為爸爸守望禱告。小妹勇敢邀請媽媽來求這位不認識的神，媽媽在禱告中為長年忽視孩子向神認罪。沒想到，過了一星期後，爸爸竟被釋放了！
-                        
-                        後來經歷第三次、第四次的合夥經營挫折，在面對談判前夕的最危急時刻，爸爸終於接受小妹帶著魯傳道前往大陸幫助他。魯傳道帶著爸爸禱告，用聖經的原則教導。在此次的談判中，爸爸看見神公義的手介入，我們幾乎拿回大部份資產設備，爸爸第一次經歷神動工的大能遠超過人焦慮愁煩的努力。
-                    </div>
-                    <span class="page-num">頁面 16</span>
-                </div>
-
-                <!-- ─── 頁面 17 ─── -->
-                <div class="book-page book-page-content" id="p17">
-                    <div class="book-text">
-                        搬遷之際遭遇連日大雨，此時爸爸心裡向神說：「如果祢讓我有好天氣可以搬工廠，我就信祢。」感謝主，搬工廠那幾天天氣特別好，搬了3天之後，大雨又開始下了起來！這是他後來作見證時一定分享的經歷。
-                        
-                        新工廠在6月開始運作，同年8月爸爸第一次坦承：「我心裡有在信呀，只是沒有講出來！」這個表白讓等了16年的孩子們，有說不出的感恩及感動。接下來，因著一筆20萬人民幣貨款因禱告神全數應驗、主動拆除偶像等恩典，讓爸爸清楚知道「跟隨神」是他接下來要走的道路。
-                    </div>
-                    <span class="page-num">頁面 17</span>
-                </div>
-
-                <!-- ─── 頁面 18 ─── -->
-                <div class="book-page book-page-content" id="p18">
-                    <h3 class="chapter-title">董事長的位置是上帝的！</h3>
-                    <div class="book-text">
-                        在辦公室他作了一個很滿意的改變：他從本來董事長的位置移到總經理的位置，爸爸說：「從今以後，這個工廠是上帝的，所以董事長的位置要空出來給上帝坐。」並對上帝說：「現在工廠是祢的，祢來帶領，祢怎麼說，我怎麼做。」
-                        
-                        把工廠交給上帝的爸爸，也在同年6月4日正式受洗歸入主的名下！受洗隔天當他看到教堂照片時，心中出現一個羨慕：「我希望未來的人生目標，能用10年賺錢、10年在大陸蓋教會，讓更多人認識主耶穌，讓耶穌來照顧。」這是他第一次擁有超越物質財富的人生目標！
-                    </div>
-                    <span class="page-num">頁面 18</span>
-                </div>
-
-                <!-- ─── 頁面 19 ─── -->
-                <div class="book-page book-page-content" id="p19">
-                    <h3 class="chapter-title">又兇又急的癌末與醫治</h3>
-                    <div class="book-text">
-                        95年12月底，原本以為是要回台開骨刺，卻檢查出癌症已擴散多處，原發部位不明。劉三（劉曉亭）牧師來到病房鼓勵爸爸。沒想到當劉牧師說要把人生當成來出差，工作完成要回去交差時，爸爸接著說：「當成來玩啦！玩夠了，就要回家了！」
-                        
-                        他笑笑牽起媽媽的手說：「不要傷心，我是先去幫你佔位子啦！」當醫生正式宣布化療後可能還有2年生命時，爸爸整個放鬆笑開來說：「哇，還有2年可以幫上帝做事情，我已經很高興了。」
-                    </div>
-                    <span class="page-num">頁面 19</span>
-                </div>
-
-                <!-- ─── 頁面 20 ─── -->
-                <div class="book-page book-page-content" id="p20">
-                    <h3 class="chapter-title">「耶穌，來幫我痛！」</h3>
-                    <div class="book-text">
-                        爸爸在化療後不到3星期因下半身癱瘓，開始包尿布、長褥瘡。這期間他學會了一種禱告：「耶穌，來幫我痛！」他總是一次又一次呼求。
-                        
-                        有一天他告訴我們：「晚上，我痛得睡不著，上帝來陪我聊天，還帶我到大陸玩一趟，又帶我回來醫院。」與神相交的喜樂讓他超越了身體的疼痛。
-                        
-                        在臨終前的安寧病房裡，爸爸情詞迫切地向媽媽流淚道歉：「太太，以往我有很多對不起妳的地方，請妳原諒我！這個家還好有妳，才有今天……」也向每個孩子叮嚀、道歉、道謝。當醫師問他人生的意義是什麼？沒讀過多少書的爸爸不假思索緩緩道出：「要赦免！」
-                    </div>
-                    <span class="page-num">頁面 20</span>
-                </div>
-
-                <!-- ─── 頁面 21 ─── -->
-                <div class="book-page book-page-content" id="p21">
-                    <h3 class="chapter-title">爸爸給台商朋友的備忘禮物</h3>
-                    <div class="book-text">
-                        邱鐘明弟兄留給台商朋友的四點至理名言：
-                        1. 原來錢不是萬能：賺了一輩子，現在只賺到一張病床！人的價值勝過金錢！
-                        2. 應該多陪家人：家人不一定在你風光時來分享，卻會在遇到苦難時來分擔！
-                        3. 健康真的很重要：人若賺得全世界，賠上自己生命有何益處呢？
-                        4. 生命需要有意義：自從信靠耶穌，心中得到平安，面對營運壓力也能入睡，死亡不再可怕，因為知道未來我們全家都要在天家歡聚！
-                        
-                        （全書完 ‧ 謝謝您閱讀邱鐘明弟兄的生命見證集）
-                    </div>
-                    <span class="page-num">結尾 ‧ 頁面 21</span>
                 </div>
 
             </div>
 
-            <!-- 控制導覽按鈕區 -->
+            <!-- 控制導覽按鈕 -->
             <div class="controls">
                 <button class="control-btn" id="prevBtn" onclick="changePage(-1)" disabled>上一頁</button>
-                <span class="progress-text" id="progressText">第 1 / 11 步</span>
+                <span class="progress-text" id="progressText">第 1 / 4 步</span>
                 <button class="control-btn" id="nextBtn" onclick="changePage(1)">下一頁</button>
             </div>
         </div>
 
-        <!-- 官方 LINE 連結按鈕 -->
-        <section class="garden-footer">
-            <h2 style="font-size: 26px; color: #1B5E20; font-weight: bold; margin-bottom: 15px;">留下你的一生痕跡，讓愛繼續傳承</h2>
-            <p style="color: #444; font-size: 18px; line-height: 1.7; max-width: 750px; margin: 0 auto;">
-                您父親的一生辛勞與對上帝毫無保留的奉獻，正是這座花園最美的初熟果子。<br>
-                不要讓家人的珍典記憶隨著時間淡去，讓雪媚老師陪伴您家族，整理出專屬的璀璨故事。
-            </p>
-            <a href="https://lin.ee/431trrjk" target="_blank" class="garden-btn">
-                <span class="btn-words">💬 我也想撰寫</span> 
-                <span class="btn-words">我的生命故事</span>
-            </a>
-        </section>
-
     </div>
 
-    <!-- 🌟 控制雙頁/單頁擬真書切換的網頁腳本 🌟 -->
+    <!-- 🌟 控制九宮格點擊、動頁翻書的核心腳本 🌟 -->
     <script>
-        // 頁面配對分組：[左頁, 右頁]
-        const pages = [
+        // 爸爸故事的頁面配置 [左頁, 右頁]
+        const dadPages = [
             ["p1", "p2"],
             ["p3", "p4"],
             ["p5", "p6"],
-            ["p7", "p8"],
-            ["p9", "p10"],
-            ["p11", "p12"],
-            ["p13", "p14"],
-            ["p15", "p16"],
-            ["p17", "p18"],
-            ["p19", "p20"],
-            ["p21", null]
+            ["p7", "p8"]
         ];
         
         let currentPageGroup = 0;
 
-        function changePage(direction) {
-            // 隱藏目前所有頁面
-            document.querySelectorAll('.book-page-content').forEach(p => p.classList.remove('active'));
+        function openBook(type) {
+            const bookSection = document.getElementById('bookSection');
+            const titleHeader = document.getElementById('currentBookTitle');
             
-            // 計算新組別
-            currentPageGroup += direction;
+            if (type === 'dad') {
+                titleHeader.innerText = "📖 正在閱讀第一冊：邱鐘明弟兄《我要幫上帝蓋教會》[cite: 1, 2]";
+                bookSection.style.display = 'block';
+                currentPageGroup = 0;
+                renderPages();
+                // 點擊後平滑滾動到閱讀區
+                bookSection.scrollIntoView({ behavior: 'smooth' });
+            } else if (type === 'mom') {
+                alert("🌸《阿金傳記小說》數位翻頁書正在溫製編排中，敬請期待！[cite: 2]");
+            } else if (type === 'aunt') {
+                alert("🌻《蔡秀鳳小阿姨樂觀樂章》數位翻頁書正在溫製編排中，敬請期待！");
+            }
+        }
+
+        function renderPages() {
+            // 先隱藏所有書頁
+            document.querySelectorAll('.book-page').forEach(p => p.style.display = 'none');
             
-            // 顯示新組別的頁面
-            const currentPair = pages[currentPageGroup];
-            if(currentPair[0]) document.getElementById(currentPair[0]).classList.add('active');
-            if(currentPair[1]) document.getElementById(currentPair[1]).classList.add('active');
+            // 顯示目前組別的左頁與右頁
+            const currentPair = dadPages[currentPageGroup];
+            if (currentPair[0]) document.getElementById(currentPair[0]).style.display = 'block';
+            if (currentPair[1] && window.innerWidth > 600) {
+                document.getElementById(currentPair[1]).style.display = 'block';
+            } else if (currentPair[1] && window.innerWidth <= 600) {
+                // 手機版只顯示單頁，右頁留到下一步
+            }
             
             // 控制按鈕狀態
             document.getElementById('prevBtn').disabled = (currentPageGroup === 0);
-            document.getElementById('nextBtn').disabled = (currentPageGroup === pages.length - 1);
-            
-            // 更新進度文字
-            document.getElementById('progressText').innerText = `第 ${currentPageGroup + 1} / ${pages.length} 步`;
+            document.getElementById('nextBtn').disabled = (currentPageGroup === dadPages.length - 1);
+            document.getElementById('progressText').innerText = `第 ${currentPageGroup + 1} / ${dadPages.length} 步`;
         }
-        
-        // 初始載入顯示第一組雙頁（封面與第2頁）
-        window.onload = function() {
-            changePage(0);
+
+        function changePage(direction) {
+            currentPageGroup += direction;
+            renderPages();
+        }
+
+        // 監聽螢幕大小縮放，自動調整單雙頁
+        window.onresize = function() {
+            if(document.getElementById('bookSection').style.display === 'block') {
+                renderPages();
+            }
         };
     </script>
 
