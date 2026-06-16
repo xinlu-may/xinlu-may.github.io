@@ -1,2 +1,285 @@
-# prestonahmei-max.github.io
-prestonahmei-max.github.io
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心路新路全齡健康幸福會所</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            line-height: 1.8; /* 稍微拉開行距，更好讀 */
+            color: #333;
+            background-color: #fcfcfc;
+            padding-top: 90px; /* 配合變大的導覽列拉開間距 */
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 1. 導覽列：字體放大 */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+        .nav-container {
+            display: block;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        .logo {
+            font-size: 26px; /* 從 22px 放大 */
+            font-weight: bold;
+            color: #2C5E3B;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .nav-links {
+            display: block;
+            list-style: none;
+            text-align: center;
+        }
+        .nav-links li {
+            display: inline-block;
+            margin: 5px 12px;
+        }
+        .nav-links a {
+            color: #555;
+            text-decoration: none;
+            font-size: 18px; /* 從 15px 放大 */
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links .active {
+            color: #2C5E3B;
+            font-weight: bold;
+        }
+
+        /* 2. Hero 區：字體放大 */
+        .hero-section {
+            padding: 100px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #E3F2FD 0%, #FFFDE7 70%, #FFF9C4 100%);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .hero-title {
+            font-size: 46px; /* 從 36px 放大 */
+            color: #1B5E20;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            font-weight: 800;
+        }
+        .hero-subtitle {
+            font-size: 24px; /* 從 20px 放大 */
+            color: #37474F;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .hero-desc {
+            font-size: 19px; /* 從 16px 放大 */
+            color: #546E7A;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+        .btn-group {
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 32px; /* 按鈕稍微加大更方便點擊 */
+            margin: 10px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px; /* 從 15px 放大 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-green { background: #2C5E3B; color: white; }
+        .btn-blue { background: #0288D1; color: white; }
+        .btn-orange { background: #F57C00; color: white; }
+
+        /* 3. 卡片區：字體放大 */
+        .section-title {
+            font-size: 34px; /* 從 28px 放大 */
+            color: #333;
+            text-align: center;
+            margin: 70px 0 40px 0;
+        }
+        .card-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 20px;
+            margin-bottom: 40px;
+        }
+        .card-cell {
+            width: 33.33%;
+            vertical-align: top;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            background: #ffffff;
+        }
+        .card-cell h3 { font-size: 22px; margin-bottom: 15px; } /* 從 19px 放大 */
+        .card-cell p { color: #555; font-size: 17px; line-height: 1.7; min-height: 50px; } /* 從 14px 放大 */
+        .card-link { display: inline-block; margin-top: 18px; font-weight: bold; text-decoration: none; font-size: 17px; }
+
+        /* 4. 品牌信賴區：字體放大 */
+        .teacher-section {
+            padding: 70px 20px;
+            background: #F4F6F4;
+            text-align: center;
+        }
+        .quote {
+            font-size: 24px; /* 從 20px 放大 */
+            color: #2C5E3B;
+            line-height: 1.8;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto 35px auto;
+        }
+        .tag-container {
+            margin-bottom: 30px;
+        }
+        .tag {
+            display: inline-block;
+            background: white;
+            padding: 10px 22px;
+            margin: 6px;
+            border-radius: 25px;
+            color: #444;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 17px; /* 從 14px 放大 */
+        }
+        .about-link {
+            font-size: 18px;
+            color: #2C5E3B; 
+            font-weight: bold; 
+            text-decoration: underline;
+        }
+
+        @media (min-width: 768px) {
+            .logo { display: inline-block; margin-bottom: 0; text-align: left; }
+            .nav-links { display: inline-block; float: right; margin-top: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">心路新路全齡會所</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">首頁</a></li>
+                <li><a href="about.html">關於老師</a></li>
+                <li><a href="services.html">服務項目</a></li>
+                <li><a href="bible-self.html" style="color: #2C5E3B; font-weight: bold;">🌿 尋見真我</a></li>
+                <li><a href="wwas.html">WWAS測評</a></li>
+                <li><a href="events.html">最新活動</a></li>
+                <li><a href="kids-camp.html">兒童營隊</a></li>
+                <li><a href="life-stories.html">生命花園</a></li>
+                <li><a href="blog.html">心路專欄</a></li>
+                <li><a href="contact.html">聯絡我們</a></li>
+            </ul>
+            <div style="clear: both;"></div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div style="max-width: 850px; margin: 0 auto;">
+            <h1 class="hero-title">每個生命都值得被正確看見</h1>
+            <p class="hero-subtitle">陪伴兒童、青少年、父母與長者 —— 認識自己｜修復關係｜活出生命價值</p>
+            <p class="hero-desc">
+                從全人健康測評、生命故事整理、親職教育、讀書會到個人成長課程，<br>
+                雪媚老師陪你走向更自由、更喜樂的人生。
+            </p>
+            
+            <div class="btn-group">
+                <a href="bible-self.html" class="btn btn-green">🌿 從聖經中尋見真我</a>
+                <a href="wwas.html" class="btn btn-blue">📊 體驗 WWAS 測評</a>
+                <a href="kids-camp.html" class="btn btn-orange">🌻 兒童成長營隊</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">你現在最需要的是什麼？</h2>
+        
+        <table class="card-table">
+            <tr>
+                <td class="card-cell" style="border-left: 5px solid #9E9D24; background: #F9FBE7;">
+                    <h3 style="color: #558B2F;">🌱 我想更認識自己</h3>
+                    <p>透過專業引導，探索內在冰山，覺察自我盲點，活出自信人生。</p>
+                    <a href="services.html#personal" class="card-link" style="color: #558B2F;">前往個人成長課程 →</a>
+                </td>
+                <td class="card-cell" style="border-left: 5px solid #C2185B; background: #FCE4EC;">
+                    <h3 style="color: #C2185B;">❤️ 我想改善婚姻關係</h3>
+                    <p>親密關係的修復與滋養，從溝通盲點到情感重建的專業陪伴。</p>
+                    <a href="services.html#marriage" class="card-link" style="color: #C2185B;">前往婚姻家庭成長 →</a>
+                </td>
+                <td class="card-cell" style="border-left: 5px solid #2E7D32; background: #E8F5E9;">
+                    <h3 style="color: #2E7D32;">📖 我想整理生命故事</h3>
+                    <p>二十期深厚基礎，在經典與信仰的光照中，梳理過去，看見真我。</p>
+                    <a href="bible-self.html" class="card-link" style="color: #2E7D32;">了解聖經尋見真我 →</a>
+                </td>
+            </tr>
+        </table>
+
+        <table class="card-table">
+            <tr>
+                <td class="card-cell" style="border-left: 5px solid #0277BD; background: #E1F5FE;">
+                    <h3 style="color: #0277BD;">📊 我想了解自己現況</h3>
+                    <p>運用 WWAS 全人健康測評系統，科學化解碼你的心理與能量狀態。</p>
+                    <a href="wwas.html" class="card-link" style="color: #0277BD;">體驗 WWAS 測評 →</a>
+                </td>
+                <td class="card-cell" style="border-left: 5px solid #EF6C00; background: #FFF3E0;">
+                    <h3 style="color: #EF6C00;">🌻 我想幫助孩子成長</h3>
+                    <p>結合 AI 學習力與 SEL 情緒專注力，在寒暑假給孩子受用一生的能力。</p>
+                    <a href="kids-camp.html" class="card-link" style="color: #EF6C00;">查看兒童青少年課程 →</a>
+                </td>
+                <td class="card-cell" style="border-left: 5px solid #6A1B9A; background: #F3E5F5;">
+                    <h3 style="color: #6A1B9A;">👵 我想規劃銀髮傳承</h3>
+                    <p>銀髮族心理關懷與生命故事自傳撰寫，留下一生最珍貴的靈魂足跡。</p>
+                    <a href="services.html#elderly" class="card-link" style="color: #6A1B9A;">了解銀髮關懷自傳 →</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <section class="teacher-section">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <p class="quote">
+                「二十多年來，我陪伴無數家庭、兒童、青少年與成人走過生命低谷、修復關係、重新認識自己。<br>
+                我最大的盼望，是陪伴更多人在生命故事中，發現上帝早已放在他們裡面的美好。」
+            </p>
+            <div class="tag-container">
+                <span class="tag">🌿 教牧協談師</span>
+                <span class="tag">🌿 教牧學博士研究生</span>
+                <span class="tag">🌿 親職與婚姻講師</span>
+                <span class="tag">🌿 全齡健康幸福推動者</span>
+            </div>
+            <a href="about.html" class="about-link">深入了解雪媚老師的生命故事</a>
+        </div>
+    </section>
+
+</body>
+</html>
