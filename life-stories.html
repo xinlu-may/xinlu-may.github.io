@@ -7,29 +7,48 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.9; color: #333; background-color: #fafbfa; padding-top: 80px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 15px; }
         
-        /* 1. 頂部導覽列 */
         .main-nav { position: fixed; top: 0; width: 100%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 24px; font-weight: bold; color: #2C5E3B; text-decoration: none; }
         .back-home { color: #555; text-decoration: none; font-size: 18px; font-weight: bold; }
 
-        /* 主畫面容器 */
-        .garden-main-view { display: block; max-width: 1000px; margin: 0 auto; padding: 40px 15px; }
+        .garden-main-view { display: block; }
 
-        /* 向日葵大招牌 Banner */
-        .garden-banner-wrapper { width: 100%; margin-bottom: 30px; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .garden-banner-wrapper img { width: 100%; height: auto; display: block; }
+        /* 頂部橫幅 Banner 影像區：連結至您上傳的向日葵彩虹招牌圖 */
+        .garden-banner-wrapper { 
+            width: 100%; 
+            margin-bottom: 30px; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
+        .garden-banner-wrapper img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+        }
 
-        /* 官方 LINE 按鈕 */
         .garden-btn-container { text-align: center; margin-bottom: 40px; }
         .garden-btn { display: inline-block; background: #06C755; color: white; padding: 15px 45px; border-radius: 35px; font-size: 21px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(6,199,85,0.3); transition: transform 0.2s; }
         .garden-btn:hover { transform: translateY(-2px); }
         .garden-intro-text { font-size: 20px; color: #2C5E3B; font-weight: bold; text-align: center; margin-top: 10px; margin-bottom: 35px; }
 
-        /* 影像九宮格展示窗 */
         .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 50px; }
-        .grid-card { background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.04); overflow: hidden; border: 1px solid #eef2f0; transition: all 0.3s; cursor: pointer; display: flex; justify-content: center; align-items: center; aspect-ratio: 3 / 4; }
+        .grid-card { 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04); 
+            overflow: hidden; 
+            border: 1px solid #eef2f0; 
+            transition: all 0.3s; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            aspect-ratio: 3 / 4; 
+        }
         .grid-card:hover { transform: translateY(-6px); box-shadow: 0 15px 30px rgba(44,94,59,0.18); border-color: #AED581; }
         .grid-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -56,21 +75,18 @@
         .book-ch-title { font-size: 28px; color: #1B5E20; font-weight: 800; margin-bottom: 25px; border-left: 6px solid #2C5E3B; padding-left: 15px; }
         .page-footer-number { font-size: 15px; color: #888; display: block; text-align: center; margin-top: 30px; border-top: 1px dashed #eee; padding-top: 10px; font-weight: bold; }
 
-        /* 控制列與按鈕 */
         .book-bottom-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; background: #fdfdfd; padding: 15px 20px; border-radius: 40px; border: 1px solid #eee; }
         .action-btn { background: #2C5E3B; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-size: 18px; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; }
         .action-btn:disabled { background: #ccc; cursor: not-allowed; }
         .return-btn { background: #78909C; color: white; }
         
-        /* 最後一頁留言與互動回應專區 */
         .comment-box { text-align: center; padding: 40px 20px; background: #E8F5E9; border-radius: 12px; margin-top: 30px; display: none; position: relative; }
         .comment-line-btn { display: inline-block; background: #06C755; color: white; padding: 18px 45px; border-radius: 35px; font-size: 22px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(6,199,85,0.3); margin-top: 20px; }
 
-        /* 🌟 依老師指定：完全不用寫字、只有向日葵圖示的低調管理員按鈕 🌟 */
         .admin-sunflower-btn {
             background: none;
             border: none;
-            font-size: 32px; /* 按鈕就是一朵優雅好點擊的向日葵 */
+            font-size: 32px; 
             cursor: pointer;
             position: absolute;
             bottom: 15px;
@@ -80,16 +96,15 @@
         }
         .admin-sunflower-btn:hover {
             opacity: 1;
-            transform: scale(1.1) rotate(15deg); /* 游標滑過去會微微放大發光轉動 */
+            transform: scale(1.1) rotate(15deg);
         }
 
-        /* 前台留言板展示區（供未來管理與刪除互動用） */
         .visitor-comments-area {
             margin-top: 30px;
             text-align: left;
             border-top: 1px solid #c8e6c9;
             padding-top: 20px;
-            display: none; /* 有留言或開啟權限時顯示 */
+            display: none;
         }
         .comment-item {
             background: #fff;
@@ -99,7 +114,6 @@
             margin-bottom: 12px;
             position: relative;
         }
-        /* 管理員專屬按鈕樣式（預設隱藏，輸入密碼後開通） */
         .admin-controls-badge {
             display: none;
             position: absolute;
@@ -120,15 +134,12 @@
             .book-main-box { display: block; }
             .page-pane { width: 100%; }
             .book-spine-line { display: none; }
-            .book-big-text { font-size: 19.5px; }
-            .book-big-title { font-size: 30px; }
         }
         @media (max-width: 500px) { .grid-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <!-- 主畫面導覽列 -->
     <nav class="main-nav" id="mainNav">
         <div class="nav-container">
             <a href="index.html" class="logo">心路新路全齡會所</a>
@@ -136,10 +147,11 @@
         </div>
     </nav>
 
-    <!-- 頁面 A：生命花園主畫面 -->
+    <!-- 頁面 A：生命花園九宮格主畫面 -->
     <div class="container garden-main-view" id="gardenMainView">
+        <!-- 頂部大招牌：精準對應您上傳的向日葵彩虹美圖 -->
         <div class="garden-banner-wrapper">
-            <img src="image_dd8284.png" alt="生命故事花園">
+            <img src="6b9fa503-9b0d-4b1b-ab89-3953a83ab790.png" alt="生命故事花園美麗向日葵">
         </div>
 
         <div class="garden-btn-container">
@@ -152,17 +164,41 @@
             ✨ 歡迎各位的生命故事，精彩繼續……
         </p>
 
-        <!-- 九宮格展示窗 -->
+        <!-- 九宮格展示窗：完美連結您剛剛上傳的真實照片代碼！ -->
         <div class="grid-container">
-            <div class="grid-card" onclick="openFullscreenBook('dad')"><img src="image_de0d29.png" alt="爸爸的書"></div>
-            <div class="grid-card" onclick="openFullscreenBook('mom')"><img src="image_de0d8a.png" alt="媽媽的書"></div>
-            <div class="grid-card" onclick="openFullscreenBook('aunt')"><img src="image_de0daa.png" alt="小阿姨的書"></div>
-            <div class="grid-card" onclick="openFullscreenBook('rose')"><img src="image_dd952f.png" alt="玫瑰"></div>
-            <div class="grid-card" onclick="openFullscreenBook('daisy')"><img src="image_dd8645.png" alt="雛菊"></div>
-            <div class="grid-card" onclick="openFullscreenBook('sunflower')"><img src="image_dd8342.png" alt="向日葵"></div>
-            <div class="grid-card" onclick="openFullscreenBook('orchid')"><img src="image_dd7f21.png" alt="蝴蝶蘭"></div>
-            <div class="grid-card" onclick="openFullscreenBook('sprout')"><img src="image_dd7bd9.png" alt="綠豆芽"></div>
-            <div class="grid-card" onclick="openFullscreenBook('seedling')"><img src="image_dd7b3f.png" alt="綠色幼苗"></div>
+            <!-- 1. 爸爸的封面書 -->
+            <div class="grid-card" onclick="openFullscreenBook('dad')">
+                <img src="027ca521-816d-47cb-86eb-fa50bcd6230e.png" alt="第一冊：邱鐘明弟兄">
+            </div>
+            <!-- 2. 媽媽的阿金書 -->
+            <div class="grid-card" onclick="openFullscreenBook('mom')">
+                <img src="2b6759ce-153d-4e72-a591-1302a5bf485b.png" alt="第二冊：邱蔡淑金女士">
+            </div>
+            <!-- 3. 小阿姨的瀟灑走一回 -->
+            <div class="grid-card" onclick="openFullscreenBook('aunt')">
+                <img src="0f54b13c-2936-49bc-bfe3-fe6015efb4c2.png" alt="第三冊：蔡秀鳳小阿姨">
+            </div>
+            
+            <!-- 4~9 植物方格（完全不放任何中文字，乾乾淨淨呈現您的植物大圖） -->
+            <div class="grid-card" onclick="openFullscreenBook('rose')">
+                <img src="77d2839a-ca4f-4be4-a2a8-83312e9a4886.png" alt="玫瑰花方格">
+            </div>
+            <div class="grid-card" onclick="openFullscreenBook('daisy')">
+                <img src="8cfda82d-d468-426f-aa47-2c5178973dca.png" alt="雛菊花方格">
+            </div>
+            <div class="grid-card" onclick="openFullscreenBook('sunflower')">
+                <img src="8f596f33-5f5b-4b89-84ff-20e3a4a658cf.png" alt="向日葵方格">
+            </div>
+            <div class="grid-card" onclick="openFullscreenBook('orchid')">
+                <img src="9ba4133f-0d20-477b-99a6-9423d2c72642.png" alt="蝴蝶蘭方格">
+            </div>
+            <!-- 以下兩格預留未來新學員照片，或暫用您上傳的精美植物底圖 -->
+            <div class="grid-card" onclick="openFullscreenBook('sprout')">
+                <img src="77d2839a-ca4f-4be4-a2a8-83312e9a4886.png" alt="綠豆芽方格">
+            </div>
+            <div class="grid-card" onclick="openFullscreenBook('seedling')">
+                <img src="8cfda82d-d468-426f-aa47-2c5178973dca.png" alt="綠色幼苗方格">
+            </div>
         </div>
     </div>
 
@@ -171,17 +207,15 @@
     <div class="fullscreen-book-view" id="fullscreenBookView">
         <div class="book-max-wrapper">
             
-            <!-- 書本頂部工具列 -->
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
                 <span style="font-size: 18px; font-weight: bold; color: #2C5E3B;" id="topBookHeaderTitle">📖 生命見證閱覽</span>
                 <button class="action-btn return-btn" onclick="closeFullscreenBook()">🔙 回生命花園主畫面</button>
             </div>
 
-            <!-- 書本雙頁主框 -->
             <div class="book-container book-main-box">
                 <div class="book-spine-line"></div>
 
-                <!-- 書頁 1 (內封) -->
+                <!-- 書頁 1 -->
                 <div class="book-page page-pane active" id="bigP1">
                     <div style="text-align: center; padding: 40px 10px; background: #F1F8E9; border-radius: 12px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
                         <h2 class="book-big-title" id="innerTitle">我要幫上帝蓋教會</h2>
@@ -195,35 +229,33 @@
                 <!-- 書頁 2 -->
                 <div class="book-page page-pane" id="bigP2">
                     <h3 class="book-ch-title" id="chTitle">寫在前面</h3>
-                    <div class="book-big-text" id="chText2">爸爸從診斷出癌末到離開人世，只有短短3個多月[cite: 3]！我們還來不及搞清楚狀況，就已經開始籌備喪禮了[cite: 3]。當喪禮事宜大致安排底定，稍稍停下腳步，才清楚我們在3個多月內到底經歷了什麼：診斷結果帶來的震驚、尋求醫治的兵荒馬亂、照顧爸爸及兼顧工作的快速耗能、化療失敗的抗拒、看著爸爸越來越虛弱的不忍、不能讓爸爸留在等死的絕望所做的努力、盡量帶給他盼望的堅強，到最後爸爸離開的失落、悲傷[cite: 3]！
-                    如果沒有神，我們無法有這麼多平安、喜樂和力量走過這一段[cite: 3]。</div>
+                    <div class="book-big-text" id="chText2">爸爸從診斷出癌末到離開人世，只有短短3個多月！我們還來不及搞清楚狀況，就已經開始籌備喪禮了。當喪禮事宜大致安排底定，稍稍停下腳步，才清楚我們在3個多月內到底經歷了什麼：診斷結果帶來的震驚、尋求醫治的兵荒馬亂、照顧爸爸及兼顧工作的快速耗能、化療失敗的抗拒、看著爸爸越來越虛弱的不忍、不能讓爸爸留在等死的絕望所做的努力、盡量帶給他盼望的堅強，到最後爸爸離開的失落、悲傷！
+                    如果沒有神，我們無法有這麼多平安、喜樂和力量走過這一段。</div>
                     <span class="page-num page-footer-number">第二頁</span>
                 </div>
 
                 <!-- 書頁 3 -->
                 <div class="book-page page-pane" id="bigP3">
-                    <div class="book-big-text" id="chText3">爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，但付出的卻是與家人疏離、孑然一身的代價[cite: 3]；所遭遇的橫逆，沒有讓他享受到錢帶來的好處，只是不斷經歷事業險些歸於無有的驚濤浪，雖因不願被打倒的堅毅使得他總是能從頭再來，但他的生命所充滿的也不過就是一次又一次的心力交瘁罷了[cite: 3]。好不容易在60歲這一年，事業終於重新在一個小小的基礎上穩定下來，等著他的卻是來得又凶又急的癌症末期[cite: 3]！</div>
+                    <div class="book-big-text" id="chText3">爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，打拼了一輩子的人生回報給他的就是3個多月的病痛煎熬，甚至下半身癱瘓的不堪，叫他怎能甘心！付出的卻是與家人疏離、孑然一身的代價；所遭遇的橫逆，沒有讓他享受到錢帶來的好處，只是不斷經歷事業險些歸於無有的驚濤駭浪，雖因不願被打倒的堅毅使得他總是能從頭再來，但他的生命所充滿的也不過就是一次又一次的心力交瘁罷了。好不容易在60歲這一年，事業終於重新在一個小小的基礎上穩定下來，等著他的卻是來得又凶又急的癌症末期！</div>
                     <span class="page-num page-footer-number">第三頁</span>
                 </div>
 
                 <!-- 書頁 4 -->
                 <div class="book-page page-pane" id="bigP4">
-                    <div class="book-big-text" id="chText4">離世前的20幾天，爸爸對親家公說：「感謝主啦！雖然時間不長，但是我選上帝這邊實在是選對邊了，還好站在上帝這邊，這就對了[cite: 3]！」看得出來，爸爸這輩子的勞苦在上帝的供應及同在中已得著滿足、安慰[cite: 3]！因著他單純相信得以領受救恩，確信自己已得著屬天福份，以致在生命的最後階段，原本該有的不甘早已被感恩、讚美取代[cite: 3]；重大打擊也沒有留下不可磨滅的烙痕，彷彿不曾經歷過那些兇惡一般[cite: 3]！我們看到的是如安穩在母親懷中的恬靜、安詳。</div>
+                    <div class="book-big-text" id="chText4">離世前的20幾天，爸爸對親家公說：「感謝主啦！雖然時間不長，但是我選上帝這邊實在是選對邊了，還好站在上帝這邊，這就對了！」看得出來，爸爸這輩子的勞苦在上帝的供應及同在中已得著滿足、安慰！因著他單純相信得以領受救恩，確信自己已得著屬天福份，以致在生命的最後階段，原本該有的不甘早已被感恩、讚美取代；重大打擊也沒有留下不可磨滅的烙痕，彷彿不曾經歷過那些兇惡一般！我們看到的是如安穩在母親懷中的恬靜、安詳。</div>
                     
-                    <!-- 歡迎留言提示框 -->
                     <div class="comment-box" id="commentBox">
                         <p style="font-size: 21px; font-weight: bold; color: #1B5E20;">歡迎留下你的回應，一起豐富生命花園</p>
-                        <a href="https://lin.ee/@431trrjk" target="_blank" class="comment-line-btn">[cite: 1]💬 點我傳送回應與心聲</a>
+                        <a href="https://lin.ee/@431trrjk" target="_blank" class="comment-line-btn">💬 點我傳送回應與心聲</a>
                         
-                        <!-- 🌟 依老師指示：完全無字、只有向日葵的隱藏管理按鈕 🌟 -->
+                        <!-- 🌻 完全無字的隱藏管理按鈕 -->
                         <button class="admin-sunflower-btn" onclick="verifyAdminPassword()" title="管理員入口">🌻</button>
 
-                        <!-- 預留的前台模擬留言板展示，輸入密碼後會激活刪除/回應功能 -->
                         <div class="visitor-comments-area" id="commentsArea">
                             <p style="font-size: 16px; font-weight: bold; color: #2E7D32; margin-bottom: 10px;">💬 溫暖回應錄：</p>
                             <div class="comment-item" id="c1">
                                 <p style="font-size: 16px; font-weight: bold; color: #444;">學員 主恩媽媽：</p>
-                                <p style="font-size: 16px; color: #555; margin-top: 5px;">讀完邱爸爸的見證太受感動了！「要赦免」這三個字直擊心靈，也讓我釋懷了心裡多年的糾結。謝謝雪媚老師整理這麼棒的故事！</p>
+                                <p style="font-size: 16px; color: #555; margin-top: 5px;">讀完長輩的見證太受感動了！「要赦免」這三個字直擊心靈，謝謝雪媚老師整理這麼棒的故事！</p>
                                 <div class="admin-controls-badge">
                                     <span class="admin-action-link" onclick="adminDeleteComment('c1')">❌ 刪除留言</span>
                                     <span class="admin-action-link" style="color:#0288D1;" onclick="adminReplyComment('主恩媽媽')">✍️ 回應留言</span>
@@ -237,7 +269,6 @@
 
             </div>
 
-            <!-- 下方控制導覽列 -->
             <div class="book-bottom-bar">
                 <button class="action-btn" id="fullPrevBtn" onclick="moveBookPage(-1)" disabled>上一頁</button>
                 <span style="font-size: 18px; font-weight: bold; color: #444;" id="fullProgressText">第 1 / 2 步</span>
@@ -247,8 +278,6 @@
         </div>
     </div>
 
-
-    <!-- 全螢幕與數據載入核心邏輯 -->
     <script>
         let currentStep = 0;
         const totalSteps = 2; 
@@ -258,9 +287,9 @@
                 topTitle: "📖 正在閱讀第一冊：邱鐘明弟兄《我要幫上帝蓋教會》",
                 title: "我要幫上帝蓋教會", author: "見證主愛的邱鐘明弟兄", editor: "◎ 邱雪媚 整理撰寫", sub: "離開賺錢至上的空虛、失望，進入全然奉獻的喜樂、平安",
                 chTitle: "寫在前面",
-                txt2: "爸爸從診斷出癌末到離開人世，只有短短3個多月[cite: 3]！我們還來不及搞清楚狀況，就已經開始籌備喪禮了[cite: 3]。當喪禮事宜大致安排底定，稍稍停下腳步，才清楚我們在3個多月內到底經歷了什麼：診斷結果帶來的震驚、尋求醫治的兵荒馬亂、照顧爸爸及兼顧工作的快速耗能、化療失敗的抗拒、看著爸爸越來越虛弱的不忍、不能讓爸爸留在等死的絕望所做的努力、盡量帶給他盼望的堅強，到最後爸爸離開的失落、悲傷[cite: 3]！\n如果沒有神，我們無法有這麼多平安、喜樂和力量走過這一段[cite: 3]。",
-                txt3: "爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，但付出的卻是與家人疏離、孑然一身的代價[cite: 3]；所遭遇的橫逆，沒有讓他享受到錢帶來的好處，只是不斷經歷事業險些歸於無有的驚濤駭浪，雖因不願被打倒的堅毅使得他總是能從頭再來，但他的生命所充滿的也不過就是一次又一次的心力交瘁罷了[cite: 3]。好不容易在60歲這一年，事業終於重新在一個小小的基礎上穩定下來，等著他的卻是來得又凶又急的癌症末期[cite: 3]！",
-                txt4: "離世前的20幾天，爸爸對親家公說：「感謝主啦！雖然時間不長，但是我選上帝這邊實在是選對邊了，還好站在上帝這邊，這就對了[cite: 3]！」看得出來，爸爸這輩子的勞苦在上帝的供應及同在中已得著滿足、安慰[cite: 3]！因著他單純相信得以領受救恩，確信自己已得著屬天福份，以致在生命的最後階段，原本該有的不甘早已被感恩、讚美取代[cite: 3]；重大打擊也沒有留下不可磨滅的烙痕，彷彿不曾經歷過那些兇惡一般[cite: 3]！我們看到的是如安穩在母親懷中的恬靜、安詳。"
+                txt2: "爸爸從診斷出癌末到離開人世，只有短短3個多月！我們還來不及搞清楚狀況，就已經開始籌備喪禮了。當喪禮事宜大致安排底定，稍稍停下腳步，才清楚我們在3個多月內到底經歷了什麼：診斷結果帶來的震驚、尋求醫治的兵荒馬亂、照顧爸爸及兼顧工作的快速耗能、化療失敗的抗拒、看著爸爸越來越虛弱的不忍、不能讓爸爸留在等死的絕望所做的努力、盡量帶給他盼望的堅強，到最後爸爸離開的失落、悲傷！\n如果沒有神，我們無法有這麼多平安、喜樂和力量走過這一段。",
+                txt3: "爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，但付出的卻是與家人疏離、孑然一身的代價；所遭遇的橫逆，沒有讓他享受到錢帶來的好處，只是不斷經歷事業險些歸於無有的驚濤駭浪，雖因不願被打倒的堅毅使得他總是能從頭再來，但他的生命所充滿的也不過就是一次又一次的心力交瘁罷了。好不容易在60歲這一年，事業終於重新在一個小小的基礎上穩定下來，等著他的卻是來得又凶又急的癌症末期！",
+                txt4: "離世前的20幾天，爸爸對親家公說：「感謝主啦！雖然時間不長，但是我選上帝這邊實在是選對邊了，還好站在上帝這邊，這就對了！」看得出來，爸爸這輩子的勞苦在上帝的供應及同在中已得著滿足、安慰！因著他單純相信得以領受救恩，確信自己已得著屬天福份，以致在生命的最後階段，原本該有的不甘早已被感恩、讚美取代；重大打擊也沒有留下不可磨滅的烙痕，彷彿不曾經歷過那些兇惡一般！我們看到的是如安穩在母親懷中的恬靜、安詳。"
             },
             mom: {
                 topTitle: "📖 正在閱讀第二冊：邱蔡淑金女士《阿金傳記小說》",
@@ -285,7 +314,6 @@
             document.getElementById('mainNav').style.display = 'none';
             document.getElementById('fullscreenBookView').style.display = 'block';
             
-            // 預設關閉管理員模式外觀
             document.getElementById('commentsArea').style.display = 'block'; 
             document.querySelectorAll('.admin-controls-badge').forEach(b => b.style.display = 'none');
 
@@ -297,7 +325,7 @@
                     chTitle: "珍藏一生足跡",
                     txt2: "這格精美的植物方格目前正安靜靜候著您或您家中長輩的生命史。當未來新故事加入時，這裡就會開通專屬該生命的精彩翻頁書。",
                     txt3: "不要讓寶貴的家庭記憶隨風逝去，整理過去是與自己、與親人和好最溫暖的旅程。",
-                    txt4: "歡迎點擊下方按鈕加入雪媚老師的官方 LINE，讓我們一起豐富這座充滿愛與傳承的數位生命故事花園。[cite: 1]"
+                    txt4: "歡迎點擊下方按鈕加入雪媚老師的官方 LINE，讓我們一起豐富這座充滿愛與傳承的數位生命故事花園。"
                 };
             }
 
@@ -347,30 +375,23 @@
             document.querySelector('.book-max-wrapper').scrollIntoView({ behavior: 'smooth' });
         }
 
-        /* 🌟 核心新功能：向日葵後台密碼驗證與管理員權限行使 🌟 */
         function verifyAdminPassword() {
-            // 跳出安全輸入密碼盒
             let password = prompt("🌻 請輸入雪媚老師專屬管理員密碼：");
-            
-            // 老師，這裡我幫您預設了一個非常好記的安全密碼「8888」
             if (password === "8888") {
                 alert("🔓 密碼正確！已成功開通管理員權限。您可以直接在前台刪除留言或進行回應。");
-                // 秀出隱藏的管理員按鈕（刪除、回應）
                 document.querySelectorAll('.admin-controls-badge').forEach(b => b.style.display = 'block');
             } else if (password !== null) {
                 alert("❌ 密碼錯誤！無法行使管理權限。");
             }
         }
 
-        // 管理功能 A：刪除留言
         function adminDeleteComment(id) {
-            if(confirm("確定要刪除這則不當或違規留言嗎？")) {
+            if(confirm("確定要刪除這則回應嗎？")) {
                 document.getElementById(id).style.display = 'none';
                 alert("🗑️ 該留言已被成功刪除！");
             }
         }
 
-        // 管理功能 B：回應留言
         function adminReplyComment(visitorName) {
             let replyText = prompt(`✍️ 請輸入您想對【${visitorName}】的回應：`);
             if(replyText) {
