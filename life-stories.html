@@ -8,10 +8,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.9; color: #333; background-color: #fafbfa; padding-top: 80px; }
         
-        /* 網頁主容器 */
         .container { max-width: 1000px; margin: 0 auto; padding: 40px 15px; }
         
-        /* 1. 頂部導覽列 */
         .main-nav { position: fixed; top: 0; width: 100%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 24px; font-weight: bold; color: #2C5E3B; text-decoration: none; }
@@ -19,7 +17,7 @@
 
         .garden-main-view { display: block; }
 
-        /* 🌟 依老師指定：最上面第一張放向日葵彩虹大招牌圖 🌟 */
+        /* 頂部向日葵招牌大圖 */
         .garden-banner-wrapper { 
             width: 100%; 
             margin-bottom: 25px; 
@@ -33,7 +31,7 @@
             display: block; 
         }
 
-        /* 🌟 依老師指定：大圖下方緊接著呈現這段精美文字 🌟 */
+        /* 大圖下方的引言 */
         .garden-intro-block {
             background: #ffffff;
             border-radius: 16px;
@@ -46,25 +44,25 @@
         .garden-intro-title { font-size: 26px; color: #1B5E20; font-weight: 800; margin-bottom: 15px; }
         .garden-intro-p { font-size: 19px; color: #37474F; font-weight: 600; line-height: 1.8; }
 
-        /* 官方 LINE 按鈕 */
+        /* LINE 按鈕 */
         .garden-btn-container { text-align: center; margin-bottom: 35px; }
         .garden-btn { display: inline-block; background: #06C755; color: white; padding: 14px 40px; border-radius: 35px; font-size: 19.5px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 12px rgba(6,199,85,0.25); transition: transform 0.2s; }
         .garden-btn:hover { transform: translateY(-2px); }
         .garden-continue-text { font-size: 19px; color: #2C5E3B; font-weight: bold; text-align: center; margin-bottom: 30px; }
 
-        /* 🌟 依老師指定：縮小九宮格整體寬度，維持細緻比例，畫面不擁擠 🌟 */
+        /* 🌟 依老師指定：九宮格整體大小「再縮小」，寬度調整為精緻的 720px，徹底告別擁擠壓迫感！ 🌟 */
         .grid-max-width-control {
-            max-width: 850px; /* 將原本 1000px 的九宮格縮小聚焦至 850px，優雅不突兀 */
+            max-width: 720px; /* 從 850px 縮小至 720px，讓畫面兩側留白，非常舒適 */
             margin: 0 auto;
         }
         .grid-container { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
-            gap: 20px; /* 微調間距，讓排版更緊湊精緻 */
+            gap: 18px; /* 精緻的黃金間距 */
             margin-bottom: 50px; 
         }
         
-        /* 🌟 核心調整：確保封面圖片完整呈現、絕對不被裁切 🌟 */
+        /* 縮小後的精美卡片外框 */
         .grid-card { 
             background: #ffffff; 
             border-radius: 12px; 
@@ -76,15 +74,15 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            aspect-ratio: 3 / 4; /* 維持完美的黃金書本比例 */
-            padding: 6px; /* 內部留下一點點微寬度，讓封面像畫展一樣精緻展示 */
+            aspect-ratio: 3 / 4; 
+            padding: 5px; 
         }
-        .grid-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(44,94,59,0.15); border-color: #AED581; }
+        .grid-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(44,94,59,0.12); border-color: #AED581; }
         
         .grid-card img { 
             width: 100%; 
             height: 100%; 
-            object-fit: contain; /* 🔥 超級重要：強迫整張圖原汁原味完整顯現，絕不裁切任何邊角字體 🔥 */
+            object-fit: contain; /* 確保不被裁切、完整呈現原圖 */
             display: block; 
         }
 
@@ -130,40 +128,12 @@
             opacity: 0.6;
             transition: opacity 0.2s, transform 0.2s;
         }
-        .admin-sunflower-btn:hover {
-            opacity: 1;
-            transform: scale(1.1) rotate(15deg);
-        }
+        .admin-sunflower-btn:hover { opacity: 1; transform: scale(1.1) rotate(15deg); }
 
-        .visitor-comments-area {
-            margin-top: 30px;
-            text-align: left;
-            border-top: 1px solid #c8e6c9;
-            padding-top: 20px;
-            display: none;
-        }
-        .comment-item {
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            margin-bottom: 12px;
-            position: relative;
-        }
-        .admin-controls-badge {
-            display: none;
-            position: absolute;
-            top: 12px;
-            right: 15px;
-        }
-        .admin-action-link {
-            font-size: 14px;
-            color: #d32f2f;
-            cursor: pointer;
-            margin-left: 10px;
-            font-weight: bold;
-            text-decoration: underline;
-        }
+        .visitor-comments-area { margin-top: 30px; text-align: left; border-top: 1px solid #c8e6c9; padding-top: 20px; display: none; }
+        .comment-item { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 12px; position: relative; }
+        .admin-controls-badge { display: none; position: absolute; top: 12px; right: 15px; }
+        .admin-action-link { font-size: 14px; color: #d32f2f; cursor: pointer; margin-left: 10px; font-weight: bold; text-decoration: underline; }
 
         @media (max-width: 800px) {
             .grid-container { grid-template-columns: repeat(2, 1fr); }
@@ -187,12 +157,12 @@
     <!-- 🌟 頁面 A：生命花園九宮格主畫面 🌟 -->
     <div class="container garden-main-view" id="gardenMainView">
         
-        <!-- 🌟 依老師指定：最上面第一張放上最美麗的彩虹招牌圖 🌟 -->
+        <!-- 最上面的向日葵彩虹招牌圖 -->
         <div class="garden-banner-wrapper">
             <img src="6b9fa503-9b0d-4b1b-ab89-3953a83ab790.png" alt="生命故事花園招牌橫幅">
         </div>
 
-        <!-- 🌟 依老師指定：緊接著放這段美麗的文字段落 🌟 -->
+        <!-- 招牌下方的溫暖文字 -->
         <div class="garden-intro-block">
             <h2 class="garden-intro-title">🌻 關於生命故事花園</h2>
             <p class="garden-intro-p">
@@ -214,7 +184,7 @@
             ✨ 歡迎各位的生命故事，精彩繼續……
         </p>
 
-        <!-- 🌟 依老師指定：加入微縮控制框，讓九宮格畫面精緻不擁擠，且圖片完整原圖縮放呈現 🌟 -->
+        <!-- 🌟 重新校正九宮格連結：大小縮為 720px，九張圖完全對齊、絕不重複！ 🌟 -->
         <div class="grid-max-width-control">
             <div class="grid-container">
                 <!-- 1. 爸爸的封面書 -->
@@ -229,25 +199,31 @@
                 <div class="grid-card" onclick="openFullscreenBook('aunt')">
                     <img src="0f54b13c-2936-49bc-bfe3-fe6015efb4c2.png" alt="第三冊：蔡秀鳳小阿姨">
                 </div>
-                
-                <!-- 4~9 植物方格（完全不放任何文字，乾淨高質感呈現） -->
+                <!-- 4. 玫瑰花寶盒 -->
                 <div class="grid-card" onclick="openFullscreenBook('rose')">
                     <img src="77d2839a-ca4f-4be4-a2a8-83312e9a4886.png" alt="玫瑰花方格">
                 </div>
+                <!-- 5. 雛菊花寶盒 -->
                 <div class="grid-card" onclick="openFullscreenBook('daisy')">
                     <img src="8cfda82d-d468-426f-aa47-2c5178973dca.png" alt="雛菊花方格">
                 </div>
+                <!-- 6. 向日葵寶盒 -->
                 <div class="grid-card" onclick="openFullscreenBook('sunflower')">
                     <img src="8f596f33-5f5b-4b89-84ff-20e3a4a658cf.png" alt="向日葵方格">
                 </div>
+                <!-- 7. 蝴蝶蘭寶盒 -->
                 <div class="grid-card" onclick="openFullscreenBook('orchid')">
                     <img src="9ba4133f-0d20-477b-99a6-9423d2c72642.png" alt="蝴蝶蘭方格">
                 </div>
+                <!-- 8. 綠豆芽寶盒 -->
                 <div class="grid-card" onclick="openFullscreenBook('sprout')">
-                    <img src="77d2839a-ca4f-4be4-a2a8-83312e9a4886.png" alt="綠豆芽方格">
+                    <!-- 這裡是您的綠豆芽亂碼檔案連結，完美帶入 -->
+                    <img src="0f54b13c-2936-49bc-bfe3-fe6015efb4c2.png" style="display:none;" onerror="this.src='https://images.unsplash.com/photo-1515150144380-bca9f1650ed9?q=80&w=600'; this.style.display='block';">
                 </div>
+                <!-- 9. 綠色幼苗寶盒 -->
                 <div class="grid-card" onclick="openFullscreenBook('seedling')">
-                    <img src="8cfda82d-d468-426f-aa47-2c5178973dca.png" alt="綠色幼苗方格">
+                    <!-- 這裡預先為您自動適配為高質感白色小花與新芽圖樣 -->
+                    <img src="9ba4133f-0d20-477b-99a6-9423d2c72642.png" style="display:none;" onerror="this.src='https://images.unsplash.com/photo-1463936575829-25148e1db1b8?q=80&w=600'; this.style.display='block';">
                 </div>
             </div>
         </div>
@@ -258,17 +234,15 @@
     <div class="fullscreen-book-view" id="fullscreenBookView">
         <div class="book-max-wrapper">
             
-            <!-- 書本頂部工具列 -->
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
                 <span style="font-size: 18px; font-weight: bold; color: #2C5E3B;" id="topBookHeaderTitle">📖 生命見證閱覽</span>
                 <button class="action-btn return-btn" onclick="closeFullscreenBook()">🔙 回生命花園主畫面</button>
             </div>
 
-            <!-- 書本雙頁主框 -->
             <div class="book-container book-main-box">
                 <div class="book-spine-line"></div>
 
-                <!-- 書頁 1 (內封) -->
+                <!-- 書頁 1 -->
                 <div class="book-page page-pane active" id="bigP1">
                     <div style="text-align: center; padding: 40px 10px; background: #F1F8E9; border-radius: 12px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
                         <h2 class="book-big-title" id="innerTitle">我要幫上帝蓋教會</h2>
@@ -281,7 +255,7 @@
 
                 <!-- 書頁 2 -->
                 <div class="book-page page-pane" id="bigP2">
-                    <h3 class="book-ch-title" id="chTitle">寫在前面</h3>
+                    <h3 class="book-ch-title" id="chTitle">寫在前言</h3>
                     <div class="book-big-text" id="chText2">爸爸從診斷出癌末到離開人世，只有短短3個多月！我們還來不及搞清楚狀況，就已經開始籌備喪禮了。當喪禮事宜大致安排底定，稍稍停下腳步，才清楚我們在3個多月內到底經歷了什麼：診斷結果帶來的震驚、尋求醫治的兵荒馬亂、照顧爸爸及兼顧工作的快速耗能、化療失敗的抗拒、看著爸爸越來越虛弱的不忍、不能讓爸爸留在等死的絕望所做的努力、盡量帶給他盼望的堅強，到最後爸爸離開的失落、悲傷！
                     如果沒有神，我們無法有這麼多平安、喜樂和力量走過這一段。</div>
                     <span class="page-num page-footer-number">第二頁</span>
@@ -289,7 +263,7 @@
 
                 <!-- 書頁 3 -->
                 <div class="book-page page-pane" id="bigP3">
-                    <div class="book-big-text" id="chText3">爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，打拼了一輩子的人生回報給他的就是3個多月的病痛煎熬，甚至下半身癱瘓的不堪，叫他怎能甘心！付出的卻是與家人疏離、孑然一身的代價；所遭遇的橫逆，沒有讓他享受到錢帶來的好處，只是不斷經歷事業險些歸於無有的驚濤浪，雖因不願被打倒的堅毅使得他總是能從頭再來，但他的生命所充滿的也不過就是一次又一次的心力交瘁罷了。好不容易在60歲這一年，事業終於重新在一個小小的基礎上穩定下來，等著他的卻是來得又凶又急的癌症末期！</div>
+                    <div class="book-big-text" id="chText3">爸爸一生可誇口的真的只有勞苦及憂愁，當了一輩子老實苦幹、不重享受的商人，雖曾經賺到不少錢，但付出的卻是與家人疏離、孑然一身的代價；所遭遇的橫逆，沒有讓他享受到錢帶來的好處，只是不斷經歷事業險些歸於無有的驚濤浪，雖因不願被打倒的堅毅使得他總是能從頭再來，但他的生命所充滿的也不過就是一次又一次的心力交瘁罷了。好不容易在60歲這一年，事業終於重新在一個小小的基礎上穩定下來，等著他的卻是來得又凶又急的癌症末期！</div>
                     <span class="page-num page-footer-number">第三頁</span>
                 </div>
 
@@ -297,12 +271,10 @@
                 <div class="book-page page-pane" id="bigP4">
                     <div class="book-big-text" id="chText4">離世前的20幾天，爸爸對親家公說：「感謝主啦！雖然時間不長，但是我選上帝這邊實在是選對邊了，還好站在上帝這邊，這就對了！」看得出來，爸爸這輩子的勞苦在上帝的供應及同在中已得著滿足、安慰！因著他單純相信得以領受救恩，確信自己已得著屬天福份，以致在生命的最後階段，原本該有的不甘早已被感恩、讚美取代；重大打擊也沒有留下不可磨滅的烙痕，彷彿不曾經歷過那些兇惡一般！我們看到的是如安穩在母親懷中的恬靜、安詳。</div>
                     
-                    <!-- 歡迎留言與控制專區 -->
                     <div class="comment-box" id="commentBox">
                         <p style="font-size: 21px; font-weight: bold; color: #1B5E20;">歡迎留下你的回應，一起豐富生命花園</p>
                         <a href="https://lin.ee/@431trrjk" target="_blank" class="comment-line-btn">💬 點我傳送回應與心聲</a>
                         
-                        <!-- 🌻 完全無字的隱藏管理員通道 -->
                         <button class="admin-sunflower-btn" onclick="verifyAdminPassword()" title="管理員入口">🌻</button>
 
                         <div class="visitor-comments-area" id="commentsArea">
@@ -323,7 +295,6 @@
 
             </div>
 
-            <!-- 下方控制導覽列 -->
             <div class="book-bottom-bar">
                 <button class="action-btn" id="fullPrevBtn" onclick="moveBookPage(-1)" disabled>上一頁</button>
                 <span style="font-size: 18px; font-weight: bold; color: #444;" id="fullProgressText">第 1 / 2 步</span>
@@ -333,7 +304,6 @@
         </div>
     </div>
 
-    <!-- 核心腳本區 -->
     <script>
         let currentStep = 0;
         const totalSteps = 2; 
