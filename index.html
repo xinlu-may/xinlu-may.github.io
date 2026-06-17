@@ -3,342 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心路新路全齡健康幸福會所</title>
+    <title>心路心路全齡關懷健康幸福導航站</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background-color: #fcfcfc;
-            padding-top: 120px;
-        }
+        /* 基礎全域設定：文字大而舒適，充滿奢華與呼吸感 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.8; color: #333; background-color: #fafbfa; padding-top: 90px; }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-        /* 1. 頂部導覽列固定大外框 */
-        .main-nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
-            padding: 15px 0;
-        }
-        .nav-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .logo {
-            font-size: 26px;
-            font-weight: bold;
-            color: #2C5E3B;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 15px;
-            text-align: center;
-        }
+        /* 🏛️ 1. 頂部導覽列：純淨化，完美置入精美小商標 */
+        .main-nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.96); box-shadow: 0 2px 10px rgba(0,0,0,0.03); z-index: 1000; backdrop-filter: blur(5px); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
         
-        /* 導覽列選單清單：彈性佈局，強迫保持在同一水平線上 */
-        .nav-links {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            width: 100%;
-        }
-        .nav-links li {
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .nav-links a {
-            color: #555;
-            text-decoration: none;
-            font-size: 17.5px;
-            transition: color 0.3s;
-            display: inline-block;
-        }
-        .nav-links a:hover, .nav-links .active {
-            color: #2C5E3B;
-            font-weight: bold;
-        }
+        .logo-box { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        /* 左上角精緻縮小版商標 */
+        .logo-img { height: 45px; width: auto; object-fit: contain; }
+        .logo-text { font-size: 24px; font-weight: bold; color: #2C5E3B; letter-spacing: 1px; }
+        .nav-phone { font-size: 18px; font-weight: bold; color: #E67E22; border: 2px solid #E67E22; padding: 6px 16px; border-radius: 20px; text-decoration: none; }
 
-        /* 緊鄰在「聯絡我們」右手邊的高質感綠色 LINE 按鈕 */
-        .menu-line-btn {
-            display: inline-block !important; 
-            background: #06C755 !important; 
-            color: white !important; 
-            padding: 6px 16px !important; 
-            border-radius: 20px !important; 
-            font-weight: bold !important; 
-            font-size: 16.5px !important; 
-            box-shadow: 0 3px 8px rgba(6,199,85,0.2) !important;
-            word-break: keep-all !important;
-            text-decoration: none !important;
-            transition: all 0.2s;
-        }
-        .menu-line-btn:hover {
-            background: #05b54d !important;
-            transform: translateY(-1px);
-        }
-        .line-word { display: inline-block; white-space: nowrap; }
+        /* 🌟 2. 溫暖大橫幅區：大字體閃耀官方全名 ＋ 頂部置入大氣品牌商標 🌟 */
+        .hero-section { text-align: center; padding: 40px 0 45px 0; }
+        /* 核心橫幅大器商標圖 */
+        .hero-logo { width: 220px; height: auto; margin-bottom: 25px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05)); }
+        
+        .hero-title { font-size: 42px; color: #1B5E20; font-weight: 800; margin-bottom: 25px; letter-spacing: 1px; line-height: 1.4; }
+        .hero-subtitle { font-size: 22px; color: #555; max-width: 800px; margin: 0 auto; line-height: 2.0; font-weight: 500; }
 
-        /* 2. Hero 區 */
-        .hero-section {
-            padding: 100px 20px;
-            text-align: center;
-            background: linear-gradient(180deg, #E3F2FD 0%, #FFFDE7 70%, #FFF9C4 100%);
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .hero-title {
-            font-size: 46px;
-            color: #1B5E20;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-            font-weight: 800;
-        }
-        .hero-subtitle {
-            font-size: 24px;
-            color: #37474F;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        .hero-desc {
-            font-size: 19px;
-            color: #546E7A;
-            line-height: 1.8;
-            max-width: 700px;
-            margin: 0 auto 40px auto;
-        }
-        .btn-group {
-            text-align: center;
-        }
-        .btn {
-            display: inline-block;
-            padding: 15px 32px;
-            margin: 10px;
-            border-radius: 35px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-            word-break: keep-all;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        .btn-green { background: #2C5E3B; color: white; }
-        .btn-blue { background: #0288D1; color: white; }
-        .btn-orange { background: #F57C00; color: white; }
+        /* 🌟 3. 三合一核心黃金入口區（全網頁唯一的點擊通道，絕不困惑！） */
+        .section-title { text-align: center; font-size: 28px; color: #2C5E3B; font-weight: bold; margin-bottom: 45px; position: relative; }
+        .section-title::after { content: ''; display: block; width: 50px; height: 4px; background: #AED581; margin: 12px auto 0 auto; border-radius: 2px; }
 
-        /* 3. 卡片區 */
-        .section-title {
-            font-size: 34px;
-            color: #333;
-            text-align: center;
-            margin: 70px 0 40px 0;
-        }
-        .card-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 20px;
-            margin-bottom: 40px;
-        }
-        .card-cell {
-            width: 33.33%;
-            vertical-align: top;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            background: #ffffff;
-        }
-        .card-cell h3 { font-size: 22px; margin-bottom: 15px; }
-        .card-cell p { color: #555; font-size: 17px; line-height: 1.7; min-height: 50px; }
-        .card-link { display: inline-block; margin-top: 18px; font-weight: bold; text-decoration: none; font-size: 17px; }
+        .main-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 70px; }
+        
+        /* 精美實體卡片質感設計 */
+        .feature-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; transition: all 0.3s ease; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(44,94,59,0.12); }
 
-        /* 4. 品牌信賴區 */
-        .teacher-section {
-            padding: 80px 20px;
-            background: #F4F6F4;
-            text-align: center;
-        }
-        /* 依老師指定：詩歌體引言優化換行，字體放大加粗 */
-        .quote {
-            font-size: 24px;
-            color: #2C5E3B;
-            line-height: 2.0;
-            font-style: normal;
-            max-width: 850px;
-            margin: 0 auto 40px auto;
-            font-weight: 600;
-            text-align: center;
-        }
-        .tag-container {
-            margin-bottom: 30px;
-        }
-        .tag {
-            display: inline-block;
-            background: white;
-            padding: 10px 22px;
-            margin: 6px;
-            border-radius: 25px;
-            color: #444;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-size: 17px;
-        }
-        .about-link {
-            font-size: 18px;
-            color: #2C5E3B; 
-            font-weight: bold; 
-            text-underline-offset: 4px;
-        }
+        /* 卡片彩色標籤區 */
+        .card-tag { padding: 12px; text-align: center; color: white; font-size: 20px; font-weight: bold; letter-spacing: 1px; }
+        .tag-green { background: linear-gradient(135deg, #2C5E3B, #4CAF50); }
+        .tag-blue { background: linear-gradient(135deg, #2980B9, #3498DB); }
+        .tag-orange { background: linear-gradient(135deg, #D35400, #E67E22); }
 
-        /* 手機版適應 */
-        @media (max-width: 768px) {
-            body { padding-top: 240px; }
-            .nav-links { gap: 10px; }
-            .card-table, .card-table tr, .card-table td { display: block; width: 100%; }
-            .card-table { border-spacing: 0; }
-            .card-cell { margin-bottom: 25px; }
-            .menu-line-btn { display: inline-block; width: 85%; margin: 5px auto 0 auto; text-align: center; }
-            .quote { font-size: 19.5px; line-height: 1.8; }
-        }
-        @media (min-width: 768px) {
-            .logo { display: inline-block; margin-bottom: 0; text-align: left; }
-            .nav-links { display: inline-block; float: right; margin-top: 5px; width: auto; text-align: right; }
-            .nav-links li { margin: 0 8px; }
+        /* 卡片內文 */
+        .card-body { padding: 35px 25px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
+        .card-main-title { font-size: 28px; font-weight: bold; margin-bottom: 15px; }
+        .title-green { color: #2C5E3B; }
+        .title-blue { color: #2980B9; }
+        .title-orange { color: #D35400; }
+
+        .card-desc { font-size: 19px; color: #666; line-height: 1.8; margin-bottom: 30px; text-align: justify; }
+
+        /* 清晰具體的指引按鈕 */
+        .card-action-btn { display: block; width: 100%; padding: 14px 0; border-radius: 30px; font-size: 20px; font-weight: bold; color: white; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .btn-green { background: #2C5E3B; }
+        .btn-blue { background: #2980B9; }
+        .btn-orange { background: #D35400; }
+
+        /* 💬 4. 底部行動呼籲 */
+        .footer-cta { background: #E8F5E9; border-radius: 24px; padding: 50px 30px; text-align: center; margin-bottom: 60px; border: 1px solid #C8E6C9; }
+        .cta-title { font-size: 26px; color: #1B5E20; font-weight: bold; margin-bottom: 15px; }
+        .cta-desc { font-size: 20px; color: #555; margin-bottom: 30px; }
+        .line-mega-btn { display: inline-block; background: #06C755; color: white; padding: 16px 55px; border-radius: 40px; font-size: 22px; font-weight: bold; text-decoration: none; box-shadow: 0 6px 20px rgba(6,199,85,0.3); transition: transform 0.2s; }
+        .line-mega-btn:hover { transform: scale(1.03); }
+
+        /* 響應式：手機版完美適配 */
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; gap: 25px; }
+            .hero-title { font-size: 32px; }
+            body { padding-top: 150px; }
+            .nav-container { flex-direction: column; gap: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. 導覽列 -->
+    <!-- 🏛️ 1. 頂部導覽列（左上角優雅內嵌精美小商標） -->
     <nav class="main-nav">
         <div class="nav-container">
-            <a href="index.html" class="logo">心路新路全齡會所</a>
-            
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">首頁</a></li>
-                <li><a href="about.html">關於老師</a></li>
-                <li><a href="services.html">服務項目</a></li>
-                <li><a href="bible-self.html" style="color: #2C5E3B; font-weight: bold;">🌿 尋見真我</a></li>
-                <li><a href="wwas.html">WWAS測評</a></li>
-                <li><a href="events.html">最新活動</a></li>
-                <li><a href="kids-camp.html">兒童營隊</a></li>
-                <li><a href="life-stories.html">生命花園</a></li>
-                <li><a href="blog.html">心路專欄</a></li>
-                <li><a href="contact.html">聯絡我們</a></li>
-                
-                <!-- 官方 LINE 綠色小膠囊按鈕，緊鄰聯絡我們右側 -->
-                <li>
-                    <a href="https://lin.ee/@431trrjk" target="_blank" class="menu-line-btn">[cite: 1]
-                        <span class="line-word">💬 點我加官方 LINE</span>
-                    </a>
-                </li>
-            </ul>
-            <div style="clear: both;"></div>
+            <a href="index.html" class="logo-box">
+                <img src="商標2.png" class="logo-img" alt="心路新路商標">
+                <span class="logo-text">心路心路幸福導航站</span>
+            </a>
+            <a href="tel:04-XXX-XXXX" class="nav-phone">📞 幸福諮詢專線</a>
         </div>
     </nav>
 
-    <!-- 2. Hero 陽光區 -->
-    <header class="hero-section">
-        <div style="max-width: 850px; margin: 0 auto;">
-            <h1 class="hero-title">每個生命都值得被正確看見</h1>
-            <p class="hero-subtitle">陪伴兒童、青少年、父母與長者 —— 認識自己｜修復關係｜活出生命價值</p>
-            <p class="hero-desc">
-                從全人健康測評、生命故事整理、親職教育、讀書會到個人成長課程，<br>
-                雪媚老師陪你走向更自由、更喜樂的人生。
-            </p>
-            
-            <div class="btn-group">
-                <a href="bible-self.html" class="btn btn-green">🌿 從聖經中尋見真我</a>
-                <a href="wwas.html" class="btn btn-blue">📊 體驗 WWAS 測評</a>
-                <a href="kids-camp.html" class="btn btn-orange">🌻 兒童成長營隊</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- 3. 需求導引卡片區 -->
     <div class="container">
-        <h2 class="section-title">你現在最需要的是什麼？</h2>
         
-        <table class="card-table">
-            <tr>
-                <td class="card-cell" style="border-left: 5px solid #9E9D24; background: #F9FBE7;">
-                    <h3 style="color: #558B2F;">🌱 我想更認識自己</h3>
-                    <p>透過專業引導，探索內在冰山，覺察自我盲點，活出自信人生。</p>
-                    <a href="services.html#personal" class="card-link" style="color: #558B2F;">前往個人成長課程 →</a>
-                </td>
-                <td class="card-cell" style="border-left: 5px solid #C2185B; background: #FCE4EC;">
-                    <h3 style="color: #C2185B;">❤️ 我想改善婚姻關係</h3>
-                    <p>親密關係的修復與滋養，從溝通盲點到情感重建的專業陪伴。</p>
-                    <a href="services.html#marriage" class="card-link" style="color: #C2185B;">前往婚姻家庭成長 →</a>
-                </td>
-                <td class="card-cell" style="border-left: 5px solid #2E7D32; background: #E8F5E9;">
-                    <h3 style="color: #2E7D32;">📖 我想整理生命故事</h3>
-                    <p>二十期深厚基礎，在經典與信仰的光照中，梳理過去，看見真我。</p>
-                    <a href="bible-self.html" class="card-link" style="color: #2E7D32;">了解聖經尋見真我 →</a>
-                </td>
-            </tr>
-        </table>
-
-        <table class="card-table">
-            <tr>
-                <td class="card-cell" style="border-left: 5px solid #0277BD; background: #E1F5FE;">
-                    <h3 style="color: #0277BD;">📊 我想了解自己現況</h3>
-                    <p>運用 WWAS 全人健康測評系統，科學化解碼你的心理與能量狀態。</p>
-                    <a href="wwas.html" class="card-link" style="color: #0277BD;">體驗 WWAS 測評 →</a>
-                </td>
-                <td class="card-cell" style="border-left: 5px solid #EF6C00; background: #FFF3E0;">
-                    <h3 style="color: #EF6C00;">🌻 我想幫助孩子成長</h3>
-                    <p>結合 AI 學習力與 SEL 情緒專注力，在寒暑假給孩子受用一生的能力。</p>
-                    <a href="kids-camp.html" class="card-link" style="color: #EF6C00;">查看兒童青少年課程 →</a>
-                </td>
-                <td class="card-cell" style="border-left: 5px solid #6A1B9A; background: #F3E5F5;">
-                    <h3 style="color: #6A1B9A;">👵 我想規劃銀髮傳承</h3>
-                    <p>銀髮族心理關懷與生命故事自傳撰寫，留下一生最珍貴的靈魂足跡。</p>
-                    <a href="services.html#elderly" class="card-link" style="color: #6A1B9A;">了解銀髮關懷自傳 →</a>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <!-- 4. 品牌信賴區 -->
-    <section class="teacher-section">
-        <div style="max-width: 900px; margin: 0 auto;">
-            <!-- 🌟 依老師指定：完美照您的詩歌體換行與指定文案呈現 🌟 -->
-            <p class="quote">
-                「20多年來，我陪伴無數家庭<br>
-                兒童、青少年與成人走過生命低谷<br>
-                修復關係，重新認識自己<br><br>
-                我最大的盼望是陪伴更多人在生命故事中，<br>
-                發現上帝早已放在他們裡面的美好。」
+        <!-- 🌟 2. 核心大門面：精美完整大商標 ＋ 官方全名閃耀 🌟 -->
+        <header class="hero-section">
+            <img src="商標2.png" class="hero-logo" alt="心路心路全齡關懷品牌標誌">
+            <h1 class="hero-title">心路心路全齡關懷健康幸福導航站</h1>
+            <p class="hero-subtitle">
+                不論您是為心愛的長輩尋求全面關懷，還是想為自己規劃精彩的第二人生，亦或是追求全家人的身心健康，我們都在這裡為您提供最溫慢、專業的導航與支持。
             </p>
-            <div class="tag-container">
-                <span class="tag">🌿 教牧協談師</span>
-                <span class="tag">🌿 教牧學博士研究生</span>
-                <span class="tag">🌿 親職與婚姻講師</span>
-                <span class="tag">🌿 全齡健康幸福推動者</span>
-            </div>
+        </header>
+
+        <!-- 🌟 3. 三合一唯一入口通道 🌟 -->
+        <main>
+            <h2 class="section-title">請選擇最符合您當前需求的幸福航道</h2>
             
-            <a href="about.html" class="about-link">深入了解雪媚老師的生命故事</a>
-        </div>
-    </section>
+            <div class="main-grid">
+                
+                <!-- 【導航一】：最新活動 -->
+                <a href="activities.html" class="feature-card">
+                    <div class="card-tag tag-green">💡 尋求最新活動與課程</div>
+                    <div class="card-body">
+                        <h3 class="card-main-title title-green">全齡活動 & 講座</h3>
+                        <p class="card-desc">
+                            我們定期舉辦健康講座、藝術手作、長者活力課程與全年齡的互動工作坊。點擊進入探索最新一期的活動課表，與我們一起充實生活的每一天。
+                        </p>
+                        <div class="card-action-btn btn-green">進入最新活動 ➔</div>
+                    </div>
+                </a>
+
+                <!-- 【導航二】：生命故事花園 -->
+                <a href="life-stories.html" class="feature-card">
+                    <div class="card-tag tag-blue">📖 長者生命故事珍藏</div>
+                    <div class="card-body">
+                        <h3 class="card-main-title title-blue">生命故事花園</h3>
+                        <p class="card-desc">
+                            每一個生命都是造物者珍貴的禮物。雪媚老師親自帶領，將長輩一生的奮鬥、慈愛與智慧，萃編成精美的數位翻頁書，代代相傳、永不褪色。
+                        </p>
+                        <div class="card-action-btn btn-blue">走進故事花園 ➔</div>
+                    </div>
+                </a>
+
+                <!-- 【導航三】：線上測評 -->
+                <a href="assessments.html" class="feature-card">
+                    <div class="card-tag tag-orange">📝 線上專業健康測評</div>
+                    <div class="card-body">
+                        <h3 class="card-main-title title-orange">身心全齡評測</h3>
+                        <p class="card-desc">
+                            透過科學、量化的專業問卷，快速了解長輩與自身的精神活力、認知狀態與健康風險，為您即時產出個人化的健康建議報告。
+                        </p>
+                        <div class="card-action-btn btn-orange">開始健康測評 ➔</div>
+                    </div>
+                </a>
+
+            </div>
+        </main>
+
+        <!-- 💬 4. 底部行動呼籲 -->
+        <section class="footer-cta">
+            <h3 class="cta-title">想了解更多導航站的精緻服務嗎？</h3>
+            <p class="cta-desc">歡迎加入我們的官方 LINE，雪媚老師與專業團隊將隨時為您提供一對一的溫暖諮詢。</p>
+            <a href="https://lin.ee/@431trrjk" target="_blank" class="line-mega-btn">
+                💬 點我加入官方 LINE 線上諮詢
+            </a>
+        </section>
+
+    </div>
 
 </body>
 </html>
