@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>心路心路全齡關懷健康幸福導航站</title>
     <style>
-        /* 基礎行動優先設定：字體特大、行高舒適，徹底消滅壓迫感 */
+        /* 基礎行動優先設定：字體特大、行高舒適，完全消除疲勞與壓迫感 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.9; color: #333; background-color: #fafbfa; padding-top: 80px; }
         
@@ -20,11 +20,11 @@
         .nav-phone { font-size: 16px; font-weight: bold; color: #E67E22; border: 2px solid #E67E22; padding: 5px 14px; border-radius: 20px; text-decoration: none; }
 
         /* 一頁式落地頁章節通用設定 */
-        section { padding: 50px 0; border-bottom: 1px dashed #e0e8e2; }
+        section { padding: 55px 0; border-bottom: 1px dashed #e0e8e2; }
         .section-title { font-size: 30px; color: #1B5E20; font-weight: 800; margin-bottom: 25px; text-align: center; position: relative; }
         .section-title::after { content: ''; display: block; width: 45px; height: 4px; background: #AED581; margin: 10px auto 0 auto; border-radius: 2px; }
         
-        /* 特大號清晰內文字體 */
+        /* 特大號清晰內文字體，長輩用手機看最舒服 */
         .main-text-p { font-size: 21px; color: #37474F; line-height: 2.0; text-align: justify; margin-bottom: 20px; font-weight: 500; }
         .bold-highlight { color: #2C5E3B; font-weight: bold; }
 
@@ -33,7 +33,7 @@
         .hero-logo { width: 160px; height: auto; margin-bottom: 20px; }
         .hero-title { font-size: 36px; color: #1B5E20; font-weight: 800; line-height: 1.4; margin-bottom: 15px; }
 
-        /* 🌟 服務項目大卡片與智慧分流面版（手機流暢拉開） */
+        /* 🌟 服務項目大卡片與智慧分流面版 */
         .service-card { background: white; border-radius: 20px; border: 1px solid #eef2f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px; overflow: hidden; transition: all 0.3s; }
         .service-card:hover { box-shadow: 0 8px 25px rgba(44,94,59,0.1); }
         
@@ -43,11 +43,11 @@
         .toggle-icon { font-size: 22px; color: #888; transition: transform 0.3s; }
         
         /* 隱藏的分流內容區 */
-        .card-content-pane { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #fafdfa; border-top: 0 solid #eee; }
+        .card-content-pane { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #fafdfa; }
         .pane-inner { padding: 25px; }
         
-        /* 當被啟動時的樣式（JavaScript 控制） */
-        .service-card.active .card-content-pane { max-height: 800px; border-top: 1px solid #eef2f0; }
+        /* 展開後的樣式樣貌 */
+        .service-card.active .card-content-pane { max-height: 1400px; border-top: 1px solid #eef2f0; }
         .service-card.active .toggle-icon { transform: rotate(180deg); color: #2C5E3B; }
 
         /* 分流子項目清單 */
@@ -55,9 +55,24 @@
         .sub-item-title { font-size: 22px; font-weight: bold; color: #2C5E3B; margin-bottom: 5px; }
         .sub-item-desc { font-size: 19px; color: #666; }
 
-        /* 調查意願與跳頁按鈕 */
-        .action-link-btn { display: inline-block; background: #2C5E3B; color: white; padding: 10px 25px; border-radius: 20px; font-size: 18px; text-decoration: none; font-weight: bold; margin-top: 10px; box-shadow: 0 4px 10px rgba(44,94,59,0.2); }
+        /* 行動跳轉按鈕樣式 */
+        .action-link-btn { display: inline-block; background: #2C5E3B; color: white; padding: 12px 30px; border-radius: 35px; font-size: 19.5px; text-decoration: none; font-weight: bold; margin-top: 10px; box-shadow: 0 4px 12px rgba(44,94,59,0.2); border: none; cursor: pointer; }
         .action-link-btn:hover { background: #1B5E20; }
+        .btn-orange-theme { background: #E67E22; box-shadow: 0 4px 12px rgba(230,126,34,0.2); }
+        .btn-orange-theme:hover { background: #D35400; }
+        .btn-line-theme { background: #06C755; box-shadow: 0 4px 12px rgba(6,199,85,0.2); }
+        .btn-line-theme:hover { background: #05B34B; }
+
+        /* 🌟 生命故事花園內部專屬樣式 🌟 */
+        .garden-chapter-box { background: #ffffff; border-radius: 20px; border: 1px solid #eef2f0; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .garden-chapter-banner { width: 100%; display: block; height: auto; }
+        .garden-chapter-body { padding: 30px 25px; text-align: center; }
+        
+        /* 故事封面三宮格縮小排列，保證不重複且精緻呈現 */
+        .garden-books-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
+        .book-cover-card { background: #ffffff; border-radius: 10px; border: 1px solid #eef2f0; overflow: hidden; aspect-ratio: 3 / 4; cursor: pointer; box-shadow: 0 3px 10px rgba(0,0,0,0.03); transition: transform 0.2s; padding: 4px; display: flex; align-items: center; justify-content: center; }
+        .book-cover-card:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(44,94,59,0.12); }
+        .book-cover-card img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
         /* 足跡清單 */
         .footprint-list { list-style: none; margin-top: 15px; }
@@ -68,14 +83,19 @@
         .invite-box { background: #FFF3E0; border: 1px solid #FFE0B2; border-radius: 16px; padding: 25px; margin-top: 25px; text-align: center; }
         .invite-title { font-size: 22px; color: #E65100; font-weight: bold; margin-bottom: 10px; }
         
-        /* 💬 10. 底部終極行動呼籲 */
+        /* 💬 8. 底部終極行動呼籲 */
         .footer-cta-line { background: #E8F5E9; border-radius: 24px; padding: 50px 20px; text-align: center; margin: 40px 0 60px 0; border: 1px solid #C8E6C9; }
         .line-mega-btn { display: inline-block; background: #06C755; color: white; padding: 16px 55px; border-radius: 40px; font-size: 24px; font-weight: bold; text-decoration: none; box-shadow: 0 6px 20px rgba(6,199,85,0.3); transition: transform 0.2s; }
         .line-mega-btn:hover { transform: scale(1.03); }
 
+        /* 全螢幕大字體數位書閱覽視窗 */
+        .fullscreen-book-view { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f5f6f3; z-index: 2000; overflow-y: auto; padding: 20px; }
+        .book-max-wrapper { max-width: 900px; margin: 0 auto; background: white; border-radius: 16px; padding: 40px; box-shadow: 0 15px 45px rgba(0,0,0,0.1); min-height: calc(100vh - 40px); display: flex; flex-direction: column; justify-content: space-between; }
+        .book-big-text { font-size: 24px; line-height: 2.0; color: #333; margin: 25px 0; text-align: justify; white-space: pre-line; }
+
         @media (max-width: 768px) {
             .hero-title { font-size: 28px; }
-            .card-header-toggle h3 { font-size: 20px; }
+            .card-header-toggle h3 { font-size: 19px; }
             .sub-item-title { font-size: 19.5px; }
             .sub-item-desc { font-size: 17.5px; }
             body { padding-top: 130px; }
@@ -85,7 +105,7 @@
 </head>
 <body>
 
-    <!-- 🏛 頂部導航列 -->
+    <!-- 🏛️ 頂部導覽列 -->
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="logo-box">
@@ -110,12 +130,12 @@
         </section>
 
 
-        <!-- 🌟 架構 2：服務項目（垂直排列、大字體、點擊順暢分流） -->
+        <!-- 🌟 架構 2：服務項目（點擊順暢滑開、各項獨立圖文細節空間已完備） -->
         <section id="services-section">
             <h2 class="section-title">服務項目</h2>
-            <p class="main-text-p" style="text-align:center; color:#666; margin-bottom:30px;">💡 點擊下方各個項目，即可直接在下方查看精細分流服務：</p>
+            <p class="main-text-p" style="text-align:center; color:#666; margin-bottom:30px;">💡 點擊下方項目，即可直接查看圖文說明與詳細資料：</p>
 
-            <!-- 【分流 1】：全齡十大向度健康幸福導航評測 -->
+            <!-- 【大項 1】：全齡十大向度健康幸福導航測評 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
                     <h3>📝 1. 全齡十大向度健康幸福導航測評</h3>
@@ -123,13 +143,14 @@
                 </div>
                 <div class="card-content-pane">
                     <div class="pane-inner">
-                        <p class="main-text-p">透過科學化、量化的專業 WWAS 評測系統，全面透視並解碼您與長輩的精神活力、情緒狀態與內在核心。快速產出個人化的幸福導航報告，為家庭健康提供精準依據。</p>
-                        <a href="assessments.html" class="action-link-btn">前往線上測評系統 ➔</a>
+                        <p class="main-text-p">運用科學化、量化的專業 WWAS 評測系統，全面透視並解碼您與長輩的精神活力、情緒狀態與內在核心。快速產出個人化的幸福導航報告，為家庭健康提供精準依據。</p>
+                        <!-- 🌟 依指定修改：第一個測評按鈕點開後，內容修改為指定文字 🌟 -->
+                        <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme">💬 加官方 LINE 諮詢或預約幸福測評</a>
                     </div>
                 </div>
             </div>
 
-            <!-- 【分流 2】：兒童青少年課程及營隊 -->
+            <!-- 【大項 2】：兒童青少年課程及營隊（已移除心理二字） -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
                     <h3>🌱 2. 兒童青少年課程及營隊</h3>
@@ -137,23 +158,27 @@
                 </div>
                 <div class="card-content-pane">
                     <div class="pane-inner">
+                        <p class="main-text-p" style="color:#2C5E3B; font-weight:bold; margin-bottom:15px;">📊 相關圖文說明與資料：</p>
+                        <!-- 🌟 依指定修改：去掉心理二字 🌟 -->
                         <div class="sub-item-box">
                             <div class="sub-item-title">🎯 一對一成長課程</div>
                             <div class="sub-item-desc">針對孩子的獨特特質，量身打造專屬的情緒梳理與自我認同引導。</div>
                         </div>
                         <div class="sub-item-box">
-                            <div class="sub-item-title">⛺ 兒童青少年主題營隊</div>
+                            <div class="sub-item-title">⛺ 營隊</div>
                             <div class="sub-item-desc">透過豐富的團隊互動與 AI 工具結合，在快樂體驗中培養跨領域素養與社交韌性。</div>
                         </div>
+                        <!-- 🌟 依指定修改：去掉心理二字 🌟 -->
                         <div class="sub-item-box">
-                            <div class="sub-item-title">👥 心理與成長小團體課程</div>
-                            <div class="sub-item-desc">在溫暖安全的小團體氛圍中，陪伴孩子學習同理心、修復關係與人際溝通。</div>
+                            <div class="sub-item-title">👥 小團體課程</div>
+                            <div class="sub-item-desc">在安全的小團體氛圍中，陪伴孩子學習同理心、關係修復與人際溝通。</div>
                         </div>
+                        <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme">💬 線上諮詢此系列課程</a>
                     </div>
                 </div>
             </div>
 
-            <!-- 【分流 3】：個人成長課程 -->
+            <!-- 【大項 3】：個人成長課程 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
                     <h3>💎 3. 個人成長課程</h3>
@@ -161,31 +186,33 @@
                 </div>
                 <div class="card-content-pane">
                     <div class="pane-inner">
+                        <p class="main-text-p" style="color:#2C5E3B; font-weight:bold; margin-bottom:15px;">📊 相關圖文說明與資料：</p>
                         <div class="sub-item-box">
                             <div class="sub-item-title">👤 一對一成長課程</div>
                             <div class="sub-item-desc">深入陪伴成人與家長進行深層的情緒調節、創傷知情與自我覺察。</div>
                         </div>
                         <div class="sub-item-box">
                             <div class="sub-item-title">👨‍👩‍👧 親職效能提升</div>
-                            <div class="sub-item-desc">傳授實用的正向教養工具，協助父母建立和諧、有邊界感的親 comp 關係。</div>
+                            <div class="sub-item-desc">傳授實用的正向教養工具，協助父母建立和諧、有邊界感的親密關係。</div>
                         </div>
                         <div class="sub-item-box">
-                            <div class="sub-item-title">🗣 衝突溝通與關係修復</div>
+                            <div class="sub-item-title">🗣 衝突溝通</div>
                             <div class="sub-item-desc">解開家庭與職場中的溝通僵局，學習用愛與清晰的表達化解橫逆。</div>
                         </div>
                         <div class="sub-item-box">
-                            <div class="sub-item-title">🏫 親師溝通專題</div>
+                            <div class="sub-item-title">🏫 親師溝通</div>
                             <div class="sub-item-desc">協助家長與學校教師建立良性、互信的合作橋樑，共同托舉孩子成長。</div>
                         </div>
                         <div class="sub-item-box">
-                            <div class="sub-item-title">🌟 特殊兒童教養諮詢（ADHD / ASD）</div>
-                            <div class="sub-item-desc">提供專屬教養注意力不足過動症（ADHD）與亞斯伯格（ASD）孩子的專業諮詢與溫暖策略支持。</div>
+                            <div class="sub-item-title">🌟 教養注意力不足過動、亞斯伯格孩子諮詢</div>
+                            <div class="sub-item-desc">提供專屬教養注意力不足過動症（ADHD）與亞斯伯格（ASD）孩子的專業諮詢與策略支持。</div>
                         </div>
+                        <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme">💬 線上預約個人成長諮詢</a>
                     </div>
                 </div>
             </div>
 
-            <!-- 【分流 4】：樂齡成長課程 -->
+            <!-- 【大項 4】：樂齡成長課程 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
                     <h3>👵 4. 樂齡成長課程</h3>
@@ -193,40 +220,68 @@
                 </div>
                 <div class="card-content-pane">
                     <div class="pane-inner">
+                        <p class="main-text-p" style="color:#2C5E3B; font-weight:bold; margin-bottom:15px;">📊 相關圖文說明與資料：</p>
                         <div class="sub-item-box">
                             <div class="sub-item-title">📝 生命故事撰寫</div>
-                            <div class="sub-item-desc">引導長者梳理一生勞苦與恩典，轉化為溫暖深刻的記憶痕跡。</div>
+                            <div class="sub-item-desc">引導長者梳理一生勞苦與恩典，轉化為深刻的記憶與數位文獻留存。</div>
                         </div>
                         <div class="sub-item-box">
-                            <div class="sub-item-title">🏋️‍♂️ 樂齡專屬肌力課程</div>
-                            <div class="sub-item-desc">專業安全的身體活動引導，維持長輩身體的豐沛活力與健康防護。</div>
+                            <div class="sub-item-title">🏋️‍♂️ 肌力課程</div>
+                            <div class="sub-item-desc">專業安全的身體活動引導，維持長輩身體的豐沛活力與功能防護。</div>
                         </div>
                         <div class="sub-item-box">
-                            <div class="sub-item-title">🎨 興趣小組與生活美學</div>
-                            <div class="sub-item-desc">多元豐富的社交活動，陪伴長者建立快樂無憂的第二精彩人生。</div>
+                            <div class="sub-item-title">🎨 興趣小組</div>
+                            <div class="sub-item-desc">多元豐富的生活美學與社交小組，陪伴長者建立快樂無憂的第二精彩人生。</div>
                         </div>
+                        <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme">💬 了解樂齡當期課表</a>
                     </div>
                 </div>
             </div>
 
-            <!-- 【分流 5】：生命故事花園 -->
-            <div class="service-card">
-                <div class="card-header-toggle" onclick="toggleCard(this)">
-                    <h3>🌻 5. 生命故事花園</h3>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="card-content-pane">
-                    <div class="pane-inner">
-                        <p class="main-text-p">由雪媚老師親自整理撰寫，將長輩們一生的智慧結晶、見證與愛，包裝成沉浸式的大字體數位翻頁書。讓每一個獨特的生命禮物，都能在此盛大綻放，代代珍藏。</p>
-                        <a href="life-stories.html" class="action-link-btn">走進數位故事花園 ➔</a>
+        </section>
+
+
+        <!-- 🌟 架構 5：生命故事花園（頁首放向日葵大圖 ＋ 點擊看翻翻書預留區） 🌟 -->
+        <section id="garden-section">
+            <h2 class="section-title">5. 生命故事花園</h2>
+            
+            <div class="garden-chapter-box">
+                <!-- 🌟 依指定修改：向日葵彩虹招牌大圖精準放在最上面頁首 🌟 -->
+                <img src="6b9fa503-9b0d-4b1b-ab89-3953a83ab790.png_3.png" class="garden-chapter-banner" alt="生命故事花園頁首">
+                
+                <div class="garden-chapter-body">
+                    <p class="main-text-p" style="margin-bottom: 10px;">由雪媚老師親自整理撰寫，將長輩們一生的智慧結晶、見證與愛，包裝成字體清晰的數位翻頁書。讓每一個獨特的生命禮物，都能在此盛大綻放，代代珍藏。</p>
+                    <p class="main-text-p" style="font-size:18px; color:#666;">💡 點擊下方封面即可翻閱故事內容（內容與翻翻書檔案隨時可再更新）：</p>
+
+                    <!-- 🌟 依指定修改：只放這三張真實主角圖片，縮小控制比例不擁擠 🌟 -->
+                    <div class="garden-books-grid">
+                        <!-- 1. 爸爸 -->
+                        <div class="book-cover-card" onclick="openBook('dad')">
+                            <img src="027ca521-816d-47cb-86eb-fa50bcd6230e.png.png" alt="邱鐘明弟兄封面">
+                        </div>
+                        <!-- 2. 媽媽 -->
+                        <div class="book-cover-card" onclick="openBook('mom')">
+                            <img src="2b6759ce-153d-4e72-a591-1302a5bf485b.png.png" alt="邱蔡淑金女士封面">
+                        </div>
+                        <!-- 3. 小阿姨 -->
+                        <div class="book-cover-card" onclick="openBook('aunt')">
+                            <img src="0f54b13c-2936-49bc-bfe3-fe6015efb4c2.png.png" alt="蔡秀鳳小阿姨封面">
+                        </div>
                     </div>
+
+                    <!-- 🌟 依指定修改：下方加按鈕修改為指定文字 🌟 -->
+                    <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme" style="width:100%; margin-top:15px;">💬 加官方 LINE 諮詢或預約生命故事撰寫</a>
                 </div>
             </div>
+        </section>
 
-            <!-- 【分流 6】：從聖經中尋見真我讀書會 -->
-            <div class="service-card">
+
+        <!-- 🌟 架構 6：從聖經中尋見真我讀書會 -->
+        <section id="bible-section">
+            <h2 class="section-title">6. 從聖經中尋見真我讀書會</h2>
+            <div class="service-card" style="margin-bottom:0px;">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
-                    <h3>📖 6. 從聖經中尋見真我讀書會</h3>
+                    <h3>📖 檢視讀書會詳細資料與分流</h3>
                     <span class="toggle-icon">▼</span>
                 </div>
                 <div class="card-content-pane">
@@ -236,25 +291,24 @@
                             <div class="sub-item-desc">最新一期的精選讀本、聚會時間與報名名額公告。</div>
                         </div>
                         <div class="sub-item-box">
-                            <div class="sub-item-title">💬 學員溫暖心得分享</div>
+                            <div class="sub-item-title">💬 學員心得</div>
                             <div class="sub-item-desc">記錄了成員們在真理的光照中，彼此和好、生命蛻變的真實感動。</div>
                         </div>
-                        <div class="sub-item-box" style="border:none; padding:0; background:none; box-shadow:none;">
+                        <div class="sub-item-box" style="border:none; padding:0; background:none; box-shadow:none; margin-bottom:0;">
                             <div class="sub-item-title">📅 時段意願調查</div>
-                            <p class="sub-item-desc" style="margin-bottom:10px;">歡迎填寫您方便參與的時間，讓我們為您貼心規劃專屬班別：</p>
-                            <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn" style="background:#E67E22;">點我進入調查時段意願群組 ➔</a>
+                            <p class="sub-item-desc" style="margin-bottom:12px;">歡迎填寫您方便參與的時間，讓我們為您貼心規劃班別：</p>
+                            <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-orange-theme">點我進入調查時段意願群組 ➔</a>
                         </div>
                     </div>
                 </div>
             </div>
-
         </section>
 
 
-        <!-- 🌟 架構 7：雪媚老師服務足跡 ＆ 歡迎邀約 -->
+        <!-- 🌟 架構 7：雪媚老師服務足跡 ＆ 歡迎邀約（已移除溫暖兩字） -->
         <section id="footprint-section">
             <h2 class="section-title">7. 雪媚老師服務足跡</h2>
-            <p class="main-text-p">多年來，雪媚老師深受各大校園、社區會所及宗教團體的信賴，足跡遍及多個專業學習群體與諮詢中心。我們致力於將最溫暖的身心關懷與真理智慧帶到每一個需要的地方。</p>
+            <p class="main-text-p">多年來，雪媚老師深受各大校園、社區會所及宗教團體的信賴，足跡遍及多個專業學習群體與諮詢中心。我們致力於將身心關懷與真理智慧帶到每一個需要的地方。</p>
             
             <ul class="footprint-list">
                 <li>各大中小學親職教育專題合作講師</li>
@@ -264,21 +318,20 @@
 
             <!-- 歡迎邀約 -->
             <div class="invite-box">
-                <div class="invite-title">💌 專業講座 ‧ 溫暖歡迎邀約</div>
-                <p class="sub-item-desc" style="color:#E65100; font-weight:600; font-size:20px;">
-                    ✨ 親子教育講座  |  ✨ 婚姻幸福講座  |  ✨ 特殊兒童教養專題
+                <div class="invite-title">💌 專業講座歡迎邀約</div>
+                <p class="sub-item-desc" style="color:#E65100; font-weight:600; font-size:20px; letter-spacing: 0.5px;">
+                    ✨ 親子講座  |  ✨ 婚姻講座  |  ✨ 特殊兒童教養
                 </p>
                 <p class="sub-item-desc" style="margin-top:10px; font-size:18px; color:#666;">（歡迎各級學校、機關團體與教會洽談年度合作）</p>
             </div>
         </section>
 
 
-        <!-- 🌟 架構 10：加入官方Line（一頁式落地頁的終點黃金站） -->
+        <!-- 🌟 架構 8：加入官方Line（一頁式落地頁的終點黃金站） -->
         <section id="line-section" style="border:none;">
             <div class="footer-cta-line">
                 <h3 class="cta-title">8. 開啟您的專屬幸福導航</h3>
-                <p class="cta-desc" style="font-size:20px; color:#555; margin-bottom:25px;">不論您有任何教養、家庭、樂齡故事撰寫或測評諮詢的需求，<br>雪媚老師與專業團隊都隨時在官方 LINE 上為您提供一對一的隱密溫暖回應。</p>
-                <!-- 官方 LINE 按鈕 -->
+                <p class="cta-desc" style="font-size:20px; color:#555; margin-bottom:25px;">不論您有任何教養、家庭、樂齡故事撰寫或測評諮詢的需求，<br>雪媚老師與專業團隊都隨時在官方 LINE 上為您提供一對一的隱密回應。</p>
                 <a href="https://lin.ee/@431trrjk" target="_blank" class="line-mega-btn">
                     💬 點我加入官方 LINE 線上預約
                 </a>
@@ -287,15 +340,49 @@
 
     </div>
 
-    <!-- 智慧分流拉開腳本 -->
+    <!-- 🌟 全螢幕數位閱覽視窗（預留給老師隨時放進翻翻書檔案） 🌟 -->
+    <div class="fullscreen-book-view" id="fullscreenBookView">
+        <div class="book-max-wrapper">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <span style="font-size: 19px; font-weight: bold; color: #2C5E3B;" id="bookNavTitle">📖 故事閱覽中</span>
+                <button class="action-btn" style="background:#78909C; padding:8px 20px;" onclick="closeBook()">🔙 返回導航站</button>
+            </div>
+            
+            <!-- 翻翻書核心檔案或內文預留對接區 -->
+            <div class="book-big-text" id="bookMainContent">
+                這裡目前已完美預留對接！
+                等老師將後續「翻翻書」的檔案、連結或文字內容準備好後，隨時可以填入此處，學員即可在此進行流暢的大字體沉浸式閱讀。
+            </div>
+
+            <div style="text-align:center; padding-top:20px; border-top:1px dashed #eee;">
+                <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme" style="width:100%;">💬 聯絡雪媚老師預約生命故事撰寫</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 智慧交互腳本 -->
     <script>
         function toggleCard(header) {
             const card = header.parentElement;
-            
-            // 如果要維持一次只能拉開一個，可以把下面這兩行取消註解：
-            // document.querySelectorAll('.service-card').forEach(c => { if(c !== card) c.classList.remove('active'); });
-
             card.classList.toggle('active');
+        }
+
+        const bookData = {
+            dad: "【邱鐘明弟兄生命見證：我要幫上帝蓋教會】\n\n離開賺錢至上的空虛與失望，進入全然奉獻的喜樂、平安！\n\n（此處已完美做好翻翻書檔案與內容的串聯預留，隨時可填入完整傳記資料）",
+            mom: "【邱蔡淑金女士傳記小說：阿金】\n\n是金子，在哪裡都能閃閃發亮！溫柔包容的母愛暖流。\n\n（此處已完美做好翻翻書檔案與內容的串聯預留，隨時可填入完整傳記資料）",
+            aunt: "【蔡秀鳳小阿姨生命樂章：瀟灑走一回】\n\n樂觀豁達、自立自強的人生。在麻醉中舒服睡著，安詳回天家。\n\n（此處已完美做好翻翻書檔案與內容的串聯預留，隨時可填入完整傳記資料）"
+        };
+
+        function openBook(type) {
+            document.getElementById('bookNavTitle').innerText = `📖 正在閱讀生命見證錄`;
+            document.getElementById('bookMainContent').innerText = bookData[type];
+            document.getElementById('fullscreenBookView').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function closeBook() {
+            document.getElementById('fullscreenBookView').style.display = 'none';
+            window.scrollTo(0, 0);
         }
     </script>
 
