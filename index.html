@@ -5,156 +5,299 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>心路心路全齡關懷健康幸福導航站</title>
     <style>
-        /* 基礎全域設定：文字大而舒適，充滿奢華與呼吸感 */
+        /* 基礎行動優先設定：字體特大、行高舒適，徹底消滅壓迫感 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.8; color: #333; background-color: #fafbfa; padding-top: 90px; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.9; color: #333; background-color: #fafbfa; padding-top: 80px; }
         
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
 
-        /* 🏛️ 1. 頂部導覽列：純淨化，完美置入精美小商標 */
-        .main-nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.96); box-shadow: 0 2px 10px rgba(0,0,0,0.03); z-index: 1000; backdrop-filter: blur(5px); }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-        
+        /* 🏛️ 頂部固定導覽列 */
+        .main-nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.96); box-shadow: 0 2px 12px rgba(0,0,0,0.03); z-index: 1000; backdrop-filter: blur(5px); }
+        .nav-container { max-width: 1000px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
         .logo-box { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        /* 左上角精緻縮小版商標 */
         .logo-img { height: 45px; width: auto; object-fit: contain; }
-        .logo-text { font-size: 24px; font-weight: bold; color: #2C5E3B; letter-spacing: 1px; }
-        .nav-phone { font-size: 18px; font-weight: bold; color: #E67E22; border: 2px solid #E67E22; padding: 6px 16px; border-radius: 20px; text-decoration: none; }
+        .logo-text { font-size: 22px; font-weight: bold; color: #2C5E3B; }
+        .nav-phone { font-size: 16px; font-weight: bold; color: #E67E22; border: 2px solid #E67E22; padding: 5px 14px; border-radius: 20px; text-decoration: none; }
 
-        /* 🌟 2. 溫暖大橫幅區：大字體閃耀官方全名 ＋ 頂部置入大氣品牌商標 🌟 */
-        .hero-section { text-align: center; padding: 40px 0 45px 0; }
-        /* 核心橫幅大器商標圖 */
-        .hero-logo { width: 220px; height: auto; margin-bottom: 25px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05)); }
+        /* 一頁式落地頁章節通用設定 */
+        section { padding: 50px 0; border-bottom: 1px dashed #e0e8e2; }
+        .section-title { font-size: 30px; color: #1B5E20; font-weight: 800; margin-bottom: 25px; text-align: center; position: relative; }
+        .section-title::after { content: ''; display: block; width: 45px; height: 4px; background: #AED581; margin: 10px auto 0 auto; border-radius: 2px; }
         
-        .hero-title { font-size: 42px; color: #1B5E20; font-weight: 800; margin-bottom: 25px; letter-spacing: 1px; line-height: 1.4; }
-        .hero-subtitle { font-size: 22px; color: #555; max-width: 800px; margin: 0 auto; line-height: 2.0; font-weight: 500; }
+        /* 特大號清晰內文字體 */
+        .main-text-p { font-size: 21px; color: #37474F; line-height: 2.0; text-align: justify; margin-bottom: 20px; font-weight: 500; }
+        .bold-highlight { color: #2C5E3B; font-weight: bold; }
 
-        /* 🌟 3. 三合一核心黃金入口區（全網頁唯一的點擊通道，絕不困惑！） */
-        .section-title { text-align: center; font-size: 28px; color: #2C5E3B; font-weight: bold; margin-bottom: 45px; position: relative; }
-        .section-title::after { content: ''; display: block; width: 50px; height: 4px; background: #AED581; margin: 12px auto 0 auto; border-radius: 2px; }
+        /* 🌟 1. 導航站介紹橫幅 */
+        .hero-banner { text-align: center; background: linear-gradient(180deg, #ffffff 0%, #f1f6f2 100%); padding: 40px 20px; border-radius: 24px; margin-top: 20px; }
+        .hero-logo { width: 160px; height: auto; margin-bottom: 20px; }
+        .hero-title { font-size: 36px; color: #1B5E20; font-weight: 800; line-height: 1.4; margin-bottom: 15px; }
 
-        .main-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 70px; }
+        /* 🌟 服務項目大卡片與智慧分流面版（手機流暢拉開） */
+        .service-card { background: white; border-radius: 20px; border: 1px solid #eef2f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px; overflow: hidden; transition: all 0.3s; }
+        .service-card:hover { box-shadow: 0 8px 25px rgba(44,94,59,0.1); }
         
-        /* 精美實體卡片質感設計 */
-        .feature-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; transition: all 0.3s ease; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(44,94,59,0.12); }
+        /* 點擊觸發條 */
+        .card-header-toggle { padding: 22px 25px; background: #fdfdfd; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+        .card-header-toggle h3 { font-size: 24px; font-weight: bold; color: #2C5E3B; display: flex; align-items: center; gap: 10px; }
+        .toggle-icon { font-size: 22px; color: #888; transition: transform 0.3s; }
+        
+        /* 隱藏的分流內容區 */
+        .card-content-pane { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #fafdfa; border-top: 0 solid #eee; }
+        .pane-inner { padding: 25px; }
+        
+        /* 當被啟動時的樣式（JavaScript 控制） */
+        .service-card.active .card-content-pane { max-height: 800px; border-top: 1px solid #eef2f0; }
+        .service-card.active .toggle-icon { transform: rotate(180deg); color: #2C5E3B; }
 
-        /* 卡片彩色標籤區 */
-        .card-tag { padding: 12px; text-align: center; color: white; font-size: 20px; font-weight: bold; letter-spacing: 1px; }
-        .tag-green { background: linear-gradient(135deg, #2C5E3B, #4CAF50); }
-        .tag-blue { background: linear-gradient(135deg, #2980B9, #3498DB); }
-        .tag-orange { background: linear-gradient(135deg, #D35400, #E67E22); }
+        /* 分流子項目清單 */
+        .sub-item-box { background: white; border-left: 5px solid #AED581; padding: 15px 20px; margin-bottom: 15px; border-radius: 0 12px 12px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.01); }
+        .sub-item-title { font-size: 22px; font-weight: bold; color: #2C5E3B; margin-bottom: 5px; }
+        .sub-item-desc { font-size: 19px; color: #666; }
 
-        /* 卡片內文 */
-        .card-body { padding: 35px 25px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
-        .card-main-title { font-size: 28px; font-weight: bold; margin-bottom: 15px; }
-        .title-green { color: #2C5E3B; }
-        .title-blue { color: #2980B9; }
-        .title-orange { color: #D35400; }
+        /* 調查意願與跳頁按鈕 */
+        .action-link-btn { display: inline-block; background: #2C5E3B; color: white; padding: 10px 25px; border-radius: 20px; font-size: 18px; text-decoration: none; font-weight: bold; margin-top: 10px; box-shadow: 0 4px 10px rgba(44,94,59,0.2); }
+        .action-link-btn:hover { background: #1B5E20; }
 
-        .card-desc { font-size: 19px; color: #666; line-height: 1.8; margin-bottom: 30px; text-align: justify; }
+        /* 足跡清單 */
+        .footprint-list { list-style: none; margin-top: 15px; }
+        .footprint-list li { font-size: 20px; color: #455A64; padding: 8px 0; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        .footprint-list li::before { content: '🌟'; }
 
-        /* 清晰具體的指引按鈕 */
-        .card-action-btn { display: block; width: 100%; padding: 14px 0; border-radius: 30px; font-size: 20px; font-weight: bold; color: white; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .btn-green { background: #2C5E3B; }
-        .btn-blue { background: #2980B9; }
-        .btn-orange { background: #D35400; }
-
-        /* 💬 4. 底部行動呼籲 */
-        .footer-cta { background: #E8F5E9; border-radius: 24px; padding: 50px 30px; text-align: center; margin-bottom: 60px; border: 1px solid #C8E6C9; }
-        .cta-title { font-size: 26px; color: #1B5E20; font-weight: bold; margin-bottom: 15px; }
-        .cta-desc { font-size: 20px; color: #555; margin-bottom: 30px; }
-        .line-mega-btn { display: inline-block; background: #06C755; color: white; padding: 16px 55px; border-radius: 40px; font-size: 22px; font-weight: bold; text-decoration: none; box-shadow: 0 6px 20px rgba(6,199,85,0.3); transition: transform 0.2s; }
+        /* 歡迎邀約區 */
+        .invite-box { background: #FFF3E0; border: 1px solid #FFE0B2; border-radius: 16px; padding: 25px; margin-top: 25px; text-align: center; }
+        .invite-title { font-size: 22px; color: #E65100; font-weight: bold; margin-bottom: 10px; }
+        
+        /* 💬 10. 底部終極行動呼籲 */
+        .footer-cta-line { background: #E8F5E9; border-radius: 24px; padding: 50px 20px; text-align: center; margin: 40px 0 60px 0; border: 1px solid #C8E6C9; }
+        .line-mega-btn { display: inline-block; background: #06C755; color: white; padding: 16px 55px; border-radius: 40px; font-size: 24px; font-weight: bold; text-decoration: none; box-shadow: 0 6px 20px rgba(6,199,85,0.3); transition: transform 0.2s; }
         .line-mega-btn:hover { transform: scale(1.03); }
 
-        /* 響應式：手機版完美適配 */
-        @media (max-width: 900px) {
-            .main-grid { grid-template-columns: 1fr; gap: 25px; }
-            .hero-title { font-size: 32px; }
-            body { padding-top: 150px; }
-            .nav-container { flex-direction: column; gap: 12px; }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 28px; }
+            .card-header-toggle h3 { font-size: 20px; }
+            .sub-item-title { font-size: 19.5px; }
+            .sub-item-desc { font-size: 17.5px; }
+            body { padding-top: 130px; }
+            .nav-container { flex-direction: column; gap: 8px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🏛️ 1. 頂部導覽列（左上角優雅內嵌精美小商標） -->
+    <!-- 🏛 頂部導航列 -->
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="logo-box">
-                <img src="商標2.png" class="logo-img" alt="心路新路商標">
-                <span class="logo-text">心路心路幸福導航站</span>
+                <img src="商標2.png" class="logo-img" alt="心路心路幸福導航站">
+                <span class="logo-text">幸福導航站</span>
             </a>
             <a href="tel:04-XXX-XXXX" class="nav-phone">📞 幸福諮詢專線</a>
         </div>
     </nav>
 
     <div class="container">
-        
-        <!-- 🌟 2. 核心大門面：精美完整大商標 ＋ 官方全名閃耀 🌟 -->
-        <header class="hero-section">
-            <img src="商標2.png" class="hero-logo" alt="心路心路全齡關懷品牌標誌">
-            <h1 class="hero-title">心路心路全齡關懷健康幸福導航站</h1>
-            <p class="hero-subtitle">
-                不論您是為心愛的長輩尋求全面關懷，還是想為自己規劃精彩的第二人生，亦或是追求全家人的身心健康，我們都在這裡為您提供最溫慢、專業的導航與支持。
-            </p>
-        </header>
 
-        <!-- 🌟 3. 三合一唯一入口通道 🌟 -->
-        <main>
-            <h2 class="section-title">請選擇最符合您當前需求的幸福航道</h2>
-            
-            <div class="main-grid">
-                
-                <!-- 【導航一】：最新活動 -->
-                <a href="activities.html" class="feature-card">
-                    <div class="card-tag tag-green">💡 尋求最新活動與課程</div>
-                    <div class="card-body">
-                        <h3 class="card-main-title title-green">全齡活動 & 講座</h3>
-                        <p class="card-desc">
-                            我們定期舉辦健康講座、藝術手作、長者活力課程與全年齡的互動工作坊。點擊進入探索最新一期的活動課表，與我們一起充實生活的每一天。
-                        </p>
-                        <div class="card-action-btn btn-green">進入最新活動 ➔</div>
-                    </div>
-                </a>
-
-                <!-- 【導航二】：生命故事花園 -->
-                <a href="life-stories.html" class="feature-card">
-                    <div class="card-tag tag-blue">📖 長者生命故事珍藏</div>
-                    <div class="card-body">
-                        <h3 class="card-main-title title-blue">生命故事花園</h3>
-                        <p class="card-desc">
-                            每一個生命都是造物者珍貴的禮物。雪媚老師親自帶領，將長輩一生的奮鬥、慈愛與智慧，萃編成精美的數位翻頁書，代代相傳、永不褪色。
-                        </p>
-                        <div class="card-action-btn btn-blue">走進故事花園 ➔</div>
-                    </div>
-                </a>
-
-                <!-- 【導航三】：線上測評 -->
-                <a href="assessments.html" class="feature-card">
-                    <div class="card-tag tag-orange">📝 線上專業健康測評</div>
-                    <div class="card-body">
-                        <h3 class="card-main-title title-orange">身心全齡評測</h3>
-                        <p class="card-desc">
-                            透過科學、量化的專業問卷，快速了解長輩與自身的精神活力、認知狀態與健康風險，為您即時產出個人化的健康建議報告。
-                        </p>
-                        <div class="card-action-btn btn-orange">開始健康測評 ➔</div>
-                    </div>
-                </a>
-
+        <!-- 🌟 架構 1：心路心路全齡關懷健康幸福導航站 介紹 -->
+        <section id="intro-section" style="border-top:none;">
+            <div class="hero-banner">
+                <img src="商標2.png" class="hero-logo" alt="幸福導航站商標">
+                <h1 class="hero-title">心路心路全齡關懷健康幸福導航站</h1>
             </div>
-        </main>
+            <div style="margin-top: 30px;">
+                <p class="main-text-p">歡迎來到專屬於您與家人的幸福導航站。不論您正處於人生的哪一個階段，面對教養的挑戰、關係的迷茫，或是長輩的安老規劃，雪媚老師團隊都將以專業的「身、心、靈、群」全方位關懷，陪伴您撥雲見日，尋回內在的<span class="bold-highlight">安息、韌性與盼望</span>。</p>
+            </div>
+        </section>
 
-        <!-- 💬 4. 底部行動呼籲 -->
-        <section class="footer-cta">
-            <h3 class="cta-title">想了解更多導航站的精緻服務嗎？</h3>
-            <p class="cta-desc">歡迎加入我們的官方 LINE，雪媚老師與專業團隊將隨時為您提供一對一的溫暖諮詢。</p>
-            <a href="https://lin.ee/@431trrjk" target="_blank" class="line-mega-btn">
-                💬 點我加入官方 LINE 線上諮詢
-            </a>
+
+        <!-- 🌟 架構 2：服務項目（垂直排列、大字體、點擊順暢分流） -->
+        <section id="services-section">
+            <h2 class="section-title">服務項目</h2>
+            <p class="main-text-p" style="text-align:center; color:#666; margin-bottom:30px;">💡 點擊下方各個項目，即可直接在下方查看精細分流服務：</p>
+
+            <!-- 【分流 1】：全齡十大向度健康幸福導航評測 -->
+            <div class="service-card">
+                <div class="card-header-toggle" onclick="toggleCard(this)">
+                    <h3>📝 1. 全齡十大向度健康幸福導航測評</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-content-pane">
+                    <div class="pane-inner">
+                        <p class="main-text-p">透過科學化、量化的專業 WWAS 評測系統，全面透視並解碼您與長輩的精神活力、情緒狀態與內在核心。快速產出個人化的幸福導航報告，為家庭健康提供精準依據。</p>
+                        <a href="assessments.html" class="action-link-btn">前往線上測評系統 ➔</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 【分流 2】：兒童青少年課程及營隊 -->
+            <div class="service-card">
+                <div class="card-header-toggle" onclick="toggleCard(this)">
+                    <h3>🌱 2. 兒童青少年課程及營隊</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-content-pane">
+                    <div class="pane-inner">
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">🎯 一對一成長課程</div>
+                            <div class="sub-item-desc">針對孩子的獨特特質，量身打造專屬的情緒梳理與自我認同引導。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">⛺ 兒童青少年主題營隊</div>
+                            <div class="sub-item-desc">透過豐富的團隊互動與 AI 工具結合，在快樂體驗中培養跨領域素養與社交韌性。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">👥 心理與成長小團體課程</div>
+                            <div class="sub-item-desc">在溫暖安全的小團體氛圍中，陪伴孩子學習同理心、修復關係與人際溝通。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 【分流 3】：個人成長課程 -->
+            <div class="service-card">
+                <div class="card-header-toggle" onclick="toggleCard(this)">
+                    <h3>💎 3. 個人成長課程</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-content-pane">
+                    <div class="pane-inner">
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">👤 一對一成長課程</div>
+                            <div class="sub-item-desc">深入陪伴成人與家長進行深層的情緒調節、創傷知情與自我覺察。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">👨‍👩‍👧 親職效能提升</div>
+                            <div class="sub-item-desc">傳授實用的正向教養工具，協助父母建立和諧、有邊界感的親 comp 關係。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">🗣 衝突溝通與關係修復</div>
+                            <div class="sub-item-desc">解開家庭與職場中的溝通僵局，學習用愛與清晰的表達化解橫逆。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">🏫 親師溝通專題</div>
+                            <div class="sub-item-desc">協助家長與學校教師建立良性、互信的合作橋樑，共同托舉孩子成長。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">🌟 特殊兒童教養諮詢（ADHD / ASD）</div>
+                            <div class="sub-item-desc">提供專屬教養注意力不足過動症（ADHD）與亞斯伯格（ASD）孩子的專業諮詢與溫暖策略支持。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 【分流 4】：樂齡成長課程 -->
+            <div class="service-card">
+                <div class="card-header-toggle" onclick="toggleCard(this)">
+                    <h3>👵 4. 樂齡成長課程</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-content-pane">
+                    <div class="pane-inner">
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">📝 生命故事撰寫</div>
+                            <div class="sub-item-desc">引導長者梳理一生勞苦與恩典，轉化為溫暖深刻的記憶痕跡。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">🏋️‍♂️ 樂齡專屬肌力課程</div>
+                            <div class="sub-item-desc">專業安全的身體活動引導，維持長輩身體的豐沛活力與健康防護。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">🎨 興趣小組與生活美學</div>
+                            <div class="sub-item-desc">多元豐富的社交活動，陪伴長者建立快樂無憂的第二精彩人生。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 【分流 5】：生命故事花園 -->
+            <div class="service-card">
+                <div class="card-header-toggle" onclick="toggleCard(this)">
+                    <h3>🌻 5. 生命故事花園</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-content-pane">
+                    <div class="pane-inner">
+                        <p class="main-text-p">由雪媚老師親自整理撰寫，將長輩們一生的智慧結晶、見證與愛，包裝成沉浸式的大字體數位翻頁書。讓每一個獨特的生命禮物，都能在此盛大綻放，代代珍藏。</p>
+                        <a href="life-stories.html" class="action-link-btn">走進數位故事花園 ➔</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 【分流 6】：從聖經中尋見真我讀書會 -->
+            <div class="service-card">
+                <div class="card-header-toggle" onclick="toggleCard(this)">
+                    <h3>📖 6. 從聖經中尋見真我讀書會</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-content-pane">
+                    <div class="pane-inner">
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">📢 當期招生訊息</div>
+                            <div class="sub-item-desc">最新一期的精選讀本、聚會時間與報名名額公告。</div>
+                        </div>
+                        <div class="sub-item-box">
+                            <div class="sub-item-title">💬 學員溫暖心得分享</div>
+                            <div class="sub-item-desc">記錄了成員們在真理的光照中，彼此和好、生命蛻變的真實感動。</div>
+                        </div>
+                        <div class="sub-item-box" style="border:none; padding:0; background:none; box-shadow:none;">
+                            <div class="sub-item-title">📅 時段意願調查</div>
+                            <p class="sub-item-desc" style="margin-bottom:10px;">歡迎填寫您方便參與的時間，讓我們為您貼心規劃專屬班別：</p>
+                            <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn" style="background:#E67E22;">點我進入調查時段意願群組 ➔</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- 🌟 架構 7：雪媚老師服務足跡 ＆ 歡迎邀約 -->
+        <section id="footprint-section">
+            <h2 class="section-title">7. 雪媚老師服務足跡</h2>
+            <p class="main-text-p">多年來，雪媚老師深受各大校園、社區會所及宗教團體的信賴，足跡遍及多個專業學習群體與諮詢中心。我們致力於將最溫暖的身心關懷與真理智慧帶到每一個需要的地方。</p>
+            
+            <ul class="footprint-list">
+                <li>各大中小學親職教育專題合作講師</li>
+                <li>社區關懷據點、樂齡幸福會所特邀心靈導師</li>
+                <li>專業讀書會、企業關係溝通工作坊資深帶領者</li>
+            </ul>
+
+            <!-- 歡迎邀約 -->
+            <div class="invite-box">
+                <div class="invite-title">💌 專業講座 ‧ 溫暖歡迎邀約</div>
+                <p class="sub-item-desc" style="color:#E65100; font-weight:600; font-size:20px;">
+                    ✨ 親子教育講座  |  ✨ 婚姻幸福講座  |  ✨ 特殊兒童教養專題
+                </p>
+                <p class="sub-item-desc" style="margin-top:10px; font-size:18px; color:#666;">（歡迎各級學校、機關團體與教會洽談年度合作）</p>
+            </div>
+        </section>
+
+
+        <!-- 🌟 架構 10：加入官方Line（一頁式落地頁的終點黃金站） -->
+        <section id="line-section" style="border:none;">
+            <div class="footer-cta-line">
+                <h3 class="cta-title">8. 開啟您的專屬幸福導航</h3>
+                <p class="cta-desc" style="font-size:20px; color:#555; margin-bottom:25px;">不論您有任何教養、家庭、樂齡故事撰寫或測評諮詢的需求，<br>雪媚老師與專業團隊都隨時在官方 LINE 上為您提供一對一的隱密溫暖回應。</p>
+                <!-- 官方 LINE 按鈕 -->
+                <a href="https://lin.ee/@431trrjk" target="_blank" class="line-mega-btn">
+                    💬 點我加入官方 LINE 線上預約
+                </a>
+            </div>
         </section>
 
     </div>
+
+    <!-- 智慧分流拉開腳本 -->
+    <script>
+        function toggleCard(header) {
+            const card = header.parentElement;
+            
+            // 如果要維持一次只能拉開一個，可以把下面這兩行取消註解：
+            // document.querySelectorAll('.service-card').forEach(c => { if(c !== card) c.classList.remove('active'); });
+
+            card.classList.toggle('active');
+        }
+    </script>
 
 </body>
 </html>
