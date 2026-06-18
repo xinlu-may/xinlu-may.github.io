@@ -47,10 +47,10 @@
         .pane-inner { padding: 25px; }
         
         /* 展開後的樣式樣貌 */
-        .service-card.active .card-content-pane { max-height: 2000px; border-top: 1px solid #eef2f0; }
+        .service-card.active .card-content-pane { max-height: 2500px; border-top: 1px solid #eef2f0; }
         .service-card.active .toggle-icon { transform: rotate(180deg); color: #2C5E3B; }
 
-        /* 🌟 依指定修改：分流子項目升級為「可點擊超連結」排版 🌟 */
+        /* 分流子項目升級為「可點擊超連結」排版 */
         .sub-item-box { background: white; border-left: 5px solid #AED581; padding: 18px 20px; margin-bottom: 18px; border-radius: 0 12px 12px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.01); cursor: pointer; transition: all 0.2s; }
         .sub-item-box:hover { background: #f1f8f3; border-left-color: #2C5E3B; transform: translateX(3px); }
         .sub-item-title { font-size: 22px; font-weight: bold; color: #2C5E3B; margin-bottom: 6px; text-decoration: underline; text-underline-offset: 4px; }
@@ -69,7 +69,7 @@
         .btn-purple-theme { background: #673AB7; box-shadow: 0 4px 12px rgba(103,58,183,0.2); }
         .btn-purple-theme:hover { background: #512DA8; }
 
-        /* 🌟 依指定修改：全新精緻範例學員心得牆 🌟 */
+        /* 精緻範例學員心得牆 */
         .testimonial-wall-container { display: none; margin-top: 20px; background: #f4f7f4; border-radius: 16px; padding: 20px; border: 1px dashed #cbdccb; }
         .testimonial-card-demo { background: #ffffff; border-radius: 14px; padding: 25px; border: 1px solid #e6eee7; box-shadow: 0 4px 12px rgba(0,0,0,0.02); position: relative; max-width: 550px; margin: 0 auto; }
         .testi-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
@@ -81,12 +81,11 @@
         .testi-quote-mark { position: absolute; top: 20px; right: 25px; font-size: 45px; color: #e1ede4; font-family: Georgia, serif; line-height: 1; }
         .testi-content-text { font-size: 18.5px; color: #455A64; line-height: 1.8; text-align: justify; font-weight: 500; }
 
-        /* 🌟 生命故事花園內部專屬樣式（精準連結真實檔名、解決破圖） 🌟 */
+        /* 🌟 生命故事花園內部專屬樣式 🌟 */
         .garden-chapter-box { background: #ffffff; border-radius: 20px; border: 1px solid #eef2f0; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         .garden-chapter-banner { width: 100%; display: block; height: auto; }
         .garden-chapter-body { padding: 30px 25px; text-align: center; }
         
-        /* 故事封面三宮格精確對齊與防破圖 */
         .garden-books-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
         .book-cover-card { background: #ffffff; border-radius: 10px; border: 1px solid #eef2f0; overflow: hidden; aspect-ratio: 3 / 4; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.04); transition: transform 0.2s; padding: 4px; display: flex; align-items: center; justify-content: center; }
         .book-cover-card:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(44,94,59,0.12); border-color: #AED581; }
@@ -111,11 +110,34 @@
         .book-max-wrapper { max-width: 900px; margin: 0 auto; background: white; border-radius: 16px; padding: 40px; box-shadow: 0 15px 45px rgba(0,0,0,0.1); min-height: calc(100vh - 40px); display: flex; flex-direction: column; justify-content: space-between; }
         .book-big-text { font-size: 24px; line-height: 2.0; color: #333; margin: 25px 0; text-align: justify; white-space: pre-line; font-weight: 500; }
 
+        /* 🤖 營隊專屬互動控制區樣式 🤖 */
+        .camp-nav-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 25px 0; }
+        .camp-nav-btn { background: #eef4f0; color: #2C5E3B; border: 1px solid #cbdccb; padding: 12px 5px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s; }
+        .camp-nav-btn.active { background: #2C5E3B; color: white; border-color: #2C5E3B; }
+        .camp-tab-content { display: none; background: #ffffff; border-radius: 16px; padding: 25px; border: 1px solid #eef2f0; margin-bottom: 25px; text-align: left; }
+        .camp-tab-content.active { display: block; }
+        
+        /* 簡章精緻表格 */
+        .camp-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 19px; }
+        .camp-table td { padding: 12px 15px; border: 1px solid #e0e8e2; }
+        .camp-table td:first-child { background: #f4f7f4; font-weight: bold; color: #2C5E3B; width: 25%; }
+
+        /* 📝 智慧報名表單樣式 */
+        .camp-form-box { background: #fffdf9; border: 2px solid #F3E5AB; border-radius: 20px; padding: 30px 25px; margin-top: 35px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .form-group { margin-bottom: 22px; text-align: left; }
+        .form-group label { display: block; font-size: 20px; font-weight: bold; color: #2C5E3B; margin-bottom: 8px; }
+        .form-control { width: 100%; padding: 12px 15px; font-size: 19px; border: 1px solid #cbdccb; border-radius: 10px; font-family: inherit; background: white; }
+        .form-control:focus { outline: none; border-color: #2C5E3B; background: #fdfdfd; }
+        .checkbox-group { display: flex; flex-direction: column; gap: 10px; background: white; padding: 15px; border-radius: 10px; border: 1px solid #cbdccb; }
+        .checkbox-label { display: flex; align-items: center; gap: 12px; font-size: 19px; color: #444; cursor: pointer; font-weight: 500; }
+        .checkbox-label input { width: 20px; height: 20px; accent-color: #2C5E3B; }
+
         @media (max-width: 768px) {
             .hero-title { font-size: 28px; }
             .card-header-toggle h3 { font-size: 19px; }
             .sub-item-title { font-size: 19.5px; }
             .sub-item-desc { font-size: 17.5px; }
+            .camp-nav-bar { grid-template-columns: 1fr; gap: 8px; }
             body { padding-top: 130px; }
             .nav-container { flex-direction: column; gap: 8px; }
         }
@@ -123,6 +145,7 @@
 </head>
 <body>
 
+    <!-- 🏛️ 頂部導覽列 -->
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="logo-box">
@@ -135,6 +158,7 @@
 
     <div class="container">
 
+        <!-- 🌟 架構 1：心路心路全齡關懷健康幸福導航站 介紹 -->
         <section id="intro-section" style="border-top:none;">
             <div class="hero-banner">
                 <img src="商標2.png" class="hero-logo" alt="幸福導航站商標">
@@ -146,10 +170,12 @@
         </section>
 
 
+        <!-- 🌟 架構 2：服務項目（智慧風琴卡片，所有子項目點擊均可解鎖文章介紹） 🌟 -->
         <section id="services-section">
             <h2 class="section-title">服務項目</h2>
             <p class="main-text-p" style="text-align:center; color:#666; margin-bottom:30px;">💡 點擊下方項目展開，再點擊內部帶下劃線的服務名稱即可閱讀詳細文章介紹：</p>
 
+            <!-- 【大項 1】：全齡十大向度健康幸福導航測評 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
                     <h3>編號 1. 全齡十大向度健康幸福導航測評</h3>
@@ -164,6 +190,7 @@
                 </div>
             </div>
 
+            <!-- 【大項 2】：兒童青少年課程及營隊（已整合專屬智慧營隊系統） 🌟 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
                     <h3>🌱 編號 2. 兒童青少年課程及營隊</h3>
@@ -178,10 +205,118 @@
                             <div class="sub-item-title">🎯 一對一成長課程 ➔</div>
                             <div class="sub-item-desc">針對孩子的獨特特質，量身打造專屬的情緒梳理與自我認同引導文章。</div>
                         </div>
-                        <div class="sub-item-box" onclick="openArticle('child_camp')">
-                            <div class="sub-item-title">⛺ 營隊 ➔</div>
-                            <div class="sub-item-desc">結合 AI 工具與團隊互動，在快樂體驗中培養跨領域素養與社交韌性資料。</div>
+
+                        <!-- 🌟 依最新指示修改：營隊分流深度整合 3 大按鈕 ＋ 2026 暑假完整簡章 ＋ 智慧報名表 🌟 -->
+                        <div class="sub-item-box" style="border-left-color: #1B5E20; background: #fdfefd;" onclick="event.stopPropagation();">
+                            <div class="sub-item-title" style="color: #1B5E20; text-decoration: none;">⛺ 營隊（系統控制中心）</div>
+                            <p class="sub-item-desc" style="margin-bottom: 12px;">請點擊下方分頁按鈕切換檢視專屬內容：</p>
+                            
+                            <!-- 3大核心按鈕 -->
+                            <div class="camp-nav-bar">
+                                <button class="camp-nav-btn active" id="btnTab1" onclick="switchCampTab(1)">1. 最新營隊</button>
+                                <button class="camp-nav-btn" id="btnTab2" onclick="switchCampTab(2)">2. 以往營隊介紹</button>
+                                <button class="camp-nav-btn" id="btnTab3" onclick="switchCampTab(3)">3. 家長及學員回饋</button>
+                            </div>
+
+                            <!-- 【頁籤 1】：最新營隊完整簡章說明面版 -->
+                            <div class="camp-tab-content active" id="contentTab1">
+                                <h4 style="font-size:23px; color:#1B5E20; font-weight:bold; margin-bottom:15px; text-align:center;">🌻 2026 暑假 AI × SEL 全人成長營 簡章</h4>
+                                <p style="font-size:19.5px; font-weight:bold; color:#E67E22; margin-bottom:10px;">✉ 給家長的一封信：</p>
+                                <p class="main-text-p" style="font-size:18.5px; margin-bottom:15px;">我們不是要孩子「沒收手機」，而是要陪孩子發現：手機以外，世界這麼大。 每天都看見孩子被手機綁架的疲憊感，也看見父母想幫孩子卻怕禁止帶來反抗。戒除依賴不能只靠剝奪，要讓孩子真實體驗到——不滑手機時生活可以更精彩、有成就感與連結。這個營隊陪孩子做三件事：重新訓練大腦的專注與自律、發展手機之外屬於自己的能力、學會認識情緒與經營關係。同時帶孩子認識AI——讓AI成為學習路上的教練，而不是取代思考的工具。</p>
+                                
+                                <p style="font-size:19.5px; font-weight:bold; color:#E67E22; margin-bottom:10px;">🤝 我們想找的，是準備好的孩子：</p>
+                                <p class="main-text-p" style="font-size:18.5px; margin-bottom:15px;">這個營隊不是「把孩子送來戒手機」的地方，而是雙方目標一致的學習旅程。我們想找自己也覺得滑手機沒意思，想變厲害並學AI做出App、願意配合營隊期間不自由使用手機規定的孩子。這份「願意」代表孩子是主動選擇訓練大腦。雪媚老師保證營隊有充分時間一起討論想增加的活動。正因如此，每位學員必須完成全人健康測評及面談（NT$2,000）確認真心願意才收，以確保孩子是目標一致的學習夥伴。</p>
+
+                                <p style="font-size:19.5px; font-weight:bold; color:#1B5E20; margin-bottom:10px;">🌳 營隊四大核心特色：</p>
+                                <div class="sub-item-box" style="padding:12px; margin-bottom:10px;"><p style="font-size:18px;"><strong>一週一天走進大自然：</strong> 由專業自然體驗老師帶領自然行旅，重新找回身體感官與生命的節奏。</p></div>
+                                <div class="sub-item-box" style="padding:12px; margin-bottom:10px;"><p style="font-size:18px;"><strong>用AI開發一個App上架販售：</strong> 帶領孩子一步步設計開發屬於自己的App，親自體驗獲得付費的成就感。</p></div>
+                                <div class="sub-item-box" style="padding:12px; margin-bottom:10px;"><p style="font-size:18px;"><strong>沒有自由滑手機時間：</strong> 充實安排運動、暑假作業、AI學習與同儕討論時間。</p></div>
+                                <div class="sub-item-box" style="padding:12px; margin-bottom:15px;"><p style="font-size:18px;"><strong>學情緒與健康界線：</strong> 透過5-6人小團體高密度互動，練習辨識情緒與設立人際健康界線。</p></div>
+
+                                <p style="font-size:19.5px; font-weight:bold; color:#1B5E20; margin-bottom:10px;">📌 營隊報名資訊表：</p>
+                                <table class="camp-table">
+                                    <tr><td>招收對象</td><td>國小高年級 ～ 國中</td></tr>
+                                    <tr><td>名額限制</td><td>每期限額 5-6 人（精緻小班制）</td></tr>
+                                    <tr><td>營隊時間</td><td>7月中旬起，每期5天為一個單位（可續報多期）</td></tr>
+                                    <tr><td>營隊地點</td><td>新北市新店區</td></tr>
+                                    <tr><td>每期費用</td><td>每期（5天）原價 NT$ 10,000</td></tr>
+                                    <tr><td>續報優惠</td><td>第二期享 9折 (NT$9,000) ‧ 第三期享 8折 (NT$8,000)</td></tr>
+                                </table>
+
+                                <!-- 🌟 報名意願表單觸發大按鈕 🌟 -->
+                                <button class="action-link-btn btn-orange-theme" style="width:100%; font-size:21px; padding:15px 0;" onclick="scrollToCampForm()">✍ 我要報名 2026 年暑期營隊</button>
+                            </div>
+
+                            <!-- 【頁籤 2】：以往營隊介紹 -->
+                            <div class="camp-tab-content" id="contentTab2">
+                                <p class="main-text-p" style="font-size:18.5px;">歷史營隊回顧資料庫準備中。雪媚老師團隊歷年舉辦過多場全人關懷、情緒定錨與人際溝通的主題成長營，皆獲得極高肯定。文章與回顧相簿正緊鑼密鼓建檔中。</p>
+                            </div>
+
+                            <!-- 【頁籤 3】：家長及學員回饋 -->
+                            <div class="camp-tab-content" id="contentTab3">
+                                <p class="main-text-p" style="font-size:18.5px;">感動反饋錄準備中。許多歷屆參與營隊的孩子在結營後，都成功建立了良好的3C健康邊界感，重拾實體生活的快樂與自律，家長反饋文字隨時可對接更新至此區塊。</p>
+                            </div>
+
+                            <!-- 🌟 智慧動態報名表單區塊（完全滿足a、b兩大要求） 🌟 -->
+                            <div class="camp-form-box" id="campFormArea">
+                                <h4 style="font-size:24px; color:#1B5E20; font-weight:bold; text-align:center; margin-bottom:20px;">📝 2026 暑假全人成長營 線上報名表單</h4>
+                                
+                                <div class="form-group">
+                                    <label>孩子姓名：</label>
+                                    <input type="text" id="f_childName" class="form-control" placeholder="請輸入學員完整姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label>孩子年齡 / 就讀年級：</label>
+                                    <input type="text" id="f_childGrade" class="form-control" placeholder="例如：12歲 / 升國一">
+                                </div>
+                                <div class="form-group">
+                                    <label>家長姓名：</label>
+                                    <input type="text" id="f_parentName" class="form-control" placeholder="請輸入聯繫人姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label>聯絡電話：</label>
+                                    <input type="tel" id="f_phone" class="form-control" placeholder="請輸入家長聯絡手機">
+                                </div>
+                                
+                                <!-- 要求 (b)：7月13日至8月底的多選週別勾選欄位 -->
+                                <div class="form-group">
+                                    <label>可參加週次（可多選）：</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第一週（7/13–7/17）"> 🗓 第一週（7/13–7/17）</label>
+                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第二週（7/20–7/24）"> 🗓 第二週（7/20–7/24）</label>
+                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第三週（7/27–7/31）"> 🗓 第三週（7/27–7/31）</label>
+                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第四週（8/03–8/07）"> 🗓 第四週（8/03–8/07）</label>
+                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第五週（8/10–8/14）"> 🗓 第五週（8/10–8/14）</label>
+                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第六週（8/17–8/21）"> 🗓 第六週（8/17–8/21）</label>
+                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第七週（8/24–8/28）"> 🗓 第七週（8/24–8/28）</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>孩子目前對手機/3C的使用狀況簡述：</label>
+                                    <textarea id="f_status" class="form-control" rows="3" placeholder="請簡單描述孩子平常使用3C的時間與習慣"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>您認為孩子是否願意配合營隊規定（不自由使用手機）：</label>
+                                    <input type="text" id="f_will" class="form-control" placeholder="例如：願意配合、需要溝通等">
+                                </div>
+                                <div class="form-group">
+                                    <label>其他想讓老師知道的事：</label>
+                                    <textarea id="f_other" class="form-control" rows="2" placeholder="如有過敏、特殊健康狀況或期待請填寫"></textarea>
+                                </div>
+
+                                <!-- 要求 (a)：匯款證明上傳欄位 -->
+                                <div class="form-group">
+                                    <label>📎 上傳面談費/學費匯款證明證明：</label>
+                                    <input type="file" id="f_receipt" class="form-control" accept="image/*" style="padding:8px;">
+                                    <p style="font-size:15px; color:#777; margin-top:5px;">※ 提示：報名前請先完成 WWAS 測評面談費 NT$2,000 之匯款證明並拍照在此上傳。</p>
+                                </div>
+
+                                <button class="action-link-btn btn-line-theme" style="width:100%; padding:14px 0; font-size:20px;" onclick="submitCampForm()">💾 確認送出並一鍵複製至 LINE 面談</button>
+                            </div>
+
                         </div>
+
                         <div class="sub-item-box" onclick="openArticle('child_group')">
                             <div class="sub-item-title">👥 小團體課程 ➔</div>
                             <div class="sub-item-desc">在安全氛圍中陪伴孩子學習同理心、關係修復與人際溝通專業說明。</div>
@@ -190,6 +325,7 @@
                 </div>
             </div>
 
+            <!-- 【大項 3】：個人成長課程 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
                     <h3>💎 編號 3. 個人成長課程</h3>
@@ -224,6 +360,7 @@
                 </div>
             </div>
 
+            <!-- 【大項 4】：樂齡成長課程 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
                     <h3>👵 編號 4. 樂齡成長課程</h3>
@@ -253,6 +390,7 @@
         </section>
 
 
+        <!-- 🌟 架構 5：生命故事花園 🌟 -->
         <section id="garden-section">
             <h2 class="section-title">5. 生命故事花園</h2>
             
@@ -281,6 +419,7 @@
         </section>
 
 
+        <!-- 🌟 架構 6：從聖經中尋見真我讀書會 🌟 -->
         <section id="bible-section">
             <h2 class="section-title">6. 從聖經中尋見真我<br>讀書會</h2>
             
@@ -301,7 +440,7 @@
                         <div class="sub-item-box" style="border-left-color:#673AB7; background:#fbf9ff;">
                             <div class="sub-item-title" style="color:#673AB7;">💬 學員心得</div>
                             <div class="sub-item-desc" style="margin-bottom:10px;">點擊下方按鈕即可直接展開查看學員的生命蛻變反饋錄：</div>
-                            <button class="action-btn btn-purple-theme" style="padding:8px 22px; font-size:17px; border-radius:20px; font-weight:bold; border:none; color:white; cursor:pointer;" onclick="toggleTestimonialWall()">📖 閱讀學員溫暖心得分享 ▲▼</button>
+                            <button class="action-btn btn-purple-theme" style="padding:8px 22px; font-size:17px; border-radius:20px; font-weight:bold; border:none; color:white; cursor:pointer;" onclick="toggleTestimonialWall()">📖 閱讀學員溫慢心得分享 ▲▼</button>
                             
                             <div class="testimonial-wall-container" id="testimonialWall">
                                 <div class="testimonial-card-demo">
@@ -310,7 +449,7 @@
                                         <div class="testi-meta-info">
                                             <div class="testi-name">陳 x 璇</div>
                                             <div class="testi-title-sub">讀書會成員 ‧ 科技產業經理</div>
-                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐長</div>
                                         </div>
                                     </div>
                                     <div class="testi-quote-mark">“</div>
@@ -323,7 +462,7 @@
 
                         <div class="sub-item-box" style="border:none; padding:0; background:none; box-shadow:none; margin-top:25px; margin-bottom:0;">
                             <div class="sub-item-title" style="text-decoration:none;">📅 時段意願調查</div>
-                            <p class="sub-item-desc" style="margin-bottom:12px;">歡迎填寫您方便參與的時間，讓我們為您貼心規劃專屬班別：</p>
+                            <p class="sub-item-desc" style="margin-bottom:12px;">歡迎填寫您方便參與的時間，讓我們為您貼心規劃班別：</p>
                             <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-orange-theme">點我進入調查時段意願群組 ➔</a>
                         </div>
                     </div>
@@ -332,6 +471,7 @@
         </section>
 
 
+        <!-- 🌟 架構 7：雪媚老師服務足跡 🌟 -->
         <section id="footprint-section">
             <h2 class="section-title">7. 雪媚老師服務足跡</h2>
             <p class="main-text-p">多年來，雪媚老師深受各大校園、社區會所及宗教團體信賴，足跡遍及多個專業學習群體與諮詢中心。我們致力於將身心關懷與真理智慧帶到每一個需要的地方。</p>
@@ -352,6 +492,7 @@
         </section>
 
 
+        <!-- 🌟 架構 8：加入官方Line 🌟 -->
         <section id="line-section" style="border:none;">
             <div class="footer-cta-line">
                 <h3 class="cta-title">8. 開啟您的專屬幸福導航</h3>
@@ -364,6 +505,7 @@
 
     </div>
 
+    <!-- 全螢幕大字體通用視窗 -->
     <div class="fullscreen-book-view" id="fullscreenBookView">
         <div class="book-max-wrapper">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
@@ -389,32 +531,65 @@
 
         function toggleTestimonialWall() {
             const wall = document.getElementById('testimonialWall');
-            if(wall.style.display === 'block') {
-                wall.style.display = 'none';
-            } else {
-                wall.style.display = 'block';
-            }
+            wall.style.display = (wall.style.display === 'block') ? 'none' : 'block';
         }
 
-        // 數位故事花園與各分流文章資料庫 (老師隨時可將完整文字或翻翻書嵌入以下對應標籤中)
+        // 營隊頁籤切換邏輯
+        function switchCampTab(tabNum) {
+            document.querySelectorAll('.camp-nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.camp-tab-content').forEach(content => content.classList.remove('active'));
+            
+            document.getElementById('btnTab' + tabNum).classList.add('active');
+            document.getElementById('contentTab' + tabNum).classList.add('active');
+        }
+
+        function scrollToCampForm() {
+            document.getElementById('campFormArea').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 智慧報名表單串聯送出邏輯
+        function submitCampForm() {
+            const cName = document.getElementById('f_childName').value;
+            const cGrade = document.getElementById('f_childGrade').value;
+            const pName = document.getElementById('f_parentName').value;
+            const phone = document.getElementById('f_phone').value;
+            const status = document.getElementById('f_status').value;
+            const will = document.getElementById('f_will').value;
+            const other = document.getElementById('f_other').value;
+            
+            let checkedWeeks = [];
+            document.querySelectorAll('input[name="camp_weeks"]:checked').forEach(cb => checkedWeeks.push(cb.value));
+
+            if(!cName || !pName || !phone || checkedWeeks.length === 0) {
+                alert("❌ 請填寫學員、家長姓名、聯絡電話並至少勾選一個參加週次喔！");
+                return;
+            }
+
+            const lineMessage = `🌻【2026暑假成長營報名登記資料】🌻\n- 孩子姓名：${cName}\n- 年齡年級：${cGrade}\n- 家長姓名：${pName}\n- 聯絡電話：${phone}\n- 報名週次：${checkedWeeks.join('、')}\n- 3C狀況簡述：${status}\n- 孩子配合意願：${will}\n- 備註事項：${other}\n\n※ 匯款證明圖片已就緒，請在開啟 LINE 後直接附加傳送給雪媚老師面談！`;
+            
+            navigator.clipboard.writeText(lineMessage).then(() => {
+                alert("🎉 報名資料已成功在本機整隊！\n我們已自動幫您複製了這份完整的報名文案，點擊確認後將自動跳轉至官方 LINE，請直接「貼上訊息」並附加傳送您的「匯款證明圖片」即可完成面談預約喔！");
+                window.open("https://lin.ee/@431trrjk", "_blank");
+            });
+        }
+
         const articlesBank = {
             dad: "【邱鐘明弟兄生命見證書：《我要幫上帝蓋教會》】\n\n見證主愛的邱鐘明弟兄 ‧ ◎ 邱雪媚 整理撰寫\n\n離開賺錢至上的空虛、失望，進入全然奉獻的喜樂、平安！\n\n（💡 老師，這裡已完美預留。等未來數位翻翻書的連結或完整傳記內文好了，可以直接填入這段代碼中，長輩點封面就能直接看書囉！）",
             mom: "【邱蔡淑金女士傳記小說：《阿金》】\n\n溫柔包容的母愛暖流 ‧ ◎ 邱雪媚 整理撰寫\n\n是金子，在哪裡都能閃閃發亮！\n\n（💡 老師，這裡已完美預留。等未來數位翻翻書的連結或完整傳記內文好了，可以直接填入這段代碼中，長輩點封面就能直接看書囉！）",
             aunt: "【蔡秀鳳小阿姨生命樂章：《瀟灑走一回》】\n\n樂觀豁達、自立自強的人生 ‧ ◎ 邱雪媚 整理撰寫\n\n在麻醉中舒服睡著，在開刀前回天家，安詳如睡。\n\n（💡 老師，這裡已完美預留。等未來數位翻翻書的連結或完整傳記內文好了，可以直接填入這段代碼中，長輩點封面就能直接看書囉！）",
             
-            child_one: "【兒童青少年課程 ── 一對一成長課程】\n\n針對孩子的獨特特質，量身打造專屬的情緒梳理、內在自我認同與心理韌性引導。\n\n（歡迎點擊下方按鈕，傳送訊息與雪媚老師安排一對一個案預約諮詢。）",
-            child_camp: "【兒童青少年課程 ── 主題發展營隊】\n\n結合前沿 AI 工具應用與團隊合作素養，在快樂的沉浸式體驗中培養孩子的跨領域解決問題能力與人際社交韌性。",
-            child_group: "【兒童青少年課程 ── 小團體課程】\n\n在安全、有邊界感的小團體氛圍中，透過主題互動陪伴孩子學習同理心、人際關係修復與高情商衝突溝通策略。",
+            child_one: "【兒童青少年課程 ── 一對一成長課程】\n\n針對孩子的獨特特質，量身打造專屬的情緒梳理、內在自我認同與引導專文資料。",
+            child_group: "【兒童青少年課程 ── 小團體課程】\n\n在安全、有邊界感的小團體氛圍中，透過主題互動陪伴孩子學習同理心、關係修復與高情商衝突溝通策略與說明。",
             
-            adult_one: "【個人成長課程 ── 一對一成長課程】\n\n深入陪伴成人與家長進行深層的情緒調節、創傷知情、自我覺察與內在關係整合的私密諮詢。",
-            adult_parent: "【個人成長課程 ── 親職效能提升】\n\n傳授系統化、正向的溝通與管教工具，協助父母解開教養焦慮，建立和諧、健康且有清晰邊界感的親密家庭關係。",
-            adult_conflict: "【個人成長課程 ── 衝突溝通】\n\n透視家庭、婚姻與職場關係中的溝通僵局，學習如何用愛、理性與真理智慧化解橫逆與言語衝突。",
-            adult_teacher: "【個人成長課程 ── 親師溝通】\n\n協助家長與學校教育現場的導師建立良性、互信的親師雙向合作橋樑，共同攜手托舉孩子的健康成長環境。",
-            adult_adhd: "【個人成長課程 ── 教養注意力不足過動、亞斯伯格孩子諮詢】\n\n針對注意力不足過動症（ADHD）與亞斯伯格症（ASD）的孩子，為家長提供專屬的行為引導策略、情緒調節技術與長效的溫暖支持方案。",
+            adult_one: "【個人成長課程 ── 一對一成長課程】\n\n深入陪伴成人與家長進行深層的情緒調節、創傷知情、自我覺察與內在關係整合的私密諮詢專文。",
+            adult_parent: "【個人成長課程 ── 親職效能提升】\n\n傳授系統化、正向的溝通與管教工具，協助父母解開教養焦慮，建立和諧、健康且有清晰邊界感的親密家庭關係說明。",
+            adult_conflict: "【個人成長課程 ── 衝突溝通】\n\n透視家庭、婚姻與職場關係中的溝通僵局，學習如何用愛、理性與真理智慧化解橫逆與言語衝突文章。",
+            adult_teacher: "【個人成長課程 ── 親師溝通】\n\n協助家長與學校教育現場的導師建立良性、互信的親師雙向合作橋樑，共同攜手托舉孩子的健康成長環境資料。",
+            adult_adhd: "【個人成長課程 ── 教養注意力不足過動、亞斯伯格孩子諮詢】\n\n針對注意力不足過動症（ADHD）與亞斯伯格症（ASD）的孩子，為家長提供專屬的行為引導策略、情緒調節技術與長效的專門支持方案文章。",
             
-            elder_story: "【樂齡成長課程 ── 生命故事撰寫】\n\n引導長者有尊嚴地梳理一生勞苦、奮鬥與恩典痕跡，將其淬編成深刻的記憶墨痕，並提供數位全螢幕翻頁書文獻建檔留存。",
-            elder_power: "【樂齡成長課程 ── 肌力課程】\n\n專為長輩量身設計的專業、安全身體活動引導，有效預防肌少症，維持身體的豐沛活力與日常功能防護防禦力。",
-            elder_hobby: "【樂齡成長課程 ── 興趣小組與生活美學】\n\n多元豐富的社交活動、生活美學小組與讀書分享，陪伴長者擴展社交圈，快樂無憂地建立第二精彩人生。",
+            elder_story: "【樂齡成長課程 ── 生命故事撰寫】\n\n引導長者有尊嚴地梳理一生勞苦、奮鬥與恩典痕跡，將其淬編成深刻的記憶墨痕，並提供數位全螢幕翻頁書文獻建檔留存圖文說明。",
+            elder_power: "【樂齡成長課程 ── 肌力課程】\n\n專為長輩量身設計的專業、安全身體活動引導，有效預防肌少症，維持身體的豐沛活力與日常功能防護防禦力資料。",
+            elder_hobby: "【樂齡成長課程 ── 興趣小組與生活美學】\n\n多元豐富的社交活動、生活美學小組與讀書分享，陪伴長者擴展社交圈，快樂無憂地建立第二精彩人生詳細介紹。",
             
             bible_info: "【從聖經中尋見真我讀書會 ── 最新當期招生訊息】\n\n最新一期的精選研讀文本、每週聚會時段、實體/線上報名方式與名額剩餘狀況公告。歡迎隨時點擊下方按鈕加入官方 LINE 獲取專屬簡章。"
         };
@@ -422,7 +597,7 @@
         function openArticle(key) {
             const data = articlesBank[key];
             if (data) {
-                document.getElementById('bookNavTitle').innerText = `📖 幸福導航站 ‧ 專業圖文資料庫`;
+                document.getElementById('bookNavTitle').innerText = `辨 幸福導航站 ‧ 專業圖文資料庫`;
                 document.getElementById('bookMainContent').innerText = data;
                 document.getElementById('fullscreenBookView').style.display = 'block';
                 window.scrollTo(0, 0);
