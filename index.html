@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心路心路全齡關懷健康幸福導航站</title>
+    <title>心路新路全齡關懷健康幸福導航站</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* 基礎行動優先設定：字體特大、行高舒適，完全消除疲勞與壓迫感 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,8 +31,16 @@
 
         /* 🌟 1. 導航站介紹橫幅 */
         .hero-banner { text-align: center; background: linear-gradient(180deg, #ffffff 0%, #f1f6f2 100%); padding: 40px 20px; border-radius: 24px; margin-top: 20px; }
+
+        /* 📣 最新消息公告 */
+        .news-banner { background: linear-gradient(120deg, #FFF3E0 0%, #FFE0B2 100%); border-radius: 20px; padding: 18px 22px; margin-top: 14px; border: 1px solid #FFCC80; box-shadow: 0 4px 14px rgba(230,126,34,0.1); }
+        .news-badge { display: inline-block; background: #E67E22; color: white; font-size: 13px; font-weight: bold; padding: 3px 12px; border-radius: 12px; margin-bottom: 8px; }
+        .news-text { font-size: 17px; color: #6D4C20; font-weight: 500; line-height: 1.7; margin-bottom: 14px; }
+        .news-cta-btn { display: inline-block; background: #E67E22; color: white; padding: 11px 28px; border-radius: 30px; font-size: 16px; font-weight: bold; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(230,126,34,0.25); }
+        .news-cta-btn:hover { background: #D35400; }
         .hero-logo { width: 160px; height: auto; margin-bottom: 20px; }
         .hero-title { font-size: 36px; color: #1B5E20; font-weight: 800; line-height: 1.4; margin-bottom: 15px; }
+        .hero-warm-photo { width: 100%; max-width: 420px; height: 220px; object-fit: cover; border-radius: 20px; margin: 22px auto 6px auto; display: block; box-shadow: 0 10px 28px rgba(230,126,34,0.18); border: 4px solid #ffffff; }
 
         /* 🌟 服務項目大卡片與智慧分流面版 */
         .service-card { background: white; border-radius: 20px; border: 1px solid #eef2f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px; overflow: hidden; transition: all 0.3s; }
@@ -141,6 +150,16 @@
         .sub-camp-btn { background: #FFF3E0; color: #D35400; border: 1px solid #FFE0B2; padding: 14px 10px; border-radius: 12px; font-size: 19px; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s; }
         .sub-camp-btn:hover { background: #E67E22; color: white; }
 
+        /* 📅 預約諮詢彈窗 */
+        .booking-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(27,41,30,0.55); z-index: 3000; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+        .booking-modal-overlay.open { display: flex; }
+        .booking-modal-box { background: #fffdf9; border-radius: 22px; max-width: 480px; width: 100%; padding: 30px 26px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); margin: auto; position: relative; }
+        .booking-modal-close { position: absolute; top: 16px; right: 18px; font-size: 22px; color: #999; cursor: pointer; background: none; border: none; }
+        .booking-modal-title { font-size: 24px; font-weight: 800; color: #1B5E20; text-align: center; margin-bottom: 6px; }
+        .booking-modal-sub { font-size: 16px; color: #777; text-align: center; margin-bottom: 22px; }
+        .booking-success-box { display: none; text-align: center; padding: 20px 0; }
+        .booking-success-box .icon { font-size: 50px; margin-bottom: 12px; }
+
         @media (max-width: 768px) {
             .hero-title { font-size: 28px; }
             .card-header-toggle h3 { font-size: 19px; }
@@ -159,7 +178,7 @@
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="logo-box">
-                <img src="商標2.png" class="logo-img" alt="心路心路幸福導航站">
+                <img src="商標2.png" class="logo-img" alt="心路新路幸福導航站">
                 <span class="logo-text">幸福導航站</span>
             </a>
             <a href="tel:04-XXX-XXXX" class="nav-phone">📞 幸福諮詢專線</a>
@@ -168,14 +187,21 @@
 
     <div class="container">
 
-        <!-- 🌟 架構 1：心路心路全齡關懷健康幸福導航站 介紹 -->
+        <!-- 📣 最新消息 -->
+        <div class="news-banner">
+            <span class="news-badge">📣 最新消息</span>
+            <p class="news-text">✈️ 雪媚老師將於 <strong>7月5日至12日</strong> 拜訪日本東京！歡迎在東京的學員預約「全齡關懷十大向度健康幸福測評」，以及一對一諮詢、家庭諮詢、講座邀請。</p>
+            <button class="news-cta-btn" onclick="openBookingModal('2026年7/5-7/12東京拜訪期間預約・諮詢・講座邀請')">我要預約及諮詢</button>
+        </div>
+
+        <!-- 🌟 架構 1：心路新路全齡關懷健康幸福導航站 介紹 -->
         <section id="intro-section" style="border-top:none;">
             <div class="hero-banner">
-                <img src="商標2.png" class="hero-logo" alt="幸福導航站商標">
-                <h1 class="hero-title">心路心路全齡關懷健康幸福導航站</h1>
+                <img src="網站橫幅.png" class="hero-warm-photo" style="max-width:100%; height:auto; border:none; box-shadow:0 10px 28px rgba(230,126,34,0.15);" alt="心路新路 陪伴您和家人走向全人幸福健康">
+                <h1 class="hero-title">心路新路全齡關懷健康幸福導航站</h1>
             </div>
             <div style="margin-top: 30px;">
-                <p class="main-text-p">歡迎來到專屬於您與家人的幸福導航站。不論您正處於人生的哪一個階段，面對教養的挑戰、關係的迷茫，或是長輩的安老規劃，雪媚老師團隊都將以專業的「身、心、靈、群」全方位關懷，陪伴您撥雲見日，尋回內在的<span class="bold-highlight">安息、韌性與盼望</span>。</p>
+                <p class="main-text-p">歡迎來到專屬於您與家人的幸福導航站。不論您正處於人生的哪一個階段，面對教養的挑戰、關係的迷茫，或是長輩的心理關懷以及興趣小組媒合，雪媚老師團隊都將以專業的「身、心、靈、群」全方位關懷，陪伴您撥雲見日，尋回內在的<span class="bold-highlight">安息、韌性與盼望</span>。</p>
             </div>
         </section>
 
@@ -183,19 +209,80 @@
         <!-- 🌟 架構 2：服務項目 🌟 -->
         <section id="services-section">
             <h2 class="section-title">服務項目</h2>
-            <p class="main-text-p" style="text-align:center; color:#666; margin-bottom:30px;">💡 點擊下方項目展開，再點擊內部帶下劃線的服務名稱即可閱讀詳細文章介紹：</p>
+
 
             <!-- 【大項 1】：全齡十大向度健康幸福導航測評 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
-                    <h3>編號 1. 全齡十大向度健康幸福導航測評</h3>
+                    <h3>🧭 全齡關懷十大向度：健康幸福導航測評</h3>
                     <span class="toggle-icon">▼</span>
                 </div>
                 <div class="card-content-pane">
                     <div class="pane-inner">
-                        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600" class="illustration-thumb" alt="身心全齡評測插圖">
-                        <p class="main-text-p">運用科學化、量化的專業 WWAS 評測系統，全面透視並解碼您與長輩的精神活力、情緒狀態與內在核心。快速產出個人化的幸福導航報告，為家庭健康提供精準依據。</p>
-                        <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme">💬 加官方 LINE 諮詢或預約幸福測評</a>
+                        <p class="main-text-p" style="margin-bottom:16px;">生命中的難題與挑戰，很少是單一原因造成的。然而，我們往往期待用「單一的努力」去解決複雜的問題——孩子在學校被老師反映狀況，醫生建議做職能治療，於是父母從此在工作與往返治療之間疲於奔命。投入了大量時間與心力，日子久了，問題似乎仍停在原地，家庭卻已經先被拖垮。</p>
+
+                        <img src="三代同堂全家福.png" class="illustration-thumb" style="height:220px;" alt="三代同堂開心的家庭">
+
+                        <p class="main-text-p" style="margin-bottom:16px;">這正是邱雪媚老師投入研發「全齡關懷十大向度：健康幸福導航測評」的起點。邱老師從研讀幼兒教育八年出發，累積二十餘年深耕兒童與家庭教育的第一線實務經驗，並完成教牧諮商碩士與神學碩士的訓練，目前正於臺灣衛理神學研究院攻讀教牧博士班——這套測評，正是她將多年觀察與扎實的學術訓練，整合而成的成果。</p>
+
+                        <p class="main-text-p" style="margin-bottom:16px;"><span class="bold-highlight">這套測評的核心理念在於「系統」。</span>一個人要感到幸福，需要多個面向同時被照顧到，並彼此達到巧妙的平衡，就像一輛車，在追求單一性能的提升之前，必須先確保車子本身是能夠跑的。常見的誤區是：孩子出現社會適應或學習困難時，父母往往把全部心力投注在拉高成績；夫妻關係感不足時，其中一方卻誤以為只要賺更多錢就能解決問題——缺乏整體系統優化的眼光，容易讓我們在錯誤的地方努力，卻始終解決不了真正的問題。</p>
+
+                        <div style="background:#fafdfa; border-radius:16px; padding:20px 10px; margin:10px 0 20px 0; border:1px solid #eef2f0;">
+                            <p style="text-align:center; font-size:17px; font-weight:bold; color:#2C5E3B; margin-bottom:14px;">十大向度，全面看見幸福的著力點</p>
+                            <svg viewBox="-30 -10 560 520" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:420px; display:block; margin:0 auto;">
+                              <polygon points="250.0,221.0 267.0,226.5 277.6,241.0 277.6,259.0 267.0,273.5 250.0,279.0 233.0,273.5 222.4,259.0 222.4,241.0 233.0,226.5" fill="none" stroke="#cfe0d4" stroke-width="1"/>
+                              <polygon points="250.0,192.0 284.1,203.1 305.2,232.1 305.2,267.9 284.1,296.9 250.0,308.0 215.9,296.9 194.8,267.9 194.8,232.1 215.9,203.1" fill="none" stroke="#cfe0d4" stroke-width="1"/>
+                              <polygon points="250.0,163.0 301.1,179.6 332.7,223.1 332.7,276.9 301.1,320.4 250.0,337.0 198.9,320.4 167.3,276.9 167.3,223.1 198.9,179.6" fill="none" stroke="#cfe0d4" stroke-width="1"/>
+                              <polygon points="250.0,134.0 318.2,156.2 360.3,214.2 360.3,285.8 318.2,343.8 250.0,366.0 181.8,343.8 139.7,285.8 139.7,214.2 181.8,156.2" fill="none" stroke="#cfe0d4" stroke-width="1"/>
+                              <polygon points="250.0,105.0 335.2,132.7 387.9,205.2 387.9,294.8 335.2,367.3 250.0,395.0 164.8,367.3 112.1,294.8 112.1,205.2 164.8,132.7" fill="none" stroke="#AED581" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="250.0" y2="105.0" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="335.2" y2="132.7" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="387.9" y2="205.2" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="387.9" y2="294.8" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="335.2" y2="367.3" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="250.0" y2="395.0" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="164.8" y2="367.3" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="112.1" y2="294.8" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="112.1" y2="205.2" stroke="#dde8e0" stroke-width="1"/>
+                              <line x1="250" y1="250" x2="164.8" y2="132.7" stroke="#dde8e0" stroke-width="1"/>
+                              <polygon points="250.0,126.8 316.5,158.5 349.3,217.7 374.1,290.3 313.9,338.0 250.0,368.9 182.7,342.7 153.5,281.4 145.2,215.9 175.0,146.8" fill="#2C5E3B" fill-opacity="0.22" stroke="#2C5E3B" stroke-width="2.5"/>
+                              <circle cx="250.0" cy="126.8" r="4" fill="#E67E22"/>
+                              <circle cx="316.5" cy="158.5" r="4" fill="#E67E22"/>
+                              <circle cx="349.3" cy="217.7" r="4" fill="#E67E22"/>
+                              <circle cx="374.1" cy="290.3" r="4" fill="#E67E22"/>
+                              <circle cx="313.9" cy="338.0" r="4" fill="#E67E22"/>
+                              <circle cx="250.0" cy="368.9" r="4" fill="#E67E22"/>
+                              <circle cx="182.7" cy="342.7" r="4" fill="#E67E22"/>
+                              <circle cx="153.5" cy="281.4" r="4" fill="#E67E22"/>
+                              <circle cx="145.2" cy="215.9" r="4" fill="#E67E22"/>
+                              <circle cx="175.0" cy="146.8" r="4" fill="#E67E22"/>
+                              <text x="250.0" y="58.0" text-anchor="middle" dy="0em" font-size="16" font-weight="bold" fill="#2C5E3B">作息健康</text>
+                              <text x="362.9" y="94.7" text-anchor="start" dy="0.35em" font-size="16" font-weight="bold" fill="#2C5E3B">大腦健康</text>
+                              <text x="432.6" y="190.7" text-anchor="start" dy="0.35em" font-size="16" font-weight="bold" fill="#2C5E3B">理性思考</text>
+                              <text x="432.6" y="309.3" text-anchor="start" dy="0.35em" font-size="16" font-weight="bold" fill="#2C5E3B">快樂情緒</text>
+                              <text x="362.9" y="405.3" text-anchor="start" dy="0.35em" font-size="16" font-weight="bold" fill="#2C5E3B">成就感</text>
+                              <text x="250.0" y="442.0" text-anchor="middle" dy="0.7em" font-size="16" font-weight="bold" fill="#2C5E3B">關係感</text>
+                              <text x="137.1" y="405.3" text-anchor="end" dy="0.35em" font-size="16" font-weight="bold" fill="#2C5E3B">心理韌性</text>
+                              <text x="67.4" y="309.3" text-anchor="end" dy="0.35em" font-size="16" font-weight="bold" fill="#2C5E3B">神經多樣性</text>
+                              <text x="67.4" y="190.7" text-anchor="end" dy="0.35em" font-size="16" font-weight="bold" fill="#2C5E3B">SEL社會情緒</text>
+                              <text x="137.1" y="94.7" text-anchor="end" dy="0.35em" font-size="16" font-weight="bold" fill="#2C5E3B">靈性健康</text>
+                            </svg>
+                            <p style="text-align:center; font-size:14px; color:#999; margin-top:10px;">＊圖為示意範例，實際報告依您的測評結果產生</p>
+                        </div>
+
+                        <p class="main-text-p" style="margin-bottom:16px;">這套測評不是從「找問題、補破洞」的消極角度出發。當你完成這些題目，自然會發現生命的這十大向度，都是帶來健康與幸福的恩典管道。藉由系統化的瞭解，它能幫助你看見現在的你已經擁有哪些力量，作為生命持續優化的基礎；也能清楚指出從哪裡開始著手，幸福感的提升會最快。你可以在最短的時間內，看清楚自己或家人該如何提升整體的幸福感。</p>
+
+                        <button class="action-link-btn btn-orange-theme" style="width:100%; border:none;" onclick="openBookingModal('全齡十大向度健康幸福測評（WWAS）')">🗓 立即線上預約測評</button>
+                        <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme" style="width:100%; margin-top:10px;">💬 或加官方 LINE 諮詢</a>
+
+                        <div style="margin-top:25px; background:#fff9f0; border-radius:16px; padding:22px 18px; border:1px solid #FFE0B2;">
+                            <p style="text-align:center; font-size:18px; font-weight:bold; color:#E65100; margin-bottom:16px;">📋 心路全人健康十大向度：健康幸福測評 預約辦法</p>
+                            <p style="font-size:16px; color:#555; margin-bottom:14px;">完成測評只需要四個步驟，從加入官方 LINE 到專業分析，全程都有人陪伴你一起看懂結果。</p>
+                            <div class="sub-item-box" style="margin-bottom:10px;"><p style="font-size:16px;"><strong>STEP 1　加入官方 LINE 帳號</strong><br>搜尋官方帳號或掃描 QR Code，加入「心路新路」LINE 官方帳號。</p></div>
+                            <div class="sub-item-box" style="margin-bottom:10px;"><p style="font-size:16px;"><strong>STEP 2　取得進入系統的專屬代號</strong><br>加入好友後，我們會提供你一組專屬代號，用這組代號即可進入測評系統。</p></div>
+                            <div class="sub-item-box" style="margin-bottom:10px;"><p style="font-size:16px;"><strong>STEP 3　進入系統完成測評</strong><br>依照你的年齡與生活情境，選擇對應的版本，在不受打擾的環境中靜下心來作答。</p></div>
+                            <div class="sub-item-box" style="margin-bottom:0;"><p style="font-size:16px;"><strong>STEP 4　預約專業人員分析</strong><br>測評完成後，系統會記錄結果，接著你可以直接跟中心預約時間，由專業人員為你解讀報告。</p></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -203,7 +290,7 @@
             <!-- 【大項 2】：兒童青少年課程及營隊 🌟 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
-                    <h3>🌱 編號 2. 兒童青少年課程及營隊</h3>
+                    <h3>🌱 兒童青少年課程及營隊</h3>
                     <span class="toggle-icon">▼</span>
                 </div>
                 <div class="card-content-pane">
@@ -264,12 +351,65 @@
                                 <div class="sub-camp-split-box">
                                     <button class="sub-camp-btn" onclick="openArticle('past_camp_2026_winter')">🍀 2026 神清氣爽寒假營</button>
                                     <button class="sub-camp-btn" onclick="openArticle('past_camp_brain_summer')">⚡ 2024 埔里活化大腦夏令營</button>
+                                    <button class="sub-camp-btn" onclick="openArticle('past_camp_2025_summer')">🎨 2025 暑假營隊</button>
                                 </div>
                             </div>
 
                             <!-- 【頁籤 3】：家長及學員回饋 -->
                             <div class="camp-tab-content" id="contentTab3">
-                                <p class="main-text-p" style="font-size:18.5px;">感動反饋錄準備中。許多歷屆參與營隊的孩子在結營後，都成功建立了良好的3C健康邊界感，重拾實體生活的快樂與自律，家長反饋文字隨時可對接更新至此區塊。</p>
+                                <div class="testimonial-card-demo" style="margin-bottom:0;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">玉</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">小玉媽媽</div>
+                                            <div class="testi-title-sub">2025年暑假營 ‧ 寒假營 學員家長</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text" style="margin-bottom:14px;">
+                                        「從上次的暑期營隊，到這次的寒假營隊，我感受最深的是：老師對每個孩子的愛，就像把快樂一點一滴存進了他們的心理撲滿。
+                                    </p>
+                                    <p class="testi-content-text" style="margin-bottom:14px;">
+                                        孩子回家興奮地跟我說，老師告訴他們，冰箱裡的東西都可以吃喝，櫃子裡的書都能翻閱。在那裡，他們自由自在地玩沙、打球、騎腳踏車，一起做蛋塔、做蝦餅、蓋房子，甚至一起去看電影、去市場買菜買肉做大家的午餐。
+                                    </p>
+                                    <p class="testi-content-text" style="margin-bottom:14px;">
+                                        當孩子被滿滿的愛與快樂澆灌後，雪媚老師更在無形中建立了正確的價值觀，讓孩子自發性地長出「身心健康」的能力。最明顯的改變是，他回家後竟然會自動自發完成作業，練習好好說話（不再動不動就嗆來嗆去），懂得保護大腦、節制打電動的時間，甚至還會善用 AI 提問來解決問題、練習思考。
+                                    </p>
+                                    <p class="testi-content-text">
+                                        今年他即將升國一，迎來青春期的開端。端午節時，我派給他一個任務：自己帶顆粽子去跟老師道謝。謝謝老師這段日子的引導與陪伴，讓他學會理解自己、愛自己，也懂得去愛身邊的家人與朋友。」
+                                    </p>
+                                </div>
+
+                                <div class="testimonial-card-demo" style="margin-top:20px; margin-bottom:0;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">思</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">思思媽媽</div>
+                                            <div class="testi-title-sub">悠遊自在能力儲備寒假營 學員家長</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p style="font-size:19px; font-weight:bold; color:#2C5E3B; margin-bottom:12px;">
+                                        把小孩送去「悠遊自在能力儲備寒假營」兩週，孩子回來竟然開始計畫……？
+                                    </p>
+                                    <p class="testi-content-text" style="margin-bottom:14px;">
+                                        剛過去的寒假，那時我想說讓孩子去【悠遊自在能力儲備寒假營】放飛一下、開心就好。結果兩週後接回家，孩子給我的驚喜（嚇？）完全超乎想像！😱 首先，真的要大力感謝雪媚老師！把孩子照顧得「吃飽喝足」不在話下，更給了孩子們極其充分的自由討論空間。
+                                    </p>
+                                    <p class="testi-content-text" style="margin-bottom:14px;">
+                                        精彩的來了——回家後，孩子竟然拿著紙筆，認真跟我討論他學會的「生活開支計算表」！🧐 四年級女兒一臉精明篤定地說：「媽媽，我算過了，以後長大跟爸媽住最省錢！」🤯 等等……孩子，你這到底是學會獨立理財，還是提早計劃合理啃老？（媽媽風中凌亂中😆）
+                                    </p>
+                                    <p class="testi-content-text" style="margin-bottom:14px;">
+                                        玩笑歸玩笑，營隊的實質改變真的看得到！雪媚老師帶學生出遊時，不只是玩，還會把「生活規矩」融入日常討論。短短兩週，孩子簡直像是去了一趟「生活習慣改造營」：<br>
+                                        📈 暴風抽高：身高直接衝高 5 公分！<br>
+                                        📈 健康長肉：體重結實地增加了 3 公斤！（伙食到底多好😍）<br>
+                                        📺 擺脫3C：奇蹟發生了，回家後竟然不會整天黏著電視！（偶爾還是要看）
+                                    </p>
+                                    <p class="testi-content-text">
+                                        看著孩子帶回來的好習慣與健康體魄，做家長的真心覺得這筆投資太值得了！為了讓這個好習慣延續下去……快來一起把神隊友雪媚老師訂下來！
+                                    </p>
+                                </div>
                             </div>
 
                             <!-- 智慧動態報名表單區 -->
@@ -341,7 +481,7 @@
             <!-- 【大項 3】：個人成長課程 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
-                    <h3>💎 編號 3. 個人成長課程</h3>
+                    <h3>💎 個人成長課程</h3>
                     <span class="toggle-icon">▼</span>
                 </div>
                 <div class="card-content-pane">
@@ -376,7 +516,7 @@
             <!-- 【大項 4】：樂齡成長課程 -->
             <div class="service-card">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
-                    <h3>👵 編號 4. 樂齡成長課程</h3>
+                    <h3>👵 樂齡成長課程</h3>
                     <span class="toggle-icon">▼</span>
                 </div>
                 <div class="card-content-pane">
@@ -415,14 +555,23 @@
                     <p class="main-text-p" style="font-size:18px; color:#666;">💡 點擊下方封面即可翻閱故事內容（內容與翻翻書檔案隨時可再更新）：</p>
 
                     <div class="garden-books-grid">
-                        <div class="book-cover-card" onclick="openBook('dad')">
-                            <img src="027ca521-816d-47cb-86eb-fa50bcd6230e.png.png" alt="邱鐘明弟兄封面">
+                        <div>
+                            <div class="book-cover-card" onclick="openBook('dad')">
+                                <img src="027ca521-816d-47cb-86eb-fa50bcd6230e.png.png" alt="邱鐘明弟兄封面">
+                            </div>
+                            <p style="text-align:center; font-size:16px; font-weight:bold; color:#2C5E3B; margin-top:8px;">邱鐘明弟兄</p>
                         </div>
-                        <div class="book-cover-card" onclick="openBook('mom')">
-                            <img src="2b6759ce-153d-4e72-a591-1302a5bf485b.png.png" alt="邱蔡淑金女士封面">
+                        <div>
+                            <div class="book-cover-card" onclick="openBook('mom')">
+                                <img src="2b6759ce-153d-4e72-a591-1302a5bf485b.png.png" alt="蔡淑金女士封面">
+                            </div>
+                            <p style="text-align:center; font-size:16px; font-weight:bold; color:#2C5E3B; margin-top:8px;">蔡淑金女士</p>
                         </div>
-                        <div class="book-cover-card" onclick="openBook('aunt')">
-                            <img src="0f54b13c-2936-49bc-bfe3-fe6015efb4c2.png.png" alt="蔡秀鳳小阿姨封面">
+                        <div>
+                            <div class="book-cover-card" onclick="openBook('aunt')">
+                                <img src="0f54b13c-2936-49bc-bfe3-fe6015efb4c2.png.png" alt="蔡秀鳳小阿姨封面">
+                            </div>
+                            <p style="text-align:center; font-size:16px; font-weight:bold; color:#2C5E3B; margin-top:8px;">蔡秀鳳小阿姨</p>
                         </div>
                     </div>
 
@@ -438,7 +587,7 @@
             
             <div class="service-card" style="margin-bottom:0px;">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
-                    <h3>📖 檢視讀書會詳細資料與分流</h3>
+                    <h3>📖 讀書會簡章及學員回饋</h3>
                     <span class="toggle-icon">▼</span>
                 </div>
                 <div class="card-content-pane">
@@ -456,27 +605,204 @@
                             <button class="action-btn btn-purple-theme" style="padding:8px 22px; font-size:17px; border-radius:20px; font-weight:bold; border:none; color:white; cursor:pointer;" onclick="toggleTestimonialWall()">📖 閱讀學員溫馨心得分享 ▲▼</button>
                             
                             <div class="testimonial-wall-container" id="testimonialWall">
-                                <div class="testimonial-card-demo">
+
+                                <p style="font-size:15px; font-weight:bold; color:#673AB7; margin-bottom:14px; text-align:center;">── 第18期學員心得分享 ──</p>
+
+                                <div class="testimonial-card-demo" style="margin-bottom:20px;">
                                     <div class="testi-header">
-                                        <div class="testi-avatar-placeholder">陳</div>
+                                        <div class="testi-avatar-placeholder">紅</div>
                                         <div class="testi-meta-info">
-                                            <div class="testi-name">陳 x 璇</div>
-                                            <div class="testi-title-sub">讀書會成員 ‧ 科技產業經理</div>
+                                            <div class="testi-name">紅姊妹</div>
+                                            <div class="testi-title-sub">「從聖經中尋見真我」讀書會學員・第18期</div>
                                             <div class="testi-stars">⭐⭐⭐⭐⭐</div>
                                         </div>
                                     </div>
-                                    <div class="testi-quote-mark">“</div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text" style="margin-bottom:12px;">
+                                        「很感恩雪媚老師的「從聖經中尋見真我」讀書會，自從認識上帝後，透過教會講台的資訊、牧者的教導、上帝真理的話語使得自己的生命漸漸發生改變，但這次的讀書會，雪媚老師透過一些事例、影片人物的分析，更好地幫助我們釐清了自己的成長經歷是怎樣的——不管成長環境怎樣讓我們被扭曲、形成後原型，但上帝放在我們裡面的原型是不會改變的。用上帝的眼光和角度來看自己，生命就會漸漸在成長原型裡改變更新，從而享受伊甸園型裡的祝福。
+                                    </p>
                                     <p class="testi-content-text">
-                                        「課程內容安排非常好吸收，難易度也剛好。老師在查經引導中帶入的自我覺察工具，直擊心靈！讓我對於如何跟家人、團隊建立高情商溝通，有了清晰深刻的真理框架，生命被大大翻轉與翻新！」
+                                        我覺得單單是雪媚老師的成長經歷分享，就讓我看到一個人在聖經中尋見自我的那份自由和喜樂，很受激勵和安慰，讓我不再為自己曾經的失敗而沮喪糾葛。真的建議大家，不管是信主的還是未信主的，都來參與一下，生命肯定大受益處，因為當你找回自我時的那份喜樂是無法言喻的！」
                                     </p>
                                 </div>
+
+                                <div class="testimonial-card-demo" style="margin-bottom:20px;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">劉</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">劉姊妹</div>
+                                            <div class="testi-title-sub">「從聖經中尋見真我」讀書會學員・第18期</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text" style="margin-bottom:12px;">
+                                        「《從聖經中尋見真我》我自己買來讀過一次，可是沒有太多的得著，剛好有雪媚老師的讀書會，就參加學習了。沒有學習前我是一個從來不知道肯定自己的人，總會自己控告自己，也不知道表揚自己。
+                                    </p>
+                                    <p class="testi-content-text" style="margin-bottom:12px;">
+                                        當學習到書中的一段內容，上主說「甚好」，雪媚老師告訴我們，上帝看祂自己所造的一切都是美好，我們都是上帝所造，所以我們也是甚好的。我反問老師「這甚好也包括我們嗎？」老師說：「當然啦，我們也是上帝所造的啊！」是哦，沒錯，我也是上帝造的啊，我在上帝的眼中也是甚好的啊！感謝讚美主，那一刻我開始得到了上帝的眼光，讓我可以用上帝的眼光來看自己和其他人。
+                                    </p>
+                                    <p class="testi-content-text">
+                                        通過學習我發現現在的我看一切都是那麼的美好，我甚至被自己努力工作感動到流眼淚，我知道自己是一個勤勞努力的人。看自己16歲的兒子也不再是那個青春期叛逆的臭小子，而是一個善解人意、心疼媽媽的小男人了。真的感恩通過雪媚老師的課有這樣的得著和改變，謝謝！」
+                                    </p>
+                                </div>
+
+                                <div class="testimonial-card-demo" style="margin-bottom:30px;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">佳</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">佳</div>
+                                            <div class="testi-title-sub">「從聖經中尋見真我」讀書會學員・第18期</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text">
+                                        「雪媚老師的讀書會給我們很多深層次的思考，這些提問在過往從來沒有想過，有些問題覺得就算靜下心來好像也還是不知道如何下筆，想不到答案。不過，在老師課程中的解說或是同學間的分享，會慢慢知道原來過往是自己被自己善惡果或是樑木困住而不自知。每次上課都覺得又更認識自己一些，很開心！期待更多人可以明白真理，尋見更好的自己。」
+                                    </p>
+                                </div>
+
+                                <p style="font-size:15px; font-weight:bold; color:#673AB7; margin-bottom:14px; text-align:center;">── 第8期學員心得分享 ──</p>
+
+                                <div class="testimonial-card-demo" style="margin-bottom:20px;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">王</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">王姊妹（師母）</div>
+                                            <div class="testi-title-sub">「從聖經中尋見真我」讀書會學員・第8期</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text">
+                                        「老師耐心又有智慧的引導，使我發現自己活在不自覺的框架中，我也比較能鬆動觀點，從不同的角度看待自己。課程中，老師提醒我們，若專注要找成長缺失，我就會看到缺失；但若找尋聖經中對我的看法和美好，我的眼光自然就會放到上帝造我的美好上。這跟坊間一般「自我覺察」的教導很不一樣，外面很多是在教我們回溯缺失、再行修補，結果翻出一堆已無法重來的創傷經歷，卻忽略了上帝已經給我們的原型特質，是多麼精心設計、美好而富有自我修復能力。當老師引導我看到上帝造我的「甚好」，我就可以分辨從後天經歷而來的負面影響，其實不足以破壞上帝所造的我。每次上完課都有被拆框、被建立的喜樂。」
+                                    </p>
+                                </div>
+
+                                <div class="testimonial-card-demo" style="margin-bottom:20px;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">許</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">許姊妹</div>
+                                            <div class="testi-title-sub">「從聖經中尋見真我」讀書會學員・第8期</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text">
+                                        「我很自卑，課程的回應也常擔心對不對，因為以為只要對了，我的人生就更有機會逆轉勝！但「從聖經中尋見真我」讀書會更大的收穫是：同學一起的分享，才會聽見那幾乎遺忘，但原來又被影響的類似生活經驗！加上老師一語道破盲點，發覺原型自己的能量，即使不善言詞也能受惠！💟 彷彿在人生泥沼中，不再是自己一個人獨行，而是大家都掙扎過，有人快有人慢，現在一起向前走！坊間，尋找問題的管道已經夠多了；現在一起來尋找自己，在上帝創造的原型快樂吧～」
+                                    </p>
+                                </div>
+
+                                <div class="testimonial-card-demo" style="margin-bottom:20px;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">金</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">金姊妹</div>
+                                            <div class="testi-title-sub">神學院教牧諮商進修生</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text" style="margin-bottom:12px;">
+                                        「因著想學習助人技巧，我到神學院進修教牧諮商，期間我學習了不少的心理諮商理論（完形、存在主義⋯），這些理論真是開了我心理學的眼界，卻無法解決我一些性格上的問題。我知道諮商師最重要的是「具同理心」，但這個能力無法在知識上獲得，我很希望自己「應該是」一個柔和具同理心的人，但「事實上」我卻是一個講求效率、處處以任務導向的人，我既欣賞又討厭自己，學習越多就自我控告越深，一直到我學習了三一原型教牧協談，參與「從聖經中尋找真我」讀書會，才逐漸得到舒緩，並且找到我要的「必修課程」。
+                                    </p>
+                                    <p class="testi-content-text">
+                                        有別於一般諮商理論，這本書最有力的依據，是從「聖經」的角度幫助我去辨認自己的種子原型、澄清造成自己「後原型」的歷程及原因，然後帶到主的面前，用上帝的眼光「重新架框」，我需要被醫治才能醫治人；當我能夠這樣對待自己，我才能同樣對待他人，聖經的真理超越任何的諮商理論，結束了讀書會，期待下次的實作操練課程。」
+                                    </p>
+                                </div>
+
+                                <div class="testimonial-card-demo" style="margin-bottom:20px;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">林</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">林小姐</div>
+                                            <div class="testi-title-sub">46歲・上班族</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text">「尋見真我讀書會讓我學到：1. 明白我的安全感、價值跟快樂不是建立在別人（自己）的眼光、話語、肯定上面。2. 釐清想法，別再當審判官，放下善惡標準，回到神的眼光與心意。3. 學會情感分化，讓自己不再受影響、不過分投射自我經驗，讓自己落入情緒當中。」</p>
+                                </div>
+
+                                <div class="testimonial-card-demo" style="margin-bottom:30px;">
+                                    <div class="testi-header">
+                                        <div class="testi-avatar-placeholder">陳</div>
+                                        <div class="testi-meta-info">
+                                            <div class="testi-name">陳小姐</div>
+                                            <div class="testi-title-sub">50歲・家管</div>
+                                            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                                        </div>
+                                    </div>
+                                    <div class="testi-quote-mark">"</div>
+                                    <p class="testi-content-text">「透過這個課程，重新更認識自己，接納自己的不完全，拿掉有毒的羞愧感，進而讓自己更自在坦然地與人相處，也了解孩子是獨立分化的個體，大大改善了親子的關係。」</p>
+                                </div>
+
+                                <div style="background:#f4f0ff; border-radius:16px; padding:20px; margin-bottom:30px; border:1px dashed #c4b5e8;">
+                                    <p style="font-size:15px; font-weight:bold; color:#673AB7; margin-bottom:12px; text-align:center;">💬 青少年學員的真心話</p>
+                                    <p style="font-size:15px; color:#455A64; margin-bottom:10px;">「我很害羞，我不喜歡別人看見我，這是我原來的樣子，但是我可以練習勇敢」</p>
+                                    <p style="font-size:15px; color:#455A64; margin-bottom:10px;">「我不習慣面對人，但是上帝很公平，把跟人建立關係的祝福給所有人，只是我身上祝福還沒有成長很多」</p>
+                                    <p style="font-size:15px; color:#455A64; margin-bottom:10px;">「用一種標準看人，很不公平，因為每個人都不一樣，我發現我也會用自己的標準批評別人，這樣不好」</p>
+                                    <p style="font-size:15px; color:#455A64;">「我覺得我什麼都很爛，但是，原來上帝是祝福人的！」</p>
+                                </div>
+
+                                <p style="font-size:15px; font-weight:bold; color:#673AB7; margin-bottom:14px; text-align:center;">── 更多學員的一句話 ──</p>
+
+                                <div style="background:#fbf9ff; border-radius:12px; padding:14px 18px; margin-bottom:10px; border-left:4px solid #673AB7;">
+                                    <p style="font-size:15px; color:#455A64; margin-bottom:4px;">「從三一原型教牧會談的課程中我發現自己從言語的談話中改變了，說話不再容易使人拒絕，也不容易傷人，讓人願意與我交談。在思想上我也改變了方向，不再以自己為強奪，而凡事交給主耶穌來掌管，讓神來改變一切的難處及不可能，才發現原來面對所有人、事、物是如此輕省的。」</p>
+                                    <p style="font-size:13px; color:#999; text-align:right;">— 桃園大溪．嗡嗡</p>
+                                </div>
+
+                                <div style="background:#fbf9ff; border-radius:12px; padding:14px 18px; margin-bottom:10px; border-left:4px solid #673AB7;">
+                                    <p style="font-size:15px; color:#455A64; margin-bottom:4px;">「在雪媚老師細心、有系統的教導下，我實現了「認識自己、幫助他人」的目標。不要猶豫，這是一個不容錯過的課程。我做到，相信您也一定可以。」</p>
+                                    <p style="font-size:13px; color:#999; text-align:right;">— 偉</p>
+                                </div>
+
+                                <div style="background:#fbf9ff; border-radius:12px; padding:14px 18px; margin-bottom:10px; border-left:4px solid #673AB7;">
+                                    <p style="font-size:15px; color:#455A64; margin-bottom:4px;">「上完這門課，用幾句話來說：歸納事件、尋回源頭、認清自己、理解他人、原諒過去、饒恕前人、肯定旁人，最後，行在神創造我的旨意中。」</p>
+                                    <p style="font-size:13px; color:#999; text-align:right;">— 高姊妹</p>
+                                </div>
+
+                                <div style="background:#fbf9ff; border-radius:12px; padding:14px 18px; margin-bottom:10px; border-left:4px solid #673AB7;">
+                                    <p style="font-size:15px; color:#455A64; margin-bottom:4px;">「雪媚老師是個非常盡職的一位老師，上課更是認真教課不馬虎，以老師的專業可以從老師身上學到非常多的東西，受用無窮，在這裡更是謝謝老師兩個學期不辭辛勞的教課。」</p>
+                                    <p style="font-size:13px; color:#999; text-align:right;">— 苓</p>
+                                </div>
+
+                                <div style="background:#fbf9ff; border-radius:12px; padding:14px 18px; margin-bottom:0; border-left:4px solid #673AB7;">
+                                    <p style="font-size:15px; color:#455A64; margin-bottom:4px;">「回想起這三個月的課程，心裡面充滿許多的感恩和感動，很感謝上帝也很感謝老師在我最需要「解決問題」的時候給予我最正確的方向和提醒。雖然現在的我還在經歷修復的過程當中，但這次跟以往不太一樣，我深深知道這條路上不是我一個人孤單的奮戰，也不再只是為了解決問題把問題的根源掩埋不去面對，而是很有把握地說，耶穌早已為我的憂慮和罪釘在十字架上了，祂為我穿上新人的生命和得勝的生命，我不再需要透過世上的名聲和頭銜來再次定義自己的價值，因為在基督耶穌裡面有一個最美的頭銜，就是「神的兒女」。」</p>
+                                    <p style="font-size:13px; color:#999; text-align:right;">— 皓皓</p>
+                                </div>
+
                             </div>
                         </div>
 
                         <div class="sub-item-box" style="border:none; padding:0; background:none; box-shadow:none; margin-top:25px; margin-bottom:0;">
                             <div class="sub-item-title" style="text-decoration:none;">📅 時段意願調查</div>
-                            <p class="sub-item-desc" style="margin-bottom:12px;">歡迎填寫您方便參與的時間，讓我們為您貼心規劃班別：</p>
-                            <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-orange-theme">點我進入調查時段意願群組 ➔</a>
+                            <p class="sub-item-desc" style="margin-bottom:14px;">請選擇想參加的班次，並勾選所有你方便上課的時段（可多選），我們會以最多人選擇的時段開課：</p>
+
+                            <div class="form-group">
+                                <label>姓名 *</label>
+                                <input type="text" id="sv_name" class="form-control" placeholder="請輸入姓名">
+                            </div>
+                            <div class="form-group">
+                                <label>LINE ID 或聯絡電話 *</label>
+                                <input type="text" id="sv_contact" class="form-control" placeholder="方便我們聯繫您">
+                            </div>
+                            <div class="form-group">
+                                <label>想參加的班次 *</label>
+                                <select id="sv_cohort" class="form-control" onchange="renderScheduleSlots()">
+                                    <option value="">請選擇</option>
+                                    <option value="第21期（晚上班）">第21期・2026年8月・週間晚上班</option>
+                                    <option value="第22期（白天班）">第22期・2026年9月・週間白天班</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="sv_slots_wrap" style="display:none;">
+                                <label>方便上課的時段（可多選）</label>
+                                <div class="checkbox-group" id="sv_slots_container"></div>
+                            </div>
+
+                            <button class="action-link-btn btn-orange-theme" style="width:100%; border:none;" onclick="submitScheduleVote()">送出時段意願</button>
+                            <p id="sv_success_msg" style="display:none; text-align:center; color:#2C5E3B; font-weight:bold; margin-top:10px;">✅ 已收到您的時段意願，謝謝填寫！</p>
                         </div>
                     </div>
                 </div>
@@ -487,13 +813,78 @@
         <!-- 🌟 架構 7：雪媚老師服務足跡 🌟 -->
         <section id="footprint-section">
             <h2 class="section-title">7. 雪媚老師服務足跡</h2>
-            <p class="main-text-p">多年來，雪媚老師深受各大校園、社區會所及宗教團體信賴，足跡遍及多個專業學習群體與諮詢中心。我們致力於將身心關懷與真理智慧帶到每一個需要的地方。</p>
-            
-            <ul class="footprint-list">
-                <li>各大中小學親職教育專題合作講師</li>
-                <li>社區關懷據點、樂齡幸福會所特邀心靈導師</li>
-                <li>專業讀書會、企業關係溝通工作坊資深帶領者</li>
-            </ul>
+            <p class="main-text-p">多年來，雪媚老師深受中小學及幼兒園、教會公益機構及企業信賴，足跡遍及多個專業學習群體與諮詢中心。我們致力於將身心關懷與真理智慧帶到每一個需要的地方。</p>
+
+            <div class="service-card" style="margin-bottom:25px;">
+                <div class="card-header-toggle" onclick="toggleCard(this)">
+                    <h3>📍 查看完整服務足跡分類</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-content-pane">
+                    <div class="pane-inner">
+                        <div class="camp-nav-bar">
+                            <button class="camp-nav-btn active" id="btnFootTab1" onclick="switchFootprintTab(1)">中小學及幼兒園</button>
+                            <button class="camp-nav-btn" id="btnFootTab2" onclick="switchFootprintTab(2)">教會及公益機構</button>
+                            <button class="camp-nav-btn" id="btnFootTab3" onclick="switchFootprintTab(3)">企業</button>
+                        </div>
+
+                        <div class="camp-tab-content active" id="contentFootTab1">
+                            <p style="font-size:18px; color:#2C5E3B; font-weight:bold; margin-bottom:12px;">親職演講、特殊教育研習</p>
+                            <ul class="footprint-list">
+                                <li>「是故意還是真的聽不懂？」特殊生親師溝通主題：大坎國小、江翠國小、雙龍三多國小、大埔國小、頭湖國小</li>
+                                <li>「有效處理親子衝突，轉化家庭氛圍」主題：九份國小、汐止北港國小、柑園國小、興化國小、武林國小</li>
+                                <li>「轉化家庭氛圍，建立有效教養方式」主題：新莊裕民國小、麗園國小</li>
+                                <li>八里國小：面對孩子你需要新眼光、親子衝突講座、母親節親職講座、附幼親職講座、青春期親子溝通、陪孩子面對手機上癮、如何不讓手機偷走家人感情、過動妥瑞亞斯伯格特質、AI時代父母心靈活力秘訣（多年期合作）</li>
+                                <li>安坑國小：親職演講「被小孩氣到沒辦法好好教？」、如何幫助特教生在普通班適應、幫助孩子建構AI時代需要的競爭力</li>
+                                <li>九份國小：陪孩子面對手機上癮、溝通與教養</li>
+                                <li>青潭國小：婚姻教育成長工作坊、用心管教有效教</li>
+                                <li>牡丹國小：過動兒輔導研習、過動兒的相處與教學、特殊生的核心訓練、教師研習－學童情緒因應（多年期合作）</li>
+                                <li>文山國中：陪伴青春期孩子使用手機、思祈班職業介紹</li>
+                                <li>南美國小：愛與管教的平衡</li>
+                                <li>厚德國小：優化親師溝通創造三贏</li>
+                                <li>新興國小、頂溪國小、長安國小：在親子衝突中創造雙贏、轉化親子氛圍建立有效教養之道</li>
+                                <li>士林菁分幼兒園：打造孩子核心競爭力</li>
+                                <li>興南國小：ADHD、亞斯伯格類型學生輔導</li>
+                                <li>板橋中山國中：輔諮輔志工增能培訓</li>
+                                <li>興文國小：引導家長落實家庭教育</li>
+                                <li>蘆洲國小：線上輔導研習</li>
+                                <li>大埃國小：特殊生的親師溝通</li>
+                                <li>彭化培英國小附幼、南投附幼：親職講座</li>
+                                <li>士林福中兒少小站：親子衝突主題分享</li>
+                            </ul>
+                        </div>
+                        <div class="camp-tab-content" id="contentFootTab2">
+                            <ul class="footprint-list">
+                                <li>拿撒勒人會：南部愛情講座、北區牧者退休會、士林教會「尋見真我」工作坊、宣聖堂同理心親子活動及「孩子講不聽怎麼辦」親職講座</li>
+                                <li>拿撒勒人會神學院：受邀任教「基礎教牧輔導」、「基本會談技巧」課程</li>
+                                <li>西美中會：長老教會牧者退休會「家庭伊甸園氛圍的建造」、教育部兒主師資培訓</li>
+                                <li>板橋福音堂：智慧家庭「手機時代如何保持親密與互動」、運動兒家長成長團體</li>
+                                <li>台灣信義會：社福研討會</li>
+                                <li>中華信義會：兒主師資培訓</li>
+                                <li>衛理公會憲友堂：如何幫助兒童與青少年的情緒管理</li>
+                                <li>文山老教會：兒主師資訓練</li>
+                                <li>木柵衛理堂：兒童師資訓練</li>
+                                <li>蘆洲禮拜堂：主日「活出愛」</li>
+                                <li>林森南路禮拜堂：陪伴過動孩子的春天</li>
+                                <li>樂福萬隆教會：認識孩子對手機的依賴及因應</li>
+                                <li>慈光堂：讓家充滿笑聲的祕訣</li>
+                                <li>迦南松年大學・桃園市全人生命教育協會：認識孩子對手機的依賴及因應、轉化氛圍建立有效教養之道</li>
+                                <li>雙全協會：長期關係與生命教育系列講座（衝突處理、自我價值、人際界線、戒癮與身心整合等主題）</li>
+                                <li>好鄰居協會：志工溝通訓練</li>
+                                <li>勝利之家：早療人員教保班培訓</li>
+                                <li>美之城兒童俱樂部：師資培訓</li>
+                            </ul>
+                        </div>
+                        <div class="camp-tab-content" id="contentFootTab3">
+                            <ul class="footprint-list">
+                                <li>威盛電子：親職講座</li>
+                                <li>飛奇兒體操：教練研習－共贏思維之教學引導技巧</li>
+                            </ul>
+                            <p style="font-size:15px; color:#999; margin-top:10px;">（企業合作場次持續增加中）</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="invite-box">
                 <div class="invite-title">💌 專業講座歡迎邀約</div>
@@ -513,12 +904,72 @@
                 <a href="https://lin.ee/@431trrjk" target="_blank" class="line-mega-btn">
                     💬 點我加入官方 LINE 線上預約
                 </a>
+                <div style="margin-top:18px;">
+                    <button class="action-link-btn" style="border:none; background:#2C5E3B;" onclick="openBookingModal('')">🗓 或直接填表預約，我們主動與您聯繫</button>
+                </div>
             </div>
         </section>
 
     </div>
 
     <!-- 全螢幕大字體通用閱覽視窗 -->
+    <!-- 📅 預約諮詢彈窗 -->
+    <div class="booking-modal-overlay" id="bookingModalOverlay">
+        <div class="booking-modal-box">
+            <button class="booking-modal-close" onclick="closeBookingModal()">✕</button>
+
+            <div id="bookingFormView">
+                <div class="booking-modal-title">🗓 預約諮詢</div>
+                <p class="booking-modal-sub">填寫聯絡方式，雪媚老師團隊會主動與您聯繫安排時間</p>
+
+                <div class="form-group">
+                    <label>您的姓名 *</label>
+                    <input type="text" id="bk_name" class="form-control" placeholder="請輸入姓名">
+                </div>
+                <div class="form-group">
+                    <label>聯絡電話 *</label>
+                    <input type="tel" id="bk_phone" class="form-control" placeholder="請輸入手機號碼">
+                </div>
+                <div class="form-group">
+                    <label>LINE ID 或暱稱（選填）</label>
+                    <input type="text" id="bk_line" class="form-control" placeholder="方便我們在LINE上找到您">
+                </div>
+                <div class="form-group">
+                    <label>想預約的項目</label>
+                    <div class="checkbox-group" id="bk_service_group">
+                        <label class="checkbox-label"><input type="radio" name="bk_service" value="2026年7/5-7/12東京拜訪期間預約・諮詢・講座邀請"> 2026年7/5-7/12東京拜訪期間預約・諮詢・講座邀請</label>
+                        <label class="checkbox-label"><input type="radio" name="bk_service" value="全齡十大向度健康幸福測評（WWAS）"> 全齡十大向度健康幸福測評（WWAS）</label>
+                        <label class="checkbox-label"><input type="radio" name="bk_service" value="兒童青少年課程及營隊"> 兒童青少年課程及營隊</label>
+                        <label class="checkbox-label"><input type="radio" name="bk_service" value="個人成長課程"> 個人成長課程</label>
+                        <label class="checkbox-label"><input type="radio" name="bk_service" value="樂齡成長課程"> 樂齡成長課程</label>
+                        <label class="checkbox-label"><input type="radio" name="bk_service" value="生命故事撰寫"> 生命故事撰寫</label>
+                        <label class="checkbox-label"><input type="radio" name="bk_service" value="讀書會"> 從聖經中尋見真我讀書會</label>
+                        <label class="checkbox-label"><input type="radio" name="bk_service" value="尚未確定，請與我聯繫"> 尚未確定，請與我聯繫</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>方便聯繫的時間（選填）</label>
+                    <input type="text" id="bk_time" class="form-control" placeholder="例如：平日晚上7點後、週末皆可">
+                </div>
+                <div class="form-group">
+                    <label>備註（選填）</label>
+                    <textarea id="bk_notes" class="form-control" rows="2" placeholder="想讓老師先知道的事"></textarea>
+                </div>
+
+                <button class="action-link-btn btn-line-theme" style="width:100%; padding:14px 0; font-size:20px;" onclick="submitBooking()">送出預約</button>
+                <p style="font-size:14px; color:#999; text-align:center; margin-top:10px;">送出後我們會在1-2個工作日內主動聯繫您</p>
+            </div>
+
+            <div class="booking-success-box" id="bookingSuccessView">
+                <div class="icon">🌱</div>
+                <h3 style="color:#1B5E20; font-size:22px; margin-bottom:10px;">預約已送出！</h3>
+                <p style="font-size:17px; color:#555; margin-bottom:20px;">雪媚老師團隊會盡快與您聯繫，<br>也歡迎您先加入官方 LINE，方便我們即時通知您。</p>
+                <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme" style="width:100%;">💬 加入官方 LINE</a>
+                <button class="action-link-btn" style="width:100%; margin-top:10px; background:#aaa; border:none;" onclick="closeBookingModal()">關閉視窗</button>
+            </div>
+        </div>
+    </div>
+
     <div class="fullscreen-book-view" id="fullscreenBookView">
         <div class="book-max-wrapper">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
@@ -548,6 +999,115 @@
     </div>
 
     <script>
+        // ══ SUPABASE CONFIG（與後台admin.html使用同一個專案） ══
+        const SUPABASE_URL = 'https://iqxzsflawxzvniycmaub.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4';
+        const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // ══ 讀書會時段投票 ══
+        const SCHEDULE_SLOTS = {
+            "第21期（晚上班）": ["週一晚上 7:00-9:30", "週四或週五晚上 7:00-9:30"],
+            "第22期（白天班）": ["週二上午 9:30-12:00", "週五上午 9:30-12:00", "週二下午 1:30-4:00", "週五下午 1:30-4:00"],
+        };
+
+        function renderScheduleSlots() {
+            const cohort = document.getElementById('sv_cohort').value;
+            const wrap = document.getElementById('sv_slots_wrap');
+            const container = document.getElementById('sv_slots_container');
+            container.innerHTML = '';
+            if (!cohort || !SCHEDULE_SLOTS[cohort]) {
+                wrap.style.display = 'none';
+                return;
+            }
+            SCHEDULE_SLOTS[cohort].forEach((slot, idx) => {
+                const label = document.createElement('label');
+                label.className = 'checkbox-label';
+                label.innerHTML = `<input type="checkbox" name="sv_slot" value="${slot}"> ${slot}`;
+                container.appendChild(label);
+            });
+            wrap.style.display = 'block';
+        }
+
+        async function submitScheduleVote() {
+            const name = document.getElementById('sv_name').value.trim();
+            const contact = document.getElementById('sv_contact').value.trim();
+            const cohort = document.getElementById('sv_cohort').value;
+            const slots = Array.from(document.querySelectorAll('input[name="sv_slot"]:checked')).map(el => el.value);
+
+            if (!name || !contact || !cohort) {
+                alert('❌ 請填寫姓名、聯絡方式，並選擇想參加的班次喔！');
+                return;
+            }
+            if (slots.length === 0) {
+                alert('❌ 請至少勾選一個方便上課的時段！');
+                return;
+            }
+
+            const { error } = await db.from('schedule_votes').insert({
+                name: name,
+                contact: contact,
+                cohort: cohort,
+                time_slots: slots.join('、'),
+            });
+
+            if (error) {
+                alert('送出時發生問題，請直接加 LINE 與我們聯繫，謝謝！');
+                console.error(error);
+                return;
+            }
+
+            document.getElementById('sv_success_msg').style.display = 'block';
+            document.getElementById('sv_name').value = '';
+            document.getElementById('sv_contact').value = '';
+        }
+
+
+        function openBookingModal(defaultService) {
+            document.getElementById('bookingFormView').style.display = 'block';
+            document.getElementById('bookingSuccessView').style.display = 'none';
+            const radios = document.querySelectorAll('input[name="bk_service"]');
+            radios.forEach(r => { r.checked = (defaultService ? r.value === defaultService : false); });
+            document.getElementById('bookingModalOverlay').classList.add('open');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModalOverlay').classList.remove('open');
+        }
+
+        async function submitBooking() {
+            const name = document.getElementById('bk_name').value.trim();
+            const phone = document.getElementById('bk_phone').value.trim();
+            const lineId = document.getElementById('bk_line').value.trim();
+            const serviceEl = document.querySelector('input[name="bk_service"]:checked');
+            const service = serviceEl ? serviceEl.value : '尚未確定，請與我聯繫';
+            const time = document.getElementById('bk_time').value.trim();
+            const notes = document.getElementById('bk_notes').value.trim();
+
+            if (!name || !phone) {
+                alert('❌ 請填寫姓名與聯絡電話喔！');
+                return;
+            }
+
+            const { error } = await db.from('appointments').insert({
+                name: name,
+                phone: phone,
+                line_id: lineId || null,
+                service_type: service,
+                preferred_time: time || null,
+                notes: notes || null,
+                status: 'pending'
+            });
+
+            if (error) {
+                alert('送出時發生問題，請直接加 LINE 與我們聯繫，謝謝！');
+                console.error(error);
+                return;
+            }
+
+            document.getElementById('bookingFormView').style.display = 'none';
+            document.getElementById('bookingSuccessView').style.display = 'block';
+        }
+
         function toggleCard(header) {
             const card = header.parentElement;
             card.classList.toggle('active');
@@ -565,6 +1125,16 @@
             
             document.getElementById('btnTab' + tabNum).classList.add('active');
             document.getElementById('contentTab' + tabNum).classList.add('active');
+        }
+
+        // 服務足跡三分類頁籤切換邏輯
+        function switchFootprintTab(tabNum) {
+            ['1','2','3'].forEach(n => {
+                document.getElementById('btnFootTab' + n).classList.remove('active');
+                document.getElementById('contentFootTab' + n).classList.remove('active');
+            });
+            document.getElementById('btnFootTab' + tabNum).classList.add('active');
+            document.getElementById('contentFootTab' + tabNum).classList.add('active');
         }
 
         function scrollToCampForm() {
@@ -608,6 +1178,9 @@
             /* 2026 寒假營成果回顧特刊 */
             past_camp_2026_winter: "【📜 2026 神清氣爽寒假營 ── 完備回顧特刊】\n\n🎨 核心理念：像家一樣的陪伴，陪孩子過一個真正有溫度的寒假！\n\n😊 找回快樂：\n孩子沈迷手機，往往不是因為懶，而是生活中缺乏被理解、被肯定的快樂。在這個寒假，我們陪孩子重新建立：成就感、真實互動、有人陪伴的安全感。\n\n🌟 成就感 × 生活參與：\n✔ 互相陪伴完成寒假作業\n✔ 一起實現孩子提出的願望清單\n\n🍳 每天輪流生活實驗：\n決定午餐菜單 ➔ 一起採買 ➔ 一動動手煮！像在家一樣，吃現煮、有溫度的午餐。只要學習進度達標全員通過，就能展開一場「說走就走」的小旅行！\n\n🤝 關係感 ‧ 6人上下小團體：\n小團體設計，讓每位孩子都被聽見。除了完成寒假作業，也陪伴孩子一起討論：情緒管理、人際互動、金錢觀、我想要什麼樣的人生。這是一個可以安心說話、被尊重的空間。\n\n👨‍👩‍👧 親師交流：\n・每日提供孩子生活記錄\n・視孩子狀況與家長即時溝通",
             
+            /* 2025 暑假營隊回顧花絮 */
+            past_camp_2025_summer: "【📜 2025 暑假營隊 ── 回顧花絮】\n\n這一梯營隊，孩子們的足跡從室內的動手創造，一路延伸到戶外的真實體驗：\n\n🔧 動手做、不是動手機：\n從一箱箱的積木零件開始，孩子們自己動腦設計、動手拼裝，享受「自己做出來」的成就感，這種專注和滿足，是螢幕給不了的。\n\n🚃 真實世界的小旅行：\n搭乘地方小火車，走進老街市集，騎著協力三輪車迎著海風——孩子們牽著手走過熱鬧的街道，一起完成一段段需要彼此配合的小旅程。\n\n🎨 安靜創作的時光：\n也有靜下心來畫畫、專注完成一幅作品的時刻，讓孩子練習在團體生活之外，也能好好跟自己相處。\n\n這些畫面，正是我們希望孩子在離開手機之後，重新找回的——專注、合作、與真實世界互動的快樂。\n\n（為保護孩子隱私，部分照片中可清楚辨識的臉部已用笑臉貼紙處理）",
+
             /* 2024 埔里夏令營完整圖文 */
             past_camp_brain_summer: "【📜 2024 埔里活化大腦、玩就對了開心夏令營 ── 核心紀實】\n\n🎯 營隊核心亮點內容：\n\n一、日月潭獨木舟、木筏建造DIY\n除了在美景如畫的日月潭划獨木舟，還要讓孩子們建造木筏，以現實世界的創造成就感取代遊戲虛擬世界的得分成就感！團隊共同討論計畫、分工及收集材料，造一艘真的小船真的下水！歡迎回到真實世界！\n\n二、騎腳踏車──水社到向山\n\n三、高空繩索、低空繩索體驗\n\n四、認識自己的大腦與手機成癮、與情緒的關係\n一味的禁止孩子玩手機會讓親子關係越來越僵化對立，讓孩子們清晰認識遊戲設計原理正是針對大腦上癮機制，才讓人無法自拔。現代人必備能力：需要瞭解如何在21世紀既要使用AI又要保護大腦，瞭解手機成癮與大腦多巴胺的關連。戒手機成癮需要漸進式，每一個週期選一天整天不用手機。要做此練習之前，孩子認識大腦的運作，配合意願會更高，營隊結束後，也會固定舉辦一天隔絕手機有趣活動來延續體驗。\n\n五、友善的人際互動體驗\n透過有趣的遊戲、觀看電影《腦筋急轉彎》、玩桌遊及沒有手機的團體生活體會人際互動中常出現的誤解及溝通誤區。藉由帶領老師的示範及身教，讓孩子們學會看見彼此的差異獨特、彼此尊重、接納，進而友善並互相幫助。當擦槍走火時，老師會耐心陪伴引導衝突處理，讓關係更進一步！辨識自己人格特質的獨特性、建立正確自我認同、學習自己的人生終究要自己負責。\n\n六、當回自由快樂的孩子\n只要大家都同意，課程可以彈性調整，開放孩子據理力爭，體會與大人平和理性溝通。限制在15人以內，釋放一直需要被規定的約束。在開放時間自由玩水、晚上抓蟲、看星星，賞心悅目的埔里風景看到飽、享受自然的冷氣空調、打枕頭戰、玩桌遊……大腦需要很多開心，不是從手機而來的開心！\n\n📌 營隊基本資訊：\n・地點：埔里水頭山莊營地（六天五夜）\n・對象：升小三至升國二，7人成團，15人上限\n・費用：16,800（含保險、項目、食宿、交通，並贈送一堂價值1,800的家長諮詢課程，可分期付款）\n\n老實講，這個營隊是雪媚老師為升國二的兒子辦的，小時候的他享受各式各樣戶外活動、益智教具、人際互動…，但現在只要手機就可以，因為同學們也是人手一機，大部分的話題都圍繞著網路、手遊。雖然他自己也說玩了較長時間後蠻空虛的，但就是很難克制被手機吸引！！為了恢復兒子應該享有的人生中的豐富樂趣，一定要請手機消失一段時間，沒錯，整個營隊時間不開放手機！一定要讓孩子們重新體會跟這個世界、大自然、小玩伴、跟自己互動的美好。\n\n為了妥善照顧孩子各方面需要，收的孩子不多，人力成本高，體驗項目費用也高，真抱歉，要收比較高的費用，如有需要，可以分期付款。\n如果父母們也跟我一樣有危機意識，覺得需要為孩子的身、心、靈、人際互動健康、斷手機成癮大作戰，歡迎加入我們！只有一梯次喔！",
 
@@ -621,12 +1194,17 @@
             elder_power: "【樂齡成長課程 ── 肌力課程】\n\n專為長輩量身設計的專業、安全身體活動引導，有效預防肌少症，維持身體的豐沛活力與日常功能防護防禦力資料。",
             elder_hobby: "【樂齡成長課程 ── 興趣小組與生活美學】\n\n多元豐富的社交活動、生活美學小組與讀書分享，陪伴長者擴展社交圈，快樂無憂地建立第二精彩人生詳細介紹。",
             
-            bible_info: "【從聖經中尋見真我讀書會 ── 最新當期招生訊息】\n\n最新一期的精選研讀文本、每週聚會時段、實體/線上報名方式與名額剩餘狀況公告。歡迎隨時點擊下方按鈕加入官方 LINE 獲取專屬簡章。"
+            bible_info: "【從聖經中尋見真我讀書會 ── 最新當期招生訊息】\n\n📖 2026年八月份週間晚上班　第21期熱情招生中\n📖 2026年九月份週間白天班　第22期熱情招生中\n\n如果你需要搞清楚自己到底是怎麼樣的一個人\n如果你需要把自己找回來\n如果你需要為目前的生命挑戰找到新的方向及力量\n如果你需要真誠地被聆聽\n如果你需要了解跟你不一樣的人到底是怎麼想的\n\n你將會在這個CP值超高的讀書會經歷超乎想像的豐富、收穫、支持以及愛。課程最後，每位同學將獲贈一堂100分鐘一對一諮詢，將生命歷程做統整性的分析歸納整理。\n\n【上課時間】\n2026年1月開始，一堂2.5小時，共十五堂。請假可看回放影片補課。\n第21期（晚上班）：週一或週四、五晚上7:00-9:30，目前開放兩個時段投票，將以最多人選擇的時段開課。\n第22期（白天班）：週二/週五上午9:30-12:00、週二/週五下午1:30-4:00，共四個時段開放投票。\n\n有意願上課者請掃描QR code進入讀書會群組詢問相關問題並參與時段投票。歡迎老同學回來複習，費用自由奉獻！\n\n【上課地點】線上讀書會\n\n【費用】9,000元，共15堂課（一堂2.5小時）。講義印製及寄送費用，實支實付。如有困難一次繳清全期費用，可分期；確定開班、時間可配合後再繳費。\n\n【帶領老師：邱雪媚】\n學歷：台北市立師院幼教系畢業、衛理神學研究院教牧諮商碩士、道學碩士畢業，現為衛理神學研究院教牧學博士研究生。\n現任：心路新路個人成長中心工作室負責人、教牧協談學會教牧協談師、拿撒勒神學院教牧輔導老師，常應邀至社區、國小進行親職講座、教師研習。\n曾任：宇宙光關懷輔導中心教牧輔導員、台灣教牧協談學會秘書長。\n合作過單位：仁愛國小、明倫國小、桃園中壢興仁國小、國語實小、彭福國小、佳音幼兒園、純得幼兒園、葫蘆幼兒園、安坑國小、蘆洲國小、八里國小、牡丹國小、1919救助協會、伊甸基金會、新竹人本基金會、新竹世界展望會、樂福社區關懷協會、勵友中心、伯大尼兒少家園⋯等。\n專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談）、婚姻講座、親職訓練及講座、兒童師資訓練、三一原型尋見真我讀書會、同理心訓練、基本協談技巧。\n\n【課程介紹】\n閱讀書籍：《從聖經中尋見真我》，作者林瑜琳，使徒出版社出版，請於讀書會開始前自行購買。\n博客來：https://shop.campus.org.tw/ProductDetails.aspx?ProductID=000523400\n\n小班制：每班招收上限新生十位，以填單順序錄取，確保每個人都有足夠的分享時間。\n\n許多人對心理成長很有興趣，也上了很多課程，卻不知如何運用。您需要的是可以帶著您細細整理自己生命經驗的讀書會！隨著讀書會進行，您將逐步完成生命歷程的書寫，也將擁有從神而來的新眼光，看見新的方向。\n\n有興趣進一步學習關懷技巧者，均須先在此讀書會完成自己生命歷程的梳理，方能參加進階課程喔！\n\n如果您有以下情況，這個讀書會就是您所需要的：\n★想要更認識自己，及明白上帝對自己生命的帶領\n★理性上知道需要接納、鼓勵孩子或配偶，但就是會看不慣其言行舉止，有意無意說出破壞關係的話\n★一直覺得自己不夠好，深受低自信、羞愧的困擾\n★希望學習有效關懷、幫助他人\n\n很多成員在過程中如釋重負、豁然開朗地說：「我現在終於知道自己為什麼會這樣了」、「我知道接下去該怎麼面對生命的問題了！」\n\n從聖經中尋見自己的生命，會讓您驚訝——自己生命的祝福、美好及力量，超過自己原本的想像。"
         };
 
         // 🌟 智慧多媒體矩陣：動態加載四張精采成果大圖 🌟
         const photoMatrix = {
             past_camp_2026_winter: ['image_efcd15.png'],
+            past_camp_2025_summer: [
+                '2025暑假營_01.jpg','2025暑假營_02.jpg','2025暑假營_03.jpg','2025暑假營_04.jpg',
+                '2025暑假營_05.jpg','2025暑假營_06.jpg','2025暑假營_07.jpg','2025暑假營_08.jpg',
+                '2025暑假營_09.jpg','2025暑假營_10.jpg','2025暑假營_11.jpg','2025暑假營_12.jpg','2025暑假營_13.jpg',
+            ],
             past_camp_brain_summer: ['image_ef6f43.png', 'image_ef6385.png', 'image_ef6360.png', 'image_ef6328.png', 'image_ef6305.png']
         };
 
