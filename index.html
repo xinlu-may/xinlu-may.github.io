@@ -552,30 +552,9 @@
                 
                 <div class="garden-chapter-body">
                     <p class="main-text-p" style="margin-bottom: 10px;">由雪媚老師親自整理撰寫，將長輩們一生的智慧結晶、見證與愛，包裝成字體清晰的數位翻頁書。讓每一個獨特的生命禮物，都能在此盛大綻放，代代珍藏。</p>
-                    <p class="main-text-p" style="font-size:18px; color:#666;">💡 點擊下方封面即可翻閱故事內容（內容與翻翻書檔案隨時可再更新）：</p>
+                    <p class="main-text-p" style="font-size:18px; color:#666;">💡 點擊下方按鈕，前往生命故事花園專屬頁面，翻閱完整的生命見證翻頁書：</p>
 
-                    <div class="garden-books-grid">
-                        <div>
-                            <div class="book-cover-card" onclick="openBook('dad')">
-                                <img src="027ca521-816d-47cb-86eb-fa50bcd6230e.png.png" alt="邱鐘明弟兄封面">
-                            </div>
-                            <p style="text-align:center; font-size:16px; font-weight:bold; color:#2C5E3B; margin-top:8px;">邱鐘明弟兄</p>
-                        </div>
-                        <div>
-                            <div class="book-cover-card" onclick="openBook('mom')">
-                                <img src="2b6759ce-153d-4e72-a591-1302a5bf485b.png.png" alt="蔡淑金女士封面">
-                            </div>
-                            <p style="text-align:center; font-size:16px; font-weight:bold; color:#2C5E3B; margin-top:8px;">蔡淑金女士</p>
-                        </div>
-                        <div>
-                            <div class="book-cover-card" onclick="openBook('aunt')">
-                                <img src="0f54b13c-2936-49bc-bfe3-fe6015efb4c2.png.png" alt="蔡秀鳳小阿姨封面">
-                            </div>
-                            <p style="text-align:center; font-size:16px; font-weight:bold; color:#2C5E3B; margin-top:8px;">蔡秀鳳小阿姨</p>
-                        </div>
-                    </div>
-
-                    <a href="https://lin.ee/@431trrjk" target="_blank" class="action-link-btn btn-line-theme" style="width:100%; margin-top:15px;">💬 加官方 LINE 諮詢或預約生命故事撰寫</a>
+                    <a href="life-stories.html" class="action-link-btn btn-line-theme" style="width:100%; margin-top:15px; font-size:21px; padding:16px 0;">📖 進入生命故事花園</a>
                 </div>
             </div>
         </section>
@@ -912,7 +891,6 @@
 
     </div>
 
-    <!-- 全螢幕大字體通用閱覽視窗 -->
     <!-- 📅 預約諮詢彈窗 -->
     <div class="booking-modal-overlay" id="bookingModalOverlay">
         <div class="booking-modal-box">
@@ -970,6 +948,7 @@
         </div>
     </div>
 
+    <!-- 全螢幕大字體通用閱覽視窗（供其他文章使用） -->
     <div class="fullscreen-book-view" id="fullscreenBookView">
         <div class="book-max-wrapper">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
@@ -1168,10 +1147,6 @@
         }
 
         const articlesBank = {
-            dad: "【邱鐘明弟兄生命見證書：《我要幫上帝蓋教會》】\n\n見證主愛的邱鐘明弟兄 ‧ ◎ 邱雪媚 整理撰寫\n\n離開賺錢至上的空虛、失望，進入全然奉獻的喜樂、平安！\n\n（💡 老師，這裡已完美預留。等未來數位翻翻書的連結或完整傳記內文好了，可以直接填入這段代碼中，長輩點封面就能直接看書囉！）",
-            mom: "【邱蔡淑金女士傳記小說：《阿金》】\n\n溫柔包容的母愛暖流 ‧ ◎ 邱雪媚 整理撰寫\n\n是金子，在哪裡都能閃閃發亮！\n\n（💡 老師，這裡已完美預留。等未來數位翻翻書的連結或完整傳記內文好了，可以直接填入這段代碼中，長輩點封面就能直接看書囉！）",
-            aunt: "【蔡秀鳳小阿姨生命樂章：《瀟灑走一回》】\n\n樂觀豁達、自立自強的人生 ‧ ◎ 邱雪媚 整理撰寫\n\n在麻醉中舒服睡著，在開刀前回天家，安詳如睡。\n\n（💡 老師，這裡已完美預留。等未來數位翻翻書的連結或完整傳記內文好了，可以直接填入這段代碼中，長輩點封面就能直接看書囉！）",
-            
             child_one: "【兒童青少年課程 ── 一對一成長課程】\n\n針對孩子的獨特特質，量身打造專屬的情緒梳理、內在自我認同與引導專文資料。",
             child_group: "【兒童青少年課程 ── 小團體課程】\n\n在安全、有邊界感的小團體氛圍中，透過主題互動陪伴孩子學習同理心、關係修復與高情商衝突溝通策略與說明。",
             
@@ -1252,14 +1227,6 @@
                 document.getElementById('fullscreenBookView').style.display = 'block';
                 window.scrollTo(0, 0);
             }
-        }
-
-        function openBook(type) {
-            document.getElementById('dynamicPhotoGallery').style.display = 'none';
-            document.getElementById('bookNavTitle').innerText = `📖 生命故事花園 ‧ 數位翻頁見證錄`;
-            document.getElementById('bookMainContent').innerText = articlesBank[type];
-            document.getElementById('fullscreenBookView').style.display = 'block';
-            window.scrollTo(0, 0);
         }
 
         function closeBook() {
