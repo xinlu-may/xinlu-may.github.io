@@ -117,7 +117,6 @@
   .dot.open{background:var(--sage);}
   .dot.booked{background:var(--clay);}
   .dot.locked{background:#C8BFA8;}
-  .dot.family{background:#E8B86D;}
 
   .cal-day{
     background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
@@ -143,12 +142,14 @@
   }
   .slot .t{font-weight:700;display:block;}
   .slot .s{display:block;color:var(--ink-soft);font-size:11px;margin-top:2px;}
-  .slot.open{background:#EFF4EC;border-color:#C9DABE;cursor:pointer;}
-  .slot.open:hover{background:#E3EDDC;}
+  .slot.open{background:var(--sage); border-color:var(--sage-deep); cursor:pointer;}
+  .slot.open .t{color:#FFFFFF;}
+  .slot.open .s{color:rgba(255,255,255,0.92);}
+  .slot.open:hover{background:var(--sage-deep);}
   .slot.booked{background:#F6E6DF;border-color:var(--clay);}
   .slot.booked .t{color:var(--clay-deep);}
-  .slot.locked{background:#F1EEE5;color:#A89F8C;border-color:#E3DCC9;}
-  .slot.family{background:#FCF1DC;border-color:#E8B86D;}
+  .slot.locked{background:#F7F4EE;color:#C7BFAE;border-color:#EDE7DA;}
+  .slot.locked .s{color:#C7BFAE;}
 
   /* ===== Cards ===== */
   .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;}
@@ -213,6 +214,15 @@
   .pay-option input{margin-top:3px;}
   .pay-option .lab{font-weight:500;font-size:14.5px;}
   .pay-option .sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .qr-box{
+    margin-top:10px;text-align:center;background:var(--white);border:1px dashed var(--line);
+    border-radius:var(--radius-sm);padding:18px;
+  }
+  .qr-box img{width:160px;height:160px;object-fit:contain;}
+  .qr-placeholder{
+    width:160px;height:160px;margin:0 auto;background:var(--paper-deep);border-radius:var(--radius-sm);
+    display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:12px;
+  }
   .amount-row{display:flex;align-items:center;gap:10px;margin:14px 0;}
   .amount-row input[type=number]{width:120px;}
   .toast{
@@ -284,7 +294,7 @@
       <h1 id="admin-trigger" style="user-select:none; cursor:default;">雪媚老師東京行程<br>與課程報名</h1>
       <p class="lead" id="hero-lead">在東京。歡迎預約工作坊、講座，或單獨約時間見面聊聊。</p>
       <div class="hero-dates">
-        <span class="hero-date-chip">7/5－7/8　親子時光</span>
+        <span class="hero-date-chip">7/5－7/8　旅遊行程</span>
         <span class="hero-date-chip">7/9起　開放預約</span>
       </div>
     </div>
@@ -389,21 +399,22 @@ function getSlotInfo(date, hour){
   const isSunday = d.getDay()===0;
   const isFamilyPhase = date < '2026-07-09';
 
-  // 週日整天鎖定（7/9之後才有週日規則；親子期間週日仍走親子邏輯）
-  if(isSunday && !isFamilyPhase){
+  // 親子優先期間（7/5-7/8）：全天每個時段都開放預約，文字提示歡迎推薦景點或邀約出遊
+  if(isFamilyPhase){
+    return {status:'open', label:'旅遊行程', sub:'歡迎推薦景點或帶我們去玩喔'};
+  }
+
+  // 週日整天鎖定
+  if(isSunday){
     return {status:'locked', label:'週日休息', sub:'不開放'};
   }
 
-  // 午餐 12-14, 晚餐 16-18 一律鎖定（親子期間内也標示為親子用餐時段）
+  // 午餐 12-14, 晚餐 16-18 一律鎖定
   if(hour>=12 && hour<14){
-    return isFamilyPhase
-      ? {status:'family', label:'午餐時間', sub:'親子時光'}
-      : {status:'locked', label:'午餐時間', sub:'不開放'};
+    return {status:'locked', label:'午餐時間', sub:'不開放'};
   }
   if(hour>=16 && hour<18){
-    return isFamilyPhase
-      ? {status:'family', label:'晚餐時間', sub:'親子時光'}
-      : {status:'locked', label:'晚餐時間', sub:'不開放'};
+    return {status:'locked', label:'晚餐時間', sub:'不開放'};
   }
 
   // 工作坊／演講鎖定時段
@@ -411,10 +422,6 @@ function getSlotInfo(date, hour){
   if(ws){ return {status:'locked', label:'工作坊', sub:ws.title}; }
   const sp = SPEECHES.find(s=>s.date===date && hour>=19 && hour<21);
   if(sp){ return {status:'locked', label:'講座', sub:sp.title}; }
-
-  if(isFamilyPhase){
-    return {status:'family', label:'親子時光', sub:'可安排拜訪/出遊'};
-  }
 
   return {status:'open', label:'可預約', sub:'一對一拜訪'};
 }
@@ -489,19 +496,18 @@ function renderCalendarPanel(){
   <div class="section-head">
     <div class="eyebrow">行程總覽</div>
     <h2 id="cal-range-title"></h2>
-    <p>灰色是已經安排好的工作坊、講座或休息時間；綠色是還空著、可以預約一對一拜訪的時段；黃色是親子時光。點一下空格就能預約。</p>
+    <p>灰色是已經安排好的工作坊、講座或休息時間，不開放預約；綠色是還空著、可以預約一對一拜訪的時段（7/5－7/8 旅遊行程期間也歡迎邀約見面、推薦景點或帶我們去玩）。點一下空格就能預約。</p>
   </div>
   <div class="legend">
-    <span><i class="dot family"></i>親子時光</span>
     <span><i class="dot locked"></i>已安排（工作坊／講座／休息）</span>
-    <span><i class="dot open"></i>可預約拜訪</span>
+    <span><i class="dot open"></i>可預約</span>
     <span><i class="dot booked"></i>已被預約</span>
   </div>`;
 
   DAYS.forEach(day=>{
     const isFamilyPhase = day.date < '2026-07-09';
     let tag = '';
-    if(isFamilyPhase) tag = '<span class="d-tag family">親子時光</span>';
+    if(isFamilyPhase) tag = '<span class="d-tag family">旅遊行程</span>';
     else {
       const hasEvent = WORKSHOPS.some(w=>w.date===day.date) || SPEECHES.some(s=>s.date===day.date);
       if(hasEvent) tag = '<span class="d-tag event">當日有課程</span>';
@@ -642,17 +648,44 @@ function renderInfoPanel(){
   document.getElementById('panel-info').innerHTML = html;
 }
 
-/* ===================== 共用：付款方式說明（現場現金） ===================== */
+/* ===================== 共用：付款方式選項（LINE Pay／現場現金） ===================== */
 function renderPayOptions(containerId){
   const container = document.getElementById(containerId);
   container.innerHTML = `
-    <div class="pay-option selected" data-val="cash">
+    <label class="pay-option" data-val="linepay">
+      <input type="radio" name="payMethod" value="linepay">
+      <div>
+        <div class="lab">LINE Pay（線上）</div>
+        <div class="sub">用手機掃描 QR Code 轉帳</div>
+        <div class="qr-area" style="display:none;">
+          <div class="qr-box">
+            <div class="qr-placeholder">LINE Pay<br>收款 QR Code<br>（待補）</div>
+          </div>
+        </div>
+      </div>
+    </label>
+    <label class="pay-option" data-val="cash">
+      <input type="radio" name="payMethod" value="cash">
       <div>
         <div class="lab">現場現金</div>
         <div class="sub">見面當天直接支付，請按當日匯率付日幣現金</div>
       </div>
-    </div>
+    </label>
   `;
+  container.querySelectorAll('.pay-option').forEach(opt=>{
+    const input = opt.querySelector('input');
+    const qrArea = opt.querySelector('.qr-area');
+    opt.addEventListener('click', ()=>{
+      container.querySelectorAll('.pay-option').forEach(o=>{
+        o.classList.remove('selected');
+        const qa = o.querySelector('.qr-area');
+        if(qa) qa.style.display='none';
+      });
+      opt.classList.add('selected');
+      input.checked = true;
+      if(qrArea) qrArea.style.display='block';
+    });
+  });
 }
 
 /* ===================== Modal：工作坊／講座報名 ===================== */
@@ -693,6 +726,8 @@ function openRegisterModal(type, eventId){
   document.getElementById('register-form').addEventListener('submit', async e=>{
     e.preventDefault();
     const fd = new FormData(e.target);
+    const payMethod = fd.get('payMethod');
+    if(!payMethod){ showToast('請選擇一種付款方式'); return; }
     const submitBtn = e.target.querySelector('button[type=submit]');
     submitBtn.disabled = true; submitBtn.textContent = '送出中…';
 
@@ -703,7 +738,7 @@ function openRegisterModal(type, eventId){
       formType: type==='ws' ? '工作坊報名' : '講座報名',
       eventTitle: ev.title, eventDate: ev.label,
       name: fd.get('name'), contact: fd.get('contact'),
-      amount: fd.get('amount'), payMethod: '現場現金'
+      amount: fd.get('amount'), payMethod
     };
     await submitToFormspree(privateData);
 
@@ -768,6 +803,8 @@ function openVisitModal(date, hour){
   document.getElementById('visit-form').addEventListener('submit', async e=>{
     e.preventDefault();
     const fd = new FormData(e.target);
+    const payMethod = fd.get('payMethod');
+    if(!payMethod){ showToast('請選擇一種付款方式'); return; }
     const submitBtn = e.target.querySelector('button[type=submit]');
     submitBtn.disabled = true; submitBtn.textContent = '送出中…';
 
@@ -788,7 +825,7 @@ function openVisitModal(date, hour){
       visitDate: dayInfo.label, visitTime: timeStr,
       fillerType: fd.get('fillerType'), fillerName: fd.get('fillerName'),
       subjectName: fd.get('subjectName'), contact: fd.get('contact'),
-      note: fd.get('note'), amount: fd.get('amount'), payMethod: '現場現金'
+      note: fd.get('note'), amount: fd.get('amount'), payMethod
     };
     await submitToFormspree(privateData);
 
