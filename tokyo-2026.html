@@ -213,15 +213,6 @@
   .pay-option input{margin-top:3px;}
   .pay-option .lab{font-weight:500;font-size:14.5px;}
   .pay-option .sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
-  .qr-box{
-    margin-top:10px;text-align:center;background:var(--white);border:1px dashed var(--line);
-    border-radius:var(--radius-sm);padding:18px;
-  }
-  .qr-box img{width:160px;height:160px;object-fit:contain;}
-  .qr-placeholder{
-    width:160px;height:160px;margin:0 auto;background:var(--paper-deep);border-radius:var(--radius-sm);
-    display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:12px;
-  }
   .amount-row{display:flex;align-items:center;gap:10px;margin:14px 0;}
   .amount-row input[type=number]{width:120px;}
   .toast{
@@ -651,44 +642,17 @@ function renderInfoPanel(){
   document.getElementById('panel-info').innerHTML = html;
 }
 
-/* ===================== 共用：付款方式選項（LINE Pay／現場現金） ===================== */
+/* ===================== 共用：付款方式說明（現場現金） ===================== */
 function renderPayOptions(containerId){
   const container = document.getElementById(containerId);
   container.innerHTML = `
-    <label class="pay-option" data-val="linepay">
-      <input type="radio" name="payMethod" value="linepay">
-      <div>
-        <div class="lab">LINE Pay（線上）</div>
-        <div class="sub">用手機掃描 QR Code 轉帳</div>
-        <div class="qr-area" style="display:none;">
-          <div class="qr-box">
-            <div class="qr-placeholder">LINE Pay<br>收款 QR Code<br>（待補）</div>
-          </div>
-        </div>
-      </div>
-    </label>
-    <label class="pay-option" data-val="cash">
-      <input type="radio" name="payMethod" value="cash">
+    <div class="pay-option selected" data-val="cash">
       <div>
         <div class="lab">現場現金</div>
         <div class="sub">見面當天直接支付，請按當日匯率付日幣現金</div>
       </div>
-    </label>
+    </div>
   `;
-  container.querySelectorAll('.pay-option').forEach(opt=>{
-    const input = opt.querySelector('input');
-    const qrArea = opt.querySelector('.qr-area');
-    opt.addEventListener('click', ()=>{
-      container.querySelectorAll('.pay-option').forEach(o=>{
-        o.classList.remove('selected');
-        const qa = o.querySelector('.qr-area');
-        if(qa) qa.style.display='none';
-      });
-      opt.classList.add('selected');
-      input.checked = true;
-      if(qrArea) qrArea.style.display='block';
-    });
-  });
 }
 
 /* ===================== Modal：工作坊／講座報名 ===================== */
@@ -729,8 +693,6 @@ function openRegisterModal(type, eventId){
   document.getElementById('register-form').addEventListener('submit', async e=>{
     e.preventDefault();
     const fd = new FormData(e.target);
-    const payMethod = fd.get('payMethod');
-    if(!payMethod){ showToast('請選擇一種付款方式'); return; }
     const submitBtn = e.target.querySelector('button[type=submit]');
     submitBtn.disabled = true; submitBtn.textContent = '送出中…';
 
@@ -741,7 +703,7 @@ function openRegisterModal(type, eventId){
       formType: type==='ws' ? '工作坊報名' : '講座報名',
       eventTitle: ev.title, eventDate: ev.label,
       name: fd.get('name'), contact: fd.get('contact'),
-      amount: fd.get('amount'), payMethod
+      amount: fd.get('amount'), payMethod: '現場現金'
     };
     await submitToFormspree(privateData);
 
@@ -806,8 +768,6 @@ function openVisitModal(date, hour){
   document.getElementById('visit-form').addEventListener('submit', async e=>{
     e.preventDefault();
     const fd = new FormData(e.target);
-    const payMethod = fd.get('payMethod');
-    if(!payMethod){ showToast('請選擇一種付款方式'); return; }
     const submitBtn = e.target.querySelector('button[type=submit]');
     submitBtn.disabled = true; submitBtn.textContent = '送出中…';
 
@@ -828,7 +788,7 @@ function openVisitModal(date, hour){
       visitDate: dayInfo.label, visitTime: timeStr,
       fillerType: fd.get('fillerType'), fillerName: fd.get('fillerName'),
       subjectName: fd.get('subjectName'), contact: fd.get('contact'),
-      note: fd.get('note'), amount: fd.get('amount'), payMethod
+      note: fd.get('note'), amount: fd.get('amount'), payMethod: '現場現金'
     };
     await submitToFormspree(privateData);
 
