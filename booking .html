@@ -275,6 +275,13 @@
   }
 </style>
 </head>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://iqxzsflawxzvniycmaub.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4';
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 <body>
 
 <header class="hero">
@@ -458,28 +465,22 @@ function getSlotInfo(date, hour){
    私密資料（姓名、電話、聯絡方式）只會送到 Formspree 到老師信箱，不會存在這裡。 */
 
 function visitKey(date,hour){ return 'slot:'+date+'_'+hour; }
-function countKey(type,id){ return 'count:'+type+'_'+id; }
 
-async function getSlotBooked(date,hour){
-  try{
-    const r = await window.storage.get(visitKey(date,hour), true);
-    return r ? r.value === 'true' : false;
-  }catch(e){ return false; }
-}
-async function setSlotBooked(date,hour){
-  try{ await window.storage.set(visitKey(date,hour), 'true', true); }catch(e){}
-}
+async function getSlotBooked(date,hour){ return false; }
+async function setSlotBooked(date,hour){}
+
 async function getCount(type,id){
   try{
-    const r = await window.storage.get(countKey(type,id), true);
-    return r ? parseInt(r.value,10) || 0 : 0;
+    const { count, error } = await db.from('event_registrations')
+      .select('*', { count: 'exact', head: true })
+      .eq('event_type', type).eq('event_id', id);
+    if (error) { console.error(error); return 0; }
+    return count || 0;
   }catch(e){ return 0; }
 }
 async function incrementCount(type,id){
-  const current = await getCount(type,id);
-  const next = current + 1;
-  try{ await window.storage.set(countKey(type,id), String(next), true); }catch(e){}
-  return next;
+  // 實際筆數由 event_registrations 寫入後自動反映，這裡僅重新查詢最新人數
+  return await getCount(type,id);
 }
 
 /* 本地快取，渲染時先用快取畫面，再用最新資料覆蓋，避免畫面一直空白等待 */
@@ -693,16 +694,32 @@ function openRegisterModal(type, eventId){
     const submitBtn = e.target.querySelector('button[type=submit]');
     submitBtn.disabled = true; submitBtn.textContent = '送出中…';
 
-    const newCount = await incrementCount(type, eventId);
-    countCache[type][eventId] = newCount;
+    const { error } = await db.from('event_registrations').insert({
+      event_type: type,
+      event_id: eventId,
+      event_title: ev.title,
+      event_date: ev.label,
+      name: fd.get('name'),
+      contact: fd.get('contact'),
+      amount: fd.get('amount'),
+      pay_method: '現場現金'
+    });
 
-    const privateData = {
+    if (error) {
+      console.error(error);
+      submitBtn.disabled = false; submitBtn.textContent = '確認報名';
+      showToast('送出時發生問題，請直接加官方LINE與我們聯繫，謝謝！');
+      return;
+    }
+
+    countCache[type][eventId] = await getCount(type, eventId);
+
+    submitToFormspree({
       formType: type==='ws' ? '工作坊報名' : '講座報名',
       eventTitle: ev.title, eventDate: ev.label,
       name: fd.get('name'), contact: fd.get('contact'),
       amount: fd.get('amount'), payMethod: '現場現金'
-    };
-    await submitToFormspree(privateData);
+    });
 
     closeModal();
     renderWorkshopsPanel();
@@ -927,15 +944,33 @@ function openVisitModal(){
     const submitBtn = e.target.querySelector('button[type=submit]');
     submitBtn.disabled = true; submitBtn.textContent = '送出中…';
 
-    const privateData = {
+    const { error } = await db.from('consultation_bookings').insert({
+      preferred_time: fd.get('preferredTime'),
+      filler_type: fd.get('fillerType'),
+      filler_name: fd.get('fillerName'),
+      subject_name: fd.get('subjectName'),
+      contact: fd.get('contact'),
+      note: fd.get('note'),
+      amount: fd.get('amount'),
+      pay_method: '現場現金',
+      intake_data: collectIntakeData(fd)
+    });
+
+    if (error) {
+      console.error(error);
+      submitBtn.disabled = false; submitBtn.textContent = '送出預約';
+      showToast('送出時發生問題，請直接加官方LINE與我們聯繫，謝謝！');
+      return;
+    }
+
+    submitToFormspree({
       formType: '一對一諮詢預約',
       preferredTime: fd.get('preferredTime'),
       fillerType: fd.get('fillerType'), fillerName: fd.get('fillerName'),
       subjectName: fd.get('subjectName'), contact: fd.get('contact'),
       note: fd.get('note'), amount: fd.get('amount'), payMethod: '現場現金',
       ...collectIntakeData(fd)
-    };
-    await submitToFormspree(privateData);
+    });
 
     closeModal();
     showToast('預約成功！資料已送出通知，我們會盡快與您確認時段');
