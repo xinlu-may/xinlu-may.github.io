@@ -27,7 +27,7 @@
         
         /* 特大號清晰內文字體，長輩用手機看最舒服 */
         .main-text-p { font-size: 23px; color: #37474F; line-height: 2.0; text-align: justify; margin-bottom: 20px; font-weight: 500; }
-        .intro-welcome-text { font-size: 27px; color: #142028; line-height: 1.6; font-family: 'Yuanti TC', 'Hanzi Pen TC', 'PingFang TC', '微軟正黑體', 'Microsoft JhengHei', sans-serif; }
+        .intro-welcome-text { font-size: 18px; color: #142028; line-height: 1.6; font-family: 'Yuanti TC', 'Hanzi Pen TC', 'PingFang TC', '微軟正黑體', 'Microsoft JhengHei', sans-serif; }
         .bold-highlight { color: #2C5E3B; font-weight: bold; }
 
         /* 🌟 1. 導航站介紹橫幅 */
@@ -51,7 +51,7 @@
             .news-btn-grid { grid-template-columns: repeat(2, 1fr); }
         }
         .hero-logo { width: 160px; height: auto; margin-bottom: 20px; }
-        .hero-title { font-size: 32px; color: #1B5E20; font-weight: 800; line-height: 1.4; margin-bottom: 14px; text-align:center; }
+        .hero-title { font-size: 28px; color: #1B5E20; font-weight: 800; line-height: 1.4; margin-bottom: 14px; text-align:center; }
         .hero-warm-photo { width: 100%; max-width: 360px; height: 190px; object-fit: cover; border-radius: 18px; margin: 0 auto; display: block; box-shadow: 0 10px 28px rgba(230,126,34,0.18); border: 4px solid #ffffff; }
 
         /* 🌟 服務項目大卡片與智慧分流面版 */
@@ -85,7 +85,7 @@
         .camp-gallery-grid { display: flex; flex-direction: column; gap: 18px; margin: 25px 0; padding: 10px; background: #f4f6f4; border-radius: 20px; border: 1px solid #e2ece4; }
 
         /* 行動跳轉按鈕樣式 */
-        .action-link-btn { display: inline-block; background: #2C5E3B; color: white; padding: 13px 32px; border-radius: 35px; font-size: 20.5px; text-decoration: none; font-weight: bold; margin-top: 12px; box-shadow: 0 4px 12px rgba(44,94,59,0.2); border: none; cursor: pointer; text-align: center; }
+        .action-link-btn { display: inline-block; background: #2C5E3B; color: white; padding: 13px 32px; border-radius: 35px; font-size: 18px; text-decoration: none; font-weight: bold; margin-top: 12px; box-shadow: 0 4px 12px rgba(44,94,59,0.2); border: none; cursor: pointer; text-align: center; }
         .action-link-btn:hover { background: #1B5E20; }
         .btn-orange-theme { background: #E67E22; box-shadow: 0 4px 12px rgba(230,126,34,0.2); }
         .btn-orange-theme:hover { background: #D35400; }
@@ -132,12 +132,16 @@
 
         /* 全螢幕大字體通用閱覽視窗 */
         .fullscreen-book-view { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f5f6f3; z-index: 2000; overflow-y: auto; padding: 20px; }
+        .image-lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.92); z-index:3000; align-items:center; justify-content:center; cursor:zoom-out; }
+        .image-lightbox.open { display:flex; }
+        .image-lightbox img { max-width:95%; max-height:95%; object-fit:contain; border-radius:8px; }
+        .lightbox-close { position:fixed; top:18px; right:22px; background:rgba(255,255,255,0.9); border:none; width:42px; height:42px; border-radius:50%; font-size:20px; cursor:pointer; }
         .book-max-wrapper { max-width: 900px; margin: 0 auto; background: white; border-radius: 16px; padding: 40px; box-shadow: 0 15px 45px rgba(0,0,0,0.1); min-height: calc(100vh - 40px); display: flex; flex-direction: column; justify-content: space-between; }
         .book-big-text { font-size: 26px; line-height: 2.0; color: #1a1a1a; margin: 25px 0; text-align: justify; white-space: pre-line; font-weight: 500; }
 
         /* 🤖 營隊專屬頁籤樣式 */
         .camp-nav-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 25px 0; }
-        .camp-nav-btn { background: #eef4f0; color: #2C5E3B; border: 1px solid #cbdccb; padding: 12px 5px; border-radius: 12px; font-size: 19px; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s; }
+        .camp-nav-btn { background: #eef4f0; color: #2C5E3B; border: 1px solid #cbdccb; padding: 12px 5px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s; }
         .camp-nav-btn.active { background: #2C5E3B; color: white; border-color: #2C5E3B; }
         .camp-tab-content { display: none; background: #ffffff; border-radius: 16px; padding: 25px; border: 1px solid #eef2f0; margin-bottom: 25px; text-align: left; }
         .camp-tab-content.active { display: block; }
@@ -173,10 +177,14 @@
         .booking-success-box .icon { font-size: 50px; margin-bottom: 12px; }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 28px; }
+            .hero-title { font-size: 24px; }
             .card-header-toggle h3 { font-size: 20px; }
-            .sub-item-title { font-size: 21.5px; }
-            .sub-item-desc { font-size: 20.5px; }
+            .sub-item-title { font-size: 19px; }
+            .sub-item-desc { font-size: 18px; }
+            .main-text-p { font-size: 19px; }
+            .about-may-p { font-size: 19px; }
+            .about-may-list { font-size: 18px; }
+            .action-link-btn { font-size: 16px; padding: 11px 24px; }
             .camp-nav-bar { grid-template-columns: 1fr; gap: 8px; }
             .sub-camp-split-box { grid-template-columns: 1fr; gap: 10px; }
             body { padding-top: 130px; }
@@ -260,7 +268,7 @@
                     </div>
                 </div>
 
-                <p class="about-may-p">從專業幼兒教育科班出身，從陪伴小小孩、家長們，一直到現在為樂齡長輩服務，將近 30 年的助人服務。</p>
+                <p class="about-may-p" style="font-size:18px;">從專業幼兒教育科班出身，從陪伴小小孩、家長們，一直到現在為樂齡長輩服務，將近 30 年的助人服務。</p>
                 <p class="about-may-p">許許多多的生命鬥士教會我謙卑地看見：人的能力很有限，要接受自己無法解決所有的問題。然而上帝給人很多祝福，如果沒有看到這些祝福，真的損失太大了。所以即便與問題並存，也要專注發現並享受神給的豐盛跟喜樂，這才是生命中的重中之重。</p>
                 <p class="about-may-p">不管多麼沉重的生命挑戰，或者多麼偉大的神聖使命，如果不能感受喜樂與幸福，會讓人有極大的不值得感。</p>
                 <p class="about-may-p about-may-highlight">生命、時間都很珍貴，不要浪費在讓自己反覆挫折的事情上，應該用在全心全意發掘屬於自己的喜樂，不要讓任何因素破壞你生命中不可或缺的力量及幸福。</p>
@@ -467,13 +475,15 @@
                 <div class="card-content-pane">
                     <div class="pane-inner">
                         <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=600" class="illustration-thumb" alt="兒童青少年引導插圖">
-                        <p class="main-text-p" style="color:#2C5E3B; font-weight:bold; margin-bottom:15px;">📊 點選各單項查看專業圖文資料：</p>
-                        
-                        <div class="sub-item-box" onclick="openArticle('child_one')">
-                            <div class="sub-item-title">🎯 一對一成長課程 ➔</div>
-                            <div class="sub-item-desc">針對孩子的獨特特質，量身打造專屬的情緒梳理與自我認同引導文章。</div>
+
+                        <!-- 🌟 頂層選擇選單：先選類別，再看內容 -->
+                        <div id="campTopChoice" style="display:flex; flex-direction:column; gap:14px; max-width:420px; margin:10px auto;">
+                            <button class="action-link-btn btn-orange-theme" style="width:100%;" onclick="openArticle('child_one')">🎯 一對一成長課程</button>
+                            <button class="action-link-btn" style="width:100%; background:#1B5E20; border:none;" onclick="document.getElementById('campTopChoice').style.display='none'; document.getElementById('campGroupSection').style.display='block';">⛺ 營隊</button>
+                            <button class="action-link-btn" style="width:100%; background:#78909C; border:none;" onclick="closeServicePane()">🔙 返回服務項目</button>
                         </div>
 
+                        <div id="campGroupSection" style="display:none;">
                         <!-- ⛺ 營隊（核心大分流控制中心） -->
                         <div class="sub-item-box" style="border-left-color: #1B5E20; background: #fdfefd;" onclick="event.stopPropagation();">
                             <div class="sub-item-title" style="color: #1B5E20; text-decoration: none;">營隊</div>
@@ -487,7 +497,7 @@
 
                             <!-- 【頁籤 1】：最新營隊完整簡章說明面版 -->
                             <div class="camp-tab-content active" id="contentTab1">
-                                <h4 style="font-size:25px; color:#1B5E20; font-weight:bold; margin-bottom:15px; text-align:center;">🌻 2026 讓大腦自由 AI 暑期營 簡章</h4>
+                                <h4 style="font-size:18px; color:#1B5E20; font-weight:bold; margin-bottom:15px; text-align:center;">🌻 2026 讓大腦自由 AI 暑期營 簡章</h4>
                                 <p style="font-size:21.5px; font-weight:bold; color:#E67E22; margin-bottom:10px;">✉ 給家長的一封信：</p>
                                 <p class="main-text-p" style="font-size:20.5px; margin-bottom:15px;">冷靜！！別讓自己一看到孩子拿手機就快爆炸了！不要只是怕孩子玩手機，而是要陪孩子發現：手機以外還有超多超多的快樂。要讓孩子真實體驗到真實生活中，陽光、笑聲與風的美好。生活可以更精彩、有成就感與連結。這個營隊陪孩子做三件事：重新訓練大腦的專注與自律、找回心靈的沉穩與喜悅，放鬆與自在，能建造出屬於自己的快樂。除此之外，跟夥伴們一起學習，讓 AI 成為優化自己學習以及人際關係的超級工具。</p>
                                 
@@ -650,6 +660,11 @@
                             <div class="sub-item-title">👥 小團體課程 ➔</div>
                             <div class="sub-item-desc">在安全氛圍中陪伴孩子學習同理心、關係修復與人際溝通專業說明。</div>
                         </div>
+
+                        <div style="text-align:center; margin-top:10px;">
+                            <button class="action-link-btn" style="background:#aaa; border:none;" onclick="document.getElementById('campGroupSection').style.display='none'; document.getElementById('campTopChoice').style.display='flex';">⬅ 返回選擇</button>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -665,8 +680,6 @@
                 <div class="card-content-pane">
                     <div class="pane-inner">
                         <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=600" class="illustration-thumb" alt="個人成長諮詢插圖">
-                        <p class="main-text-p" style="color:#2C5E3B; font-weight:bold; margin-bottom:15px;">📊 點選各單項查看專業圖文資料：</p>
-                        
                         <div class="sub-item-box" onclick="openArticle('adult_one')">
                             <div class="sub-item-title">👤 一對一成長課程 ➔</div>
                             <div class="sub-item-desc">深入陪伴成人與家長進行深層的情緒調節、創傷知情與自我覺察專文。</div>
@@ -702,8 +715,6 @@
                 <div class="card-content-pane">
                     <div class="pane-inner">
                         <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=600" class="illustration-thumb" alt="樂齡精彩人生插圖">
-                        <p class="main-text-p" style="color:#2C5E3B; font-weight:bold; margin-bottom:15px;">📊 點選各單項查看專業圖文資料：</p>
-                        
                         <div class="sub-item-box" onclick="openArticle('elder_story')">
                             <div class="sub-item-title">📝 生命故事撰寫 ➔</div>
                             <div class="sub-item-desc">引導長者梳理一生勞苦與恩典，轉化為深刻的記憶與數位文獻留存。</div>
@@ -1220,15 +1231,11 @@
     <!-- 全螢幕大字體通用閱覽視窗（供其他文章使用） -->
     <div class="fullscreen-book-view" id="fullscreenBookView">
         <div class="book-max-wrapper">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                <span style="font-size:21px; font-weight: bold; color: #2C5E3B;" id="bookNavTitle">📖 導航站資料庫</span>
-                <button class="action-btn" style="background:#78909C; padding:8px 20px;" onclick="closeBook()">🔙 返回導航站</button>
-            </div>
-            
+
             <!-- 📸 動態相簿顯示區：內建完美滑動相簿控制框架 🌟 -->
             <div id="dynamicPhotoGallery" style="display:none; text-align:center; background:#eef2ee; padding:15px; border-radius:16px; margin:15px 0;">
                 <p style="font-size:19px; font-weight:bold; color:#2C5E3B; margin-bottom:10px;" id="galleryLabel">📸 營隊現場珍貴成果記錄牆（點擊下方縮圖可切換放大）：</p>
-                <img src="image_ef6f43.png" class="article-photo-frame" alt="營隊精彩活動海報成果" id="galleryImageTarget">
+                <img src="image_ef6f43.png" class="article-photo-frame" alt="營隊精彩活動海報成果" id="galleryImageTarget" style="cursor:zoom-in;" onclick="openImageLightbox(this.src)">
                 
                 <!-- 智慧縮圖導覽列，供家長一鍵點擊切換查看 -->
                 <div id="thumbBarArea" style="display:flex; justify-content:center; gap:10px; margin-top:12px; overflow-x:auto; padding:5px;">
@@ -1251,7 +1258,17 @@
             <div id="tokyoGroupCta" style="display:none; text-align:center; padding-top:14px;">
                 <a href="#" id="tokyoGroupLink" target="_blank" class="action-link-btn" style="width:100%; background:#5A9B78; border:none; color:#fff;">👥 加入東京課程群組（即時詢問課程相關問題）</a>
             </div>
+
+            <div style="text-align:center; padding-top:14px;">
+                <button class="action-link-btn" style="width:100%; background:#78909C; border:none;" onclick="closeBook()">🔙 返回最新消息</button>
+            </div>
         </div>
+    </div>
+
+    <!-- 🔍 圖片放大Lightbox -->
+    <div id="imageLightbox" class="image-lightbox" onclick="closeImageLightbox()">
+        <img id="lightboxImg" src="" alt="放大圖片">
+        <button class="lightbox-close" onclick="closeImageLightbox()">✕</button>
     </div>
 
     <script>
@@ -1610,7 +1627,6 @@
         function openArticle(key) {
             const data = articlesBank[key];
             if (data) {
-                document.getElementById('bookNavTitle').innerText = `📖 幸福導航站 ‧ 專業圖文資料庫`;
                 document.getElementById('bookMainContent').innerText = data;
 
                 const tokyoBookingCta = document.getElementById('tokyoBookingCta');
@@ -1639,8 +1655,9 @@
                     imgTarget.src = photoMatrix[key][0];
                     gallery.style.display = 'block';
                     galleryLabel.innerText = (key === 'news_japan_2026')
-                        ? '📋 2026 日本東京拜訪期間・課程與諮詢邀請海報：'
+                        ? ''
                         : '📸 營隊現場珍貴成果記錄牆（點擊下方縮圖可切換放大）：';
+                    galleryLabel.style.display = (key === 'news_japan_2026') ? 'none' : 'block';
                     
                     // 🌟 如果有多張照片（例如2024夏令營），動態生成微縮點擊鍵 🌟
                     if(photoMatrix[key].length > 1) {
@@ -1674,6 +1691,15 @@
         function closeBook() {
             document.getElementById('fullscreenBookView').style.display = 'none';
             window.scrollTo(0, 0);
+        }
+
+        function openImageLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('imageLightbox').classList.add('open');
+        }
+
+        function closeImageLightbox() {
+            document.getElementById('imageLightbox').classList.remove('open');
         }
 
         // 從 booking.html 等其他頁面導入時，自動開啟對應的服務項目（網址格式：index.html#service=bible）
