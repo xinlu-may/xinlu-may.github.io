@@ -314,7 +314,7 @@
   <div class="wrap">
     <div class="hero-text">
       <div class="hero-eyebrow">心路新路全齡關懷</div>
-      <h1 id="admin-trigger" style="user-select:none; cursor:default;">各項服務<br>預約系統</h1>
+      <h1 id="admin-trigger" style="user-select:none; cursor:default;">各項服務 預約系統</h1>
       <p class="lead" id="hero-lead">不論是東京行程、線上讀書會，還是測評、課程與營隊，都可以從這裡預約。</p>
       <div class="hero-dates">
         <span class="hero-date-chip">7/2－7/5　沖繩行程</span>
@@ -333,15 +333,18 @@
 </header>
 
 <nav class="tabbar">
-  <div class="wrap">
-    <button class="tab-btn active" data-panel="calendar">行程總覽</button>
-    <button class="tab-btn" data-panel="workshops">東京工作坊</button>
-    <button class="tab-btn" data-panel="speeches">東京演講</button>
-    <button class="tab-btn" data-panel="visit">一對一諮詢</button>
-    <button class="tab-btn" data-panel="bookclub">線上讀書會</button>
-    <button class="tab-btn" data-panel="assess">全齡關懷十大向度健康幸福測評</button>
-    <button class="tab-btn" data-panel="camp">兒童青少年課程、營隊</button>
-    <button class="tab-btn" data-panel="elder">樂齡課程</button>
+  <div class="wrap" style="display:flex; align-items:center; gap:10px;">
+    <button class="btn-back-services" onclick="window.location.href='index.html'" style="flex-shrink:0; background:#78909C; color:#fff; border:none; border-radius:10px; padding:10px 16px; font-size:15px; white-space:nowrap; cursor:pointer;">🔙 回到服務項目</button>
+    <div class="tabbar-scroll" style="display:flex; overflow-x:auto; gap:4px;">
+      <button class="tab-btn" data-panel="calendar">東京行程總覽</button>
+      <button class="tab-btn" data-panel="workshops">東京工作坊</button>
+      <button class="tab-btn" data-panel="speeches">東京演講</button>
+      <button class="tab-btn" data-panel="visit">一對一諮詢</button>
+      <button class="tab-btn" data-panel="bookclub">線上讀書會</button>
+      <button class="tab-btn" data-panel="assess">全齡關懷十大向度健康幸福測評</button>
+      <button class="tab-btn" data-panel="camp">兒童青少年課程、營隊</button>
+      <button class="tab-btn" data-panel="elder">樂齡課程</button>
+    </div>
   </div>
 </nav>
 
@@ -352,8 +355,6 @@
 </div>
 
 <div class="toast" id="toast"></div>
-
-<footer>雪媚老師東京課程報名系統・2026年7月</footer>
 
 <script>
 /* ===================== 資料設定 ===================== */
@@ -528,14 +529,28 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.classList.add('active');
     document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
     document.getElementById('panel-'+panelName).classList.add('active');
+    document.querySelector('nav.tabbar').style.display = 'none';
   });
 });
 
+// 從任一分頁內容返回到「只顯示按鈕」的選擇畫面
+function goBackToTabSelection(){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector('nav.tabbar').style.display = '';
+  window.scrollTo({ top: document.querySelector('nav.tabbar').offsetTop - 10, behavior: 'smooth' });
+}
+
+// 各分頁內容區塊頂部共用的「返回選擇」按鈕
+function backToSelectionBtnHtml(){
+  return '<p style="margin-bottom:18px;"><button class="btn" onclick="goBackToTabSelection()" style="background:#aaa;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:15px;cursor:pointer;">⬅️ 返回選擇</button></p>';
+}
+
 /* ===================== 渲染：行程總覽 ===================== */
 function renderCalendarPanel(){
-  let html = `
+  let html = backToSelectionBtnHtml() + `
   <div class="section-head">
-    <div class="eyebrow">行程總覽</div>
+    <div class="eyebrow">東京行程總覽</div>
     <h2>2026年7月　東京行程</h2>
   </div>
 
@@ -563,7 +578,7 @@ function renderCalendarPanel(){
 
 /* ===================== 渲染：工作坊 ===================== */
 function renderWorkshopsPanel(){
-  let html = `
+  let html = backToSelectionBtnHtml() + `
   <div class="section-head">
     <div class="eyebrow">工作坊報名</div>
     <h2>四場工作坊，09:00－16:00</h2>
@@ -590,7 +605,7 @@ function renderWorkshopsPanel(){
 
 /* ===================== 渲染：講座 ===================== */
 function renderSpeechesPanel(){
-  let html = `
+  let html = backToSelectionBtnHtml() + `
   <div class="section-head">
     <div class="eyebrow">講座報名</div>
     <h2>三場晚間講座，19:00－21:00</h2>
@@ -617,7 +632,7 @@ function renderSpeechesPanel(){
 
 /* ===================== 渲染：一對一拜訪說明 ===================== */
 function renderVisitPanel(){
-  const html = `
+  const html = backToSelectionBtnHtml() + `
   <div class="section-head">
     <div class="eyebrow">一對一諮詢</div>
     <h2>每小時 NT$ ${VISIT_PRICE_PER_HOUR.toLocaleString()}</h2>
@@ -638,6 +653,7 @@ function renderVisitPanel(){
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.panel===name));
   document.querySelectorAll('section.panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+name));
+  document.querySelector('nav.tabbar').style.display = 'none';
 }
 
 /* ===================== 共用：付款方式說明（現場現金） ===================== */
@@ -1139,7 +1155,7 @@ function renderDateHeadings(){
 /* ===================== 初始化 ===================== */
 async function buildPanels(){
   document.getElementById('main-content').innerHTML = `
-    <section class="panel active" id="panel-calendar"></section>
+    <section class="panel" id="panel-calendar"></section>
     <section class="panel" id="panel-workshops"></section>
     <section class="panel" id="panel-speeches"></section>
     <section class="panel" id="panel-visit"></section>
