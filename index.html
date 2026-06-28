@@ -1485,6 +1485,12 @@
             groupBtn.innerText = cfg.groupLabel || '💬 加官方LINE好友';
             groupBtn.href = cfg.groupUrl || 'https://line.me/R/ti/p/@431trrjk';
 
+            // assess（測評）與 camp（兒少課程及營隊）內文已自帶報名／加LINE按鈕，
+            // 底部共用按鈕在這兩個服務項目會重複，故隱藏，只保留「回到服務項目」「上一頁」
+            const hideDuplicateBtns = (key === 'assess' || key === 'camp');
+            registerBtn.style.display = hideDuplicateBtns ? 'none' : '';
+            groupBtn.style.display = hideDuplicateBtns ? 'none' : '';
+
             document.getElementById('serviceTabContentArea').classList.add('fullscreen-mode');
             window.scrollTo(0, 0);
         }
