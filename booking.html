@@ -2,21 +2,47 @@
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
-    <title>2026 年 7 月日本東京行程</title>
+    <title>心路新路全齡身心健康幸福導航站預約系統</title>
     <style>
-        body { text-align: center; padding: 20px; font-family: sans-serif; }
-        .btn-link { display: inline-block; padding: 15px 25px; background: #7a9c75; color: white; text-decoration: none; border-radius: 25px; margin: 10px; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #fcfcfc; padding: 20px; color: #333; }
+        h1 { text-align: center; color: #4a6741; }
+        .grid-wrapper { display: flex; overflow-x: auto; gap: 10px; padding: 20px 0; justify-content: center; }
+        .day-column { min-width: 120px; text-align: center; }
+        .date-header { font-weight: bold; margin-bottom: 10px; color: #555; }
+        .time-btn { display: block; width: 100%; padding: 10px; margin: 5px 0; background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .time-btn:hover { background: #a3cfbb; }
+        .time-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
-    <h1>🗼 2026 年 7 月日本東京行程</h1>
-    <p>課程地點：東京都台東区松谷2-23-4 601</p>
-    
-    <a href="booking.html" class="btn-link">🍱 要跟老師約吃飯或帶老師出去玩？請按這裡預約</a>
-    
-    <div style="margin-top: 20px;">
-        <a href="booking.html" class="btn-link">報名演講課程</a>
-        <a href="booking.html" class="btn-link">報名工作坊</a>
-    </div>
+    <h1>請選擇您的預約時段</h1>
+    <div class="grid-wrapper" id="calendar"></div>
+
+    <script>
+        const calendar = document.getElementById('calendar');
+        // 產生未來 7 天
+        for (let i = 0; i < 7; i++) {
+            let d = new Date(); d.setDate(d.getDate() + i);
+            let dateStr = `${d.getMonth()+1}/${d.getDate()}`;
+            
+            let col = document.createElement('div');
+            col.className = 'day-column';
+            col.innerHTML = `<div class="date-header">${dateStr}</div>`;
+            
+            // 產生 10:00 - 20:00 時段
+            for (let h = 10; h < 20; h++) {
+                let btn = document.createElement('button');
+                btn.className = 'time-btn';
+                btn.innerText = `${h}:00`;
+                btn.onclick = () => {
+                    alert('您選擇了 ' + dateStr + ' ' + h + ':00\n即將跳轉至預約表單填寫資料');
+                    // 將下方連結改為您的 Google 表單連結
+                    window.location.href = "https://docs.google.com/forms/d/e/您的表單ID/viewform";
+                };
+                col.appendChild(btn);
+            }
+            calendar.appendChild(col);
+        }
+    </script>
 </body>
 </html>
