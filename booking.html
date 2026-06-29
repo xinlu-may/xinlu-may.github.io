@@ -1199,6 +1199,19 @@ function openAdminPrompt(){
 }
 
 buildPanels();
+
+/* 從外部頁面（如首頁文章）連結帶 #panel=workshops / speeches / visit 過來時，
+   自動切到對應分頁並隱藏分頁選擇列，等同使用者自己點了那個分頁按鈕 */
+(function openPanelFromHash(){
+  const m = window.location.hash.match(/panel=([a-z]+)/i);
+  if(!m) return;
+  const panelName = m[1];
+  const validPanels = ['calendar','workshops','speeches','visit'];
+  if(!validPanels.includes(panelName)) return;
+  switchTab(panelName);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+})();
+
 (async function initLineLogin(){
   await handleLineLoginCallback();
   renderLineLoginStatus();
