@@ -36,7 +36,7 @@
             col.className = 'day-column';
             col.innerHTML = `<div class="date-header">${dateStr}</div>`;
             
-            for (let h = 10; h < 20; h++) {
+            for (let h = 9; h <= 22; h++) {
                 let slot = `${dateStr} ${h}:00`;
                 let btn = document.createElement('button');
                 btn.className = 'time-btn';
@@ -58,10 +58,10 @@
         function submitBooking() {
             if (selectedSlots.length === 0) return alert('請先選擇時段！');
             const slotsText = encodeURIComponent(selectedSlots.join(', '));
-            // 這裡已經自動對接您的表單連結
-            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfz33m153T_fF8o5R94L1yYlS1mR3G_K9062Y7jZ153k51Xow/viewform?usp=pp_url";
-            // entry.1666874984 是「預約日期與時段」欄位的代碼
-            window.location.href = `${formUrl}&entry.1666874984=${slotsText}`;
+            // 您的表單連結
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScyyE7D7_w5cM9D6vjV8Lp2w2j0Sg38aJ0FpGj-2hQn9a1O3Q/viewform?usp=pp_url";
+            // 自動帶入日期代碼 652157597
+            window.location.href = `${formUrl}&entry.652157597=${slotsText}`;
         }
     </script>
 </body>
