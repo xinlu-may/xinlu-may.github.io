@@ -3,51 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 年 7 月日本東京行程</title>
+    <title>2026 東京行程</title>
     <style>
-        body { font-family: 'Arial', sans-serif; background-color: #fcfcfc; color: #333; text-align: center; padding: 15px; }
-        .tokyo-container { max-width: 800px; margin: 0 auto; }
-        h1 { color: #4a6741; margin-bottom: 10px; }
-        .location-info { background: #f0f4ef; padding: 10px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95em; }
-        .service-grid { display: flex; flex-direction: column; gap: 15px; }
-        .service-box { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e8e8e8; }
-        h3 { margin-top: 0; color: #555; }
-        .btn-action { display: inline-block; padding: 10px 20px; background-color: #7a9c75; color: white; text-decoration: none; border-radius: 20px; margin-top: 10px; }
-        .btn-action:hover { background-color: #5d7a59; }
-        .tokyo-element { font-size: 2em; margin-bottom: 10px; }
+        /* 溫馨柔和底色，增加質感 */
+        body { 
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; 
+            background: #fdfbf7; 
+            padding: 20px; 
+            color: #5a554a; 
+            line-height: 1.6;
+        }
+        
+        /* 緊湊的資訊框，取代原本鬆散的排版 */
+        .info-box { 
+            background: rgba(255, 255, 255, 0.6); 
+            padding: 20px; 
+            border-radius: 15px; 
+            border-left: 6px solid #d4a373; /* 溫馨大地色飾條 */
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* 按鈕美化，整合到上方方便點選 */
+        .btn-reserve { 
+            display: block; 
+            width: 80%; 
+            max-width: 300px; 
+            margin: 20px auto; 
+            padding: 14px; 
+            background: #6b8e60; 
+            color: white; 
+            text-align: center; 
+            text-decoration: none; 
+            border-radius: 30px; 
+            font-weight: bold; 
+            box-shadow: 0 4px 6px rgba(107, 142, 96, 0.2);
+        }
     </style>
 </head>
 <body>
-    <div class="tokyo-container">
-        <div class="tokyo-element">🗼</div>
-        <h1>2026 年 7 月日本東京行程</h1>
-        
-        <div class="location-info">
-            <p>課程地點：東京都台東区松谷2-23-4 601</p>
-            <p>鄰近在地精選餐飲，歡迎與老師約定時間</p>
-        </div>
 
-        <div class="service-grid">
-            <section class="service-box">
-                <h3>三場演講介紹</h3>
-                <a href="booking.html" class="btn-action">我要報名演講課程</a>
-            </section>
-            
-            <section class="service-box">
-                <h3>工作坊介紹</h3>
-                <a href="booking.html" class="btn-action">我要報名工作坊</a>
-            </section>
-            
-            <section class="service-box">
-                <h3>一對一諮詢相關介紹</h3>
-                <a href="booking.html" class="btn-action">我要預約一對一諮詢</a>
-            </section>
-            
-            <section class="service-box">
-                <h3>全齡關懷十大向度健康幸福測評介紹</h3>
-                <a href="booking.html" class="btn-action">我要預約線上測評</a>
-            </section>
-        </div>
+    <a href="payment.html" class="btn-reserve">📅 點此預約行程</a>
+
+    <div class="info-box">
+        <p style="margin: 0;"><strong>📍 課程地點：</strong><br>
+        東京都台東區松谷 2-23-4 601</p>
+        <p style="font-size: 0.9rem; color: #888; margin-top: 5px;">
+        2-chōme-23-4 Matsuyama, Taito City, Tokyo 111-0036
+        </p>
     </div>
+
 </body>
 </html>
