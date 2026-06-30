@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心路新路全齡身心健康幸福導航站預約系統</title>
+    <title>心路新路預約系統</title>
     <style>
         body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #fcfcfc; padding: 15px; color: #333; margin: 0; }
-        h1 { text-align: center; color: #4a6741; font-size: 1.5rem; margin-bottom: 20px; }
-        .grid-wrapper { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 20px; }
-        .day-column { min-width: 100px; text-align: center; }
+        h1 { text-align: center; color: #4a6741; font-size: 1.4rem; margin-bottom: 15px; }
+        .line-notice { background: #4a6741; color: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; text-align: center; line-height: 1.4; }
+        .grid-wrapper { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 20px; justify-content: flex-start; }
+        .day-column { min-width: 90px; text-align: center; }
         .date-header { font-weight: bold; margin-bottom: 10px; color: #555; border-bottom: 2px solid #a3cfbb; padding-bottom: 5px; }
-        .time-btn { display: block; width: 100%; padding: 12px 5px; margin: 6px 0; background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .time-btn { display: block; width: 100%; padding: 10px 2px; margin: 5px 0; background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 13px; }
         .time-btn:hover { background: #a3cfbb; }
     </style>
 </head>
 <body>
-    <h1>請選擇您的預約時段</h1>
+    <div class="line-notice">
+        ⚠️ 預約提醒：送出預約表單後，請務必點選確認頁面的連結加入「心路新路官方 LINE」，並傳送訊息確認，才算預約完成喔！
+    </div>
+
+    <h1>請點擊您要的時段</h1>
     <div class="grid-wrapper" id="calendar"></div>
 
     <script>
@@ -35,9 +40,9 @@
                 btn.className = 'time-btn';
                 btn.innerText = `${h}:00`;
                 btn.onclick = () => {
-                    // 請將下方連結換成您實際的 Google 表單連結
-                    const formUrl = "https://docs.google.com/forms/d/e/您的表單ID/viewform";
-                    window.location.href = formUrl;
+                    // 請務必將下方的 URL 換成您建立好的 Google 表單連結
+                    // 點擊後會直接開啟表單
+                    window.location.href = "https://docs.google.com/forms/d/e/您的表單ID/viewform";
                 };
                 col.appendChild(btn);
             }
