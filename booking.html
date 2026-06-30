@@ -12,41 +12,56 @@
         .day-column { min-width: 90px; text-align: center; }
         .date-header { font-weight: bold; margin-bottom: 10px; color: #555; border-bottom: 2px solid #a3cfbb; padding-bottom: 5px; }
         .time-btn { display: block; width: 100%; padding: 10px 2px; margin: 5px 0; background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 13px; }
-        .time-btn:hover { background: #a3cfbb; }
+        .time-btn.selected { background: #4a6741; color: white; border: 1px solid #2d4128; }
+        .confirm-btn { display: block; width: 100%; max-width: 300px; margin: 20px auto; padding: 15px; background: #4a6741; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="line-notice">
-        ⚠️ 預約提醒：送出預約表單後，請務必點選確認頁面的連結加入「心路新路官方 LINE」，並傳送訊息確認，才算預約完成喔！
+        ⚠️ 預約提醒：送出後，請務必點選確認頁面的連結加入「心路新路官方 LINE」並傳送訊息，才算預約完成喔！
     </div>
 
-    <h1>請點擊您要的時段</h1>
+    <h1>請選擇時段 (可選多個)</h1>
     <div class="grid-wrapper" id="calendar"></div>
+    <button class="confirm-btn" onclick="submitBooking()">選好了，前往填寫資料</button>
 
     <script>
+        let selectedSlots = [];
         const calendar = document.getElementById('calendar');
-        // 產生未來 7 天
+
         for (let i = 0; i < 7; i++) {
             let d = new Date(); d.setDate(d.getDate() + i);
             let dateStr = `${d.getMonth()+1}/${d.getDate()}`;
-            
             let col = document.createElement('div');
             col.className = 'day-column';
             col.innerHTML = `<div class="date-header">${dateStr}</div>`;
             
-            // 產生 10:00 - 20:00 時段
             for (let h = 10; h < 20; h++) {
+                let slot = `${dateStr} ${h}:00`;
                 let btn = document.createElement('button');
                 btn.className = 'time-btn';
                 btn.innerText = `${h}:00`;
-                btn.onclick = () => {
-                    // 請務必將下方的 URL 換成您建立好的 Google 表單連結
-                    // 點擊後會直接開啟表單
-                    window.location.href = "https://docs.google.com/forms/d/e/您的表單ID/viewform";
+                btn.onclick = function() {
+                    if (selectedSlots.includes(slot)) {
+                        selectedSlots = selectedSlots.filter(s => s !== slot);
+                        this.classList.remove('selected');
+                    } else {
+                        selectedSlots.push(slot);
+                        this.classList.add('selected');
+                    }
                 };
                 col.appendChild(btn);
             }
             calendar.appendChild(col);
+        }
+
+        function submitBooking() {
+            if (selectedSlots.length === 0) return alert('請先選擇時段！');
+            const slotsText = encodeURIComponent(selectedSlots.join(', '));
+            // 這裡已經自動對接您的表單連結
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfz33m153T_fF8o5R94L1yYlS1mR3G_K9062Y7jZ153k51Xow/viewform?usp=pp_url";
+            // entry.1666874984 是「預約日期與時段」欄位的代碼
+            window.location.href = `${formUrl}&entry.1666874984=${slotsText}`;
         }
     </script>
 </body>
