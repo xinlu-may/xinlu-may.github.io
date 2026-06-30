@@ -1,80 +1,8 @@
-<!DOCTYPE html>
-<html lang="zh-Hant-TW">
-<head>
-    <meta charset="UTF-8">
-    <title>心路新路預約系統</title>
-    <style>
-        /* 溫馨底圖與裝飾 */
-        body { 
-            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; 
-            background: #fdfbf7; 
-            background-image: radial-gradient(circle at 10% 20%, rgba(255, 230, 230, 0.3) 0%, transparent 40%),
-                              radial-gradient(circle at 90% 80%, rgba(230, 245, 255, 0.3) 0%, transparent 40%);
-            padding: 15px; color: #5a554a; margin: 0;
-        }
-        h1 { text-align: center; color: #4a6741; font-size: 1.2rem; margin-bottom: 15px; }
-        
-        /* 緊湊網格設計 */
-        .calendar-container { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
-        .day-column { width: calc(14% - 5px); min-width: 45px; text-align: center; }
-        .date-header { font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: #888; }
-        
-        .time-btn { 
-            display: block; width: 100%; padding: 6px 2px; margin-bottom: 3px; 
-            background: #e8ede5; border: 1px solid #c9d6c3; border-radius: 4px; 
-            cursor: pointer; font-size: 0.75rem; transition: 0.2s;
-        }
-        .time-btn.selected { background: #4a6741; color: white; border-color: #2d4128; }
-
-        .confirm-btn { 
-            position: sticky; bottom: 10px; width: 100%; max-width: 320px; 
-            margin: 20px auto; padding: 12px; background: #6b8e60; color: white; 
-            border: none; border-radius: 20px; font-size: 1rem; cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-    </style>
-</head>
-<body>
-    <h1>請選擇預約時段</h1>
-    <div class="calendar-container" id="calendar"></div>
-    <button class="confirm-btn" onclick="submitBooking()">選好了，前往填寫資料</button>
-
-    <script>
-        let selectedSlots = [];
-        const calendar = document.getElementById('calendar');
-
-        for (let i = 0; i < 7; i++) {
-            let d = new Date(); d.setDate(d.getDate() + i);
-            let dateStr = `${d.getMonth()+1}/${d.getDate()}`;
-            let col = document.createElement('div');
-            col.className = 'day-column';
-            col.innerHTML = `<div class="date-header">${dateStr}</div>`;
-            
-            for (let h = 9; h <= 22; h++) {
-                let slot = `${dateStr} ${h}:00`;
-                let btn = document.createElement('button');
-                btn.className = 'time-btn';
-                btn.innerText = h; // 只顯示小時，更簡潔
-                btn.onclick = function() {
-                    if (selectedSlots.includes(slot)) {
-                        selectedSlots = selectedSlots.filter(s => s !== slot);
-                        this.classList.remove('selected');
-                    } else {
-                        selectedSlots.push(slot);
-                        this.classList.add('selected');
-                    }
-                };
-                col.appendChild(btn);
-            }
-            calendar.appendChild(col);
-        }
-
-        function submitBooking() {
-            if (selectedSlots.length === 0) return alert('請先選擇時段！');
-            const slotsText = encodeURIComponent(selectedSlots.join(', '));
-            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdWorTpnu1lT2S4JipDNRfRszZVSQvQxHyD8oddoq5poPZwiQ/viewform?usp=pp_url";
-            window.location.href = `${formUrl}&entry.652157597=${slotsText}`;
-        }
-    </script>
-</body>
-</html>
+<div style="text-align: center; margin: 50px 0; padding: 40px;">
+    <h2 style="color: #1B5E20; margin-bottom: 20px;">預約一對一諮詢 / 演講邀約</h2>
+    <p style="color: #555; margin-bottom: 30px;">請點擊下方按鈕，系統將自動顯示可預約的時間。</p>
+    
+    <a href="https://calendar.app.google/MLSTczZNmh1TXxG67" target="_blank" style="background-color: #28a745; color: white; padding: 20px 40px; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 20px; box-shadow: 0 4px 15px rgba(40,167,69,0.3);">
+        📅 立即前往預約系統
+    </a>
+</div>
