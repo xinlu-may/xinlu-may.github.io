@@ -2,16 +2,16 @@
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>心路新路全齡身心健康幸福導航站預約系統</title>
     <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #fcfcfc; padding: 20px; color: #333; }
-        h1 { text-align: center; color: #4a6741; }
-        .grid-wrapper { display: flex; overflow-x: auto; gap: 10px; padding: 20px 0; justify-content: center; }
-        .day-column { min-width: 120px; text-align: center; }
-        .date-header { font-weight: bold; margin-bottom: 10px; color: #555; }
-        .time-btn { display: block; width: 100%; padding: 10px; margin: 5px 0; background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #fcfcfc; padding: 15px; color: #333; margin: 0; }
+        h1 { text-align: center; color: #4a6741; font-size: 1.5rem; margin-bottom: 20px; }
+        .grid-wrapper { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 20px; }
+        .day-column { min-width: 100px; text-align: center; }
+        .date-header { font-weight: bold; margin-bottom: 10px; color: #555; border-bottom: 2px solid #a3cfbb; padding-bottom: 5px; }
+        .time-btn { display: block; width: 100%; padding: 12px 5px; margin: 6px 0; background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 14px; }
         .time-btn:hover { background: #a3cfbb; }
-        .time-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -35,9 +35,9 @@
                 btn.className = 'time-btn';
                 btn.innerText = `${h}:00`;
                 btn.onclick = () => {
-                    alert('您選擇了 ' + dateStr + ' ' + h + ':00\n即將跳轉至預約表單填寫資料');
-                    // 將下方連結改為您的 Google 表單連結
-                    window.location.href = "https://docs.google.com/forms/d/e/您的表單ID/viewform";
+                    // 請將下方連結換成您實際的 Google 表單連結
+                    const formUrl = "https://docs.google.com/forms/d/e/您的表單ID/viewform";
+                    window.location.href = formUrl;
                 };
                 col.appendChild(btn);
             }
