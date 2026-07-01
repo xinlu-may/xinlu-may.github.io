@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,16 +29,6 @@
         .info-label { font-size: 20px; font-weight: bold; color: #2C5E3B; margin-bottom: 8px; display: block; }
         .info-text { font-size: 18px; color: #444; line-height: 1.7; display: block; }
 
-        /* 🌟 超強見證牆樣式 🌟 */
-        .feedback-section { margin-top: 50px; }
-        .feedback-title { font-size: 30px; color: #2C5E3B; text-align: center; margin-bottom: 40px; font-weight: bold; }
-        .feedback-card { background: #ffffff; padding: 35px 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); margin-bottom: 25px; border-top: 4px solid #FBC02D; position: relative; }
-        .feedback-card::before { content: "“"; font-size: 80px; color: rgba(251,192,45,0.15); position: absolute; top: -10px; left: 15px; font-family: serif; }
-        .student-name { font-size: 19px; font-weight: bold; color: #1B5E20; margin-bottom: 15px; display: block; }
-        .feedback-text { font-size: 17.5px; color: #444; line-height: 1.8; text-align: justify; }
-        .highlight-text { background-color: #F9FBE7; font-weight: bold; color: #2C5E3B; padding: 2px 4px; }
-        .tag-group { display: inline-block; background: #E8F5E9; color: #2E7D32; font-size: 14px; padding: 2px 10px; border-radius: 10px; margin-right: 5px; font-weight: bold; }
-
         /* 行動呼籲按鈕區 */
         .cta-box { text-align: center; padding: 40px 20px; background: #FFFDE7; border-radius: 15px; border: 2px dashed #FBC02D; margin-top: 40px; }
         .cta-btn { 
@@ -52,22 +42,16 @@
             text-decoration: none; 
             box-shadow: 0 4px 15px rgba(44,94,59,0.3); 
             margin-top: 20px;
-            word-break: keep-all; 
         }
-        .btn-word { display: inline-block; white-space: nowrap; }
 
         @media (max-width: 600px) {
             .hero-banner { padding: 40px 10px; }
             .content-block { padding: 25px 15px; }
-            .block-title { font-size: 24px; }
-            .feedback-title { font-size: 25px; }
-            .content-p, .info-text, .feedback-text, .cta-btn { font-size: 17px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 頂部導覽列 -->
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="logo">心路新路全齡會所</a>
@@ -77,7 +61,6 @@
 
     <div class="container">
         
-        <!-- 核心 Banner：依老師指示完美控制中文字詞排版，絕不亂斷行 -->
         <header class="hero-banner">
             <span class="tag-badge">口碑傳承 ‧ 邁入第 21 期</span>
             <h1 style="font-size: 34px; color: #1B5E20; margin-bottom: 20px; font-weight: 800; line-height: 1.4;">
@@ -89,7 +72,6 @@
             </p>
         </header>
 
-        <!-- 區塊一：痛點共鳴 -->
         <section class="content-block">
             <h2 class="block-title">你是否也常在生活中有這樣的疑惑？</h2>
             <p class="content-p">
@@ -97,147 +79,28 @@
                 卻在安靜下來的深夜，突然覺得內心有些空洞、疲憊，甚至不知道「我是誰」？<br>
                 在人際或家庭關係中，那些反覆出現的受傷模式，讓你感到無力改變嗎？
             </p>
-            <p style="font-size: 18px; font-weight: bold; color: #2C5E3B; margin-top: 10px; line-height: 1.6;">
-                「每個生命都值得被正確看見。」<br>
-                我們不需要變得完美才能被愛，而是需要給自己一個空間，重新看見上帝放在我們裡面最起初的美好。
-            </p>
         </section>
 
-        <!-- 區塊二：核心特色 -->
         <section class="content-block">
-            <h2 class="block-title">二十期淬鍊，這門課程能帶給你的改變</h2>
-            <p class="content-p" style="font-weight: bold; color: #2C5E3B;">這不只是一場知識性的讀書會，更是一場結合心理覺察與信仰協談的生命重整旅程：</p>
-            
-            <div style="margin-top: 15px;">
-                <p class="content-p"><b>‧ 內在冰山覺察</b>：學習有意識地梳理情緒、看見未被滿足的渴望，改善與自己、與家人的關係。</p>
-                <p class="content-p"><b>‧ 信仰光照陪伴</b>：跳脫律法式的框架，回到聖經中，體驗真正被無條件接納與修復的力量。</p>
-                <p class="content-p"><b>‧ 安全傾聽團體</b>：在充滿愛、尊重與保密的成長環境中，彼此支持，聽見生命撞擊生命的感動。</p>
+            <h2 class="block-title">課程資訊</h2>
+            <div class="info-item">
+                <span class="info-label">講師簡介</span>
+                <span class="info-text">雪媚老師（教牧協談師 ‧ 教牧學博士研究生）</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">開課資訊</span>
+                <span class="info-text">第 21、22 期即將開放，詳情請參考報名表單說明。</span>
             </div>
         </section>
 
-        <!-- 區塊三：結構化課程資訊 -->
-        <section class="content-block">
-            <h2 class="block-title">讀書會課程資訊</h2>
-            
-            <div class="info-item">
-                <span class="info-label">🌿 講師簡介</span>
-                <span class="info-text"><b>雪媚老師</b>（教牧協談師 ‧ 教牧學博士研究生 ‧ 親職與婚姻講師，具備 20 期以上帶領資深經驗）[cite: 1]。</span>
-            </div>
-
-            <div class="info-item">
-                <span class="info-label">🌿 適合對象</span>
-                <span class="info-text">想深入認識自我、修復內在創傷、改善婚姻與親職關係，或想在信仰中找到生命價值的成人。</span>
-            </div>
-
-            <div class="info-item">
-                <span class="info-label">🌿 進行方式</span>
-                <span class="info-text">精選經典教材研讀 ＋ 講師專業引導協談 ＋ 學員生命故事分享與整理。</span>
-            </div>
-
-            <div class="info-item" style="border: none; padding-bottom: 0;">
-                <span class="info-label">🌿 開課時間</span>
-                <span class="info-text">（即將開課，歡迎加入意願登記群組接收第一手資訊！）</span>
-            </div>
-        </section>
-
-        <!-- 🌟 🌟 🌟 區塊四：震撼人心 ‧ 學員真實全紀錄見證牆 🌟 🌟 🌟 -->
-        <section class="feedback-section">
-            <h2 class="feedback-title">🌻 歷屆學員的真實生命改變回饋</h2>
-
-            <!-- 見證 1：王姊妹（師母） -->
-            <div class="feedback-card" style="border-top-color: #2C5E3B;">
-                <span class="student-name">王姊妹（師母）<span class="tag-group">第八期學員</span></span>
-                <p class="feedback-text">
-                    老師耐心又有智慧的引導，使我發現自己活在不自覺的框架中，我也比較能鬆動觀點，從不同的角度看待自己。課程中，老師提醒我們，若專注要找成長缺失，我就會看到缺失；但若找尋聖經中對我的看法和美好，我的眼光自然就會放到上帝造我的美好上。<br>
-                    <span class="highlight-text">這跟坊間一般「自我覺察」的教導很不一樣</span>，外面很多是在教我們回溯缺失再行修補，結果翻出一堆已無法重來的創傷經歷，卻忽略了上帝已經給我們的原型特質，是多麼精心設計、美好而富有自我修復能力。當老師引導我看到上帝造我的「甚好」，我就可以分辨從後天經歷而來的負面影響，其實不足以破壞上帝所造的我。每次上完課都有被拆框、被建立的喜樂。
-                </p>
-            </div>
-
-            <!-- 見證 2：劉姊妹 -->
-            <div class="feedback-card" style="border-top-color: #EF6C00;">
-                <span class="student-name">劉姊妹<span class="tag-group">第十八期學員</span></span>
-                <p class="feedback-text">
-                    《從聖經中尋見真我》我自己買來讀過一次，可是沒有太多的得著，剛好有雪媚老師的讀書會，就參加學習了。沒有學習前我是一個從來不知道肯定自己的人，總會自己控告自己。當學習到書中一段內容，上主說：“甚好”，雪媚老師告訴我們，上帝看他自己所造的一切都是美好，我們都是上帝所造，所以我們也是甚好的。我反問老師“這甚好也包括我們嗎？”老師說：“當然啦，我們也是上帝所造的啊！”<br>
-                    是哦，沒錯，我也是上帝造的啊，我在上帝的眼中也是甚好的啊！那一刻我開始得到了上帝的眼光，讓我可以用上帝的眼光來看自己和其它人。通過學習我發現現在的我看一切都是那麼的美好，我甚至被自己努力工作感動到流眼淚。看自己16歲的兒子也不再是那個青春期叛逆的臭小子，而是一個善解人意，心疼媽媽的小男人了。真的感恩通過雪媚老師的課有這樣的得著和改變，謝謝！
-                </p>
-            </div>
-
-            <!-- 見證 3：紅姊妹 -->
-            <div class="feedback-card" style="border-top-color: #0288D1;">
-                <span class="student-name">紅姊妹<span class="tag-group">第十八期學員</span></span>
-                <p class="feedback-text">
-                    很感恩雪媚老師的讀書會。雪媚老師透過一些事例、影片人物的分析更好的幫助我們釐清了我們這個人的成長經歷、成長變化是怎樣的。就是不管我們的成長環境怎樣的讓我們被扭曲，形成了我們的後原型，但上帝放在我們裡面的原型是不會改變的！用上帝的眼光和角度來看我們這個人，我們的生命就會漸漸的在成長原型裡改變更新，從而享受伊甸園型裡的祝福。<br>
-                    我覺得單單是雪媚老師的成長經歷的分享，就讓我看到了一個人在聖經中尋見自我的那份自由和喜樂，很受激勵和安慰，讓我不再為自己曾經的失敗而沮喪糾葛。這樣的一個讀書會，真的是建議大家，不管是信主的還是未信主的，都來參與一下，生命肯定大受益處！
-                </p>
-            </div>
-
-            <!-- 見證 4：金姊妹 -->
-            <div class="feedback-card" style="border-top-color: #6A1B9A;">
-                <span class="student-name">金姊妹<span class="tag-group">神學院教牧諮商進修中</span></span>
-                <p class="feedback-text">
-                    因著想學習助人技巧，我到神學院進修教牧諮商，期間我學習了不少的心理諮商理論(完形、存在主義….)，這些理論真是開了我的眼界，卻無法解決我一些性格上的問題。我我很希望我自己「應該是」一個柔和具同理心的人，但「事實上」我卻是一個講求效率、任務導向的人，我學習越多就自我控告越深。一直到我學習了三一原型教牧協談，參與「從聖經中尋找真我」讀書會，才逐漸得到舒緩，並且找到我要的”必修課程”。<br>
-                    有別於一般諮商理論，這本書最有力的依據，是從「聖經」的角度幫助我去辨認自己的種子原型、澄清造成自己「後原型」的歷程及原因，然後帶到主的面前，用上帝的眼光「重新架框」。當我能夠這樣對待自己，我才能同樣對待他人，聖經的真理超越任何的諮商理論，結束了讀書會，期待下次的實作操練課程。
-                </p>
-            </div>
-
-            <!-- 見證 5：皓皓 -->
-            <div class="feedback-card" style="border-top-color: #00BCD4;">
-                <span class="student-name">皓皓<span class="tag-group">學員生命修復回饋</span></span>
-                <p class="feedback-text">
-                    回想起這三個月的課程，心裡面充滿許多的感恩和感動。很感謝老師在我最需要「解決問題」的時候給予我最正確的方向和提醒，雖然現在的我還在經歷修復的過程當中，但這次跟以往不太一樣，我深深知道這條路上不是我一個人孤單的奮戰，也不再只是為了解決問題把問題的根源掩埋不去面對。耶穌早已為我的憂慮和罪釘在十字架上了，祂以為我穿上新人的生命和得勝的生命，我不再需要透過世上的名聲和頭銜來再次定義自己的價值，因為在基督耶穌裡面有一個最美的頭銜就是「神的兒女」。
-                </p>
-            </div>
-
-            <!-- 見證 6：精選綜合學員心情點滴（1） -->
-            <div class="feedback-card" style="border-top-color: #2C5E3B;">
-                <span class="student-name">精選成長學員點滴<span class="tag-group">溫暖分享</span></span>
-                <p class="feedback-text">
-                    <b>💡 佳：</b>雪媚老師的讀書會給我們很多深層次的思考，這些提問在過往從來沒有想過。在老師課程中的解說或是同學間的分享會慢慢知道原來過往是自己被自己善惡果或是樑木困住而不自知。每次上課都覺得又更認識自己一些，很開心！<br><br>
-                    <b>💡 許姊妹：</b>我很自卑、課程的回應也常擔心對不對。但讀書會更大的收穫是：同學一起的分享，才會聽見那幾乎遺忘，但原來又被影響的類似生活經驗！加上老師一語道破盲點，發覺原型自己的能量，即使不善言詞也能受惠！彷彿在人生泥沼中，不再是自己一個人獨行，而是大家都掙扎過，現在一起向前走！<br><br>
-                    <b>💡 嗡嗡（桃園大溪）：</b>從三一原型教牧會談的課程中我發現自己從言語的談話中改變了，說話不再容易使人拒絕，也不容易傷人，讓人願意與我交談。在思想上我也改變了方向，凡事交給主耶穌來掌管，才發現原來面對所有人、事、物是如此輕省的。
-                </p>
-            </div>
-
-            <!-- 見證 7：短句精選與青少年振奮人心的分享 -->
-            <div class="feedback-card" style="border-top-color: #EF6C00;">
-                <span class="student-name">上班族、家管與青少年孩子的純真告白<span class="tag-group">全齡震撼回饋</span></span>
-                <p class="feedback-text">
-                    <b>👩 林小姐（46歲，上班族）：</b>明白我的安全感、價值跟快樂不是建立在別人眼光與話語上。釐清想法，別再當審判官，放下善惡標準，回到神的眼光與心意並學會情感分化，讓自己不再受過分投射的情緒影響。<br><br>
-                    <b>👩 陳小姐（50歲，家管）：</b>重新更認識自己，接納自己的不完全，拿掉有毒的羞愧感，進而讓自己更自在坦然的與人相處，也了解孩子是獨立分化的個體，大大改善了親子的關係。<br><br>
-                    <b>🧒 青少年孩子們振奮人心的分享：</b><br>
-                    「我很害羞，我不喜歡別人看見我，這是我原來的樣子，但是我可以練習勇敢。」<br>
-                    「我不習慣面對人，但是上帝很公平，把跟人建立關係的祝福給所有人！」<br>
-                    「用一種標準看人，很不公平，因為每個人都不一樣。我發現我也會用自己的標準批評別人，這樣不好。」<br>
-                    「我覺得我什麼都很爛，但是，原來上帝是祝福人的！」
-                </p>
-            </div>
-
-            <!-- 見證 8：對雪媚老師的致謝短評 -->
-            <div class="feedback-card" style="border-top-color: #FBC02D;">
-                <span class="student-name">學員致謝致敬短評<span class="tag-group">專業引導</span></span>
-                <p class="feedback-text">
-                    <b>🌟 偉：</b>在雪媚老師細心、有系統的教導下，我實現了「認識自己、幫助他人」的目標。不要猶豫，這是一個不容錯過的課程。我做到，相信您也一定可以。<br><br>
-                    <b>🌟 高姊妹：</b>上完這門課，用四個字句來說：歸納事件、尋回源頭、認清自己、理解他人、原諒過去、饒恕前人、肯定旁人，最後，行在神創造我的旨意中。<br><br>
-                    <b>🌟 苓：</b>雪媚老師是個非常盡職的一位老師，上課更是認真教課不馬虎，以老師的專業可以從老師身上學到非常多的東西，受用無窮，在這裡更是謝謝老師兩個學期不辭心勞的教課！
-                </p>
-            </div>
-        </section>
-
-        <!-- 區塊五：最新修正、絕不亂斷行的爆款按鈕 -->
         <section class="cta-box">
-            <h2 style="font-size: 24px; color: #B71C1C; margin-bottom: 15px; font-weight: bold;">🌟 最新一期 ‧ 限額招募意願登記中</h2>
+            <h2 style="font-size: 24px; color: #B71C1C; margin-bottom: 15px; font-weight: bold;">📝 我要報名讀書會</h2>
             <p style="color: #444; font-size: 17px; line-height: 1.7;">
-                為了確保每位學員都能獲得最深度陪伴與互動品質，本成長團體採嚴格限額制。<br>
-                歡迎點擊下方按鈕，直接加入我們的招生服務群組，搶先鎖定保留名額！
+                請點擊下方按鈕，填寫統一報名表單。
             </p>
-            
-            <a href="https://line.me/R/ti/g/Ba5eCG3vKS" target="_blank" class="cta-btn">
-                <span class="btn-word">🌿 點我直接加入</span> 
-                <span class="btn-word">21、22期</span> 
-                <span class="btn-word">讀書會意願群組</span>
+            <a href="https://docs.google.com/forms/d/1lsxGzeR1PhkjMfJN-xQNJiwDVekk-jb09W6_IFYCMEo/edit" target="_blank" class="cta-btn">
+                ✍ 我要報名課程
             </a>
-            
-            <p style="margin-top: 20px; font-size: 15px; color: #777;">（加入後請傳送隨意貼圖，讓我們知道您想了解《尋見真我》讀書會唷！）</p>
         </section>
 
     </div>
