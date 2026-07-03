@@ -486,7 +486,7 @@
 
                         <!-- 🌟 頂層選擇選單：先選類別，再看內容 -->
                         <div id="campTopChoice" style="display:flex; flex-direction:column; gap:14px; max-width:420px; margin:10px auto;">
-                            <button class="action-link-btn btn-orange-theme" style="width:100%;" onclick="openArticle('child_one')">🎯 一對一成長課程</button>
+                            <button class="action-link-btn btn-orange-theme" style="width:100%;" onclick="window.location.href='child-youth-course.html'">🎯 一對一成長課程</button>
                             <button class="action-link-btn" style="width:100%; background:#1B5E20; border:none;" onclick="document.getElementById('campTopChoice').style.display='none'; document.getElementById('campGroupSection').style.display='block';">⛺ 營隊</button>
                             <button class="action-link-btn" style="width:100%; background:#78909C; border:none;" onclick="closeServicePane()">🔙 返回服務項目</button>
                         </div>
@@ -534,7 +534,7 @@
                                     <tr><td>續報優惠</td><td>續報第二期享 9折 (NT$9,000) ‧ 第三期享 8折 (NT$8,000)</td></tr>
                                 </table>
 
-                                <button class="action-link-btn btn-orange-theme" style="width:100%; font-size:21px; padding:15px 0;" onclick="scrollToCampForm()">✍ 我要報名 2026 年暑期營隊</button>
+                                <button class="action-link-btn btn-orange-theme" style="width:100%; font-size:21px; padding:15px 0;" onclick="window.open('https://forms.gle/VBFcwoxNCousAezG7','_blank')">✍ 我要報名營隊</button>
                             </div>
 
                             <!-- 【頁籤 2】：歷屆營隊分流與詳細圖文影音介紹牆 -->
@@ -608,58 +608,13 @@
 
                             <!-- 智慧動態報名表單區 -->
                             <div class="camp-form-box" id="campFormArea">
-                                <h4 style="font-size:26px; color:#1B5E20; font-weight:bold; text-align:center; margin-bottom:20px;">📝 2026 讓大腦自由 AI 暑期營 線上報名表單</h4>
-                                
-                                <div class="form-group">
-                                    <label>孩子姓名：</label>
-                                    <input type="text" id="f_childName" class="form-control" placeholder="請輸入學員完整姓名">
-                                </div>
-                                <div class="form-group">
-                                    <label>孩子年齡 / 就讀年級：</label>
-                                    <input type="text" id="f_childGrade" class="form-control" placeholder="例如：12歲 / 升國一">
-                                </div>
-                                <div class="form-group">
-                                    <label>家長姓名：</label>
-                                    <input type="text" id="f_parentName" class="form-control" placeholder="請輸入聯繫人姓名">
-                                </div>
-                                <div class="form-group">
-                                    <label>聯絡電話：</label>
-                                    <input type="tel" id="f_phone" class="form-control" placeholder="請輸入家長聯絡手機">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>可參加週次（可多選）：</label>
-                                    <div class="checkbox-group">
-                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第一週（7/27–7/31）"> 🗓 第一週（7/27–7/31）</label>
-                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第二週（8/03–8/07）"> 🗓 第二週（8/03–8/07）</label>
-                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第三週（8/10–8/14）"> 🗓 第三週（8/10–8/14）</label>
-                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第四週（8/17–8/21）"> 🗓 第四週（8/17–8/21）</label>
-                                        <label class="checkbox-label"><input type="checkbox" name="camp_weeks" value="第五週（8/24–8/28）"> 🗓 第五週（8/24–8/28）</label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>孩子目前對手機/3C的使用狀況簡述：</label>
-                                    <textarea id="f_status" class="form-control" rows="3" placeholder="請簡單描述孩子平常使用3C的時間與習慣"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>您認為孩子是否願意配合營隊規定（不自由使用手機）：</label>
-                                    <input type="text" id="f_will" class="form-control" placeholder="例如：願意配合、需要溝通等">
-                                </div>
-                                <div class="form-group">
-                                    <label>其他想讓老師知道的事：</label>
-                                    <textarea id="f_other" class="form-control" rows="2" placeholder="如有過敏、特殊健康狀況或期待請填寫"></textarea>
-                                </div>
-
                                 <div class="form-group">
                                     <label>💰 預約測評及繳費相關：</label>
                                     <p style="font-size:18px; color:#333333; margin-top:-2px; margin-bottom:14px;">如要參加營隊，請先勾選預期參加的梯隊，但不必先繳費。請先完成 十大向度健康幸福測評匯款費 2,000 元。再將匯款證明傳到官方 LINE，需註明小朋友的姓名、匯款人姓名、跟小朋友關係、匯款帳號後五碼。接著請上網預約面談時間（實體或線上皆可）。測評解析時間為一個小時，我們將在解析中提供完整的教養建議，確定適合參加營隊後再行繳費。</p>
                                     <a href="https://line.me/R/ti/p/@431trrjk" target="_blank" class="action-link-btn btn-line-theme" style="width:100%; margin-bottom:10px;">💬 加入官方 LINE</a>
                                     <a href="https://line.me/ti/g/abrQEbMpCW" target="_blank" class="action-link-btn" style="width:100%; background:#5A9B78; border:none; color:#fff; margin-bottom:10px;">👥 加入 2026 暑期營隊 LINE 群組</a>
-                                    <a href="booking.html" target="_blank" class="action-link-btn btn-orange-theme" style="width:100%;">🗓 預約測評解析時段</a>
+                                    <a href="booking.html" target="_blank" class="action-link-btn btn-orange-theme" style="width:100%;">🗓 我已經測評繳費截圖傳到官方 LINE，請帶我去預約說明時段</a>
                                 </div>
-
-                                <button class="action-link-btn btn-line-theme" style="width:100%; padding:14px 0; font-size:21px;" onclick="submitCampForm()">💾 確認並送出</button>
                             </div>
 
                         </div>
@@ -1065,7 +1020,7 @@
             </div>
             </div>
 
-            <div class="service-fs-footer">
+            <div class="service-fs-footer" id="serviceFsFooter">
                 <a id="serviceFsRegisterBtn" class="action-link-btn btn-line-theme" style="width:100%; padding:14px 0; font-size:20px;" href="#" onclick="return true;">📝 填寫報名表單</a>
                 <a id="serviceFsGroupBtn" class="action-link-btn" style="width:100%; background:#5A9B78; border:none; color:#fff; padding:14px 0; font-size:20px;" href="#" target="_blank">👥 加入群組</a>
                 <button class="action-link-btn" style="width:100%; background:#78909C; border:none; padding:14px 0; font-size:20px;" onclick="closeServicePane()">🔙 回到服務項目</button>
@@ -1157,85 +1112,6 @@
         </div>
     </div>
 
-    <!-- 🌟 讀書會專屬報名表單 modal 🌟 -->
-    <div class="booking-modal-overlay" id="bibleRegisterModalOverlay">
-        <div class="booking-modal-box">
-            <button class="booking-modal-close" onclick="closeBibleRegisterModal()">✕</button>
-
-            <div id="bibleRegisterFormView">
-                <div class="booking-modal-title">📖 讀書會報名表單</div>
-                <p class="booking-modal-sub">第 21、22 期讀書會報名，填寫完成後請務必加入讀書會群組，群組中如果發布確定開課，再行繳費。</p>
-
-                <div class="form-group">
-                    <label>姓名 *</label>
-                    <input type="text" id="br_name" class="form-control" placeholder="請輸入姓名">
-                </div>
-                <div class="form-group">
-                    <label>LINE ID *</label>
-                    <input type="text" id="br_lineid" class="form-control" placeholder="方便我們在LINE上找到您">
-                </div>
-                <div class="form-group">
-                    <label>LINE 暱稱 *</label>
-                    <input type="text" id="br_linename" class="form-control" placeholder="您在LINE上顯示的名稱">
-                </div>
-                <div class="form-group">
-                    <label>講義寄送地址 *</label>
-                    <input type="text" id="br_address" class="form-control" placeholder="請填寫完整收件地址">
-                </div>
-                <div class="form-group">
-                    <label>超商取貨店資訊（選填）</label>
-                    <input type="text" id="br_store" class="form-control" placeholder="例如：7-11 OK超商門市名稱與店號">
-                </div>
-                <div class="form-group">
-                    <label>聯絡電話 *</label>
-                    <input type="tel" id="br_phone" class="form-control" placeholder="請輸入手機號碼">
-                </div>
-                <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" id="br_email" class="form-control" placeholder="請輸入Email">
-                </div>
-                <div class="form-group">
-                    <label>信仰（選填）</label>
-                    <input type="text" id="br_faith" class="form-control" placeholder="例如：基督徒、天主教、佛教、無信仰⋯等">
-                </div>
-                <div class="form-group">
-                    <label>從哪個管道知道這個讀書會？（選填）</label>
-                    <select id="br_channel" class="form-control">
-                        <option value="">請選擇</option>
-                        <option value="朋友介紹">朋友介紹</option>
-                        <option value="官方LINE">官方LINE</option>
-                        <option value="網站">網站</option>
-                        <option value="社群媒體">社群媒體</option>
-                        <option value="舊同學介紹回訓">舊同學介紹回訓</option>
-                        <option value="其他">其他</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>請勾選所有你方便上課的時段（可多選，將以最多人選擇的時段開課） *</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label"><input type="checkbox" name="br_slot" value="第21期・週一晚上7:00-9:30"> 第21期（晚上班）・週一晚上 7:00-9:30</label>
-                        <label class="checkbox-label"><input type="checkbox" name="br_slot" value="第21期・週四或週五晚上7:00-9:30"> 第21期（晚上班）・週四或週五晚上 7:00-9:30</label>
-                        <label class="checkbox-label"><input type="checkbox" name="br_slot" value="第22期・週二上午9:30-12:00"> 第22期（白天班）・週二上午 9:30-12:00</label>
-                        <label class="checkbox-label"><input type="checkbox" name="br_slot" value="第22期・週五上午9:30-12:00"> 第22期（白天班）・週五上午 9:30-12:00</label>
-                        <label class="checkbox-label"><input type="checkbox" name="br_slot" value="第22期・週二下午1:30-4:00"> 第22期（白天班）・週二下午 1:30-4:00</label>
-                        <label class="checkbox-label"><input type="checkbox" name="br_slot" value="第22期・週五下午1:30-4:00"> 第22期（白天班）・週五下午 1:30-4:00</label>
-                    </div>
-                </div>
-
-                <button class="action-link-btn btn-line-theme" style="width:100%; padding:14px 0; font-size:21px;" onclick="submitBibleRegister()">送出報名表單</button>
-                <p style="font-size:17px; color:#3a3a3a; text-align:center; margin-top:10px;">⚠️ 群組中如果發布確定開課，再行繳費</p>
-            </div>
-
-            <div class="booking-success-box" id="bibleRegisterSuccessView">
-                <div class="icon">📖</div>
-                <h3 style="color:#1B5E20; font-size:24px; margin-bottom:10px;">報名資料已送出！</h3>
-                <p style="font-size:20px; color:#262626; margin-bottom:20px;">請務必加入讀書會群組，<br>群組中如果發布確定開課，再行繳費。</p>
-                <a href="https://line.me/ti/g/Ba5eCG3vKS" target="_blank" class="action-link-btn" style="width:100%; background:#5A9B78; border:none; color:#fff;">👥 加入讀書會群組</a>
-                <button class="action-link-btn" style="width:100%; margin-top:10px; background:#aaa; border:none;" onclick="closeBibleRegisterModal()">關閉視窗</button>
-            </div>
-        </div>
-    </div>
-
     <!-- 全螢幕大字體通用閱覽視窗（供其他文章使用） -->
     <div class="fullscreen-book-view" id="fullscreenBookView">
         <div class="book-max-wrapper">
@@ -1260,7 +1136,8 @@
             </div>
 
             <div id="tokyoBookingCta" style="display:none; text-align:center; padding-top:20px; border-top:1px dashed #eee;">
-                <a href="booking.html" class="action-link-btn btn-orange-theme" style="width:100%;">🗓 前往各項服務預約系統</a>
+                <a href="https://forms.gle/VBFcwoxNCousAezG7" target="_blank" class="action-link-btn btn-orange-theme" style="width:100%; margin-bottom:10px;">✍ 我要報名</a>
+                <a href="booking.html" class="action-link-btn btn-orange-theme" style="width:100%;">📅 預約一對一及跟老師走行程</a>
             </div>
 
             <div id="tokyoGroupCta" style="display:none; text-align:center; padding-top:14px;">
@@ -1392,61 +1269,6 @@
             document.getElementById('bookingSuccessView').style.display = 'block';
         }
 
-        // ══ 讀書會專屬報名表單 ══
-        function openBibleRegisterModal() {
-            document.getElementById('bibleRegisterFormView').style.display = 'block';
-            document.getElementById('bibleRegisterSuccessView').style.display = 'none';
-            document.getElementById('bibleRegisterModalOverlay').classList.add('open');
-        }
-
-        function closeBibleRegisterModal() {
-            document.getElementById('bibleRegisterModalOverlay').classList.remove('open');
-        }
-
-        async function submitBibleRegister() {
-            const name = document.getElementById('br_name').value.trim();
-            const lineId = document.getElementById('br_lineid').value.trim();
-            const lineName = document.getElementById('br_linename').value.trim();
-            const address = document.getElementById('br_address').value.trim();
-            const store = document.getElementById('br_store').value.trim();
-            const phone = document.getElementById('br_phone').value.trim();
-            const email = document.getElementById('br_email').value.trim();
-            const faith = document.getElementById('br_faith').value.trim();
-            const channel = document.getElementById('br_channel').value;
-            const slots = Array.from(document.querySelectorAll('input[name="br_slot"]:checked')).map(el => el.value);
-
-            if (!name || !lineId || !lineName || !address || !phone || !email) {
-                alert('❌ 請填寫姓名、LINE ID、LINE暱稱、講義寄送地址、聯絡電話與Email喔！');
-                return;
-            }
-            if (slots.length === 0) {
-                alert('❌ 請至少勾選一個方便上課的時段！');
-                return;
-            }
-
-            const { error } = await db.from('bible_registrations').insert({
-                name: name,
-                line_id: lineId,
-                line_name: lineName,
-                address: address,
-                store_info: store || null,
-                phone: phone,
-                email: email,
-                faith: faith || null,
-                channel: channel || null,
-                time_slots: slots.join('、'),
-            });
-
-            if (error) {
-                alert('送出時發生問題，請直接加讀書會群組與我們聯繫，謝謝！');
-                console.error(error);
-                return;
-            }
-
-            document.getElementById('bibleRegisterFormView').style.display = 'none';
-            document.getElementById('bibleRegisterSuccessView').style.display = 'block';
-        }
-
         function toggleCard(header) {
             const card = header.parentElement;
             card.classList.toggle('active');
@@ -1470,7 +1292,7 @@
             camp:      { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('兒童青少年課程及營隊'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             adult:     { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('個人成長課程'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             elder:     { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('樂齡成長課程'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
-            bible:     { registerLabel:'📝 填寫報名表單', registerFn: () => openBibleRegisterModal(), groupLabel:'👥 加入讀書會群組', groupUrl:'https://line.me/ti/g/Ba5eCG3vKS' },
+            bible:     { registerLabel:'📝 填寫報名表單', registerFn: () => window.open('https://forms.gle/VBFcwoxNCousAezG7','_blank'), groupLabel:'👥 加入讀書會群組', groupUrl:'https://line.me/ti/g/Ba5eCG3vKS' },
             garden:    { registerLabel:'📖 前往生命故事花園', registerFn: () => window.open('life-stories.html','_blank'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             column:    { registerLabel:'✍️ 前往心路新路專欄', registerFn: () => window.open('columns.html','_blank'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             footprint: { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('尚未確定，請與我聯繫'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' }
@@ -1498,6 +1320,9 @@
             const hideDuplicateBtns = (key === 'assess' || key === 'camp');
             registerBtn.style.display = hideDuplicateBtns ? 'none' : '';
             groupBtn.style.display = hideDuplicateBtns ? 'none' : '';
+
+            // 兒童青少年課程及營隊頁內文已有自己的返回與功能按鈕，底部整列隱藏避免重複
+            document.getElementById('serviceFsFooter').style.display = (key === 'camp') ? 'none' : '';
 
             document.getElementById('serviceTabContentArea').classList.add('fullscreen-mode');
             window.scrollTo(0, 0);
@@ -1539,10 +1364,6 @@
             document.getElementById('contentFootTab' + tabNum).classList.add('active');
         }
 
-        function scrollToCampForm() {
-            document.getElementById('campFormArea').scrollIntoView({ behavior: 'smooth' });
-        }
-
         // 從最新消息按鈕直接跳轉並展開「最新營隊」內容
         function goToCamp() {
             goToServiceTab('camp');
@@ -1552,51 +1373,6 @@
         // 營隊LINE群組連結（待補：實際 LINE 群組/OpenChat 邀請連結）
         const CAMP_LINE_GROUP_URL = 'https://line.me/ti/g/abrQEbMpCW';
 
-        // 智慧報名表單串聯送出邏輯（資料存入後台資料庫，並引導加入營隊LINE群組）
-        async function submitCampForm() {
-            const cName = document.getElementById('f_childName').value.trim();
-            const cGrade = document.getElementById('f_childGrade').value.trim();
-            const pName = document.getElementById('f_parentName').value.trim();
-            const phone = document.getElementById('f_phone').value.trim();
-            const status = document.getElementById('f_status').value.trim();
-            const will = document.getElementById('f_will').value.trim();
-            const other = document.getElementById('f_other').value.trim();
-
-            let checkedWeeks = [];
-            document.querySelectorAll('input[name="camp_weeks"]:checked').forEach(cb => checkedWeeks.push(cb.value));
-
-            if(!cName || !pName || !phone || checkedWeeks.length === 0) {
-                alert("❌ 請填寫學員、家長姓名、聯絡電話並至少勾選一個參加週次喔！");
-                return;
-            }
-
-            const submitBtn = document.querySelector('.camp-form-box button[onclick="submitCampForm()"]');
-            if (submitBtn) { submitBtn.disabled = true; submitBtn.innerText = '送出中…'; }
-
-            const { error } = await db.from('camp_registrations').insert({
-                child_name: cName,
-                child_grade: cGrade || null,
-                parent_name: pName,
-                phone: phone,
-                weeks: checkedWeeks.join('、'),
-                device_status: status || null,
-                willingness: will || null,
-                notes: other || null,
-                status: 'pending'
-            });
-
-            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = '💾 確認並送出'; }
-
-            if (error) {
-                alert("送出時發生問題，請直接加官方 LINE 與我們聯繫，謝謝！");
-                console.error(error);
-                return;
-            }
-
-            alert("🎉 報名資料已送出成功！\n請記得：①完成 WWAS 測評面談費 NT$2,000 之匯款並上傳證明（如尚未上傳）②加入「2026讓大腦自由AI暑期營隊群組」，方便老師確認面談時間與後續通知。");
-            window.open(CAMP_LINE_GROUP_URL, "_blank");
-            goToCamp();
-        }
 
         const articlesBank = {
             child_one: "【兒童青少年課程 ── 一對一成長課程】\n\n針對孩子的獨特特質，量身打造專屬的情緒梳理、內在自我認同與引導專文資料。",
