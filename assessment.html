@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全齡關懷十大向度健康幸福測評系統｜心路新路</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  body { background: linear-gradient(180deg,#FDFCF5,#EEF4FF); font-family:'Microsoft JhengHei',sans-serif; margin:0; padding:16px; color:#333; }
+  .wrap { max-width:680px; margin:0 auto; background:rgba(255,255,255,.9); border-radius:24px; padding:28px 22px; box-shadow:0 8px 20px rgba(0,0,0,.06); }
+  h1 { color:#2C5E3B; font-size:23px; text-align:center; margin:0 0 6px; }
+  h2 { color:#D35400; font-size:19px; margin:16px 0 10px; }
+  .sub { text-align:center; color:#888; font-size:14.5px; margin:0 0 20px; line-height:1.6; }
+  label { display:block; font-size:16.5px; font-weight:bold; margin:14px 0 6px; }
+  input[type=text], select { width:100%; padding:11px; border:1.5px solid #CFDCE8; border-radius:10px; font-size:16px; box-sizing:border-box; background:#fff; }
+  .btn { display:block; width:100%; padding:15px; border:none; border-radius:12px; font-size:18px; font-weight:bold; color:#fff; cursor:pointer; margin-top:14px; }
+  .btn-primary { background:#2C5E3B; } .btn-sub { background:#5B8FB9; } .btn-ghost { background:#9AA6A0; }
+  .screen { display:none; } .screen.active { display:block; }
+  .prog-bar { height:8px; background:#E8EEE4; border-radius:5px; overflow:hidden; margin:8px 0 4px; }
+  .prog-fill { height:100%; background:linear-gradient(90deg,#5B9B78,#2C5E3B); width:0%; transition:width .3s; }
+  .prog-text { text-align:center; color:#2C5E3B; font-size:14px; font-weight:bold; margin-bottom:14px; }
+  .q-card { background:#F7FAF3; border:1.5px solid #DDE8D5; border-radius:16px; padding:22px 18px; margin:16px 0; }
+  .q-dim { color:#8C5A2B; font-size:14.5px; font-weight:bold; margin:0 0 8px; }
+  .q-text { font-size:20px; line-height:1.7; color:#222; margin:0; }
+  .opts { display:flex; flex-direction:column; gap:10px; margin-top:18px; }
+  .opt { padding:15px; border:2px solid #D8E4D0; border-radius:12px; font-size:17px; text-align:center; cursor:pointer; background:#fff; transition:.15s; }
+  .opt:hover { border-color:#5B9B78; background:#F0F7EC; }
+  .opt.sel { border-color:#2C5E3B; background:#2C5E3B; color:#fff; }
+  .note { font-size:13.5px; color:#999; text-align:center; margin-top:10px; }
+  .big-done { text-align:center; padding:20px 0; }
+  .big-done .emo { font-size:64px; }
+  .flower { position:fixed; right:14px; top:12px; background:none; border:none; font-size:26px; cursor:pointer; z-index:50; }
+  .admin-item { background:#fff; border:1.5px solid #DDE8D5; border-radius:12px; padding:12px 14px; margin:10px 0; cursor:pointer; }
+  .admin-item:hover { border-color:#2C5E3B; }
+  .code-box { background:#FFF8EC; border:2px dashed #E8B96A; border-radius:12px; padding:16px; text-align:center; margin:12px 0; }
+  .code-box .code { font-size:26px; font-weight:bold; color:#8C5A2B; letter-spacing:3px; }
+  .backlink { display:block; text-align:center; margin:18px auto 4px; color:#2C5E3B; font-size:15px; }
+  .err { color:#C0392B; font-size:14.5px; text-align:center; margin-top:8px; }
+</style>
+</head>
+<body>
+<button class="flower" onclick="adminLogin()" title="管理">🌻</button>
+
+<div class="wrap" id="main">
+  <div class="screen active" id="sc0">
+    <h1>🧭 全齡關懷十大向度<br>健康幸福測評系統</h1>
+    <p class="sub">本測評需要有效的存取碼才能開始。<br>完成繳費後，會由心路新路發送給您。</p>
+    <label>請輸入您的存取碼</label>
+    <input type="text" id="codeInput" placeholder="例如：XL-A3K9P2" style="text-align:center; letter-spacing:2px; font-size:19px;">
+    <button class="btn btn-primary" onclick="verifyCode()">開始</button>
+    <p class="err" id="codeErr" style="display:none;"></p>
+    <p class="note">尚未取得存取碼？請先至官方 LINE 完成繳費。</p>
+  </div>
+
+  <div class="screen" id="sc1">
+    <h1>先了解您的狀況</h1>
+    <p class="sub">請依實際情況回答，系統會為您配對最適合的題本。</p>
+    <div id="routingForm"></div>
+    <button class="btn btn-primary" onclick="submitRouting()">下一步，開始作答 ➜</button>
+    <p class="err" id="routeErr" style="display:none;"></p>
+  </div>
+
+  <div class="screen" id="sc2">
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    <div class="prog-text" id="progText"></div>
+    <div class="q-card">
+      <p class="q-dim" id="qDim"></p>
+      <p class="q-text" id="qText"></p>
+    </div>
+    <div class="opts" id="optArea"></div>
+    <p class="note">您的進度會自動儲存，可隨時關閉，用同一組存取碼再回來續答。</p>
+    <button class="btn btn-ghost" id="prevBtn" onclick="prevQ()" style="display:none;">⬅ 上一題</button>
+  </div>
+
+  <div class="screen" id="sc3">
+    <div class="big-done">
+      <div class="emo">🌻</div>
+      <h1>已完成，謝謝您！</h1>
+      <p class="sub" style="font-size:17px; margin-top:14px;">您的測評已全部送出。<br>請至官方 LINE 預約解析時段，<br>雪媚老師會為您詳細解讀。</p>
+    </div>
+    <a class="backlink" href="index.html">🏠 回到心路新路首頁</a>
+  </div>
+</div>
+
+<div class="wrap" id="admin" style="display:none;">
+  <h1>🌻 測評系統管理</h1>
+  <div id="adminHome">
+    <button class="btn btn-primary" onclick="showGenCode()">➕ 產生新存取碼</button>
+    <button class="btn btn-sub" onclick="showResults()">📋 查看測評結果</button>
+    <a class="backlink" href="index.html">🏠 回到首頁</a>
+  </div>
+  <div id="adminGen" style="display:none;">
+    <h2>產生存取碼</h2>
+    <label>備註（受測者姓名／方便您辨識）</label>
+    <input type="text" id="genNote" placeholder="例如：王小明 7-10歲">
+    <button class="btn btn-primary" onclick="genCode()">產生存取碼</button>
+    <div id="genResult"></div>
+    <button class="btn btn-ghost" onclick="adminBack()">⬅ 返回</button>
+  </div>
+  <div id="adminResults" style="display:none;">
+    <h2>測評結果</h2>
+    <div id="resultList"></div>
+    <button class="btn btn-ghost" onclick="adminBack()">⬅ 返回</button>
+  </div>
+</div>
+
+<script>
+const db = supabase.createClient('https://iqxzsflawxzvniycmaub.supabase.co', 'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4');
+</script>
+<script>
+const ROUTING_DATA = [[1, "4-6歲", "observer", null, null, null, null], [2, "7-10歲", "self", null, null, null, null], [3, "7-10歲", "observer", null, null, null, null], [4, "10-13歲", "self", null, null, null, null], [5, "10-13歲", "observer", null, null, null, null], [6, "13-15歲", "self", null, null, null, null], [7, "13-15歲", "observer", null, null, null, null], [8, "16-18歲", "self", null, null, null, null], [9, "16-18歲", "observer", null, null, null, null], [10, "18-24歲", "self", "study", "no", null, "origin"], [11, "18-24歲", "observer", "study", "no", null, "origin"], [12, "18-24歲", "self", "study", "no", null, "away"], [13, "18-24歲", "observer", "study", "no", null, "away"], [14, "18-24歲", "self", "study", "yes", "no", "origin"], [15, "18-24歲", "observer", "study", "yes", "no", "origin"], [16, "18-24歲", "self", "study", "yes", "no", "away"], [17, "18-24歲", "observer", "study", "yes", "no", "away"], [18, "18-24歲", "self", "study", "yes", "yes", "origin"], [19, "18-24歲", "observer", "study", "yes", "yes", "origin"], [20, "18-24歲", "self", "study", "yes", "yes", "away"], [21, "18-24歲", "observer", "study", "yes", "yes", "away"], [22, "18-24歲", "self", "work", "no", null, "origin"], [23, "18-24歲", "observer", "work", "no", null, "origin"], [24, "18-24歲", "self", "work", "no", null, "away"], [25, "18-24歲", "observer", "work", "no", null, "away"], [26, "18-24歲", "self", "work", "yes", "no", "origin"], [27, "18-24歲", "observer", "work", "yes", "no", "origin"], [28, "18-24歲", "self", "work", "yes", "no", "away"], [29, "18-24歲", "observer", "work", "yes", "no", "away"], [30, "18-24歲", "self", "work", "yes", "yes", "origin"], [31, "18-24歲", "observer", "work", "yes", "yes", "origin"], [32, "18-24歲", "self", "work", "yes", "yes", "away"], [33, "18-24歲", "observer", "work", "yes", "yes", "away"], [34, "18-24歲", "self", "neet", "no", null, "origin"], [35, "18-24歲", "observer", "neet", "no", null, "origin"], [36, "18-24歲", "self", "neet", "no", null, "away"], [37, "18-24歲", "observer", "neet", "no", null, "away"], [38, "18-24歲", "self", "neet", "yes", "no", "origin"], [39, "18-24歲", "observer", "neet", "yes", "no", "origin"], [40, "18-24歲", "self", "neet", "yes", "no", "away"], [41, "18-24歲", "observer", "neet", "yes", "no", "away"], [42, "18-24歲", "self", "neet", "yes", "yes", "origin"], [43, "18-24歲", "observer", "neet", "yes", "yes", "origin"], [44, "18-24歲", "self", "neet", "yes", "yes", "away"], [45, "18-24歲", "observer", "neet", "yes", "yes", "away"], [46, "25-65歲", "self", "study", "no", null, "origin"], [47, "25-65歲", "self", "study", "no", null, "away"], [48, "25-65歲", "self", "study", "yes", "no", "origin"], [49, "25-65歲", "self", "study", "yes", "no", "away"], [50, "25-65歲", "self", "study", "yes", "yes", "origin"], [51, "25-65歲", "self", "study", "yes", "yes", "away"], [52, "25-65歲", "self", "work", "no", null, "origin"], [53, "25-65歲", "self", "work", "no", null, "away"], [54, "25-65歲", "self", "work", "yes", "no", "origin"], [55, "25-65歲", "self", "work", "yes", "no", "away"], [56, "25-65歲", "self", "work", "yes", "yes", "origin"], [57, "25-65歲", "self", "work", "yes", "yes", "away"], [58, "25-65歲", "self", "neet", "no", null, "origin"], [59, "25-65歲", "self", "neet", "no", null, "away"], [60, "25-65歲", "self", "neet", "yes", "no", "origin"], [61, "25-65歲", "self", "neet", "yes", "no", "away"], [62, "25-65歲", "self", "neet", "yes", "yes", "origin"], [63, "25-65歲", "self", "neet", "yes", "yes", "away"]];
+</script>
+<script>
+// ═══════════ 全齡測評平台 核心邏輯 ═══════════
+const ROUTING = ROUTING_DATA;
+
+let S = { code:null, setNo:null, qs:[], answers:{}, idx:0, routing:null, note:null };
+
+function showErr(el, msg){ el.innerText = msg; el.style.display = 'block'; }
+function goScreen(id){ document.querySelectorAll('#main .screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
+
+async function verifyCode(){
+  const code = document.getElementById('codeInput').value.trim().toUpperCase();
+  const err = document.getElementById('codeErr'); err.style.display='none';
+  if(!code){ showErr(err,'請輸入存取碼'); return; }
+  try{
+    const { data, error } = await db.from('assessment_codes').select('*').eq('code', code).maybeSingle();
+    if(error) throw error;
+    if(!data){ showErr(err,'存取碼不存在，請確認後重新輸入'); return; }
+    if(data.used){ showErr(err,'此存取碼已完成測評。如需重測請聯繫雪媚老師。'); return; }
+    if(new Date(data.expires_at) < new Date()){ showErr(err,'此存取碼已過期（效期一週），請聯繫雪媚老師。'); return; }
+    S.code = code; S.note = data.note;
+    if(data.set_no && data.progress){
+      if(confirm('偵測到您先前未完成的作答，是否從上次進度繼續？\n（按「取消」則重新開始）')){
+        S.setNo = data.set_no; S.routing = data.respondent_info;
+        S.answers = (data.progress.answers)||{}; S.idx = data.progress.idx||0;
+        await loadQuestions(); goScreen('sc2'); renderQ(); return;
+      }
+    }
+    buildRoutingForm(); goScreen('sc1');
+  }catch(e){ showErr(err,'連線失敗，請稍後再試'); }
+}
+
+function buildRoutingForm(){
+  document.getElementById('routingForm').innerHTML = `
+    <label>受測者年齡</label>
+    <select id="r_age" onchange="routeAgeChanged()">
+      <option value="">請選擇</option>
+      <option value="4-6歲">4-6 歲</option>
+      <option value="7-10歲">7-10 歲</option>
+      <option value="10-13歲">10-13 歲</option>
+      <option value="13-15歲">13-15 歲</option>
+      <option value="16-18歲">16-18 歲</option>
+      <option value="18-24歲">18-24 歲</option>
+      <option value="25-65歲">25-65 歲</option>
+    </select>
+    <div id="r_ver_box" style="display:none;">
+      <label>由誰填寫？</label>
+      <select id="r_ver">
+        <option value="self">受測者本人自評</option>
+        <option value="observer">家長／照顧者觀察填寫</option>
+      </select>
+    </div>
+    <div id="r_adult_box" style="display:none;">
+      <label>目前主要狀態</label>
+      <select id="r_occ">
+        <option value="study">就學中</option>
+        <option value="work">就業中</option>
+        <option value="neet">目前無就學無就業</option>
+      </select>
+      <label>感情狀態</label>
+      <select id="r_partner" onchange="routePartnerChanged()">
+        <option value="no">單身</option>
+        <option value="yes">有伴侶</option>
+      </select>
+      <div id="r_child_box" style="display:none;">
+        <label>是否有小孩</label>
+        <select id="r_child"><option value="no">無小孩</option><option value="yes">有小孩</option></select>
+      </div>
+      <label>居住情況</label>
+      <select id="r_live">
+        <option value="origin">住在原生家庭</option>
+        <option value="away">離開原生家庭／離家獨立</option>
+      </select>
+    </div>
+    <div id="r_faith_box" style="display:none;">
+      <label>靈性題目版本</label>
+      <select id="r_faith">
+        <option value="大眾版">一般大眾版</option>
+        <option value="基督徒版">基督徒版</option>
+      </select>
+      <p class="note">此向度關乎內在平安與生命意義，兩版擇一作答即可。</p>
+    </div>`;
+}
+function routeAgeChanged(){
+  const age = document.getElementById('r_age').value;
+  const isMinorSelfable = ['7-10歲','10-13歲','13-15歲','16-18歲'].includes(age);
+  const isAdult = ['18-24歲','25-65歲'].includes(age);
+  document.getElementById('r_ver_box').style.display = isMinorSelfable ? 'block' : 'none';
+  document.getElementById('r_adult_box').style.display = isAdult ? 'block' : 'none';
+  document.getElementById('r_faith_box').style.display = age ? 'block' : 'none';
+  if(isAdult) routePartnerChanged();
+}
+function routePartnerChanged(){
+  const p = document.getElementById('r_partner').value;
+  document.getElementById('r_child_box').style.display = (p==='yes') ? 'block' : 'none';
+}
+
+function submitRouting(){
+  const err = document.getElementById('routeErr'); err.style.display='none';
+  const age = document.getElementById('r_age').value;
+  if(!age){ showErr(err,'請選擇年齡'); return; }
+  let ver='self', occ=null, partner=null, child=null, live=null;
+  if(age==='4-6歲') ver='observer';
+  else if(['7-10歲','10-13歲','13-15歲','16-18歲'].includes(age)) ver=document.getElementById('r_ver').value;
+  if(['18-24歲','25-65歲'].includes(age)){
+    ver='self';
+    occ=document.getElementById('r_occ').value;
+    partner=document.getElementById('r_partner').value;
+    child = partner==='yes' ? document.getElementById('r_child').value : null;
+    live=document.getElementById('r_live').value;
+  }
+  const faith = document.getElementById('r_faith') ? document.getElementById('r_faith').value : '大眾版';
+  const setNo = matchSet(age, ver, occ, partner, child, live);
+  if(!setNo){ showErr(err,'找不到對應的題本，請確認選項，或聯繫雪媚老師。'); return; }
+  S.setNo = setNo;
+  S.routing = { age, ver, occ, partner, child, live, faith };
+  loadQuestions().then(()=>{ goScreen('sc2'); S.idx=0; renderQ(); });
+}
+
+function matchSet(age, ver, occ, partner, child, live){
+  for(const r of ROUTING){
+    if(r[1]!==age) continue;
+    if(r[2]!==ver) continue;
+    if(r[3]!==(occ||null)) continue;
+    if(r[4]!==(partner||null)) continue;
+    if(r[5]!==(child||null)) continue;
+    if(r[6]!==(live||null)) continue;
+    return r[0];
+  }
+  return null;
+}
+
+async function loadQuestions(){
+  const faith = (S.routing && S.routing.faith) || '大眾版';
+  const { data, error } = await db.from('assessment_questions').select('*').eq('set_no', S.setNo).order('id');
+  if(error){ alert('題目載入失敗，請稍後再試'); throw error; }
+  const drop = faith==='大眾版' ? '基督徒版' : '大眾版';
+  S.qs = data.filter(q => !(q.dimension.indexOf('靈性')>=0 && q.dimension.indexOf(drop)>=0));
+}
+
+const SCALE = [['1','從不'],['2','很少'],['3','有時'],['4','經常'],['5','總是']];
+function renderQ(){
+  const q = S.qs[S.idx];
+  document.getElementById('qDim').innerText = '【'+q.dimension+'】';
+  document.getElementById('qText').innerText = q.q_text;
+  document.getElementById('progFill').style.width = Math.round(S.idx/S.qs.length*100)+'%';
+  document.getElementById('progText').innerText = `第 ${S.idx+1} 題 / 共 ${S.qs.length} 題`;
+  const cur = S.answers[q.id];
+  document.getElementById('optArea').innerHTML = SCALE.map(([v,t])=>
+    `<div class="opt ${cur==v?'sel':''}" onclick="answer('${v}')">${v}　${t}</div>`).join('');
+  document.getElementById('prevBtn').style.display = S.idx>0 ? 'block' : 'none';
+}
+function answer(v){
+  const q = S.qs[S.idx];
+  S.answers[q.id] = v;
+  saveProgress();
+  if(S.idx < S.qs.length-1){ S.idx++; renderQ(); }
+  else finishAssessment();
+}
+function prevQ(){ if(S.idx>0){ S.idx--; renderQ(); } }
+
+async function saveProgress(){
+  try{ await db.from('assessment_codes').update({ set_no:S.setNo, respondent_info:S.routing, progress:{answers:S.answers, idx:S.idx} }).eq('code', S.code); }catch(e){}
+}
+
+function computeScores(){
+  const byDim = {};
+  for(const q of S.qs){
+    let v = parseInt(S.answers[q.id]||0);
+    if(!v) continue;
+    if(q.reverse) v = 6 - v;
+    (byDim[q.dimension] = byDim[q.dimension]||[]).push(v);
+  }
+  const scores = {};
+  for(const d in byDim){ const a=byDim[d]; scores[d] = +(a.reduce((x,y)=>x+y,0)/a.length).toFixed(2); }
+  return scores;
+}
+
+async function finishAssessment(){
+  const scores = computeScores();
+  try{
+    await db.from('assessment_results').insert([{ code:S.code, set_no:S.setNo, respondent_info:S.routing, answers:S.answers, scores }]);
+    await db.from('assessment_codes').update({ used:true, progress:null }).eq('code', S.code);
+  }catch(e){}
+  goScreen('sc3');
+}
+
+// ═══════════ 管理模式 ═══════════
+const ADMIN_HASH='e327c17c6a8d080a989e8885bb74f9ad8e1a400d522d29d57745d510e1b7cf04';
+async function sha256hex(s){ const b=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join(''); }
+async function adminLogin(){
+  const pw = prompt('請輸入管理密碼：');
+  if(!pw) return;
+  if(await sha256hex(pw)!==ADMIN_HASH){ alert('密碼錯誤'); return; }
+  document.getElementById('main').style.display='none';
+  document.getElementById('admin').style.display='block';
+  adminBack();
+}
+function adminBack(){ document.getElementById('adminHome').style.display='block'; document.getElementById('adminGen').style.display='none'; document.getElementById('adminResults').style.display='none'; }
+function showGenCode(){ document.getElementById('adminHome').style.display='none'; document.getElementById('adminGen').style.display='block'; document.getElementById('genResult').innerHTML=''; }
+function randCode(){ const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s=''; for(let i=0;i<6;i++) s+=c[Math.floor(Math.random()*c.length)]; return 'XL-'+s; }
+async function genCode(){
+  const note=document.getElementById('genNote').value.trim();
+  const code=randCode();
+  const exp=new Date(Date.now()+7*864e5).toISOString();
+  try{
+    const { error } = await db.from('assessment_codes').insert([{ code, expires_at:exp, note }]);
+    if(error) throw error;
+    document.getElementById('genResult').innerHTML =
+      `<div class="code-box"><p style="margin:0 0 6px; color:#888;">存取碼（效期 7 天）</p><p class="code">${code}</p>${note?'<p style="margin:8px 0 0; color:#8C5A2B;">'+esc(note)+'</p>':''}</div><p class="note">請把這組存取碼發送給受測者。</p>`;
+  }catch(e){ document.getElementById('genResult').innerHTML='<p class="err">產生失敗，請稍後再試</p>'; }
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function showResults(){
+  document.getElementById('adminHome').style.display='none';
+  document.getElementById('adminResults').style.display='block';
+  const list=document.getElementById('resultList');
+  list.innerHTML='<p class="note">載入中…</p>';
+  try{
+    const { data, error } = await db.from('assessment_results').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    if(!data||!data.length){ list.innerHTML='<p class="note">目前沒有測評結果</p>'; return; }
+    window.__results = data;
+    list.innerHTML = data.map((r,i)=>{
+      const dt=new Date(r.created_at).toLocaleString('zh-TW');
+      const nm=(r.respondent_info&&r.respondent_info.age)||'';
+      return `<div class="admin-item" onclick="downloadReport(${i})"><strong>${esc(r.code)}</strong>　第${r.set_no}套　${esc(nm)}<br><span style="color:#999;font-size:13px;">${dt}　點此下載 Word 報告</span></div>`;
+    }).join('');
+  }catch(e){ list.innerHTML='<p class="err">載入失敗</p>'; }
+}
+
+</script>
+<script>
+// ═══════════ 測評報告產生器（雷達圖＋分數＋建議 → Word）═══════════
+const DIM_ORDER = ['作息健康','大腦健康','理性思考','快樂情緒','成就感意義感','關係感','韌性修復力','神經多樣性','SEL社會情緒學習','靈性（大眾版）','靈性（基督徒版）'];
+
+function bandOf(score){
+  if(score>=4.2) return {label:'優勢', color:'#2C7A4B'};
+  if(score>=3.4) return {label:'穩定', color:'#5B9B78'};
+  if(score>=2.6) return {label:'留意', color:'#E0952B'};
+  return {label:'關注', color:'#C0392B'};
+}
+
+// 各向度 × 四區間 的建議文字（v1 草稿，雪媚老師可於 Word 中修改）
+const INTERP = {
+  '作息健康':{優勢:'作息與生活規律維持得相當好，睡眠、飲食、運動形成穩定的節奏，是身心健康的堅實基礎。',穩定:'整體作息大致規律，仍有微調空間；留意睡眠品質與規律運動，可讓身心更有能量。',留意:'作息出現一些不穩定的訊號，建議從固定就寢時間、規律三餐這類小處著手，逐步建立節奏。',關注:'目前作息較不規律，可能影響身心狀態。建議優先處理睡眠與飲食的穩定性，必要時尋求協助。'},
+  '大腦健康':{優勢:'情緒的生理基礎運作良好，動機、歸屬、穩定感等神經傳導系統平衡，內在有活力也有安定。',穩定:'大腦與情緒的生理狀態大致平衡，可透過運動、人際連結與成就經驗，進一步強化正向感受。',留意:'某些情緒的生理基礎可能失衡，建議留意壓力來源，增加帶來歸屬與愉悅感的活動。',關注:'情緒的生理狀態需要關注，長期壓力可能影響身心。建議調節壓力並尋求支持。'},
+  '理性思考':{優勢:'能以理性、彈性的方式看待自己與處境，價值感穩固，不易被單一標準綁架，是成熟的內在力量。',穩定:'思考大致理性平衡，遇到挑戰時仍能保持客觀；持續練習多角度看事情，會更游刃有餘。',留意:'某些想法可能較為僵化或負面，建議練習辨識並調整，用更寬容的眼光看待自己。',關注:'思考模式可能較常陷入負面或極端，影響情緒與自我價值。建議尋求引導，鬆動固著的想法。'},
+  '快樂情緒':{優勢:'能主動安排並感受生活中的喜悅，內在有安全感與自由感，快樂是一種穩定的能力。',穩定:'大致能感受到生活的愉悅，仍可更主動地為自己安排喜歡的事，累積正向情緒。',留意:'快樂的感受較為不足，建議刻意安排讓自己開心的活動，重新與喜悅連結。',關注:'較難感受到快樂，情緒可能長期低落。建議正視這個訊號，並尋求陪伴與專業支持。'},
+  '成就感意義感':{優勢:'對自己的能力與價值有踏實的肯定，能從所做的事中獲得意義，不依賴外在條件證明自己。',穩定:'大致能感受到成就與意義，持續設定符合能力的目標，會讓這份踏實更穩固。',留意:'成就感較為不足，可能對自己要求過高或忽略了已完成的事；建議看見並肯定自己的付出。',關注:'較難感受到自身價值與意義，建議調整過高的自我標準，從小的完成經驗重建肯定。'},
+  '關係感':{優勢:'擁有滋養的人際連結與歸屬感，能主動連結、也能面對關係中的挑戰，是重要的支持資源。',穩定:'人際關係大致穩定，仍可更主動經營連結、擴展支持網絡，讓歸屬感更豐富。',留意:'關係感較為薄弱，建議刻意安排與人連結的機會，或修復重要的關係。',關注:'可能感到孤立或關係困擾，建議主動尋求連結與支持，關係是重要的療癒力量。'},
+  '韌性修復力':{優勢:'面對挫折能接納、調整並找到成長的意義，內在的復原力強，是穿越困難的重要能力。',穩定:'大致能從挫折中恢復，持續練習接納變化、看見學習點，會讓韌性更成熟。',留意:'面對困難時的復原較不容易，建議練習接納無法改變的部分，並尋找支持。',關注:'挫折可能造成較長的影響，建議正視情緒、尋求陪伴，一步步重建復原的力量。'},
+  '神經多樣性':{優勢:'在專注、自我調節等面向表現穩定，能因應日常的要求，展現良好的調適能力。',穩定:'整體調適大致良好，某些情境下的專注或調節仍可透過策略進一步支持。',留意:'在專注、衝動或自我調節上出現一些訊號，建議留意並提供適當的環境與策略支持。',關注:'某些特質較為明顯，可能影響日常適應。這不是好壞問題，而是了解與支持的起點，建議尋求專業評估與策略。'},
+  'SEL社會情緒學習':{優勢:'情緒覺察、人際互動與負責任的決定等社會情緒能力成熟，是人際與生活的重要資產。',穩定:'社會情緒能力大致良好，持續練習情緒覺察與同理，會讓互動更順暢。',留意:'某些社會情緒能力仍在發展，建議透過覺察與練習，強化情緒管理與人際技巧。',關注:'社會情緒能力較需要支持，建議透過引導與練習，逐步建立情緒與人際的基礎。'},
+  '靈性（大眾版）':{優勢:'對生命有清楚的意義感與內在平安，能在超越自我的連結中獲得安定與方向。',穩定:'大致能感受到生命的意義與平安，持續探索內在的連結，會讓這份安定更深。',留意:'意義感或內在平安較為不足，建議給自己空間探索生命的價值與方向。',關注:'可能感到生命缺乏方向或平安，建議正視這份渴望，尋找滋養內在的連結。'},
+  '靈性（基督徒版）':{優勢:'在信仰中經歷到真實的平安與被愛，與上帝的關係成為生命穩固的根基與力量。',穩定:'大致能在信仰中感受到平安，持續在禱告與團契中親近上帝，會讓生命更扎根。',留意:'與上帝的連結感較為不足，建議在自然的禱告與群體中，重新經歷被愛與同在。',關注:'可能在信仰中感到疏離或乾渴，這是很多人都有的階段；建議在群體的陪伴中，重新經歷恩典。'}
+};
+
+function overallBand(avg){
+  if(avg>=4.2) return '整體健康幸福指數處於優勢狀態，多數向度是穩固的保護因子，展現良好的身心靈平衡。';
+  if(avg>=3.4) return '整體健康幸福指數穩定，多數向度運作良好，部分向度仍有提升空間，可作為成長的方向。';
+  if(avg>=2.6) return '整體健康幸福指數尚可，有數個向度出現值得留意的訊號，建議針對較低的向度給予關注與支持。';
+  return '整體健康幸福指數偏低，多個向度需要關注。這份結果是了解與改變的起點，建議搭配解析與專業支持，逐步前行。';
+}
+
+function radarSvg(scores){
+  const dims = DIM_ORDER.filter(d=>scores[d]!=null);
+  const n = dims.length, cx=260, cy=250, R=180;
+  const pt=(i,r)=>{ const a=-Math.PI/2 + i*2*Math.PI/n; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; };
+  let g='';
+  for(let ring=1;ring<=5;ring++){
+    const r=R*ring/5;
+    let pts='';
+    for(let i=0;i<n;i++){ const[x,y]=pt(i,r); pts+=`${x},${y} `; }
+    g+=`<polygon points="${pts}" fill="none" stroke="#DDD" stroke-width="1"/>`;
+  }
+  for(let i=0;i<n;i++){ const[x,y]=pt(i,R); g+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#DDD" stroke-width="1"/>`; }
+  let dpts='';
+  for(let i=0;i<n;i++){ const[x,y]=pt(i, R*scores[dims[i]]/5); dpts+=`${x},${y} `; }
+  g+=`<polygon points="${dpts}" fill="rgba(91,155,120,0.35)" stroke="#2C5E3B" stroke-width="2.5"/>`;
+  for(let i=0;i<n;i++){ const[x,y]=pt(i, R*scores[dims[i]]/5); g+=`<circle cx="${x}" cy="${y}" r="3.5" fill="#2C5E3B"/>`; }
+  for(let i=0;i<n;i++){
+    const[x,y]=pt(i, R+38);
+    const short = dims[i].replace('社會情緒學習','SEL').replace('（大眾版）','').replace('（基督徒版）','·信').replace('成就感意義感','成就意義');
+    g+=`<text x="${x}" y="${y}" text-anchor="middle" font-size="13" fill="#555">${short}</text>`;
+    const[sx,sy]=pt(i, R*scores[dims[i]]/5);
+    g+=`<text x="${sx}" y="${sy-8}" text-anchor="middle" font-size="12" font-weight="bold" fill="#2C5E3B">${scores[dims[i]]}</text>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520" width="480">${g}</svg>`;
+}
+
+function downloadReport(idx){
+  const r = window.__results[idx];
+  const scores = r.scores||{};
+  const dims = DIM_ORDER.filter(d=>scores[d]!=null);
+  const vals = dims.map(d=>scores[d]);
+  const avg = +(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2);
+  const info = r.respondent_info||{};
+  const verTxt = info.ver==='observer'?'觀察版':'自評版';
+  const dt = new Date(r.created_at).toLocaleDateString('zh-TW');
+
+  let rows = dims.map(d=>{
+    const b=bandOf(scores[d]);
+    return `<tr><td style="padding:6px 10px;border:1px solid #ccc;">${d}</td><td style="padding:6px 10px;border:1px solid #ccc;text-align:center;">${scores[d]}</td><td style="padding:6px 10px;border:1px solid #ccc;text-align:center;color:${b.color};font-weight:bold;">${b.label}</td><td style="padding:6px 10px;border:1px solid #ccc;">${(INTERP[d]&&INTERP[d][b.label])||''}</td></tr>`;
+  }).join('');
+
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+    body{font-family:'Microsoft JhengHei',sans-serif;color:#333;}
+    h1{color:#2C5E3B;text-align:center;} h2{color:#D35400;border-bottom:2px solid #EED;padding-bottom:4px;}
+    table{border-collapse:collapse;width:100%;font-size:14px;} .center{text-align:center;}
+    .box{background:#F7FAF3;border:1px solid #DDE8D5;border-radius:8px;padding:12px 16px;margin:12px 0;}
+  </style></head><body>
+    <h1>全齡關懷十大向度健康幸福測評<br>結果報告</h1>
+    <p class="center">受測情境：${info.age||''}・${verTxt}${info.occ?'・'+({study:'就學中',work:'就業中',neet:'無就學就業'}[info.occ]):''}｜第 ${r.set_no} 套｜填寫日期：${dt}</p>
+    <h2>一、整體健康幸福指數</h2>
+    <div class="box"><p style="font-size:18px;margin:0;">整體平均分數：<strong style="color:#2C5E3B;font-size:22px;">${avg}</strong> / 5</p><p style="margin:8px 0 0;">${overallBand(avg)}</p></div>
+    <h2>二、十大向度雷達圖</h2>
+    <div class="center">${radarSvg(scores)}</div>
+    <h2>三、各向度分數與說明</h2>
+    <table><tr style="background:#2C5E3B;color:#fff;"><th style="padding:8px;">向度</th><th style="padding:8px;">分數</th><th style="padding:8px;">區間</th><th style="padding:8px;">說明</th></tr>${rows}</table>
+    <p style="font-size:12px;color:#999;margin-top:6px;">評分：1=從不 2=很少 3=有時 4=經常 5=總是。神經多樣性之特質題採反向計分，分數越高代表調適越佳。</p>
+    <h2>四、雪媚老師的解析</h2>
+    <div class="box" style="min-height:120px;">（請在此輸入個別化的解析與建議，再列印給受測者。）</div>
+    <p style="font-size:12px;color:#aaa;text-align:center;margin-top:20px;">心路新路 全齡身心韌性科技有限公司｜本報告僅供專業解析使用</p>
+  </body></html>`;
+
+  const blob = new Blob(['\ufeff'+html], {type:'application/msword'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `測評報告_${r.code}_第${r.set_no}套.doc`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+</script>
+</body>
+</html>
