@@ -5,13 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>兒童青少年一對一課程｜心路新路</title>
   <style>
-    /* 淺色系由上往下延伸，銜接底部森林圖的光感綠意 */
+    /* 柔和漸層粉色系底圖 */
     body {
-      background: linear-gradient(180deg, #FDFCF5 0%, #F6F8E8 35%, #E8F2D8 70%, #D8EAC4 100%);
+      background: linear-gradient(180deg, #E3F2FD 0%, #BBDEFB 40%, #90CAF9 100%);
       font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
       margin: 0; padding: 20px 20px 0 20px; min-height: 100vh;
       display: flex; flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
     }
+    /* 散佈的可愛小裝飾 - 在螢幕四周飄浮 */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .decor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.55;
+    }
+    .decor.d1 { top: 8%; left: 3%; font-size: 34px; }
+    .decor.d2 { top: 18%; right: 4%; font-size: 30px; }
+    .decor.d3 { top: 42%; left: 2%; font-size: 28px; }
+    .decor.d4 { top: 55%; right: 3%; font-size: 32px; }
+    .decor.d5 { top: 72%; left: 4%; font-size: 26px; }
+    .decor.d6 { top: 85%; right: 5%; font-size: 30px; }
+    .decor.d7 { top: 30%; right: 8%; font-size: 22px; }
+    .decor.d8 { top: 65%; left: 7%; font-size: 24px; }
     .content-container {
       background: rgba(255, 255, 255, 0.72);
       padding: 36px 28px; border-radius: 30px;
