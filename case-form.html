@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>個案資料表 & 家族圖 | 心路新路</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  body {
+    background: linear-gradient(180deg, #F5FBFF 0%, #E8F4FD 40%, #D6EAFA 100%);
+    font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+    margin: 0; padding: 16px; min-height: 100vh; color: #000;
+  }
+  .wrap {
+    max-width: 680px; margin: 0 auto; background: rgba(255,255,255,.9);
+    border-radius: 24px; padding: 26px 22px; box-shadow: 0 10px 20px rgba(100,150,200,.1);
+  }
+  h1 { color: #1565C0; font-size: 24px; text-align: center; margin: 0 0 12px; }
+  .top-info {
+    background: #E3F2FD; border-left: 4px solid #64B5F6; border-radius: 10px;
+    padding: 14px 16px; margin: 12px 0 18px; font-size: 15px; color: #000; line-height: 1.75;
+  }
+  .top-info strong { color: #0D47A1; }
+  .prog { display: flex; gap: 4px; margin: 16px 0; }
+  .prog-item { flex: 1; height: 6px; background: #BBDEFB; border-radius: 3px; opacity: 0.4; }
+  .prog-item.done { background: #64B5F6; opacity: 1; }
+  .prog-label { text-align: center; font-size: 14px; color: #1565C0; margin-bottom: 8px; font-weight: bold; }
+  .step { display: none; }
+  .step.active { display: block; }
+  h3 { color: #1565C0; font-size: 20px; margin: 18px 0 10px; }
+  label { display: block; font-size: 16px; font-weight: bold; margin: 14px 0 6px; color: #000; }
+  label .req { color: #D32F2F; margin-left: 3px; }
+  input[type="text"], input[type="tel"], input[type="email"], input[type="number"], select, textarea {
+    width: 100%; padding: 11px 12px; border: 1.5px solid #BBDEFB; border-radius: 10px;
+    font-size: 16px; box-sizing: border-box; background: #fff; color: #000;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #64B5F6; }
+  textarea { min-height: 80px; resize: vertical; }
+  .row { display: flex; gap: 10px; }
+  .row > div { flex: 1; }
+  .radio-group { margin: 8px 0; }
+  .radio-item {
+    display: block; padding: 12px 14px; margin: 6px 0; background: #fff;
+    border: 1.5px solid #BBDEFB; border-radius: 10px; cursor: pointer; font-size: 16px;
+    color: #000; transition: all .15s;
+  }
+  .radio-item:hover { border-color: #64B5F6; }
+  .radio-item.selected { border-color: #64B5F6; background: #E3F2FD; }
+  .radio-item input { margin-right: 8px; vertical-align: middle; }
+  .btn-row { display: flex; gap: 10px; margin-top: 24px; }
+  .btn {
+    flex: 1; padding: 14px; border: none; border-radius: 10px; font-size: 17px;
+    font-weight: bold; cursor: pointer; transition: transform .15s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-prev { background: #B3E5FC; color: #01579B; }
+  .btn-next { background: #81D4FA; color: #01579B; }
+  .guide-box {
+    background: #E3F2FD; border: 1.5px solid #64B5F6; border-radius: 12px;
+    padding: 16px; margin: 12px 0; font-size: 15px; line-height: 1.8; color: #000;
+  }
+  .guide-box .title { color: #0D47A1; font-weight: bold; margin-bottom: 8px; font-size: 16px; }
+  .highlight { color: #1565C0; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📋 個案資料表 & 家族圖</h1>
+  <div class="top-info">
+    <strong>💡 詳細的表單填寫將大幅提高諮詢時間的效率哦！</strong><br>
+    為了讓解析老師更了解您與家族背景，請完成本表單。<br>
+    資料僅供解析老師使用，將嚴格保密。
+  </div>
+
+  <div class="prog-label" id="progLabel">步驟 1 / 12</div>
+  <div class="prog" id="progBar"></div>
+
+  <!-- 步驟 1：填寫者基本資料 -->
+  <div class="step active" id="s1">
+    <h3>一、填寫者基本資料</h3>
+    <label>姓名 <span class="req">*</span></label>
+    <input type="text" id="w_name" placeholder="您的姓名">
+    <label>電話 <span class="req">*</span></label>
+    <input type="tel" id="w_phone" placeholder="例：0912-345-678">
+    <label>LINE 暱稱 <span class="req">*</span></label>
+    <input type="text" id="w_line" placeholder="您在 LINE 上顯示的名稱（方便對照）">
+  </div>
+
+  <!-- 步驟 2：填入專屬代號 -->
+  <div class="step" id="s2">
+    <h3>二、您的專屬代號</h3>
+    <label>專屬代號 <span class="req">*</span></label>
+    <input type="text" id="w_code" placeholder="例：XL-2ADVYS" style="text-transform:uppercase; letter-spacing:1px; font-weight:bold;">
+    <p style="font-size:14px; color:#01579B; margin-top:8px;">📌 代號會在您完成匯款後由 LINE 小幫手發送給您</p>
+  </div>
+
+  <!-- 步驟 3：填寫者身份 + 引導 -->
+  <div class="step" id="s3">
+    <h3>三、您為誰填寫這份表單？</h3>
+    <div class="radio-group" id="scenarioGroup">
+      <label class="radio-item" onclick="selectScenario(this,'A')">
+        <input type="radio" name="scenario" value="A"> (A) 我為自己（成人自己來諮詢）
+      </label>
+      <label class="radio-item" onclick="selectScenario(this,'B')">
+        <input type="radio" name="scenario" value="B"> (B) 我是父母，幫我的孩子填寫
+      </label>
+      <label class="radio-item" onclick="selectScenario(this,'C')">
+        <input type="radio" name="scenario" value="C"> (C) 我是子女,幫我的父母（長輩）填寫
+      </label>
+      <label class="radio-item" onclick="selectScenario(this,'E')">
+        <input type="radio" name="scenario" value="E"> (E) 我是伴侶，代替我的伴侶填寫（只有伴侶自己來測驗）
+      </label>
+    </div>
+    <div id="guideBox"></div>
+  </div>
+
+  <!-- 步驟 4：主要幫助者基本資料 -->
+  <div class="step" id="s4">
+    <h3>四、主要幫助者的基本資料</h3>
+    <p id="s4Note" style="color:#333; font-size:14px;"></p>
+    <label>姓名 / 暱稱 <span class="req">*</span></label>
+    <input type="text" id="h_name" placeholder="被幫助者的姓名或暱稱">
+    <div class="row">
+      <div>
+        <label>年齡 <span class="req">*</span></label>
+        <input type="number" id="h_age">
+      </div>
+      <div>
+        <label>性別 <span class="req">*</span></label>
+        <select id="h_gender">
+          <option value="">-- 請選擇 --</option>
+          <option>男</option><option>女</option><option>其他</option>
+        </select>
+      </div>
+    </div>
+    <label>職業 / 就讀學校 <span class="req">*</span></label>
+    <input type="text" id="h_job" placeholder="例:家管、小學5年級、退休">
+    <label>教育程度</label>
+    <input type="text" id="h_edu" placeholder="例:大學畢業、國中肄業（可留白）">
+    <label>信仰</label>
+    <input type="text" id="h_faith" placeholder="例:基督教、佛教、無（可留白）">
+  </div>
+
+  <!-- 步驟 5:家庭資訊 -->
+  <div class="step" id="s5">
+    <h3>五、主要幫助者的家庭資訊</h3>
+    <p style="color:#01579B; font-size:14px;">📌 請以主要幫助者的角度填寫，不清楚可填「不清楚」</p>
+    <label>婚姻狀況 <span class="req">*</span></label>
+    <select id="f_marriage">
+      <option value="">-- 請選擇 --</option>
+      <option>未婚</option><option>已婚</option><option>離婚</option>
+      <option>喪偶</option><option>分居</option><option>同居</option>
+      <option>不適用</option>
+    </select>
+    <label>是否有小孩？（若有請說明排行、年齡、性別）</label>
+    <textarea id="f_children" placeholder="例:老大女兒 15 歲、老二兒子 12 歲；若無小孩請填「無」"></textarea>
+    <label>同住家人及年齡</label>
+    <textarea id="f_living" placeholder="例:先生 45 歲、兒子 12 歲、女兒 8 歲"></textarea>
+  </div>
+
+  <!-- 步驟 6:諮商與醫療史 -->
+  <div class="step" id="s6">
+    <h3>六、諮商與醫療史</h3>
+    <div class="top-info" style="background:#FFF3E0; border-left-color:#FFA726;">
+      🔒 <strong>敏感區，嚴格保密</strong><br>
+      以下為選填題目，不清楚或不想回答可以留白，或填「不清楚」。
+    </div>
+    <label>過去是否接受過協談／諮商？</label>
+    <textarea id="m_past_counsel" placeholder="請簡述時間、地點及經過，或填「無」"></textarea>
+    <label>現在是否接受其他諮商或治療？</label>
+    <textarea id="m_now_counsel" placeholder="請簡述，或填「無」"></textarea>
+    <label>曾否因心理理由住院？</label>
+    <textarea id="m_hosp" placeholder="請簡述，或填「無」"></textarea>
+    <label>曾否接受戒毒治療？</label>
+    <textarea id="m_detox" placeholder="請簡述，或填「無」"></textarea>
+    <label>是否吸食任何藥物？</label>
+    <textarea id="m_drug" placeholder="請說明藥物、頻率，或填「無」"></textarea>
+    <label>身體現在有什麼疾病而吃藥嗎？</label>
+    <textarea id="m_med" placeholder="請說明藥物、用藥期間，或填「無」"></textarea>
+  </div>
+
+  <!-- 步驟 7:目前狀態(5面向) -->
+  <div class="step" id="s7">
+    <h3>七、目前狀態（身心靈群 5 面向）</h3>
+    <p style="color:#01579B; font-size:14px;">📌 情境 E（伴侶代填）:請依您觀察到的角度描述</p>
+    <label>目前的情緒狀態 <span class="req">*</span></label>
+    <textarea id="st_emotion" placeholder="請描述近期主要情緒（如:焦慮、低落、平穩等）"></textarea>
+    <label>目前的身體健康、睡眠狀況 <span class="req">*</span></label>
+    <textarea id="st_body" placeholder="請描述"></textarea>
+    <label>目前的人際關係狀態 <span class="req">*</span></label>
+    <textarea id="st_social" placeholder="包含家人、朋友、同事等關係"></textarea>
+    <label>目前的靈性生活狀態</label>
+    <textarea id="st_spirit" placeholder="信仰、生活意義感、內在平靜等（可留白）"></textarea>
+    <label>目前的社群連結狀態</label>
+    <textarea id="st_community" placeholder="家人、朋友、社團、教會等連結（可留白）"></textarea>
+  </div>
+
+  <!-- 步驟 8:諮詢期待 + 生命事件 -->
+  <div class="step" id="s8">
+    <h3>八、諮詢期待與生命事件</h3>
+    <label>本次諮詢的原因及期待 <span class="req">*</span></label>
+    <textarea id="e_reason" placeholder="您為什麼想預約諮詢？希望得到什麼幫助？"></textarea>
+    <label>希望達成的目標</label>
+    <textarea id="e_goal" placeholder="您希望透過諮詢達成什麼具體目標？（可留白）"></textarea>
+    <label>生命中帶來快樂、成就感的重要事件（可依年齡順序）</label>
+    <textarea id="e_happy" placeholder="例:20歲考上研究所、35歲結婚..."></textarea>
+    <label>生命中帶來打擊、羞愧、焦慮的事件（可依年齡順序）</label>
+    <textarea id="e_sad" placeholder="例:15歲父母離異、30歲失業...（可留白）"></textarea>
+  </div>
+
+  <!-- 步驟 9:父親 + 母親 -->
+  <div class="step" id="s9">
+    <h3>九、父親與母親</h3>
+    <p id="s9Note" style="color:#01579B; font-size:14px;"></p>
+    <h4 style="color:#1565C0; margin:16px 0 8px;">👨 父親</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="fa_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="fa_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
+    <input type="text" id="fa_age" placeholder="例:65 歲（1959 年出生）／過世時 58 歲">
+    <label>職業</label>
+    <input type="text" id="fa_job" placeholder="可填退休、務農、不清楚等">
+    <label>與主要幫助者的關係狀況</label>
+    <textarea id="fa_rel" placeholder="親密、疏離、衝突、聯繫少等，可簡述"></textarea>
+    <h4 style="color:#1565C0; margin:20px 0 8px;">👩 母親</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="mo_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="mo_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
+    <input type="text" id="mo_age" placeholder="例:60 歲（1964 年出生）／過世時 52 歲">
+    <label>職業</label>
+    <input type="text" id="mo_job" placeholder="可填退休、家管、不清楚等">
+    <label>與主要幫助者的關係狀況</label>
+    <textarea id="mo_rel" placeholder="親密、疏離、衝突、聯繫少等，可簡述"></textarea>
+  </div>
+
+  <!-- 步驟 10:兄弟姊妹 -->
+  <div class="step" id="s10">
+    <h3>十、兄弟姊妹</h3>
+    <label>主要幫助者在家中的排行 <span class="req">*</span></label>
+    <select id="sib_order">
+      <option value="">-- 請選擇 --</option>
+      <option>獨生子女</option>
+      <option>老大</option><option>老二</option><option>老三</option>
+      <option>老四</option><option>老么</option><option>其他</option>
+      <option>不清楚</option>
+    </select>
+    <label>兄弟姊妹共有幾位？（含主要幫助者本人）</label>
+    <input type="text" id="sib_count" placeholder="例:3 位">
+    <label>兄弟姊妹的年齡、性別、狀況</label>
+    <textarea id="sib_detail" placeholder="例:大姊 45 歲已婚、二哥 42 歲未婚..."></textarea>
+  </div>
+
+  <!-- 步驟 11:祖父母（爸爸這邊） -->
+  <div class="step" id="s11">
+    <h3>十一、祖父母（爸爸這邊）</h3>
+    <p style="color:#01579B; font-size:14px;">📌 不清楚請直接填「不清楚」</p>
+    <h4 style="color:#1565C0; margin:16px 0 8px;">👴 祖父</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="gpa_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="gpa_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
+    <input type="text" id="gpa_age" placeholder="例:85 歲（1939 年出生）／過世時 76 歲／不清楚">
+    <h4 style="color:#1565C0; margin:20px 0 8px;">👵 祖母</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="gma_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="gma_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
+    <input type="text" id="gma_age" placeholder="例:82 歲（1942 年出生）／過世時 73 歲／不清楚">
+  </div>
+
+  <!-- 步驟 12:外公外婆（媽媽這邊） -->
+  <div class="step" id="s12">
+    <h3>十二、外公外婆（媽媽這邊）</h3>
+    <p style="color:#01579B; font-size:14px;">📌 不清楚請直接填「不清楚」。填完按「送出」完成表單</p>
+    <h4 style="color:#1565C0; margin:16px 0 8px;">👴 外公</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="mgpa_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="mgpa_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
+    <input type="text" id="mgpa_age" placeholder="例:87 歲（1937 年出生）／過世時 78 歲／不清楚">
+    <h4 style="color:#1565C0; margin:20px 0 8px;">👵 外婆</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="mgma_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="mgma_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
+    <input type="text" id="mgma_age" placeholder="例:84 歲（1940 年出生）／過世時 75 歲／不清楚">
+  </div>
+
+  <!-- 送出前預覽 -->
+  <div class="step" id="sPreview"></div>
+
+  <div class="btn-row">
+    <button class="btn btn-prev" id="btnPrev" onclick="prev()" style="display:none;">← 上一步</button>
+    <button class="btn btn-next" id="btnNext" onclick="next()">下一步 →</button>
+  </div>
+</div>
+
+<script>
+  const TOTAL_STEPS = 12;
+  let currentStep = 1;
+  let scenario = null;
+  const data = {};
+
+  function renderProgress() {
+    const bar = document.getElementById('progBar');
+    bar.innerHTML = '';
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const item = document.createElement('div');
+      item.className = 'prog-item' + (i <= currentStep ? ' done' : '');
+      bar.appendChild(item);
+    }
+    document.getElementById('progLabel').textContent = `步驟 ${currentStep} / ${TOTAL_STEPS}`;
+  }
+
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById('s' + n);
+    if (el) el.classList.add('active');
+    document.getElementById('btnPrev').style.display = n > 1 ? 'block' : 'none';
+    document.getElementById('btnNext').textContent = n === TOTAL_STEPS ? '送出 ✓' : '下一步 →';
+    currentStep = n;
+    renderProgress();
+    window.scrollTo(0, 0);
+  }
+
+  function next() {
+    // 每步驟驗證
+    if (currentStep === 1) {
+      const name = document.getElementById('w_name').value.trim();
+      const phone = document.getElementById('w_phone').value.trim();
+      const line = document.getElementById('w_line').value.trim();
+      if (!name || !phone || !line) { alert('請填寫姓名、電話與 LINE 暱稱'); return; }
+      data.w_name = name; data.w_phone = phone; data.w_line = line;
+    } else if (currentStep === 2) {
+      const code = document.getElementById('w_code').value.trim().toUpperCase();
+      if (!code) { alert('請填入您的專屬代號'); return; }
+      data.w_code = code;
+    } else if (currentStep === 3) {
+      if (!scenario) { alert('請選擇一個選項（您為誰填寫這份表單）'); return; }
+      data.scenario = scenario;
+      updateStep4Note();
+      updateStep9Note();
+    } else if (currentStep === 4) {
+      const name = document.getElementById('h_name').value.trim();
+      const age = document.getElementById('h_age').value.trim();
+      const gender = document.getElementById('h_gender').value;
+      const job = document.getElementById('h_job').value.trim();
+      if (!name || !age || !gender || !job) { alert('請填寫必填欄位'); return; }
+      data.h_name = name; data.h_age = age; data.h_gender = gender;
+      data.h_job = job;
+      data.h_edu = document.getElementById('h_edu').value.trim();
+      data.h_faith = document.getElementById('h_faith').value.trim();
+    } else if (currentStep === 5) {
+      const marriage = document.getElementById('f_marriage').value;
+      if (!marriage) { alert('請選擇婚姻狀況'); return; }
+      data.f_marriage = marriage;
+      data.f_children = document.getElementById('f_children').value.trim();
+      data.f_living = document.getElementById('f_living').value.trim();
+    } else if (currentStep === 6) {
+      data.m_past_counsel = document.getElementById('m_past_counsel').value.trim();
+      data.m_now_counsel = document.getElementById('m_now_counsel').value.trim();
+      data.m_hosp = document.getElementById('m_hosp').value.trim();
+      data.m_detox = document.getElementById('m_detox').value.trim();
+      data.m_drug = document.getElementById('m_drug').value.trim();
+      data.m_med = document.getElementById('m_med').value.trim();
+    } else if (currentStep === 7) {
+      const emo = document.getElementById('st_emotion').value.trim();
+      const body = document.getElementById('st_body').value.trim();
+      const soc = document.getElementById('st_social').value.trim();
+      if (!emo || !body || !soc) { alert('請填寫情緒、身體與人際關係 3 項必填'); return; }
+      data.st_emotion = emo; data.st_body = body; data.st_social = soc;
+      data.st_spirit = document.getElementById('st_spirit').value.trim();
+      data.st_community = document.getElementById('st_community').value.trim();
+    } else if (currentStep === 8) {
+      const reason = document.getElementById('e_reason').value.trim();
+      if (!reason) { alert('請填寫本次諮詢的原因與期待'); return; }
+      data.e_reason = reason;
+      data.e_goal = document.getElementById('e_goal').value.trim();
+      data.e_happy = document.getElementById('e_happy').value.trim();
+      data.e_sad = document.getElementById('e_sad').value.trim();
+    } else if (currentStep === 9) {
+      data.fa_name = document.getElementById('fa_name').value.trim();
+      data.fa_status = document.getElementById('fa_status').value;
+      data.fa_age = document.getElementById('fa_age').value.trim();
+      data.fa_job = document.getElementById('fa_job').value.trim();
+      data.fa_rel = document.getElementById('fa_rel').value.trim();
+      data.mo_name = document.getElementById('mo_name').value.trim();
+      data.mo_status = document.getElementById('mo_status').value;
+      data.mo_age = document.getElementById('mo_age').value.trim();
+      data.mo_job = document.getElementById('mo_job').value.trim();
+      data.mo_rel = document.getElementById('mo_rel').value.trim();
+    } else if (currentStep === 10) {
+      const order = document.getElementById('sib_order').value;
+      if (!order) { alert('請選擇排行'); return; }
+      data.sib_order = order;
+      data.sib_count = document.getElementById('sib_count').value.trim();
+      data.sib_detail = document.getElementById('sib_detail').value.trim();
+    } else if (currentStep === 11) {
+      data.gpa_name = document.getElementById('gpa_name').value.trim();
+      data.gpa_status = document.getElementById('gpa_status').value;
+      data.gpa_age = document.getElementById('gpa_age').value.trim();
+      data.gma_name = document.getElementById('gma_name').value.trim();
+      data.gma_status = document.getElementById('gma_status').value;
+      data.gma_age = document.getElementById('gma_age').value.trim();
+    } else if (currentStep === 12) {
+      data.mgpa_name = document.getElementById('mgpa_name').value.trim();
+      data.mgpa_status = document.getElementById('mgpa_status').value;
+      data.mgpa_age = document.getElementById('mgpa_age').value.trim();
+      data.mgma_name = document.getElementById('mgma_name').value.trim();
+      data.mgma_status = document.getElementById('mgma_status').value;
+      data.mgma_age = document.getElementById('mgma_age').value.trim();
+    }
+    if (currentStep < TOTAL_STEPS) showStep(currentStep + 1);
+    else submitForm();
+  }
+
+  function submitForm() {
+    // 顯示送出前確認（含文字記錄 + 家族圖）
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('sPreview').classList.add('active');
+    document.querySelector('.btn-row').style.display = 'none';
+    renderPreview();
+    window.scrollTo(0, 0);
+  }
+
+  function renderPreview() {
+    const scenarioLabels = {
+      A: '我為自己（成人自己來諮詢）',
+      B: '我是父母，幫我的孩子填寫',
+      C: '我是子女，幫我的父母（長輩）填寫',
+      E: '我是伴侶，代替我的伴侶填寫'
+    };
+    const html = `
+      <h3>📋 資料摘要</h3>
+      <div style="background:#F5FBFF; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; color:#000;">
+        <strong style="color:#1565C0;">一、填寫者</strong><br>
+        姓名：${data.w_name || ''}｜電話：${data.w_phone || ''}<br>
+        LINE 暱稱：${data.w_line || ''}<br>
+        專屬代號：<strong>${data.w_code || ''}</strong><br>
+        填寫者身份：${scenarioLabels[data.scenario] || '未選擇'}
+      </div>
+      <div style="background:#F5FBFF; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
+        <strong style="color:#1565C0;">二、主要幫助者</strong><br>
+        姓名：${data.h_name || ''}｜${data.h_age || ''} 歲｜${data.h_gender || ''}<br>
+        職業：${data.h_job || ''}<br>
+        教育：${data.h_edu || '未填'}｜信仰：${data.h_faith || '未填'}
+      </div>
+      <div style="background:#F5FBFF; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
+        <strong style="color:#1565C0;">三、家庭資訊</strong><br>
+        婚姻：${data.f_marriage || ''}<br>
+        小孩：${data.f_children || '未填'}<br>
+        同住家人：${data.f_living || '未填'}
+      </div>
+      <div style="background:#F5FBFF; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
+        <strong style="color:#1565C0;">四、諮商與醫療史</strong><br>
+        過去諮商：${data.m_past_counsel || '未填'}<br>
+        現在諮商：${data.m_now_counsel || '未填'}<br>
+        心理住院：${data.m_hosp || '未填'}<br>
+        戒毒治療：${data.m_detox || '未填'}<br>
+        吸食藥物：${data.m_drug || '未填'}<br>
+        目前用藥：${data.m_med || '未填'}
+      </div>
+      <div style="background:#F5FBFF; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
+        <strong style="color:#1565C0;">五、目前狀態</strong><br>
+        情緒：${data.st_emotion || ''}<br>
+        身體/睡眠：${data.st_body || ''}<br>
+        人際關係：${data.st_social || ''}<br>
+        靈性生活：${data.st_spirit || '未填'}<br>
+        社群連結：${data.st_community || '未填'}
+      </div>
+      <div style="background:#F5FBFF; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
+        <strong style="color:#1565C0;">六、諮詢期待與生命事件</strong><br>
+        期待：${data.e_reason || ''}<br>
+        目標：${data.e_goal || '未填'}<br>
+        快樂事件：${data.e_happy || '未填'}<br>
+        打擊事件：${data.e_sad || '未填'}
+      </div>
+      <div style="background:#F5FBFF; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
+        <strong style="color:#1565C0;">七、家族成員</strong><br>
+        <strong>父親：</strong>${data.fa_name || '不清楚'}｜${data.fa_status || ''}｜${data.fa_age || ''}｜${data.fa_job || ''}<br>
+        <strong>母親：</strong>${data.mo_name || '不清楚'}｜${data.mo_status || ''}｜${data.mo_age || ''}｜${data.mo_job || ''}<br>
+        <strong>排行：</strong>${data.sib_order || ''}（共 ${data.sib_count || ''} 位）<br>
+        <strong>兄弟姊妹：</strong>${data.sib_detail || '未填'}<br>
+        <strong>祖父：</strong>${data.gpa_name || '不清楚'}｜${data.gpa_status || ''}｜${data.gpa_age || ''}<br>
+        <strong>祖母：</strong>${data.gma_name || '不清楚'}｜${data.gma_status || ''}｜${data.gma_age || ''}<br>
+        <strong>外公：</strong>${data.mgpa_name || '不清楚'}｜${data.mgpa_status || ''}｜${data.mgpa_age || ''}<br>
+        <strong>外婆：</strong>${data.mgma_name || '不清楚'}｜${data.mgma_status || ''}｜${data.mgma_age || ''}
+      </div>
+      <h3 style="margin-top:20px;">🌳 家族圖預覽</h3>
+      <div style="text-align:center; background:#fff; border:1.5px solid #BBDEFB; border-radius:12px; padding:14px;">
+        ${renderFamilyTree()}
+      </div>
+      <div style="margin-top:20px; text-align:center;">
+        <button class="btn btn-prev" onclick="backToEdit()" style="width:45%; margin-right:5%;">← 返回修改</button>
+        <button class="btn btn-next" onclick="finalSubmit()" style="width:45%;">確認送出 ✓</button>
+      </div>
+    `;
+    document.getElementById('sPreview').innerHTML = html;
+  }
+
+  function renderFamilyTree() {
+    const box = (label, name, status, extra) => {
+      const isDead = status === '已過世';
+      const bg = isDead ? '#EEE' : (status === '在世' ? '#E8F5E9' : '#FFF3E0');
+      const border = isDead ? '#999' : (status === '在世' ? '#66BB6A' : '#FFA726');
+      const nameDisp = name || '不清楚';
+      const cross = isDead ? '✝ ' : '';
+      return `<div style="display:inline-block; background:${bg}; border:2px solid ${border}; border-radius:8px; padding:6px 10px; margin:4px; min-width:90px; text-align:center; font-size:13px; color:#000;">
+        <strong>${label}</strong><br>${cross}${nameDisp}<br><span style="font-size:11px; color:#666;">${extra || ''}</span>
+      </div>`;
+    };
+    const s = data;
+    return `
+      <div style="margin-bottom:10px; font-size:12px; color:#666;">（爺爺奶奶）　　　　（外公外婆）</div>
+      <div>
+        ${box('祖父', s.gpa_name, s.gpa_status, s.gpa_age)}
+        ${box('祖母', s.gma_name, s.gma_status, s.gma_age)}
+        <span style="color:#999; margin:0 8px;">｜</span>
+        ${box('外公', s.mgpa_name, s.mgpa_status, s.mgpa_age)}
+        ${box('外婆', s.mgma_name, s.mgma_status, s.mgma_age)}
+      </div>
+      <div style="height:20px; border-left:2px dashed #999; margin:0 auto; width:2px;"></div>
+      <div style="margin:10px 0;">
+        ${box('父親', s.fa_name, s.fa_status, s.fa_age)}
+        ${box('母親', s.mo_name, s.mo_status, s.mo_age)}
+      </div>
+      <div style="height:20px; border-left:2px dashed #999; margin:0 auto; width:2px;"></div>
+      <div style="margin:10px 0;">
+        <div style="display:inline-block; background:#FFECB3; border:2.5px solid #F57C00; border-radius:8px; padding:8px 14px; margin:4px; min-width:120px; text-align:center; font-size:14px; color:#000;">
+          <strong>${s.h_name || '主要幫助者'}</strong><br>${s.h_age || ''} 歲｜${s.h_gender || ''}<br><span style="font-size:11px; color:#666;">排行:${s.sib_order || ''}</span>
+        </div>
+      </div>
+      <div style="font-size:12px; color:#999; margin-top:10px;">
+        圖例：<span style="background:#E8F5E9; padding:2px 6px; border-radius:4px;">綠=在世</span>
+        <span style="background:#EEE; padding:2px 6px; border-radius:4px; margin-left:4px;">✝ 灰=已過世</span>
+        <span style="background:#FFF3E0; padding:2px 6px; border-radius:4px; margin-left:4px;">橘=不清楚</span>
+      </div>
+    `;
+  }
+
+  function backToEdit() {
+    document.getElementById('sPreview').classList.remove('active');
+    document.getElementById('s12').classList.add('active');
+    document.querySelector('.btn-row').style.display = 'flex';
+    window.scrollTo(0, 0);
+  }
+
+  function finalSubmit() {
+    console.log('表單資料:', data);
+    alert('🌻 感謝您完成填寫！\n\n您的個案資料與家族圖已安全送達。\n解析老師會在諮詢前詳閱，期待與您見面！\n\n（本區塊尚未接到 Supabase，資料在 console.log）');
+  }
+
+  function updateStep9Note() {
+    const notes = {
+      A: '📌 請填您自己的父母資料',
+      B: '📌 這裡是<span class="highlight">您孩子的父母</span>=您的先生（父親）和您本人（母親）',
+      C: '📌 這裡是<span class="highlight">您長輩的父母</span>=您的祖父母/外公外婆',
+      E: '📌 請填您伴侶的父母資料，不清楚可填「不清楚」'
+    };
+    const el = document.getElementById('s9Note');
+    if (el) el.innerHTML = notes[scenario] || '';
+  }
+
+  function prev() {
+    if (currentStep > 1) showStep(currentStep - 1);
+  }
+
+  function selectScenario(el, val) {
+    document.querySelectorAll('.radio-item').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+    scenario = val;
+    showGuide(val);
+  }
+
+  function showGuide(val) {
+    const box = document.getElementById('guideBox');
+    const guides = {
+      A: {
+        title: '✓ 情境 A：自己來諮詢',
+        text: '您就是<span class="highlight">主要幫助者</span>，接下來所有題目都是關於您自己。'
+      },
+      B: {
+        title: '👶 情境 B：主要幫助者 = 您的孩子',
+        text: '⚠️ 接下來所有題目，請以<span class="highlight">您孩子的角度</span>填寫：<br>' +
+              '・「父親」= 孩子的爸爸 = 您的先生<br>' +
+              '・「母親」= 孩子的媽媽 = 您本人<br>' +
+              '・「祖父」= 孩子的爺爺 = 您的公公<br>' +
+              '・「外公」= 孩子的外公 = 您的爸爸<br>' +
+              '<br>不清楚的地方請填「不清楚」，沒關係。'
+      },
+      C: {
+        title: '👴 情境 C：主要幫助者 = 您的長輩',
+        text: '⚠️ 接下來所有題目，請以<span class="highlight">長輩的角度</span>填寫：<br>' +
+              '・「父親」= 長輩的爸爸 = 您的祖父（外公）<br>' +
+              '・「母親」= 長輩的媽媽 = 您的祖母（外婆）<br>' +
+              '<br>不清楚長輩上一代的情況，請直接填「不清楚」。'
+      },
+      E: {
+        title: '💑 情境 E：主要幫助者 = 您的伴侶',
+        text: '感謝您幫伴侶填寫這份表單 🌻<br><br>' +
+              '因為這是您的觀察，可能跟伴侶的真實感受有落差，' +
+              '這反而是諮詢時可以探討的話題。<br><br>' +
+              '💡 <span class="highlight">如果伴侶願意自己填寫</span>，只要回到本步驟改選 (A) 即可。<br>' +
+              '<br>不清楚處請填「不清楚」或「需詢問伴侶後補充」。'
+      }
+    };
+    const g = guides[val];
+    box.innerHTML = `<div class="guide-box"><div class="title">${g.title}</div>${g.text}</div>`;
+  }
+
+  function updateStep4Note() {
+    const notes = {
+      A: '',
+      B: '📌 請填寫<span class="highlight">您孩子</span>的資料',
+      C: '📌 請填寫<span class="highlight">您長輩</span>的資料，不清楚可填「不清楚」',
+      E: '📌 請填寫<span class="highlight">您伴侶</span>的資料'
+    };
+    document.getElementById('s4Note').innerHTML = notes[scenario] || '';
+  }
+
+  renderProgress();
+</script>
+</body>
+</html>
