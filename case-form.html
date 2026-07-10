@@ -212,6 +212,16 @@
   <div class="step" id="s9">
     <h3>九、父親與母親</h3>
     <p id="s9Note" style="color:#01579B; font-size:14px;"></p>
+    <label>父母的婚姻狀況</label>
+    <select id="par_marriage">
+      <option value="">-- 請選擇 --</option>
+      <option>目前已婚（在一起）</option>
+      <option>離婚</option>
+      <option>分居</option>
+      <option>其中一方已過世</option>
+      <option>雙方皆已過世</option>
+      <option>其他 / 不清楚</option>
+    </select>
     <h4 style="color:#1565C0; margin:16px 0 8px;">👨 父親</h4>
     <label>姓名 / 暱稱</label>
     <input type="text" id="fa_name" placeholder="或填「不清楚」">
@@ -222,10 +232,19 @@
     </select>
     <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="fa_age" placeholder="例:65 歲（1959 年出生）／過世時 58 歲">
-    <label>職業</label>
+    <label>工作</label>
     <input type="text" id="fa_job" placeholder="可填退休、務農、不清楚等">
+    <label>個性</label>
+    <input type="text" id="fa_personality" placeholder="例:嚴厲、溫和、內向、外向...">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="fa_econ" placeholder="例:小康、清寒、富裕、不清楚">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="fa_disease" placeholder="例:高血壓、糖尿病、無、不清楚">
     <label>與主要幫助者的關係狀況</label>
     <textarea id="fa_rel" placeholder="親密、疏離、衝突、聯繫少等，可簡述"></textarea>
+    <label>父親的兄弟姐妹<br><span style="font-size:13px; color:#666; font-weight:normal;">請依排行順序及性別寫下來（例:老大男生、老二女生…）</span></label>
+    <textarea id="fa_siblings" placeholder="例:老大男生（大伯）、老二女生（大姑姑）、老三男生（父親）..."></textarea>
+
     <h4 style="color:#1565C0; margin:20px 0 8px;">👩 母親</h4>
     <label>姓名 / 暱稱</label>
     <input type="text" id="mo_name" placeholder="或填「不清楚」">
@@ -236,10 +255,18 @@
     </select>
     <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="mo_age" placeholder="例:60 歲（1964 年出生）／過世時 52 歲">
-    <label>職業</label>
+    <label>工作</label>
     <input type="text" id="mo_job" placeholder="可填退休、家管、不清楚等">
+    <label>個性</label>
+    <input type="text" id="mo_personality" placeholder="例:嚴厲、溫和、內向、外向...">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="mo_econ" placeholder="例:小康、清寒、富裕、不清楚">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="mo_disease" placeholder="例:高血壓、糖尿病、無、不清楚">
     <label>與主要幫助者的關係狀況</label>
     <textarea id="mo_rel" placeholder="親密、疏離、衝突、聯繫少等，可簡述"></textarea>
+    <label>母親的兄弟姐妹<br><span style="font-size:13px; color:#666; font-weight:normal;">請依排行順序及性別寫下來</span></label>
+    <textarea id="mo_siblings" placeholder="例:老大女生（大阿姨）、老二男生（大舅舅）、老三女生（母親）..."></textarea>
   </div>
 
   <!-- 步驟 10:兄弟姊妹 -->
@@ -263,6 +290,16 @@
   <div class="step" id="s11">
     <h3>十一、祖父母（爸爸這邊）</h3>
     <p style="color:#01579B; font-size:14px;">📌 不清楚請直接填「不清楚」</p>
+    <label>祖父母的婚姻狀況</label>
+    <select id="gpar_marriage">
+      <option value="">-- 請選擇 --</option>
+      <option>目前已婚（在一起）</option>
+      <option>離婚</option>
+      <option>分居</option>
+      <option>其中一方已過世</option>
+      <option>雙方皆已過世</option>
+      <option>其他 / 不清楚</option>
+    </select>
     <h4 style="color:#1565C0; margin:16px 0 8px;">👴 祖父</h4>
     <label>姓名 / 暱稱</label>
     <input type="text" id="gpa_name" placeholder="或填「不清楚」">
@@ -273,6 +310,15 @@
     </select>
     <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="gpa_age" placeholder="例:85 歲（1939 年出生）／過世時 76 歲／不清楚">
+    <label>工作</label>
+    <input type="text" id="gpa_job" placeholder="例:務農、退休、不清楚">
+    <label>個性</label>
+    <input type="text" id="gpa_personality" placeholder="例:嚴厲、慈祥、不清楚">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="gpa_econ" placeholder="例:小康、清寒、富裕、不清楚">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="gpa_disease" placeholder="例:高血壓、失智、無、不清楚">
+
     <h4 style="color:#1565C0; margin:20px 0 8px;">👵 祖母</h4>
     <label>姓名 / 暱稱</label>
     <input type="text" id="gma_name" placeholder="或填「不清楚」">
@@ -283,12 +329,30 @@
     </select>
     <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="gma_age" placeholder="例:82 歲（1942 年出生）／過世時 73 歲／不清楚">
+    <label>工作</label>
+    <input type="text" id="gma_job" placeholder="例:家管、務農、不清楚">
+    <label>個性</label>
+    <input type="text" id="gma_personality" placeholder="例:溫和、嚴厲、不清楚">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="gma_econ" placeholder="例:小康、清寒、富裕、不清楚">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="gma_disease" placeholder="例:高血壓、失智、無、不清楚">
   </div>
 
   <!-- 步驟 12:外公外婆（媽媽這邊） -->
   <div class="step" id="s12">
     <h3>十二、外公外婆（媽媽這邊）</h3>
     <p style="color:#01579B; font-size:14px;">📌 不清楚請直接填「不清楚」。填完按「送出」完成表單</p>
+    <label>外公外婆的婚姻狀況</label>
+    <select id="mgpar_marriage">
+      <option value="">-- 請選擇 --</option>
+      <option>目前已婚（在一起）</option>
+      <option>離婚</option>
+      <option>分居</option>
+      <option>其中一方已過世</option>
+      <option>雙方皆已過世</option>
+      <option>其他 / 不清楚</option>
+    </select>
     <h4 style="color:#1565C0; margin:16px 0 8px;">👴 外公</h4>
     <label>姓名 / 暱稱</label>
     <input type="text" id="mgpa_name" placeholder="或填「不清楚」">
@@ -299,6 +363,15 @@
     </select>
     <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="mgpa_age" placeholder="例:87 歲（1937 年出生）／過世時 78 歲／不清楚">
+    <label>工作</label>
+    <input type="text" id="mgpa_job" placeholder="例:務農、退休、不清楚">
+    <label>個性</label>
+    <input type="text" id="mgpa_personality" placeholder="例:嚴厲、慈祥、不清楚">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="mgpa_econ" placeholder="例:小康、清寒、富裕、不清楚">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="mgpa_disease" placeholder="例:高血壓、失智、無、不清楚">
+
     <h4 style="color:#1565C0; margin:20px 0 8px;">👵 外婆</h4>
     <label>姓名 / 暱稱</label>
     <input type="text" id="mgma_name" placeholder="或填「不清楚」">
@@ -309,6 +382,14 @@
     </select>
     <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="mgma_age" placeholder="例:84 歲（1940 年出生）／過世時 75 歲／不清楚">
+    <label>工作</label>
+    <input type="text" id="mgma_job" placeholder="例:家管、務農、不清楚">
+    <label>個性</label>
+    <input type="text" id="mgma_personality" placeholder="例:溫和、嚴厲、不清楚">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="mgma_econ" placeholder="例:小康、清寒、富裕、不清楚">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="mgma_disease" placeholder="例:高血壓、失智、無、不清楚">
   </div>
 
   <!-- 送出前預覽 -->
@@ -404,16 +485,25 @@
       data.e_happy = document.getElementById('e_happy').value.trim();
       data.e_sad = document.getElementById('e_sad').value.trim();
     } else if (currentStep === 9) {
+      data.par_marriage = document.getElementById('par_marriage').value;
       data.fa_name = document.getElementById('fa_name').value.trim();
       data.fa_status = document.getElementById('fa_status').value;
       data.fa_age = document.getElementById('fa_age').value.trim();
       data.fa_job = document.getElementById('fa_job').value.trim();
+      data.fa_personality = document.getElementById('fa_personality').value.trim();
+      data.fa_econ = document.getElementById('fa_econ').value.trim();
+      data.fa_disease = document.getElementById('fa_disease').value.trim();
       data.fa_rel = document.getElementById('fa_rel').value.trim();
+      data.fa_siblings = document.getElementById('fa_siblings').value.trim();
       data.mo_name = document.getElementById('mo_name').value.trim();
       data.mo_status = document.getElementById('mo_status').value;
       data.mo_age = document.getElementById('mo_age').value.trim();
       data.mo_job = document.getElementById('mo_job').value.trim();
+      data.mo_personality = document.getElementById('mo_personality').value.trim();
+      data.mo_econ = document.getElementById('mo_econ').value.trim();
+      data.mo_disease = document.getElementById('mo_disease').value.trim();
       data.mo_rel = document.getElementById('mo_rel').value.trim();
+      data.mo_siblings = document.getElementById('mo_siblings').value.trim();
     } else if (currentStep === 10) {
       const order = document.getElementById('sib_order').value;
       if (!order) { alert('請選擇排行'); return; }
@@ -421,19 +511,37 @@
       data.sib_count = document.getElementById('sib_count').value.trim();
       data.sib_detail = document.getElementById('sib_detail').value.trim();
     } else if (currentStep === 11) {
+      data.gpar_marriage = document.getElementById('gpar_marriage').value;
       data.gpa_name = document.getElementById('gpa_name').value.trim();
       data.gpa_status = document.getElementById('gpa_status').value;
       data.gpa_age = document.getElementById('gpa_age').value.trim();
+      data.gpa_job = document.getElementById('gpa_job').value.trim();
+      data.gpa_personality = document.getElementById('gpa_personality').value.trim();
+      data.gpa_econ = document.getElementById('gpa_econ').value.trim();
+      data.gpa_disease = document.getElementById('gpa_disease').value.trim();
       data.gma_name = document.getElementById('gma_name').value.trim();
       data.gma_status = document.getElementById('gma_status').value;
       data.gma_age = document.getElementById('gma_age').value.trim();
+      data.gma_job = document.getElementById('gma_job').value.trim();
+      data.gma_personality = document.getElementById('gma_personality').value.trim();
+      data.gma_econ = document.getElementById('gma_econ').value.trim();
+      data.gma_disease = document.getElementById('gma_disease').value.trim();
     } else if (currentStep === 12) {
+      data.mgpar_marriage = document.getElementById('mgpar_marriage').value;
       data.mgpa_name = document.getElementById('mgpa_name').value.trim();
       data.mgpa_status = document.getElementById('mgpa_status').value;
       data.mgpa_age = document.getElementById('mgpa_age').value.trim();
+      data.mgpa_job = document.getElementById('mgpa_job').value.trim();
+      data.mgpa_personality = document.getElementById('mgpa_personality').value.trim();
+      data.mgpa_econ = document.getElementById('mgpa_econ').value.trim();
+      data.mgpa_disease = document.getElementById('mgpa_disease').value.trim();
       data.mgma_name = document.getElementById('mgma_name').value.trim();
       data.mgma_status = document.getElementById('mgma_status').value;
       data.mgma_age = document.getElementById('mgma_age').value.trim();
+      data.mgma_job = document.getElementById('mgma_job').value.trim();
+      data.mgma_personality = document.getElementById('mgma_personality').value.trim();
+      data.mgma_econ = document.getElementById('mgma_econ').value.trim();
+      data.mgma_disease = document.getElementById('mgma_disease').value.trim();
     }
     if (currentStep < TOTAL_STEPS) showStep(currentStep + 1);
     else submitForm();
@@ -502,14 +610,38 @@
       </div>
       <div style="background:#F5FBFF; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
         <strong style="color:#1565C0;">七、家族成員</strong><br>
-        <strong>父親：</strong>${data.fa_name || '不清楚'}｜${data.fa_status || ''}｜${data.fa_age || ''}｜${data.fa_job || ''}<br>
-        <strong>母親：</strong>${data.mo_name || '不清楚'}｜${data.mo_status || ''}｜${data.mo_age || ''}｜${data.mo_job || ''}<br>
+        <strong>父母婚姻：</strong>${data.par_marriage || '未填'}<br>
+        <br>
+        <strong>👨 父親：</strong>${data.fa_name || '不清楚'}｜${data.fa_status || ''}｜${data.fa_age || ''}<br>
+        &nbsp;&nbsp;工作:${data.fa_job || '未填'}｜個性:${data.fa_personality || '未填'}<br>
+        &nbsp;&nbsp;經濟情況:${data.fa_econ || '未填'}｜疾病:${data.fa_disease || '未填'}<br>
+        &nbsp;&nbsp;與主要幫助者關係:${data.fa_rel || '未填'}<br>
+        &nbsp;&nbsp;兄弟姊妹:${data.fa_siblings || '未填'}<br>
+        <br>
+        <strong>👩 母親：</strong>${data.mo_name || '不清楚'}｜${data.mo_status || ''}｜${data.mo_age || ''}<br>
+        &nbsp;&nbsp;工作:${data.mo_job || '未填'}｜個性:${data.mo_personality || '未填'}<br>
+        &nbsp;&nbsp;經濟情況:${data.mo_econ || '未填'}｜疾病:${data.mo_disease || '未填'}<br>
+        &nbsp;&nbsp;與主要幫助者關係:${data.mo_rel || '未填'}<br>
+        &nbsp;&nbsp;兄弟姊妹:${data.mo_siblings || '未填'}<br>
+        <br>
         <strong>排行：</strong>${data.sib_order || ''}（共 ${data.sib_count || ''} 位）<br>
         <strong>兄弟姊妹：</strong>${data.sib_detail || '未填'}<br>
-        <strong>祖父：</strong>${data.gpa_name || '不清楚'}｜${data.gpa_status || ''}｜${data.gpa_age || ''}<br>
-        <strong>祖母：</strong>${data.gma_name || '不清楚'}｜${data.gma_status || ''}｜${data.gma_age || ''}<br>
-        <strong>外公：</strong>${data.mgpa_name || '不清楚'}｜${data.mgpa_status || ''}｜${data.mgpa_age || ''}<br>
-        <strong>外婆：</strong>${data.mgma_name || '不清楚'}｜${data.mgma_status || ''}｜${data.mgma_age || ''}
+        <br>
+        <strong>祖父母婚姻：</strong>${data.gpar_marriage || '未填'}<br>
+        <strong>👴 祖父：</strong>${data.gpa_name || '不清楚'}｜${data.gpa_status || ''}｜${data.gpa_age || ''}<br>
+        &nbsp;&nbsp;工作:${data.gpa_job || '未填'}｜個性:${data.gpa_personality || '未填'}<br>
+        &nbsp;&nbsp;經濟情況:${data.gpa_econ || '未填'}｜疾病:${data.gpa_disease || '未填'}<br>
+        <strong>👵 祖母：</strong>${data.gma_name || '不清楚'}｜${data.gma_status || ''}｜${data.gma_age || ''}<br>
+        &nbsp;&nbsp;工作:${data.gma_job || '未填'}｜個性:${data.gma_personality || '未填'}<br>
+        &nbsp;&nbsp;經濟情況:${data.gma_econ || '未填'}｜疾病:${data.gma_disease || '未填'}<br>
+        <br>
+        <strong>外公外婆婚姻：</strong>${data.mgpar_marriage || '未填'}<br>
+        <strong>👴 外公：</strong>${data.mgpa_name || '不清楚'}｜${data.mgpa_status || ''}｜${data.mgpa_age || ''}<br>
+        &nbsp;&nbsp;工作:${data.mgpa_job || '未填'}｜個性:${data.mgpa_personality || '未填'}<br>
+        &nbsp;&nbsp;經濟情況:${data.mgpa_econ || '未填'}｜疾病:${data.mgpa_disease || '未填'}<br>
+        <strong>👵 外婆：</strong>${data.mgma_name || '不清楚'}｜${data.mgma_status || ''}｜${data.mgma_age || ''}<br>
+        &nbsp;&nbsp;工作:${data.mgma_job || '未填'}｜個性:${data.mgma_personality || '未填'}<br>
+        &nbsp;&nbsp;經濟情況:${data.mgma_econ || '未填'}｜疾病:${data.mgma_disease || '未填'}
       </div>
       <h3 style="margin-top:20px;">🌳 家族圖預覽</h3>
       <div style="text-align:center; background:#fff; border:1.5px solid #BBDEFB; border-radius:12px; padding:14px;">
@@ -570,9 +702,46 @@
     window.scrollTo(0, 0);
   }
 
-  function finalSubmit() {
-    console.log('表單資料:', data);
-    alert('🌻 感謝您完成填寫！\n\n您的個案資料與家族圖已安全送達。\n解析老師會在諮詢前詳閱，期待與您見面！\n\n（本區塊尚未接到 Supabase，資料在 console.log）');
+  const SUPABASE_URL = 'https://iqxzsflawxzvniycmaub.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function finalSubmit() {
+    const btn = event.target;
+    btn.disabled = true;
+    btn.textContent = '送出中...';
+    try {
+      const payload = {
+        code: data.w_code || null,
+        writer_name: data.w_name,
+        writer_phone: data.w_phone,
+        writer_line: data.w_line,
+        scenario: data.scenario,
+        payload: data
+      };
+      const { error } = await sb.from('case_forms').insert(payload);
+      if (error) throw error;
+      // 成功
+      document.getElementById('sPreview').innerHTML = `
+        <div style="text-align:center; padding:40px 20px;">
+          <div style="font-size:64px; margin-bottom:16px;">🌻</div>
+          <h3 style="color:#1565C0; font-size:22px;">感謝您完成填寫！</h3>
+          <p style="color:#000; font-size:16px; line-height:1.9; margin:20px 0;">
+            您的個案資料與家族圖已安全送達。<br>
+            解析老師會在諮詢前詳閱，<br>
+            期待與您見面！
+          </p>
+          <p style="color:#01579B; font-size:14px; margin-top:20px;">
+            📌 諮詢時段預約請等候 LINE 小幫手為您安排 💛
+          </p>
+        </div>`;
+      window.scrollTo(0, 0);
+    } catch (e) {
+      console.error(e);
+      alert('送出失敗：' + (e.message || '請稍後再試，或直接 LINE 通知我們'));
+      btn.disabled = false;
+      btn.textContent = '確認送出 ✓';
+    }
   }
 
   function updateStep9Note() {
