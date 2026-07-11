@@ -272,18 +272,18 @@
   <!-- 步驟 10:兄弟姊妹 -->
   <div class="step" id="s10">
     <h3>十、兄弟姊妹</h3>
+    <p style="color:#01579B; font-size:14px;">📌 請把主要幫助者的所有兄弟姊妹（含本人）依排行順序列出</p>
     <label>主要幫助者在家中的排行 <span class="req">*</span></label>
     <select id="sib_order">
       <option value="">-- 請選擇 --</option>
       <option>獨生子女</option>
       <option>老大</option><option>老二</option><option>老三</option>
-      <option>老四</option><option>老么</option><option>其他</option>
-      <option>不清楚</option>
+      <option>老四</option><option>老五</option><option>老六</option>
+      <option>老么</option><option>其他</option>
     </select>
-    <label>兄弟姊妹共有幾位？（含主要幫助者本人）</label>
-    <input type="text" id="sib_count" placeholder="例:3 位">
-    <label>兄弟姊妹的年齡、性別、狀況</label>
-    <textarea id="sib_detail" placeholder="例:大姊 45 歲已婚、二哥 42 歲未婚..."></textarea>
+    <div id="siblingList" style="margin-top:16px;"></div>
+    <button type="button" onclick="addSibling()" style="width:100%; padding:12px; background:#B3E5FC; color:#01579B; border:none; border-radius:10px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:8px;">＋ 新增一位兄弟姊妹</button>
+    <p style="font-size:13px; color:#666; margin-top:8px;">💡 若為獨生子女，此區可留白</p>
   </div>
 
   <!-- 步驟 11:祖父母（爸爸這邊） -->
@@ -392,6 +392,209 @@
     <input type="text" id="mgma_disease" placeholder="例:高血壓、失智、無、不清楚">
   </div>
 
+  <!-- 步驟 13:配偶基本資料 -->
+  <div class="step" id="s13">
+    <h3>十三、配偶基本資料</h3>
+    <p style="color:#01579B; font-size:14px;">📌 若主要幫助者曾結婚（含離婚、喪偶），請填寫配偶資料。若未婚可留白。</p>
+    <label>配偶的姓名 / 暱稱</label>
+    <input type="text" id="sp_name" placeholder="或填「不清楚」">
+    <label>配偶的性別</label>
+    <select id="sp_gender">
+      <option value="">-- 請選擇 --</option>
+      <option>男</option><option>女</option><option>其他</option>
+    </select>
+    <label>配偶的年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若配偶已過世，請填去世時的年齡</span></label>
+    <input type="text" id="sp_age" placeholder="例:45 歲（1979 年出生）／過世時 40 歲">
+    <label>配偶的在世狀況</label>
+    <select id="sp_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>配偶的職業</label>
+    <input type="text" id="sp_job" placeholder="或填「不清楚」">
+    <label>配偶的個性</label>
+    <input type="text" id="sp_personality" placeholder="或填「不清楚」">
+    <label>配偶從小成長的經濟情況</label>
+    <input type="text" id="sp_econ" placeholder="或填「不清楚」">
+    <label>配偶有沒有嚴重疾病</label>
+    <input type="text" id="sp_disease" placeholder="或填「無」/「不清楚」">
+    <label>配偶父母的婚姻狀況</label>
+    <select id="sp_par_marriage">
+      <option value="">-- 請選擇 --</option>
+      <option>目前已婚（在一起）</option>
+      <option>離婚</option>
+      <option>分居</option>
+      <option>其中一方已過世</option>
+      <option>雙方皆已過世</option>
+      <option>其他 / 不清楚</option>
+    </select>
+  </div>
+
+  <!-- 步驟 14:配偶父母 -->
+  <div class="step" id="s14">
+    <h3>十四、配偶的父親與母親</h3>
+    <p style="color:#01579B; font-size:14px;">📌 不清楚請填「不清楚」</p>
+    <h4 style="color:#1565C0; margin:16px 0 8px;">👨 配偶的父親（岳父/公公）</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="sfa_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="sfa_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若已過世請填去世時的年齡</span></label>
+    <input type="text" id="sfa_age" placeholder="或填「不清楚」">
+    <label>工作</label>
+    <input type="text" id="sfa_job" placeholder="或填「不清楚」">
+    <label>個性</label>
+    <input type="text" id="sfa_personality" placeholder="或填「不清楚」">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="sfa_econ" placeholder="或填「不清楚」">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="sfa_disease" placeholder="或填「無」/「不清楚」">
+    <label>配偶父親的兄弟姊妹<br><span style="font-size:13px; color:#666; font-weight:normal;">請依排行順序及性別寫下來</span></label>
+    <textarea id="sfa_siblings" placeholder="例:老大男生（大伯）、老二女生（大姑姑）..."></textarea>
+
+    <h4 style="color:#1565C0; margin:20px 0 8px;">👩 配偶的母親（岳母/婆婆）</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="smo_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="smo_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若已過世請填去世時的年齡</span></label>
+    <input type="text" id="smo_age" placeholder="或填「不清楚」">
+    <label>工作</label>
+    <input type="text" id="smo_job" placeholder="或填「不清楚」">
+    <label>個性</label>
+    <input type="text" id="smo_personality" placeholder="或填「不清楚」">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="smo_econ" placeholder="或填「不清楚」">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="smo_disease" placeholder="或填「無」/「不清楚」">
+    <label>配偶母親的兄弟姊妹<br><span style="font-size:13px; color:#666; font-weight:normal;">請依排行順序及性別寫下來</span></label>
+    <textarea id="smo_siblings" placeholder="例:老大女生（大阿姨）、老二男生（大舅舅）..."></textarea>
+
+    <h4 style="color:#1565C0; margin:20px 0 8px;">👥 配偶的兄弟姊妹</h4>
+    <label>配偶在家中的排行</label>
+    <select id="sp_sib_order">
+      <option value="">-- 請選擇 --</option>
+      <option>獨生子女</option>
+      <option>老大</option><option>老二</option><option>老三</option>
+      <option>老四</option><option>老五</option><option>老六</option>
+      <option>老么</option><option>其他</option>
+    </select>
+    <div id="spSiblingList" style="margin-top:12px;"></div>
+    <button type="button" onclick="addSpSibling()" style="width:100%; padding:12px; background:#B3E5FC; color:#01579B; border:none; border-radius:10px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:8px;">＋ 新增一位配偶的兄弟姊妹</button>
+  </div>
+
+  <!-- 步驟 15:配偶祖父母（配偶爸爸這邊） -->
+  <div class="step" id="s15">
+    <h3>十五、配偶祖父母（配偶爸爸這邊）</h3>
+    <p style="color:#01579B; font-size:14px;">📌 不清楚請直接填「不清楚」</p>
+    <label>配偶祖父母的婚姻狀況</label>
+    <select id="sgpar_marriage">
+      <option value="">-- 請選擇 --</option>
+      <option>目前已婚（在一起）</option>
+      <option>離婚</option>
+      <option>分居</option>
+      <option>其中一方已過世</option>
+      <option>雙方皆已過世</option>
+      <option>其他 / 不清楚</option>
+    </select>
+    <h4 style="color:#1565C0; margin:16px 0 8px;">👴 配偶的祖父</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="sgpa_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="sgpa_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若已過世請填去世時的年齡</span></label>
+    <input type="text" id="sgpa_age" placeholder="或填「不清楚」">
+    <label>工作</label>
+    <input type="text" id="sgpa_job" placeholder="或填「不清楚」">
+    <label>個性</label>
+    <input type="text" id="sgpa_personality" placeholder="或填「不清楚」">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="sgpa_econ" placeholder="或填「不清楚」">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="sgpa_disease" placeholder="或填「無」/「不清楚」">
+
+    <h4 style="color:#1565C0; margin:20px 0 8px;">👵 配偶的祖母</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="sgma_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="sgma_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若已過世請填去世時的年齡</span></label>
+    <input type="text" id="sgma_age" placeholder="或填「不清楚」">
+    <label>工作</label>
+    <input type="text" id="sgma_job" placeholder="或填「不清楚」">
+    <label>個性</label>
+    <input type="text" id="sgma_personality" placeholder="或填「不清楚」">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="sgma_econ" placeholder="或填「不清楚」">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="sgma_disease" placeholder="或填「無」/「不清楚」">
+  </div>
+
+  <!-- 步驟 16:配偶外公外婆（配偶媽媽這邊）+ 送出 -->
+  <div class="step" id="s16">
+    <h3>十六、配偶外公外婆（配偶媽媽這邊）</h3>
+    <p style="color:#01579B; font-size:14px;">📌 不清楚請直接填「不清楚」。填完按「送出」完成表單</p>
+    <label>配偶外公外婆的婚姻狀況</label>
+    <select id="smgpar_marriage">
+      <option value="">-- 請選擇 --</option>
+      <option>目前已婚（在一起）</option>
+      <option>離婚</option>
+      <option>分居</option>
+      <option>其中一方已過世</option>
+      <option>雙方皆已過世</option>
+      <option>其他 / 不清楚</option>
+    </select>
+    <h4 style="color:#1565C0; margin:16px 0 8px;">👴 配偶的外公</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="smgpa_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="smgpa_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若已過世請填去世時的年齡</span></label>
+    <input type="text" id="smgpa_age" placeholder="或填「不清楚」">
+    <label>工作</label>
+    <input type="text" id="smgpa_job" placeholder="或填「不清楚」">
+    <label>個性</label>
+    <input type="text" id="smgpa_personality" placeholder="或填「不清楚」">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="smgpa_econ" placeholder="或填「不清楚」">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="smgpa_disease" placeholder="或填「無」/「不清楚」">
+
+    <h4 style="color:#1565C0; margin:20px 0 8px;">👵 配偶的外婆</h4>
+    <label>姓名 / 暱稱</label>
+    <input type="text" id="smgma_name" placeholder="或填「不清楚」">
+    <label>在世狀況</label>
+    <select id="smgma_status">
+      <option value="">-- 請選擇 --</option>
+      <option>在世</option><option>已過世</option><option>不清楚</option>
+    </select>
+    <label>年齡 / 出生年（西元）<br><span style="font-size:13px; color:#666; font-weight:normal;">若已過世請填去世時的年齡</span></label>
+    <input type="text" id="smgma_age" placeholder="或填「不清楚」">
+    <label>工作</label>
+    <input type="text" id="smgma_job" placeholder="或填「不清楚」">
+    <label>個性</label>
+    <input type="text" id="smgma_personality" placeholder="或填「不清楚」">
+    <label>從小成長的經濟情況</label>
+    <input type="text" id="smgma_econ" placeholder="或填「不清楚」">
+    <label>有沒有嚴重疾病</label>
+    <input type="text" id="smgma_disease" placeholder="或填「無」/「不清楚」">
+  </div>
+
   <!-- 送出前預覽 -->
   <div class="step" id="sPreview"></div>
 
@@ -402,7 +605,7 @@
 </div>
 
 <script>
-  const TOTAL_STEPS = 12;
+  const TOTAL_STEPS = 16;
   let currentStep = 1;
   let scenario = null;
   const data = {};
@@ -508,8 +711,7 @@
       const order = document.getElementById('sib_order').value;
       if (!order) { alert('請選擇排行'); return; }
       data.sib_order = order;
-      data.sib_count = document.getElementById('sib_count').value.trim();
-      data.sib_detail = document.getElementById('sib_detail').value.trim();
+      data.siblings = collectSiblings('siblingList');
     } else if (currentStep === 11) {
       data.gpar_marriage = document.getElementById('gpar_marriage').value;
       data.gpa_name = document.getElementById('gpa_name').value.trim();
@@ -542,6 +744,35 @@
       data.mgma_personality = document.getElementById('mgma_personality').value.trim();
       data.mgma_econ = document.getElementById('mgma_econ').value.trim();
       data.mgma_disease = document.getElementById('mgma_disease').value.trim();
+    } else if (currentStep === 13) {
+      // 配偶基本資料
+      ['sp_name','sp_gender','sp_age','sp_status','sp_job','sp_personality','sp_econ','sp_disease','sp_par_marriage'].forEach(k => {
+        const el = document.getElementById(k);
+        data[k] = el ? el.value.trim() : '';
+      });
+    } else if (currentStep === 14) {
+      // 配偶父母 + 兄弟姊妹
+      ['sfa_name','sfa_status','sfa_age','sfa_job','sfa_personality','sfa_econ','sfa_disease','sfa_siblings',
+       'smo_name','smo_status','smo_age','smo_job','smo_personality','smo_econ','smo_disease','smo_siblings',
+       'sp_sib_order'].forEach(k => {
+        const el = document.getElementById(k);
+        data[k] = el ? el.value.trim() : '';
+      });
+      data.sp_siblings = collectSiblings('spSiblingList');
+    } else if (currentStep === 15) {
+      // 配偶祖父母
+      ['sgpar_marriage','sgpa_name','sgpa_status','sgpa_age','sgpa_job','sgpa_personality','sgpa_econ','sgpa_disease',
+       'sgma_name','sgma_status','sgma_age','sgma_job','sgma_personality','sgma_econ','sgma_disease'].forEach(k => {
+        const el = document.getElementById(k);
+        data[k] = el ? el.value.trim() : '';
+      });
+    } else if (currentStep === 16) {
+      // 配偶外公外婆
+      ['smgpar_marriage','smgpa_name','smgpa_status','smgpa_age','smgpa_job','smgpa_personality','smgpa_econ','smgpa_disease',
+       'smgma_name','smgma_status','smgma_age','smgma_job','smgma_personality','smgma_econ','smgma_disease'].forEach(k => {
+        const el = document.getElementById(k);
+        data[k] = el ? el.value.trim() : '';
+      });
     }
     if (currentStep < TOTAL_STEPS) showStep(currentStep + 1);
     else submitForm();
@@ -656,48 +887,308 @@
   }
 
   function renderFamilyTree() {
-    const box = (label, name, status, extra) => {
-      const isDead = status === '已過世';
-      const bg = isDead ? '#EEE' : (status === '在世' ? '#E8F5E9' : '#FFF3E0');
-      const border = isDead ? '#999' : (status === '在世' ? '#66BB6A' : '#FFA726');
-      const nameDisp = name || '不清楚';
-      const cross = isDead ? '✝ ' : '';
-      return `<div style="display:inline-block; background:${bg}; border:2px solid ${border}; border-radius:8px; padding:6px 10px; margin:4px; min-width:90px; text-align:center; font-size:13px; color:#000;">
-        <strong>${label}</strong><br>${cross}${nameDisp}<br><span style="font-size:11px; color:#666;">${extra || ''}</span>
-      </div>`;
-    };
+    // 使用 SVG 繪製完整家族圖
+    return buildFamilySVG();
+  }
+
+  function buildFamilySVG() {
     const s = data;
-    return `
-      <div style="margin-bottom:10px; font-size:12px; color:#666;">（爺爺奶奶）　　　　（外公外婆）</div>
-      <div>
-        ${box('祖父', s.gpa_name, s.gpa_status, s.gpa_age)}
-        ${box('祖母', s.gma_name, s.gma_status, s.gma_age)}
-        <span style="color:#999; margin:0 8px;">｜</span>
-        ${box('外公', s.mgpa_name, s.mgpa_status, s.mgpa_age)}
-        ${box('外婆', s.mgma_name, s.mgma_status, s.mgma_age)}
-      </div>
-      <div style="height:20px; border-left:2px dashed #999; margin:0 auto; width:2px;"></div>
-      <div style="margin:10px 0;">
-        ${box('父親', s.fa_name, s.fa_status, s.fa_age)}
-        ${box('母親', s.mo_name, s.mo_status, s.mo_age)}
-      </div>
-      <div style="height:20px; border-left:2px dashed #999; margin:0 auto; width:2px;"></div>
-      <div style="margin:10px 0;">
-        <div style="display:inline-block; background:#FFECB3; border:2.5px solid #F57C00; border-radius:8px; padding:8px 14px; margin:4px; min-width:120px; text-align:center; font-size:14px; color:#000;">
-          <strong>${s.h_name || '主要幫助者'}</strong><br>${s.h_age || ''} 歲｜${s.h_gender || ''}<br><span style="font-size:11px; color:#666;">排行:${s.sib_order || ''}</span>
+    // 定義樣式
+    const boxW = 78, boxH = 50, smallW = 55, smallH = 38;
+    const marBoxColor = (status) => status === '已過世' ? '#EEE' : (status === '在世' ? '#E8F5E9' : '#FFF3E0');
+    const marBorderColor = (status) => status === '已過世' ? '#999' : (status === '在世' ? '#66BB6A' : '#FFA726');
+    const cross = (status) => status === '已過世' ? '✝ ' : '';
+    // 節點函數
+    const nodeSVG = (x, y, label, name, status, w, h, isMain) => {
+      const bg = isMain ? '#FFECB3' : marBoxColor(status);
+      const bd = isMain ? '#F57C00' : marBorderColor(status);
+      const isSquare = (['祖父','外公','父親','丈夫','弟','兄','舅舅','伯','叔','公公','岳父','配父','配祖父','配外公','配偶兄','配偶弟'].some(p => label.startsWith(p) || label === p));
+      const isCircle = !isSquare;
+      const nameDisp = name || '不清楚';
+      let shape = '';
+      if (isSquare) {
+        shape = `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${bg}" stroke="${bd}" stroke-width="${isMain?2.5:2}" rx="6"/>`;
+      } else {
+        const rx = w/2, ry = h/2;
+        shape = `<ellipse cx="${x+rx}" cy="${y+ry}" rx="${rx}" ry="${ry}" fill="${bg}" stroke="${bd}" stroke-width="${isMain?2.5:2}"/>`;
+      }
+      return `${shape}
+        <text x="${x+w/2}" y="${y+h/2-4}" text-anchor="middle" font-size="10" font-weight="bold" fill="#000">${label}</text>
+        <text x="${x+w/2}" y="${y+h/2+8}" text-anchor="middle" font-size="10" fill="#000">${cross(status)}${nameDisp}</text>`;
+    };
+    // 布局
+    const totalW = 1000, totalH = 640;
+    let svg = `<svg viewBox="0 0 ${totalW} ${totalH}" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#fff;">`;
+    // 標題
+    svg += `<text x="250" y="20" text-anchor="middle" font-size="12" fill="#999">主要幫助者家族</text>`;
+    svg += `<text x="750" y="20" text-anchor="middle" font-size="12" fill="#999">配偶家族</text>`;
+    // 中線分隔
+    svg += `<line x1="500" y1="30" x2="500" y2="600" stroke="#DDD" stroke-width="1" stroke-dasharray="4,4"/>`;
+
+    // 第 1 層：祖父母 + 外公外婆（爸爸這邊在左，媽媽這邊在右）| 配偶祖父母 + 配偶外公外婆
+    const y1 = 40;
+    svg += nodeSVG(30, y1, '祖父', s.gpa_name, s.gpa_status, boxW, boxH);
+    svg += nodeSVG(120, y1, '祖母', s.gma_name, s.gma_status, boxW, boxH);
+    svg += nodeSVG(280, y1, '外公', s.mgpa_name, s.mgpa_status, boxW, boxH);
+    svg += nodeSVG(370, y1, '外婆', s.mgma_name, s.mgma_status, boxW, boxH);
+    // 配偶
+    svg += nodeSVG(530, y1, '配祖父', s.sgpa_name, s.sgpa_status, boxW, boxH);
+    svg += nodeSVG(620, y1, '配祖母', s.sgma_name, s.sgma_status, boxW, boxH);
+    svg += nodeSVG(780, y1, '配外公', s.smgpa_name, s.smgpa_status, boxW, boxH);
+    svg += nodeSVG(870, y1, '配外婆', s.smgma_name, s.smgma_status, boxW, boxH);
+
+    // 婚姻線（水平）
+    const y1Mid = y1 + boxH/2;
+    svg += `<line x1="108" y1="${y1Mid}" x2="120" y2="${y1Mid}" stroke="#333" stroke-width="2"/>`;
+    svg += `<line x1="358" y1="${y1Mid}" x2="370" y2="${y1Mid}" stroke="#333" stroke-width="2"/>`;
+    svg += `<line x1="608" y1="${y1Mid}" x2="620" y2="${y1Mid}" stroke="#333" stroke-width="2"/>`;
+    svg += `<line x1="858" y1="${y1Mid}" x2="870" y2="${y1Mid}" stroke="#333" stroke-width="2"/>`;
+
+    // 連下一層的垂直線
+    const y2 = 160;
+    svg += `<line x1="114" y1="${y1+boxH}" x2="114" y2="${y2-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="364" y1="${y1+boxH}" x2="364" y2="${y2-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="114" y1="${y2-10}" x2="200" y2="${y2-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="364" y1="${y2-10}" x2="278" y2="${y2-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="200" y1="${y2-10}" x2="200" y2="${y2}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="278" y1="${y2-10}" x2="278" y2="${y2}" stroke="#666" stroke-width="1"/>`;
+    // 配偶那邊
+    svg += `<line x1="614" y1="${y1+boxH}" x2="614" y2="${y2-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="864" y1="${y1+boxH}" x2="864" y2="${y2-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="614" y1="${y2-10}" x2="700" y2="${y2-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="864" y1="${y2-10}" x2="778" y2="${y2-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="700" y1="${y2-10}" x2="700" y2="${y2}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="778" y1="${y2-10}" x2="778" y2="${y2}" stroke="#666" stroke-width="1"/>`;
+
+    // 第 2 層：父親 + 母親 | 配偶父親 + 配偶母親
+    svg += nodeSVG(160, y2, '父親', s.fa_name, s.fa_status, boxW, boxH);
+    svg += nodeSVG(240, y2, '母親', s.mo_name, s.mo_status, boxW, boxH);
+    svg += nodeSVG(660, y2, '配父', s.sfa_name, s.sfa_status, boxW, boxH);
+    svg += nodeSVG(740, y2, '配母', s.smo_name, s.smo_status, boxW, boxH);
+    const y2Mid = y2 + boxH/2;
+    svg += `<line x1="238" y1="${y2Mid}" x2="240" y2="${y2Mid}" stroke="#333" stroke-width="2"/>`;
+    svg += `<line x1="738" y1="${y2Mid}" x2="740" y2="${y2Mid}" stroke="#333" stroke-width="2"/>`;
+
+    // 主要幫助者 + 兄弟姊妹 | 配偶 + 配偶兄弟姊妹
+    // 收集兄弟姊妹（含主要幫助者）依排行排列
+    const siblings = s.siblings || [];
+    const mainOrder = s.sib_order || '';
+    const allSibs = buildSibListWithMain(siblings, mainOrder, s.h_name, s.h_gender, s.h_age);
+    const spSibs = s.sp_siblings || [];
+    const allSpSibs = buildSibListWithMain(spSibs, s.sp_sib_order, s.sp_name, s.sp_gender, s.sp_age);
+
+    // 第 3 層：主要幫助者兄弟姊妹（小圖示）
+    const y3 = 280;
+    const startX_main = 30, endX_main = 470;
+    const gap_main = Math.min(65, (endX_main - startX_main) / Math.max(allSibs.length, 1));
+    allSibs.forEach((sib, i) => {
+      const x = startX_main + i * gap_main;
+      const isMainPerson = sib.isMain;
+      const status = isMainPerson ? '在世' : '在世';
+      svg += nodeSVG(x, y3, sib.label, sib.name, status, smallW, smallH, isMainPerson);
+    });
+    // 配偶兄弟姊妹
+    const startX_sp = 530, endX_sp = 970;
+    const gap_sp = Math.min(65, (endX_sp - startX_sp) / Math.max(allSpSibs.length, 1));
+    allSpSibs.forEach((sib, i) => {
+      const x = startX_sp + i * gap_sp;
+      const isMainPerson = sib.isMain;
+      const status = isMainPerson ? (s.sp_status || '在世') : '在世';
+      svg += nodeSVG(x, y3, sib.label, sib.name, status, smallW, smallH, isMainPerson);
+    });
+
+    // 父母到兄弟姊妹的連線
+    svg += `<line x1="200" y1="${y2+boxH}" x2="200" y2="${y3-10}" stroke="#666" stroke-width="1"/>`;
+    svg += `<line x1="200" y1="${y3-10}" x2="${startX_main + smallW/2}" y2="${y3-10}" stroke="#666" stroke-width="1"/>`;
+    if (allSibs.length > 0) {
+      const lastX = startX_main + (allSibs.length-1) * gap_main + smallW/2;
+      svg += `<line x1="${startX_main + smallW/2}" y1="${y3-10}" x2="${lastX}" y2="${y3-10}" stroke="#666" stroke-width="1"/>`;
+      allSibs.forEach((sib, i) => {
+        const x = startX_main + i * gap_main + smallW/2;
+        svg += `<line x1="${x}" y1="${y3-10}" x2="${x}" y2="${y3}" stroke="#666" stroke-width="1"/>`;
+      });
+    }
+    // 配偶那邊
+    svg += `<line x1="700" y1="${y2+boxH}" x2="700" y2="${y3-10}" stroke="#666" stroke-width="1"/>`;
+    if (allSpSibs.length > 0) {
+      const firstX = startX_sp + smallW/2;
+      const lastX = startX_sp + (allSpSibs.length-1) * gap_sp + smallW/2;
+      svg += `<line x1="700" y1="${y3-10}" x2="${firstX}" y2="${y3-10}" stroke="#666" stroke-width="1"/>`;
+      svg += `<line x1="${firstX}" y1="${y3-10}" x2="${lastX}" y2="${y3-10}" stroke="#666" stroke-width="1"/>`;
+      allSpSibs.forEach((sib, i) => {
+        const x = startX_sp + i * gap_sp + smallW/2;
+        svg += `<line x1="${x}" y1="${y3-10}" x2="${x}" y2="${y3}" stroke="#666" stroke-width="1"/>`;
+      });
+    }
+
+    // 第 4 層：主要幫助者（大方框）+ 配偶（大方框）
+    const y4 = 420;
+    // 主要幫助者
+    svg += `<rect x="180" y="${y4}" width="130" height="65" fill="#FFECB3" stroke="#F57C00" stroke-width="3" rx="8"/>`;
+    svg += `<text x="245" y="${y4+22}" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">${s.h_name || '主要幫助者'}</text>`;
+    svg += `<text x="245" y="${y4+40}" text-anchor="middle" font-size="11" fill="#000">${s.h_age || ''} 歲｜${s.h_gender || ''}</text>`;
+    svg += `<text x="245" y="${y4+56}" text-anchor="middle" font-size="10" fill="#666">排行:${s.sib_order || ''}</text>`;
+
+    // 配偶
+    if (s.sp_name || s.sp_status) {
+      const spBg = s.sp_status === '已過世' ? '#EEE' : '#E8F5E9';
+      const spBd = s.sp_status === '已過世' ? '#999' : '#66BB6A';
+      svg += `<rect x="690" y="${y4}" width="130" height="65" fill="${spBg}" stroke="${spBd}" stroke-width="3" rx="8"/>`;
+      svg += `<text x="755" y="${y4+22}" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">${cross(s.sp_status)}${s.sp_name || '配偶'}</text>`;
+      svg += `<text x="755" y="${y4+40}" text-anchor="middle" font-size="11" fill="#000">${s.sp_age || ''}｜${s.sp_gender || ''}</text>`;
+      svg += `<text x="755" y="${y4+56}" text-anchor="middle" font-size="10" fill="#666">排行:${s.sp_sib_order || ''}</text>`;
+
+      // 婚姻連線（主要幫助者 ─ 配偶）
+      const marY = y4 + 32;
+      const marriage = (s.f_marriage || '');
+      let lineStyle = 'stroke="#333" stroke-width="2"';
+      let marLabel = '結婚';
+      if (marriage === '離婚') { lineStyle = 'stroke="#D32F2F" stroke-width="2" stroke-dasharray="6,4"'; marLabel = '離婚'; }
+      else if (marriage === '喪偶' || s.sp_status === '已過世') { lineStyle = 'stroke="#666" stroke-width="2" stroke-dasharray="2,3"'; marLabel = '喪偶'; }
+      else if (marriage === '分居') { lineStyle = 'stroke="#FB8C00" stroke-width="2" stroke-dasharray="10,6"'; marLabel = '分居'; }
+      svg += `<line x1="310" y1="${marY}" x2="690" y2="${marY}" ${lineStyle}/>`;
+      svg += `<text x="500" y="${marY-5}" text-anchor="middle" font-size="11" fill="#666" font-weight="bold">${marLabel}</text>`;
+    }
+
+    // 連兄弟姊妹層到主要幫助者
+    const mainMidX = 245;
+    svg += `<line x1="${mainMidX}" y1="${y3+smallH}" x2="${mainMidX}" y2="${y4}" stroke="#666" stroke-width="1"/>`;
+
+    // 圖例
+    svg += `<g transform="translate(30, ${y4+90})">
+      <text x="0" y="0" font-size="10" fill="#666">圖例:</text>
+      <rect x="35" y="-8" width="10" height="10" fill="#E8F5E9" stroke="#66BB6A"/><text x="48" y="0" font-size="10" fill="#000">在世</text>
+      <rect x="75" y="-8" width="10" height="10" fill="#EEE" stroke="#999"/><text x="88" y="0" font-size="10" fill="#000">✝ 已過世</text>
+      <rect x="130" y="-8" width="10" height="10" fill="#FFF3E0" stroke="#FFA726"/><text x="143" y="0" font-size="10" fill="#000">不清楚</text>
+      <rect x="180" y="-8" width="10" height="10" fill="#FFECB3" stroke="#F57C00" stroke-width="2"/><text x="193" y="0" font-size="10" fill="#000">主角</text>
+      <text x="0" y="18" font-size="10" fill="#666">形狀: □=男 ○=女</text>
+    </g>`;
+
+    svg += `</svg>`;
+    return svg;
+  }
+
+  function buildSibListWithMain(sibs, mainOrder, mainName, mainGender, mainAge) {
+    // 依排行合成全部
+    const orderMap = { '獨生子女': 1, '老大': 1, '老二': 2, '老三': 3, '老四': 4, '老五': 5, '老六': 6, '老么': 99, '其他': 5 };
+    const mainO = orderMap[mainOrder] || 99;
+    const result = sibs.map((sib, idx) => ({
+      label: sib.order || `老${['一','二','三','四','五','六','七','八'][idx]}`,
+      name: sib.name || '',
+      gender: sib.gender || '',
+      order: orderMap[sib.order] || (idx + 1),
+      isMain: false
+    }));
+    result.push({
+      label: mainOrder || '主角',
+      name: mainName || '主角',
+      gender: mainGender || '',
+      order: mainO,
+      isMain: true
+    });
+    result.sort((a, b) => a.order - b.order);
+    return result;
+  }
+
+  // 動態兄弟姊妹管理
+  window._sibCounter = 0;
+  window._spSibCounter = 0;
+
+  function addSibling() {
+    window._sibCounter++;
+    const c = window._sibCounter;
+    const html = `
+      <div class="sibling-row" id="sib_${c}" style="background:#F5FBFF; border:1px solid #BBDEFB; border-radius:8px; padding:12px; margin-bottom:8px;">
+        <div style="display:flex; gap:8px; align-items:end;">
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">排行</label>
+            <select id="sib_${c}_order" style="padding:8px; font-size:14px;">
+              <option value="">請選</option>
+              <option>老大</option><option>老二</option><option>老三</option>
+              <option>老四</option><option>老五</option><option>老六</option>
+              <option>老七</option><option>老么</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">性別</label>
+            <select id="sib_${c}_gender" style="padding:8px; font-size:14px;">
+              <option value="">請選</option>
+              <option>男</option><option>女</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">年齡</label>
+            <input type="text" id="sib_${c}_age" placeholder="例:42" style="padding:8px; font-size:14px;">
+          </div>
+          <button type="button" onclick="removeRow('sib_${c}')" style="background:#EF9A9A; color:#fff; border:none; border-radius:6px; padding:8px 12px; cursor:pointer; height:38px;">×</button>
         </div>
-      </div>
-      <div style="font-size:12px; color:#999; margin-top:10px;">
-        圖例：<span style="background:#E8F5E9; padding:2px 6px; border-radius:4px;">綠=在世</span>
-        <span style="background:#EEE; padding:2px 6px; border-radius:4px; margin-left:4px;">✝ 灰=已過世</span>
-        <span style="background:#FFF3E0; padding:2px 6px; border-radius:4px; margin-left:4px;">橘=不清楚</span>
-      </div>
-    `;
+        <div style="margin-top:6px;">
+          <label style="font-size:13px; margin:0 0 4px;">姓名/暱稱（選填）</label>
+          <input type="text" id="sib_${c}_name" placeholder="或留白" style="padding:8px; font-size:14px;">
+        </div>
+      </div>`;
+    document.getElementById('siblingList').insertAdjacentHTML('beforeend', html);
+  }
+
+  function addSpSibling() {
+    window._spSibCounter++;
+    const c = window._spSibCounter;
+    const html = `
+      <div class="sibling-row" id="spsib_${c}" style="background:#F5FBFF; border:1px solid #BBDEFB; border-radius:8px; padding:12px; margin-bottom:8px;">
+        <div style="display:flex; gap:8px; align-items:end;">
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">排行</label>
+            <select id="spsib_${c}_order" style="padding:8px; font-size:14px;">
+              <option value="">請選</option>
+              <option>老大</option><option>老二</option><option>老三</option>
+              <option>老四</option><option>老五</option><option>老六</option>
+              <option>老七</option><option>老么</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">性別</label>
+            <select id="spsib_${c}_gender" style="padding:8px; font-size:14px;">
+              <option value="">請選</option>
+              <option>男</option><option>女</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">年齡</label>
+            <input type="text" id="spsib_${c}_age" placeholder="例:42" style="padding:8px; font-size:14px;">
+          </div>
+          <button type="button" onclick="removeRow('spsib_${c}')" style="background:#EF9A9A; color:#fff; border:none; border-radius:6px; padding:8px 12px; cursor:pointer; height:38px;">×</button>
+        </div>
+        <div style="margin-top:6px;">
+          <label style="font-size:13px; margin:0 0 4px;">姓名/暱稱（選填）</label>
+          <input type="text" id="spsib_${c}_name" placeholder="或留白" style="padding:8px; font-size:14px;">
+        </div>
+      </div>`;
+    document.getElementById('spSiblingList').insertAdjacentHTML('beforeend', html);
+  }
+
+  function removeRow(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }
+
+  function collectSiblings(containerId) {
+    const list = [];
+    document.querySelectorAll(`#${containerId} .sibling-row`).forEach(row => {
+      const prefix = row.id;
+      const order = document.getElementById(`${prefix}_order`)?.value || '';
+      const gender = document.getElementById(`${prefix}_gender`)?.value || '';
+      const age = document.getElementById(`${prefix}_age`)?.value.trim() || '';
+      const name = document.getElementById(`${prefix}_name`)?.value.trim() || '';
+      if (order || gender || age || name) {
+        list.push({ order, gender, age, name });
+      }
+    });
+    return list;
   }
 
   function backToEdit() {
     document.getElementById('sPreview').classList.remove('active');
-    document.getElementById('s12').classList.add('active');
+    document.getElementById('s16').classList.add('active');
     document.querySelector('.btn-row').style.display = 'flex';
     window.scrollTo(0, 0);
   }
