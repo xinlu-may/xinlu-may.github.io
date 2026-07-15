@@ -142,17 +142,12 @@
     <label>信仰</label>
     <input type="text" id="h_faith" placeholder="例:基督教、佛教、無（可留白）">
 
-    <!-- 情境 C 專屬:子女與孫子 -->
-    <div id="childrenSection" style="display:none;">
-      <h4 style="color:#1565C0; margin:20px 0 8px;">👶 主要幫助者（長輩）的子女</h4>
+    <!-- 主要幫助者的子女（所有情境皆適用） -->
+    <div id="childrenSection">
+      <h4 style="color:#1565C0; margin:20px 0 8px;">👶 主要幫助者的子女</h4>
+      <p style="font-size:13px; color:#666; margin-bottom:8px;">💡 請依序填寫主要幫助者的子女資料，並填寫每位子女的孩子（如有）。若主要幫助者未成年或沒有子女，此區可略過</p>
       <div id="childrenList"></div>
-      <button type="button" onclick="addChild()" style="width:100%; padding:12px; background:#B3E5FC; color:#01579B; border:none; border-radius:10px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:8px;">＋ 新增一位子女</button>
-      <p style="font-size:13px; color:#666; margin-top:4px;">💡 請依排行順序增添子女的資料</p>
-
-      <h4 style="color:#1565C0; margin:20px 0 8px;">👶👶 主要幫助者（長輩）的孫子女</h4>
-      <div id="grandchildrenList"></div>
-      <button type="button" onclick="addGrandchild()" style="width:100%; padding:12px; background:#B3E5FC; color:#01579B; border:none; border-radius:10px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:8px;">＋ 新增一位孫子女</button>
-      <p style="font-size:13px; color:#666; margin-top:4px;">💡 依排行順序增添</p>
+      <button type="button" onclick="addChild()" style="width:100%; padding:12px; background:#B3E5FC; color:#01579B; border:none; border-radius:10px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:8px;">請依序填寫主要照顧者的子女資料</button>
     </div>
   </div>
 
@@ -697,10 +692,7 @@
       data.h_edu = document.getElementById('h_edu').value.trim();
       data.h_faith = document.getElementById('h_faith').value.trim();
       data.h_birth = document.getElementById('h_birth').value.trim();
-      if (scenario === 'C') {
-        data.children = collectChildren();
-        data.grandchildren = collectGrandchildren();
-      }
+      data.children = collectChildren();
     } else if (currentStep === 5) {
       const marriage = document.getElementById('f_marriage').value;
       if (!marriage) { alert('請選擇婚姻狀況'); return; }
@@ -924,11 +916,20 @@
         &nbsp;&nbsp;工作:${data.mgma_job || '未填'}｜個性:${data.mgma_personality || '未填'}<br>
         &nbsp;&nbsp;經濟情況:${data.mgma_econ || '未填'}｜疾病:${data.mgma_disease || '未填'}
       </div>
-      ${(data.scenario === 'C' && (data.children?.length || data.grandchildren?.length)) ? `
+      ${(data.children?.length) ? `
       <div style="background:#FFF3E0; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
-        <strong style="color:#E65100;">🔸 主要幫助者（長輩）的下一代</strong><br>
-        <strong>子女：</strong>${(data.children || []).map(ch => `${ch.name || '排行'+ch.order}(${ch.gender}, ${ch.birth ? ch.birth+'生' : ''}${ch.age})`).join('、') || '未填'}<br>
-        <strong>孫子女：</strong>${(data.grandchildren || []).map(gc => `${gc.name || '排行'+gc.order}(${gc.gender}, ${gc.birth ? gc.birth+'生' : ''}${gc.age})`).join('、') || '未填'}
+        <strong style="color:#E65100;">🔸 主要幫助者的子女</strong><br>
+        ${(data.children || []).map(ch => {
+          const g = ch.gender ? (ch.gender==='男'?'兒子':'女兒') : '子女';
+          const hasSp = (ch.marriage === '已婚' || ch.marriage === '離婚') && (ch.sp_gender || ch.sp_age || ch.sp_birth);
+          const spStr = hasSp ? `｜配偶:${ch.sp_gender||''} ${ch.sp_birth?ch.sp_birth+'生':''}${ch.sp_age||''}` : '';
+          const kidsStr = (ch.kids && ch.kids.length) ? ch.kids.map(k => `排行${k.order}(${k.gender}, ${k.age})`).join('、') : '無';
+          return `<div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px dashed #FFD699;">
+            <strong>排行${ch.order} ${g}</strong>｜${ch.birth ? ch.birth+'生' : ''}${ch.age}｜婚姻:${ch.marriage||'未填'}${spStr}<br>
+            學歷及工作:${ch.edujob || '未填'}<br>
+            孩子:${kidsStr}
+          </div>`;
+        }).join('')}
       </div>
       ` : ''}
       <h3 style="margin-top:20px;">🌳 家族圖預覽</h3>
@@ -1068,40 +1069,76 @@
       svg += `<rect x="${midX-30}" y="${marY-14}" width="60" height="18" fill="#FFF9E6" stroke="#FDD835" rx="4"/>`;
       svg += `<text x="${midX}" y="${marY-2}" text-anchor="middle" font-size="11" fill="#F57C00" font-weight="bold">🏠${label}</text>`;
 
-      // ============= 子女（直接從婚姻線垂直下來，沒有橫線） =============
-      const children = (s.scenario === 'C' && s.children) ? s.children : [];
+      // ============= 子女（直接從婚姻線垂直下來，沒有橫線）+ 已婚/離婚子女的配偶 + 每對子女自己的孩子 =============
+      const children = s.children || [];
       if (children.length > 0) {
         // 依排行排序
         const sortedCh = [...children].sort((a,b) => (parseInt(a.order)||99) - (parseInt(b.order)||99));
         const y_ch = 780;
-        const totalChW = sortedCh.length * 90;
-        const chStartX = midX - totalChW/2 + 45;
-        sortedCh.forEach((ch, i) => {
-          const chX = chStartX + i * 90 - smallW/2;
-          const chY = y_ch;
-          // 從婚姻線直接畫垂直線到子女（沒有橫線）
-          svg += `<line x1="${chX+smallW/2}" y1="${marY}" x2="${chX+smallW/2}" y2="${chY}" stroke="#666" stroke-width="1"/>`;
-          // 子女節點（只顯示 稱謂/年紀/出生年，男□女○，最左=老大，最右=老么）
-          const kin = ch.name || (ch.gender === '男' ? '兒子' : ch.gender === '女' ? '女兒' : '子女');
-          const g = ch.gender === '男' ? 'M' : (ch.gender === '女' ? 'F' : '');
-          svg += nodeShape(chX, chY, kin, ch.age || '', ch.birth || '', ch.status || '在世', smallW, smallH, false, g);
+        const y_gk = 880;
+        const spouseGap = 8;
+        // 每位子女依「是否有配偶」與「孩子數量」分配寬度
+        const clusterInfo = sortedCh.map(ch => {
+          const hasSpouse = (ch.marriage === '已婚' || ch.marriage === '離婚') && (ch.sp_gender || ch.sp_age || ch.sp_birth);
+          const baseW = hasSpouse ? (smallW*2 + spouseGap + 16) : (smallW + 16);
+          const kidsW = (ch.kids ? ch.kids.length : 0) * 68;
+          return { hasSpouse, w: Math.max(baseW, kidsW, 95) };
         });
+        const totalW = clusterInfo.reduce((a,b) => a+b.w, 0);
+        let curX = midX - totalW/2;
+        sortedCh.forEach((ch, i) => {
+          const info = clusterInfo[i];
+          const clusterCenterX = curX + info.w/2;
+          curX += info.w;
 
-        // 孫子
-        const grandch = s.grandchildren || [];
-        if (grandch.length > 0) {
-          const sortedGc = [...grandch].sort((a,b) => (parseInt(a.order)||99) - (parseInt(b.order)||99));
-          const y_gc = 880;
-          const totalGcW = sortedGc.length * 90;
-          const gcStartX = midX - totalGcW/2 + 45;
-          sortedGc.forEach((gc, i) => {
-            const gcX = gcStartX + i * 90 - smallW/2;
-            const gcY = y_gc;
-            const kin = gc.name || (gc.gender === '男' ? '孫子' : gc.gender === '女' ? '孫女' : '孫');
-            const g = gc.gender === '男' ? 'M' : (gc.gender === '女' ? 'F' : '');
-            svg += nodeShape(gcX, gcY, kin, gc.age || '', gc.birth || '', '在世', smallW, smallH, false, g);
-          });
-        }
+          let chX, spX, coupleMidX;
+          if (info.hasSpouse) {
+            chX = clusterCenterX - smallW - spouseGap/2;
+            spX = clusterCenterX + spouseGap/2;
+            coupleMidX = clusterCenterX;
+          } else {
+            chX = clusterCenterX - smallW/2;
+            coupleMidX = clusterCenterX;
+          }
+
+          // 從婚姻線直接畫垂直線到子女（沒有橫線）
+          svg += `<line x1="${chX+smallW/2}" y1="${marY}" x2="${chX+smallW/2}" y2="${y_ch}" stroke="#666" stroke-width="1"/>`;
+          // 子女節點（稱謂/年紀/出生年，男□女○，最左=老大，最右=老么）
+          const kin = ch.gender === '男' ? '兒子' : ch.gender === '女' ? '女兒' : '子女';
+          const g = ch.gender === '男' ? 'M' : (ch.gender === '女' ? 'F' : '');
+          svg += nodeShape(chX, y_ch, kin, ch.age || '', ch.birth || '', ch.status || '在世', smallW, smallH, false, g);
+
+          // 子女的配偶（已婚/離婚才畫，同樣大小）
+          if (info.hasSpouse) {
+            const spG = ch.sp_gender === '男' ? 'M' : (ch.sp_gender === '女' ? 'F' : '');
+            svg += nodeShape(spX, y_ch, '配偶', ch.sp_age || '', ch.sp_birth || '', '在世', smallW, smallH, false, spG);
+            const my = y_ch + smallH/2;
+            let lineAttr2 = 'stroke="#333" stroke-width="1.5"';
+            if (ch.marriage === '離婚') lineAttr2 = 'stroke="#D32F2F" stroke-width="1.5"';
+            svg += `<line x1="${chX+smallW}" y1="${my}" x2="${spX}" y2="${my}" ${lineAttr2}/>`;
+          }
+
+          // 這對子女(+配偶)自己的孩子，掛在他們中點下方
+          const kids = ch.kids || [];
+          if (kids.length > 0) {
+            const sortedKids = [...kids].sort((a,b) => (parseInt(a.order)||99) - (parseInt(b.order)||99));
+            const kidsW = sortedKids.length * 68;
+            let kidStartX = coupleMidX - kidsW/2;
+            svg += `<line x1="${coupleMidX}" y1="${y_ch+smallH}" x2="${coupleMidX}" y2="${y_gk-12}" stroke="#999" stroke-width="1"/>`;
+            if (sortedKids.length > 1) {
+              const firstX = kidStartX + smallW/2;
+              const lastX = kidStartX + (sortedKids.length-1)*68 + smallW/2;
+              svg += `<line x1="${firstX}" y1="${y_gk-12}" x2="${lastX}" y2="${y_gk-12}" stroke="#999" stroke-width="1"/>`;
+            }
+            sortedKids.forEach((gk, gi) => {
+              const gx = kidStartX + gi * 68;
+              svg += `<line x1="${gx+smallW/2}" y1="${y_gk-12}" x2="${gx+smallW/2}" y2="${y_gk}" stroke="#999" stroke-width="1"/>`;
+              const gkin = gk.gender === '男' ? '孫子' : gk.gender === '女' ? '孫女' : '孫';
+              const gg = gk.gender === '男' ? 'M' : (gk.gender === '女' ? 'F' : '');
+              svg += nodeShape(gx, y_gk, gkin, gk.age || '', '', '在世', smallW, smallH, false, gg);
+            });
+          }
+        });
       }
     }
 
@@ -1546,9 +1583,6 @@
       E: '📌 請填寫<span class="highlight">您伴侶</span>的資料'
     };
     document.getElementById('s4Note').innerHTML = notes[scenario] || '';
-    // 情境 C 顯示子女、孫子區塊
-    const ch = document.getElementById('childrenSection');
-    if (ch) ch.style.display = (scenario === 'C') ? 'block' : 'none';
   }
 
   window._childCounter = 0;
@@ -1558,7 +1592,7 @@
     window._childCounter++;
     const c = window._childCounter;
     const html = `
-      <div class="child-row" id="ch_${c}" style="background:#F5FBFF; border:1px solid #BBDEFB; border-radius:8px; padding:12px; margin-bottom:8px;">
+      <div class="child-row" id="ch_${c}" data-kidcounter="0" style="background:#F5FBFF; border:1px solid #BBDEFB; border-radius:8px; padding:12px; margin-bottom:8px;">
         <div style="display:flex; gap:8px; align-items:end;">
           <div style="width:70px;">
             <label style="font-size:13px; margin:0 0 4px;">排行</label>
@@ -1573,65 +1607,93 @@
           </div>
           <button type="button" onclick="removeRow('ch_${c}')" style="background:#EF9A9A; color:#fff; border:none; border-radius:6px; padding:8px 12px; cursor:pointer; height:38px;">×</button>
         </div>
-        <div style="margin-top:6px;">
-          <label style="font-size:13px; margin:0 0 4px;">稱謂</label>
-          <input type="text" id="ch_${c}_name" placeholder="例:大兒子、小女兒" style="padding:8px; font-size:14px;">
-        </div>
         <div style="display:flex; gap:8px; margin-top:6px;">
           <div style="flex:1;">
             <label style="font-size:13px; margin:0 0 4px;">出生年（西元）</label>
             <input type="number" id="ch_${c}_birth" min="1900" max="2030" placeholder="例:1990" style="padding:8px; font-size:14px;">
           </div>
           <div style="flex:1;">
-            <label style="font-size:13px; margin:0 0 4px;">在世/過世年紀</label>
-            <input type="text" id="ch_${c}_age" placeholder="35歲 或 過世時30歲" style="padding:8px; font-size:14px;">
+            <label style="font-size:13px; margin:0 0 4px;">現在年紀 / 過世時年紀</label>
+            <input type="text" id="ch_${c}_age" placeholder="例:40歲 或 過世時35歲" style="padding:8px; font-size:14px;">
           </div>
         </div>
-        <div style="margin-top:6px;">
-          <label style="font-size:13px; margin:0 0 4px;">在世狀況</label>
-          <select id="ch_${c}_status" style="padding:8px; font-size:14px;">
-            <option value="在世">在世</option><option>已過世</option><option>不清楚</option>
-          </select>
+        <div style="display:flex; gap:8px; margin-top:6px;">
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">婚姻狀況</label>
+            <select id="ch_${c}_marriage" style="padding:8px; font-size:14px;" onchange="toggleChildSpouse(${c})">
+              <option value="">請選</option>
+              <option>已婚</option><option>未婚</option><option>離婚</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">學歷及工作</label>
+            <input type="text" id="ch_${c}_edujob" placeholder="例:大學畢業，工程師" style="padding:8px; font-size:14px;">
+          </div>
+        </div>
+        <div id="ch_${c}_spouseBox" style="display:none; margin-top:10px; padding:10px; background:#FFF9F0; border:1px dashed #FFCC80; border-radius:8px;">
+          <p style="font-size:13px; color:#E65100; margin:0 0 6px; font-weight:bold;">💍 這位子女的配偶（同樣大小畫入家族圖）</p>
+          <div style="display:flex; gap:8px;">
+            <div style="flex:1;">
+              <label style="font-size:12px; margin:0 0 3px;">配偶性別</label>
+              <select id="ch_${c}_sp_gender" style="padding:7px; font-size:13px;">
+                <option value="">請選</option>
+                <option>男</option><option>女</option>
+              </select>
+            </div>
+            <div style="flex:1;">
+              <label style="font-size:12px; margin:0 0 3px;">出生年（西元）</label>
+              <input type="number" id="ch_${c}_sp_birth" min="1900" max="2030" placeholder="例:1988" style="padding:7px; font-size:13px;">
+            </div>
+            <div style="flex:1;">
+              <label style="font-size:12px; margin:0 0 3px;">現在年紀</label>
+              <input type="text" id="ch_${c}_sp_age" placeholder="例:38歲" style="padding:7px; font-size:13px;">
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #BBDEFB;">
+          <p style="font-size:13px; color:#01579B; margin:0 0 6px; font-weight:bold;">👶 這位子女的孩子（請依排行順序增添）</p>
+          <div id="ch_${c}_kids"></div>
+          <button type="button" onclick="addGrandkid(${c})" style="width:100%; padding:9px; background:#E1F5FE; color:#0277BD; border:none; border-radius:8px; font-size:14px; font-weight:bold; cursor:pointer;">＋ 新增這位子女的孩子</button>
         </div>
       </div>`;
     document.getElementById('childrenList').insertAdjacentHTML('beforeend', html);
   }
 
-  function addGrandchild() {
-    window._gchildCounter++;
-    const c = window._gchildCounter;
+  function toggleChildSpouse(c) {
+    const marriage = document.getElementById(`ch_${c}_marriage`).value;
+    const box = document.getElementById(`ch_${c}_spouseBox`);
+    if (box) box.style.display = (marriage === '已婚' || marriage === '離婚') ? 'block' : 'none';
+  }
+
+  function addGrandkid(childId) {
+    const parentKey = 'ch_' + childId;
+    const parentRow = document.getElementById(parentKey);
+    if (!parentRow) return;
+    const n = parseInt(parentRow.dataset.kidcounter || '0') + 1;
+    parentRow.dataset.kidcounter = n;
+    const kidId = parentKey + '_kid_' + n;
     const html = `
-      <div class="gchild-row" id="gc_${c}" style="background:#F5FBFF; border:1px solid #BBDEFB; border-radius:8px; padding:12px; margin-bottom:8px;">
+      <div class="gkid-row" id="${kidId}" style="background:#fff; border:1px solid #E1F5FE; border-radius:8px; padding:10px; margin-bottom:6px;">
         <div style="display:flex; gap:8px; align-items:end;">
-          <div style="width:70px;">
-            <label style="font-size:13px; margin:0 0 4px;">排行</label>
-            <input type="number" id="gc_${c}_order" min="1" placeholder="1" style="padding:8px; font-size:14px;">
+          <div style="width:60px;">
+            <label style="font-size:12px; margin:0 0 3px;">排行</label>
+            <input type="number" id="${kidId}_order" min="1" placeholder="1" style="padding:7px; font-size:13px;">
           </div>
           <div style="flex:1;">
-            <label style="font-size:13px; margin:0 0 4px;">性別</label>
-            <select id="gc_${c}_gender" style="padding:8px; font-size:14px;">
+            <label style="font-size:12px; margin:0 0 3px;">性別</label>
+            <select id="${kidId}_gender" style="padding:7px; font-size:13px;">
               <option value="">請選</option>
               <option>男</option><option>女</option>
             </select>
           </div>
-          <button type="button" onclick="removeRow('gc_${c}')" style="background:#EF9A9A; color:#fff; border:none; border-radius:6px; padding:8px 12px; cursor:pointer; height:38px;">×</button>
-        </div>
-        <div style="margin-top:6px;">
-          <label style="font-size:13px; margin:0 0 4px;">稱謂</label>
-          <input type="text" id="gc_${c}_name" placeholder="例:大孫、小孫女" style="padding:8px; font-size:14px;">
-        </div>
-        <div style="display:flex; gap:8px; margin-top:6px;">
           <div style="flex:1;">
-            <label style="font-size:13px; margin:0 0 4px;">出生年（西元）</label>
-            <input type="number" id="gc_${c}_birth" min="1900" max="2030" placeholder="例:2010" style="padding:8px; font-size:14px;">
+            <label style="font-size:12px; margin:0 0 3px;">現在年紀</label>
+            <input type="text" id="${kidId}_age" placeholder="例:10歲" style="padding:7px; font-size:13px;">
           </div>
-          <div style="flex:1;">
-            <label style="font-size:13px; margin:0 0 4px;">年紀</label>
-            <input type="text" id="gc_${c}_age" placeholder="例:14歲" style="padding:8px; font-size:14px;">
-          </div>
+          <button type="button" onclick="removeRow('${kidId}')" style="background:#EF9A9A; color:#fff; border:none; border-radius:6px; padding:7px 10px; cursor:pointer; height:34px;">×</button>
         </div>
       </div>`;
-    document.getElementById('grandchildrenList').insertAdjacentHTML('beforeend', html);
+    document.getElementById(parentKey + '_kids').insertAdjacentHTML('beforeend', html);
   }
 
   function collectChildren() {
@@ -1640,28 +1702,23 @@
       const prefix = row.id;
       const order = document.getElementById(`${prefix}_order`)?.value || '';
       const gender = document.getElementById(`${prefix}_gender`)?.value || '';
-      const name = document.getElementById(`${prefix}_name`)?.value.trim() || '';
       const birth = document.getElementById(`${prefix}_birth`)?.value || '';
       const age = document.getElementById(`${prefix}_age`)?.value.trim() || '';
-      const status = document.getElementById(`${prefix}_status`)?.value || '在世';
-      if (order || gender || name || birth || age) {
-        list.push({ order, gender, name, birth, age, status });
-      }
-    });
-    return list;
-  }
-
-  function collectGrandchildren() {
-    const list = [];
-    document.querySelectorAll('#grandchildrenList .gchild-row').forEach(row => {
-      const prefix = row.id;
-      const order = document.getElementById(`${prefix}_order`)?.value || '';
-      const gender = document.getElementById(`${prefix}_gender`)?.value || '';
-      const name = document.getElementById(`${prefix}_name`)?.value.trim() || '';
-      const birth = document.getElementById(`${prefix}_birth`)?.value || '';
-      const age = document.getElementById(`${prefix}_age`)?.value.trim() || '';
-      if (order || gender || name || birth || age) {
-        list.push({ order, gender, name, birth, age });
+      const marriage = document.getElementById(`${prefix}_marriage`)?.value || '';
+      const edujob = document.getElementById(`${prefix}_edujob`)?.value.trim() || '';
+      const spGender = document.getElementById(`${prefix}_sp_gender`)?.value || '';
+      const spBirth = document.getElementById(`${prefix}_sp_birth`)?.value || '';
+      const spAge = document.getElementById(`${prefix}_sp_age`)?.value.trim() || '';
+      const kids = [];
+      row.querySelectorAll('.gkid-row').forEach(kidRow => {
+        const kp = kidRow.id;
+        const kOrder = document.getElementById(`${kp}_order`)?.value || '';
+        const kGender = document.getElementById(`${kp}_gender`)?.value || '';
+        const kAge = document.getElementById(`${kp}_age`)?.value.trim() || '';
+        if (kOrder || kGender || kAge) kids.push({ order: kOrder, gender: kGender, age: kAge });
+      });
+      if (order || gender || birth || age || marriage || edujob || kids.length) {
+        list.push({ order, gender, birth, age, marriage, edujob, status: '在世', kids, sp_gender: spGender, sp_birth: spBirth, sp_age: spAge });
       }
     });
     return list;
