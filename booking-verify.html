@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>預約諮詢時間｜心路新路</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+  :root {
+    --green: #2C5E3B;
+    --light-green: #5A9B78;
+    --mint: #A8E6CF;
+    --cream: #FFF9F0;
+    --peach: #FFE0CC;
+    --coral: #FF6B6B;
+    --charcoal: #2D2D2D;
+    --muted: #888;
+    --white: #fff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%);
+    padding: 40px 20px 50px;
+    text-align: center;
+  }
+
+  .logo-wrap {
+    margin-bottom: 16px;
+  }
+  .logo-wrap img {
+    width: 64px; height: 64px; border-radius: 50%;
+    border: 3px solid var(--white);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .logo-placeholder {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--green);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 28px; color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .hero h1 {
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.8;
+  }
+
+  /* MAIN CARD */
+  .main {
+    max-width: 480px;
+    margin: -20px auto 40px;
+    padding: 0 16px;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 32px 28px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+
+  .input-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .input-wrap input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 18px;
+    font-family: inherit;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    outline: none;
+    text-transform: uppercase;
+    text-align: center;
+    transition: border-color 0.2s;
+    color: var(--charcoal);
+  }
+
+  .input-wrap input:focus {
+    border-color: var(--light-green);
+  }
+
+  .input-wrap input::placeholder {
+    letter-spacing: 0;
+    font-weight: 400;
+    font-size: 15px;
+    color: #bbb;
+    text-transform: none;
+  }
+
+  .btn-verify {
+    width: 100%;
+    padding: 16px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 1px;
+  }
+
+  .btn-verify:hover { background: var(--light-green); }
+  .btn-verify:active { transform: scale(0.98); }
+  .btn-verify:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* MESSAGES */
+  .msg {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    display: none;
+    line-height: 1.6;
+  }
+
+  .msg.error {
+    background: #FFF3F3;
+    border: 1px solid #FFCDD2;
+    color: #C62828;
+  }
+
+  .msg.loading {
+    background: #F3F8FF;
+    border: 1px solid #BBDEFB;
+    color: #1565C0;
+  }
+
+  /* SUCCESS */
+  .success-box {
+    display: none;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .success-icon {
+    font-size: 56px;
+    margin-bottom: 12px;
+  }
+
+  .success-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .success-name {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+
+  .btn-calendar {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--green), var(--light-green));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(44,94,59,0.3);
+    margin-bottom: 12px;
+  }
+
+  .btn-calendar:hover { opacity: 0.9; }
+  .btn-calendar:active { transform: scale(0.98); }
+
+  .note {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 8px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #F0F0F0;
+    margin: 24px 0;
+  }
+
+  /* STEP HINT */
+  .step-hint {
+    background: #F8FBF8;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 24px;
+  }
+
+  .step-hint-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .step-dot {
+    width: 20px; height: 20px;
+    background: var(--mint);
+    color: var(--green);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  footer a {
+    color: var(--light-green);
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo-wrap">
+    <div class="logo-placeholder">🌻</div>
+  </div>
+  <h1>預約諮詢時間</h1>
+  <p class="hero-sub">心路新路・全齡身心韌性</p>
+</div>
+
+<div class="main">
+  <div class="card">
+
+    <!-- 步驟提示 -->
+    <div class="step-hint">
+      <div class="step-hint-title">📋 預約前請確認</div>
+      <div class="step-item">
+        <div class="step-dot">1</div>
+        <div>已完成匯款並傳截圖給小幫手</div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">2</div>
+        <div>已收到我們發送的專屬序號</div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">3</div>
+        <div>輸入序號即可進入預約系統</div>
+      </div>
+    </div>
+
+    <!-- 驗證表單 -->
+    <div id="verifyForm">
+      <div class="card-title">🔑 請輸入您的專屬序號</div>
+      <div class="card-desc">序號由我們透過 LINE 發送給您<br>格式範例：XL-0716-001</div>
+
+      <div class="input-wrap">
+        <input type="text" id="codeInput" placeholder="請輸入序號" maxlength="20"
+          oninput="this.value = this.value.toUpperCase()"
+          onkeydown="if(event.key==='Enter') verify()">
+      </div>
+
+      <button class="btn-verify" onclick="verify()" id="verifyBtn">
+        驗證序號 →
+      </button>
+
+      <div class="msg error" id="msgError"></div>
+      <div class="msg loading" id="msgLoading">⏳ 驗證中，請稍候...</div>
+    </div>
+
+    <!-- 成功畫面 -->
+    <div class="success-box" id="successBox">
+      <div class="success-icon">✅</div>
+      <div class="success-title">序號驗證成功！</div>
+      <div class="success-name" id="successName"></div>
+
+      <a href="https://calendar.app.google/MLSTczZNmh1TXxG67"
+         target="_blank" class="btn-calendar">
+        🗓 立即預約諮詢時間
+      </a>
+
+      <p class="note">
+        ・請選擇您方便的日期與時段<br>
+        ・預約完成後您會收到確認通知<br>
+        ・如需更改請提前 24 小時告知
+      </p>
+
+      <hr class="divider">
+
+      <p class="note" style="color:#aaa; font-size:12px;">
+        此序號已完成驗證。如有任何問題，<br>
+        請透過官方 LINE 與我們聯繫 🌻
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <a href="https://xinlu-may.github.io">心路新路・全齡身心韌性科技有限公司</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://iqxzsflawxzvniycmaub.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function verify() {
+  const code = document.getElementById('codeInput').value.trim().toUpperCase();
+  const btn = document.getElementById('verifyBtn');
+  const msgError = document.getElementById('msgError');
+  const msgLoading = document.getElementById('msgLoading');
+
+  // 清除訊息
+  msgError.style.display = 'none';
+  msgLoading.style.display = 'none';
+
+  if (!code) {
+    showError('請輸入您的專屬序號');
+    return;
+  }
+
+  // 驗證格式
+  if (code.length < 3) {
+    showError('序號格式不正確，請確認後再試');
+    return;
+  }
+
+  btn.disabled = true;
+  msgLoading.style.display = 'block';
+
+  try {
+    // 查詢 Supabase
+    const { data, error } = await sb
+      .from('booking_codes')
+      .select('*')
+      .eq('code', code)
+      .eq('is_used', false)
+      .single();
+
+    msgLoading.style.display = 'none';
+    btn.disabled = false;
+
+    if (error || !data) {
+      // 再查是否已使用
+      const { data: usedData } = await sb
+        .from('booking_codes')
+        .select('*')
+        .eq('code', code)
+        .single();
+
+      if (usedData && usedData.is_used) {
+        showError('此序號已使用過。如有疑問請透過官方 LINE 聯繫我們。');
+      } else {
+        showError('序號不正確，請確認後再試。\n如尚未收到序號，請先完成匯款並傳截圖給小幫手 🌻');
+      }
+      return;
+    }
+
+    // 標記已使用
+    await sb
+      .from('booking_codes')
+      .update({ is_used: true, used_at: new Date().toISOString() })
+      .eq('code', code);
+
+    // 顯示成功
+    const name = data.client_name ? `${data.client_name} 您好！` : '';
+    const service = data.service_type ? `服務項目：${data.service_type}` : '';
+    document.getElementById('successName').innerHTML =
+      (name ? `<strong>${name}</strong><br>` : '') +
+      (service ? `${service}<br>` : '') +
+      '請點下方按鈕選擇您方便的時段 🌻';
+
+    document.getElementById('verifyForm').style.display = 'none';
+    document.getElementById('successBox').style.display = 'block';
+
+  } catch (err) {
+    msgLoading.style.display = 'none';
+    btn.disabled = false;
+    showError('網路連線異常，請稍後再試');
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('msgError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+</script>
+</body>
+</html>
