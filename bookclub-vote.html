@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>讀書會時段投票｜心路新路</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+  :root {
+    --green: #2C5E3B;
+    --light-green: #5A9B78;
+    --mint: #A8E6CF;
+    --cream: #FFF9F0;
+    --peach: #FFE8D6;
+    --coral: #FF6B6B;
+    --charcoal: #2D2D2D;
+    --muted: #888;
+    --white: #fff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%);
+    padding: 36px 20px 48px;
+    text-align: center;
+  }
+
+  .hero-icon { font-size: 48px; margin-bottom: 12px; }
+
+  .hero h1 {
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.8;
+  }
+
+  .main {
+    max-width: 520px;
+    margin: -20px auto 40px;
+    padding: 0 16px;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--mint);
+  }
+
+  /* 名字輸入 */
+  .name-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-family: inherit;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .name-input:focus { border-color: var(--light-green); }
+
+  /* 時段分組 */
+  .slot-group {
+    margin-bottom: 20px;
+  }
+
+  .slot-group-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--light-green);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    padding: 4px 10px;
+    background: #F0FAF4;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  .slot-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 2px solid #E8E8E8;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .slot-item:hover { border-color: var(--light-green); background: #F8FFF9; }
+  .slot-item.selected { border-color: var(--green); background: #F0FAF4; }
+
+  .slot-checkbox {
+    width: 22px; height: 22px;
+    border: 2px solid #CCC;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+
+  .slot-item.selected .slot-checkbox {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+  }
+
+  .slot-label {
+    font-size: 15px;
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .slot-time {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* 送出按鈕 */
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 1px;
+  }
+  .btn-submit:hover { background: var(--light-green); }
+  .btn-submit:active { transform: scale(0.98); }
+  .btn-submit:disabled { background: #CCC; cursor: not-allowed; }
+
+  .msg {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+    display: none;
+    line-height: 1.6;
+  }
+  .msg.error { background: #FFF3F3; border: 1px solid #FFCDD2; color: #C62828; }
+  .msg.success { background: #F0FAF4; border: 1px solid #A5D6A7; color: var(--green); }
+  .msg.loading { background: #F3F8FF; border: 1px solid #BBDEFB; color: #1565C0; }
+
+  /* 投票結果 */
+  .result-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    margin-bottom: 16px;
+  }
+
+  .result-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--mint);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .refresh-btn {
+    font-size: 13px;
+    color: var(--light-green);
+    cursor: pointer;
+    border: 1px solid var(--light-green);
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: none;
+    font-family: inherit;
+  }
+
+  .result-item {
+    margin-bottom: 12px;
+  }
+
+  .result-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  .result-name { font-weight: 500; }
+
+  .result-count {
+    font-weight: 700;
+    color: var(--green);
+    font-size: 15px;
+  }
+
+  .result-bar-wrap {
+    background: #F0F0F0;
+    border-radius: 20px;
+    height: 10px;
+    overflow: hidden;
+  }
+
+  .result-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--light-green));
+    border-radius: 20px;
+    transition: width 0.5s ease;
+  }
+
+  .result-voters {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .result-group-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--light-green);
+    letter-spacing: 1px;
+    margin: 16px 0 8px;
+    padding: 3px 8px;
+    background: #F0FAF4;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .top-badge {
+    background: #FFD700;
+    color: #5D4037;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer a { color: var(--light-green); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-icon">📖</div>
+  <h1>第21、22期讀書會<br>時段投票</h1>
+  <p class="hero-sub">「從聖經中尋見真我」線上讀書會<br>請勾選您<strong>所有可以參加</strong>的時段<br>票數最高的時段優先開班 🌻</p>
+</div>
+
+<div class="main">
+
+  <!-- 投票表單 -->
+  <div class="card" id="voteCard">
+    <div class="card-title">✏️ 填寫您的資料</div>
+
+    <div style="margin-bottom:20px;">
+      <label style="font-size:14px; font-weight:600; color:#555; display:block; margin-bottom:8px;">您的姓名或暱稱</label>
+      <input type="text" class="name-input" id="voterName" placeholder="例：王姊妹、小明媽媽">
+    </div>
+
+    <div style="margin-bottom:8px;">
+      <label style="font-size:14px; font-weight:600; color:#555; display:block; margin-bottom:4px;">我是</label>
+      <div style="display:flex; gap:10px; margin-bottom:16px;">
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:14px;">
+          <input type="radio" name="member_type" value="新生" checked> 新生
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:14px;">
+          <input type="radio" name="member_type" value="老同學"> 老同學（回來複習）
+        </label>
+      </div>
+    </div>
+
+    <div class="card-title" style="margin-top:4px;">🗓️ 請勾選所有可以參加的時段</div>
+
+    <div class="slot-group">
+      <div class="slot-group-title">🌙 晚上班</div>
+      <div class="slot-item" onclick="toggleSlot(this, 'monday_eve')">
+        <div class="slot-checkbox" id="cb_monday_eve"></div>
+        <div class="slot-label">週一晚上</div>
+        <div class="slot-time">19:00–21:30</div>
+      </div>
+      <div class="slot-item" onclick="toggleSlot(this, 'thursday_eve')">
+        <div class="slot-checkbox" id="cb_thursday_eve"></div>
+        <div class="slot-label">週四晚上</div>
+        <div class="slot-time">19:00–21:30</div>
+      </div>
+      <div class="slot-item" onclick="toggleSlot(this, 'friday_eve')">
+        <div class="slot-checkbox" id="cb_friday_eve"></div>
+        <div class="slot-label">週五晚上</div>
+        <div class="slot-time">19:00–21:30</div>
+      </div>
+    </div>
+
+    <div class="slot-group">
+      <div class="slot-group-title">☀️ 白天班</div>
+      <div class="slot-item" onclick="toggleSlot(this, 'tuesday_am')">
+        <div class="slot-checkbox" id="cb_tuesday_am"></div>
+        <div class="slot-label">週二上午</div>
+        <div class="slot-time">9:30–12:00</div>
+      </div>
+      <div class="slot-item" onclick="toggleSlot(this, 'tuesday_pm')">
+        <div class="slot-checkbox" id="cb_tuesday_pm"></div>
+        <div class="slot-label">週二下午</div>
+        <div class="slot-time">13:30–16:00</div>
+      </div>
+      <div class="slot-item" onclick="toggleSlot(this, 'friday_am')">
+        <div class="slot-checkbox" id="cb_friday_am"></div>
+        <div class="slot-label">週五上午</div>
+        <div class="slot-time">9:30–12:00</div>
+      </div>
+      <div class="slot-item" onclick="toggleSlot(this, 'friday_pm')">
+        <div class="slot-checkbox" id="cb_friday_pm"></div>
+        <div class="slot-label">週五下午</div>
+        <div class="slot-time">13:30–16:00</div>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="submitVote()" id="submitBtn">
+      送出投票 🌻
+    </button>
+    <div class="msg error" id="msgError"></div>
+    <div class="msg loading" id="msgLoading">⏳ 送出中，請稍候...</div>
+    <div class="msg success" id="msgSuccess"></div>
+  </div>
+
+  <!-- 投票結果 -->
+  <div class="result-card">
+    <div class="result-title">
+      📊 目前投票結果
+      <button class="refresh-btn" onclick="loadResults()">🔄 更新</button>
+    </div>
+    <div id="resultContent">
+      <div style="text-align:center; color:var(--muted); padding:20px; font-size:14px;">載入中...</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="https://xinlu-may.github.io">心路新路・全齡身心韌性科技有限公司</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = supabase.createClient(
+  'https://iqxzsflawxzvniycmaub.supabase.co',
+  'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4'
+);
+
+const SLOTS = [
+  { key: 'monday_eve',   label: '週一晚上', time: '19:00–21:30', group: '晚上班' },
+  { key: 'thursday_eve', label: '週四晚上', time: '19:00–21:30', group: '晚上班' },
+  { key: 'friday_eve',   label: '週五晚上', time: '19:00–21:30', group: '晚上班' },
+  { key: 'tuesday_am',   label: '週二上午', time: '9:30–12:00',  group: '白天班' },
+  { key: 'tuesday_pm',   label: '週二下午', time: '13:30–16:00', group: '白天班' },
+  { key: 'friday_am',    label: '週五上午', time: '9:30–12:00',  group: '白天班' },
+  { key: 'friday_pm',    label: '週五下午', time: '13:30–16:00', group: '白天班' },
+];
+
+const selected = new Set();
+
+function toggleSlot(el, key) {
+  if (selected.has(key)) {
+    selected.delete(key);
+    el.classList.remove('selected');
+    document.getElementById('cb_' + key).textContent = '';
+  } else {
+    selected.add(key);
+    el.classList.add('selected');
+    document.getElementById('cb_' + key).textContent = '✓';
+  }
+}
+
+async function submitVote() {
+  const name = document.getElementById('voterName').value.trim();
+  const memberType = document.querySelector('input[name="member_type"]:checked').value;
+  const btn = document.getElementById('submitBtn');
+  const msgError = document.getElementById('msgError');
+  const msgLoading = document.getElementById('msgLoading');
+  const msgSuccess = document.getElementById('msgSuccess');
+
+  msgError.style.display = 'none';
+  msgSuccess.style.display = 'none';
+
+  if (!name) { showMsg('error', '請填寫您的姓名或暱稱'); return; }
+  if (selected.size === 0) { showMsg('error', '請至少勾選一個可以參加的時段'); return; }
+
+  btn.disabled = true;
+  msgLoading.style.display = 'block';
+
+  const voteData = { voter_name: name, member_type: memberType };
+  SLOTS.forEach(s => { voteData[s.key] = selected.has(s.key); });
+
+  try {
+    const { error } = await sb.from('bookclub_votes').insert([voteData]);
+    msgLoading.style.display = 'none';
+
+    if (error) throw error;
+
+    showMsg('success', `✅ ${name}，您的投票已送出！感謝您 🌻\n請往下查看目前投票結果。`);
+    btn.textContent = '已投票 ✓';
+    document.getElementById('voterName').disabled = true;
+    document.querySelectorAll('.slot-item').forEach(el => el.style.pointerEvents = 'none');
+    loadResults();
+  } catch(e) {
+    msgLoading.style.display = 'none';
+    btn.disabled = false;
+    showMsg('error', '送出失敗，請稍後再試');
+  }
+}
+
+function showMsg(type, text) {
+  const el = document.getElementById('msg' + type.charAt(0).toUpperCase() + type.slice(1));
+  el.textContent = text;
+  el.style.display = 'block';
+}
+
+async function loadResults() {
+  const el = document.getElementById('resultContent');
+  try {
+    const { data, error } = await sb.from('bookclub_votes').select('*');
+    if (error || !data) { el.innerHTML = '<p style="text-align:center;color:#aaa;font-size:14px;">暫無資料</p>'; return; }
+
+    const total = data.length;
+    if (total === 0) { el.innerHTML = '<p style="text-align:center;color:#aaa;font-size:14px;padding:20px;">目前尚無投票，快來投票吧！</p>'; return; }
+
+    // 計算每個時段票數和投票者
+    const counts = {};
+    SLOTS.forEach(s => {
+      counts[s.key] = { count: 0, voters: [] };
+      data.forEach(row => {
+        if (row[s.key]) { counts[s.key].count++; counts[s.key].voters.push(row.voter_name); }
+      });
+    });
+
+    const maxCount = Math.max(...Object.values(counts).map(c => c.count));
+
+    // 按票數排序
+    const sorted = [...SLOTS].sort((a, b) => counts[b.key].count - counts[a.key].count);
+
+    let html = `<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">共 <strong style="color:var(--green)">${total}</strong> 人投票</p>`;
+
+    let currentGroup = '';
+    sorted.forEach(slot => {
+      if (slot.group !== currentGroup) {
+        currentGroup = slot.group;
+        html += `<div class="result-group-title">${currentGroup === '晚上班' ? '🌙' : '☀️'} ${currentGroup}</div>`;
+      }
+      const c = counts[slot.key];
+      const pct = maxCount > 0 ? Math.round((c.count / maxCount) * 100) : 0;
+      const isTop = c.count === maxCount && maxCount > 0;
+      html += `
+        <div class="result-item">
+          <div class="result-label">
+            <span class="result-name">${slot.label} <span style="color:var(--muted);font-size:12px;">${slot.time}</span>${isTop && c.count > 0 ? '<span class="top-badge">🏆 最高票</span>' : ''}</span>
+            <span class="result-count">${c.count} 票</span>
+          </div>
+          <div class="result-bar-wrap">
+            <div class="result-bar" style="width:${pct}%"></div>
+          </div>
+          ${c.voters.length > 0 ? `<div class="result-voters">${c.voters.join('、')}</div>` : ''}
+        </div>`;
+    });
+
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = '<p style="text-align:center;color:#aaa;font-size:14px;">載入失敗，請按更新重試</p>';
+  }
+}
+
+loadResults();
+</script>
+</body>
+</html>
