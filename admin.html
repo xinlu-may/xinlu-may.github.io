@@ -1,352 +1,905 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心路新路專欄 - 心路新路全齡健康幸福會所</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: '標楷體', 'DFKai-SB', 'BiauKai', 'Kaiti TC', 'KaiTi', 'PingFang TC', 'Microsoft JhengHei', serif; line-height: 1.75; color: #1a1a1a; background-color: #fafbfa; padding-top: 80px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雪媚管理中心</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 40px 15px; }
+  body {
+    font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    background: #FFF0F6;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
 
-        .main-nav { position: fixed; top: 0; width: 100%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 26px; font-weight: bold; color: #2C5E3B; text-decoration: none; }
-        .back-home { color: #262626; text-decoration: none; font-size: 21px; font-weight: bold; }
+  /* 登入畫面 */
+  #loginScreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFD6E7;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'>  <g transform='translate(30,30)'>    <ellipse cx='0' cy='-9' rx='4' ry='7' fill='%23FF85A8' opacity='0.6'/>    <ellipse cx='9' cy='0' rx='7' ry='4' fill='%23FF85A8' opacity='0.6'/>    <ellipse cx='0' cy='9' rx='4' ry='7' fill='%23FF85A8' opacity='0.6'/>    <ellipse cx='-9' cy='0' rx='7' ry='4' fill='%23FF85A8' opacity='0.6'/>    <ellipse cx='6' cy='-6' rx='4' ry='6' fill='%23FFB3C8' opacity='0.5' transform='rotate(45)'/>    <ellipse cx='6' cy='6' rx='4' ry='6' fill='%23FFB3C8' opacity='0.5' transform='rotate(-45)'/>    <ellipse cx='-6' cy='6' rx='4' ry='6' fill='%23FFB3C8' opacity='0.5' transform='rotate(45)'/>    <ellipse cx='-6' cy='-6' rx='4' ry='6' fill='%23FFB3C8' opacity='0.5' transform='rotate(-45)'/>    <circle cx='0' cy='0' r='5' fill='%23FFE4EF'/>  </g></svg>");
+    background-size: 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
 
-        .col-intro-block {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 30px 25px;
-            margin-bottom: 25px;
-            text-align: center;
-            border: 1px solid #f0f4f1;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
-        }
-        .col-intro-title { font-size: 26px; color: #1B5E20; font-weight: 800; margin-bottom: 15px; }
-        .col-intro-p { font-size: 21px; color: #37474F; font-weight: 600; line-height: 1.8; }
+  .login-card {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,182,193,0.4);
+    border-radius: 24px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
 
-        /* 🌟 站務公告提示橫幅 */
-        .notice-banner {
-            background: #fff8e1;
-            border: 1px solid #ffe082;
-            color: #7a5c00;
-            text-align: center;
-            padding: 14px 20px;
-            border-radius: 12px;
-            font-size: 18.5px;
-            line-height: 1.7;
-            margin-bottom: 35px;
-        }
-        .notice-banner a { color: #2C5E3B; font-weight: bold; text-decoration: underline; }
+  .login-icon { font-size: 56px; margin-bottom: 16px; }
 
-        /* 🌟 文章格狀卡片 */
-        .article-grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 50px;
-        }
-        @media (max-width: 900px) { .article-grid-container { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 500px) { .article-grid-container { grid-template-columns: 1fr; } }
+  .login-title {
+    font-size: 26px;
+    font-weight: 900;
+    color: #BE185D;
+    margin-bottom: 6px;
+  }
 
-        .article-card {
-            position: relative;
-            border-radius: 14px;
-            overflow: hidden;
-            aspect-ratio: 4 / 3;
-            border: 1px solid #eef2f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            background: #eef5ee;
-            transition: all 0.3s;
-        }
-        .article-card:hover { transform: translateY(-4px); box-shadow: 0 10px 22px rgba(44,94,59,0.13); border-color: #AED581; }
+  .login-sub {
+    font-size: 14px;
+    color: #9D174D;
+    margin-bottom: 32px;
+  }
 
-        .article-card-media {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #e3f0e6, #cfe6d2);
-        }
-        .article-card-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .article-card-placeholder { font-size: 40px; opacity: 0.5; }
+  .login-input {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #FBCFE8;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #1a1a2e;
+    text-align: center;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+    outline: none;
+    font-family: inherit;
+  }
 
-        .article-card-caption {
-            position: absolute;
-            left: 0; right: 0; bottom: 0;
-            padding: 14px 14px 12px;
-            background: linear-gradient(to top, rgba(20,40,25,0.80), rgba(20,40,25,0));
-            color: #ffffff;
-        }
-        .article-card-num { font-size: 14px; font-weight: 600; opacity: 0.85; display: block; margin-bottom: 3px; }
-        .article-card-title { font-size: 16.5px; font-weight: bold; line-height: 1.4; }
-        .article-card-title.placeholder-text { opacity: 0.8; font-weight: 600; }
+  .login-input::placeholder { letter-spacing: 0; color: #FBCFE8; font-size: 14px; }
+  .login-input:focus { border-color: #EC4899; }
 
-        .fullscreen-article-view { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#f5f6f3; z-index:2000; overflow-y:auto; padding:20px; }
-        .fullscreen-article-view.open { display:block; }
-        .article-max-wrapper { max-width:720px; margin:0 auto; background:#ffffff; border-radius:20px; padding:30px 26px; box-shadow:0 4px 15px rgba(0,0,0,0.05); }
-    </style>
+  .login-btn {
+    width: 100%;
+    padding: 15px;
+    background: #7DD3FC;
+    color: #0C4A6E;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s;
+  }
+  .login-btn:hover { opacity: 0.9; }
+
+  .login-err {
+    margin-top: 12px;
+    color: #BE185D;
+    font-size: 14px;
+    display: none;
+  }
+
+  /* 主介面 */
+  #mainApp { display: none; min-height: 100vh; }
+
+  /* 頂部導覽 */
+  .topbar {
+    background: linear-gradient(135deg, #FCE7F3, #FBCFE8);
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .topbar-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #BE185D;
+  }
+
+  .topbar-title span { color: #EC4899; }
+
+  .topbar-time {
+    font-size: 13px;
+    color: #9D174D;
+  }
+
+  /* 快速連結列 */
+  .quicklinks {
+    background: #FDF2F8;
+    padding: 10px 24px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #FBCFE8;
+  }
+
+  .ql-btn {
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.8);
+    color: #9D174D;
+    border: 1px solid rgba(255,182,193,0.4);
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .ql-btn:hover { background: #FCE7F3; border-color: #EC4899; color: #BE185D; }
+
+  /* 主體 */
+  .main-body {
+    display: flex;
+    min-height: calc(100vh - 96px);
+  }
+
+  /* 側邊選單 */
+  .sidebar {
+    width: 220px;
+    background: #fff;
+    border-right: 1px solid #E8EDF2;
+    padding: 20px 0;
+    flex-shrink: 0;
+    position: sticky;
+    top: 96px;
+    height: calc(100vh - 96px);
+    overflow-y: auto;
+  }
+
+  .sidebar-section {
+    padding: 0 16px;
+    margin-bottom: 8px;
+  }
+
+  .sidebar-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #999;
+    letter-spacing: 1px;
+    padding: 8px 8px 4px;
+    text-transform: uppercase;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    transition: all 0.15s;
+    margin-bottom: 2px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+  }
+
+  .sidebar-item:hover { background: #FFF0F6; color: #1a1a2e; }
+  .sidebar-item.active { background: #FDF2F8; color: #EC4899; font-weight: 700; }
+
+  .sidebar-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+  .badge {
+    margin-left: auto;
+    background: #EC4899;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  /* 內容區 */
+  .content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+  }
+
+  .content-header {
+    margin-bottom: 20px;
+  }
+
+  .content-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+
+  .content-sub {
+    font-size: 14px;
+    color: #888;
+  }
+
+  /* 統計卡 */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #F0F2F5;
+  }
+
+  .stat-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: #EC4899;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: #888;
+  }
+
+  /* 資料表格 */
+  .table-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #F0F2F5;
+    overflow: hidden;
+  }
+
+  .table-toolbar {
+    padding: 16px 20px;
+    border-bottom: 1px solid #F0F2F5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .table-toolbar-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+
+  .refresh-btn {
+    padding: 7px 14px;
+    background: #FFF0F6;
+    border: 1px solid #E8EDF2;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #555;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .refresh-btn:hover { background: #7DD3FC; color: #0C4A6E; border-color: #7DD3FC; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .data-table th {
+    background: #F8F9FB;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #F0F2F5;
+    white-space: nowrap;
+  }
+
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #F8F9FB;
+    color: #333;
+    vertical-align: top;
+    max-width: 200px;
+    word-break: break-all;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: #FAFBFC; }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: #aaa;
+    font-size: 14px;
+  }
+
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+  .loading-state {
+    text-align: center;
+    padding: 40px;
+    color: #aaa;
+    font-size: 14px;
+  }
+
+  /* 首頁 */
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .home-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #F0F2F5;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .home-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(236,72,153,0.12);
+    border-color: #EC4899;
+  }
+
+  .home-card-icon { font-size: 36px; margin-bottom: 12px; }
+  .home-card-title { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .home-card-count { font-size: 24px; font-weight: 900; color: #EC4899; }
+  .home-card-sub { font-size: 12px; color: #aaa; margin-top: 2px; }
+
+  /* 序號管理 */
+  .code-form {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #F0F2F5;
+  }
+
+  .code-form-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #1a1a2e;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .form-input {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    border: 1.5px solid #E8EDF2;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus { border-color: #EC4899; }
+
+  .add-btn {
+    padding: 10px 20px;
+    background: #7DD3FC;
+    color: #0C4A6E;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .add-btn:hover { opacity: 0.9; }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .tag-green { background: #E8F5E9; color: #2E7D32; }
+  .tag-red { background: #FFEBEE; color: #C62828; }
+  .tag-blue { background: #E3F2FD; color: #1565C0; }
+
+  @media (max-width: 600px) {
+    .sidebar { display: none; }
+    .content { padding: 16px; }
+    .quicklinks { padding: 8px 16px; }
+  }
+</style>
 </head>
 <body>
 
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="index.html" class="logo">心路新路全齡會所</a>
-            <a href="index.html" class="back-home">← 回首頁</a>
-        </div>
-    </nav>
+<!-- 登入畫面 -->
+<div id="loginScreen">
 
-    <div class="container">
+  <div class="login-card">
 
-        <div class="col-intro-block">
-            <h2 class="col-intro-title">✍️ 心路新路專欄</h2>
-            <p class="col-intro-p">
-                雪媚老師多年來陪伴孩子、家庭與長者的真實觀察與反思，<br>
-                篇篇從生命現場出發，盼能成為您生活中的一份提醒與陪伴。
-            </p>
-        </div>
+    <!-- AI 小助理圖片 -->
+    <div style="margin-bottom:16px;">
+      <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAGQAZADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpzdRHjetH2hOxFclESY1YBjkdB1q0qygfclH4Gvm1Vb6H0Tp26nSefxwaQyiueLyKOrj6imm5cf8ALQ/jT9quwvZnRGUGlVwK5n7bKD/rBT11GUdSDTVWIvZs6TzBShhXOrqbnqBUi6oe60+ePcXIzfDAjg0VhjVUXqDUqavEepIp8yCzXQ2CKVc1Rh1GCQhQ/J4q+pyKYhGGaiepqjccUDKsoqiw5NX5elUm70gGdaYwxT+9NPIouIsWw/d1DedKsQf6sVBejAFAFaAcGpbYf6QtMgHBqe1H+kLSKNdR2pwWgU4daCS3Zg7xWmfu1n2f360CeKtbEPczL7OaNP70t/xik085JrJ7mq2NeLOKlwTUUfSpR0rRGZLFW5pv+rrEi6VuaeP3Iq4LUzqbGvY9CaryH/WVasx+7NVX/wCWn1rpfwo5VuynGOau2/3h9aqRjmrkPDCoiXI0rkZhFLb/AHBRNzBRB90V12945fsmX4l/48gp6bq5d2BXaOldV4kXdarnoDXHXUm08dq8TMY3qmlN6GrDpym2569c1WW5+xkr/EKjsNVcRFGGcdDUEiG4dnz8xryHDU35tNCWW93TiQDg1v6LsuZBk/hXNC0lKhtvy1u6MnlPG4PQ8iunDOMaib2uRK7Vjqvs8eANoqG5RYyCOM1PFNHJwjAkUlzCJgoJxg19VUpxlB8iRyJtPULaQPH9KldQ6kHpUTQARkJ8pxVO3uXWTy255xzUur7JRhU6j5ebVEN2n2d/l6GkgkYc5q/PbiYZbrjisokKxB7cV4+KpOhU5lonsdFOSkrM8B8MndNaFgMV6N5EfdF/KvNfDB4hPo9eoryin1FaYbqj0cRumVXs4G6xL+VV5NLtG5MK/lWiaacVvZGCbMWXQ7FusIqpN4dsm6IR9K6FhUTDmk4rsUpM5pvDMH8LMKibwyP4ZiK6nFIal049h88u5x8vhmb+GUH8KqS+HbpQSpDV3JphFL2USvaSPOrWB47giYYdG7V10TZjU+1YeqJ5epzeh5rYszmBD7VlHSTRq9UmWM01hmn9RUbVYiCUcGs9+prRl71nN1P1pMBpHNBHFKBk0NSEWoFxGKrXv3asw/6sVWv+F96AK8Z44qa0f/SlqmHSMFpG6c1hXni6xsZdwkZ2B4C96pRcthSkluehKw+tOTJOMcivJpviFdSuTbQ4Puw/kBXTeDfFF5f3iC8igNvjczK20r9c1bpSirszVWL0R6FYKd/1q7cSRQKfNcLj14rz7xh8RNP02IxaRIZbsbkZWH+r9Pr/APWrym48UajcXDStdSmRj97PP59quFGUlcidVJ2PedQ1CJ2BUnHrt/wqzpkqNyrAg+lfP1vrV/uyJ5yep+eui0rxjf2zgSSCT/ZlUA/n/wDXqZYdrUqNZNWPeYzxT81x3hrxbbXojSfMTkAfOePwNdqImZA6YZDzkHIrPbQsliPArfsRiAVgopHHet6x/wCPda0gZVNjYtP9VVN+j1ctf9TVJuj10S2Ryx3ZBF1q1F94VVi61ZjPIqIlyNZ+YfwpkB4FOPMH4U23+7XZ1Ry9GZ3iWJprVETg5rkb+yeCIsTu9TXW69eCFU4zzXP6peRtbYHJavEzCzqt31NoL3TndxjXI4qe2uZM8dKI7drmVQo69K1pNHltY/Mxkd8V53K5K6RRetXLW4yAeKqm4eKYhPu1Aty8SBVq1YSJJMpkHGalR1SKuaekyyNPuQ49c1rSXMqTLuxt9KqSyQ2sfmIBn2qJboXMoABz2FevCr7GPs1LUyceZ3sbkk6LHuzVS0CSs7ng5pbFMEiQHPbNO1BBHFvQ7GHp3r0XKU4qrJaLoZWSfKhlxdmJzHjPpVF1zz3NVLh3zvJzTRcsVwa8fE4h1HrsbwjY8G8Kv+547MDXqsHzQRn/AGRXkvhJh5cg+hr1mxbdZRH/AGa2w/xyR6WI+GLMTUZ7w6t9nt5NoIyAak0++maaW3uVHmoM5Heq+uiYazAbY7ZGXANN0zda6k6XynzpRw+eK3vqbckXS2W3zIotWvpi/lwK4U4OBWvaPJLbq8ybHPUVz9lPd211dJaxCQbzn2rpLdnkgRpV2uRyPSiOpGJio/CkhCKaalIphFUcgynbeKKdQM5HXotup5PRhVmwYGAe1J4pX/SIH/CotOP7vArmelRnQtYI0cU0jvTgaCKsCtL0qgw+Y4rQlHWs4kgnPrSYBSOKUGhvu0gJ4BmIE5rF8S6pb6baGW4k2+g6k+1S61rMOlaY8sjfMBgAdSfSvE/Ees3GqXrySvk9FUdEHoK3o0HUd3sc9asoaLcu6/4qub4tGjNHCeAoPX61z3mPIRk1XJwcKefWrEShACx9+etelGCirI4JTcndluMCP5jyR0xXTaFqQEq232d5zIuBHGBkn8f8a42W5YnbCcepq5Z3xs1Hk/69v4+4qZw5kOM7M6XVtLZBOskSLcnaQFl8woPfBOPzrlLuGW3fZMWQg8jFXF1O4ijaNJW3Scuc8ntUdxc+YNpAIHYmlGMojlJSIofNwDE+761q2moNDgXcRdOgOMisMkx4kt2OO49K19ImW6Zo2IWYLnaej/SlNaXY4PWyOs0gpIVlspGhGeSvzL+IPSvX/A+vSWgSG/Ia3f5QwOVz9en8vpXiOkfurtQjtCCw3ED7p9fXv7g16t4QlSO4+yXojhuJlzHIBmC5XPp0B/z7V5lfR3R6FLVWZ65c248lZYgHQ9Ce1XbMYtxxiqmkgxWQQJ+7AwYic4/3T6e1XbVo2jPlNkVVOSMaiexpWp/dVT/hf61atz+6qkPuv9TXTJ6I54rVkcfWrKHkVViNWkPSoiXI1Af3H4VXE2EwKSdysSgHrUUKl+BXTKWtkYKOl2ZWuRvP5ar68msm/wBMdbfcpyQK39fYWcUMmM84qr9qSe2JTqRXgY/3azuawtJaHPaOzpOMjhTXZG8imh8v+IjGKwbWBYyxfAJ5q1p5H2xGYfKDXNQryUuVbMbirajLjTHwCFwCa1Y9GhW2GM7sda1CUdccc0lwjxW52HOK9ulgqdPmb1Rg5tnJyq6zbJGJCnFbOiBftOWAzjinf2asy+Yx+Y81FGrRPxwVrzFCeGqxqSWlzbSaaTOhZA2Ce1NmhSZNrjIqtYTu6EykVPNcxxpuJr6SNWnOHO9mcji07HMahmCZoz0B4qtGS546VPqEnnTs5HWi12bSTXy1WSc3y7HbFaanz54SfErL6rXreivv02I+2K8a8MPi/Vc9civXvDTbtPA9DXo09KzR3VNaSZFrdncS3ME9soLR+tVorG9ub6Oe92qqdAKm8U6lPYpBFaACWZsBj0FRaddanHFdJqCKWjQskg6H2ru9g2ue5zrGuP7tLbrYp7L2yv7l4YC6ua1tNnmuImNxF5bA4x61Q0TW/tun3E1xtEkOSwHpUnhzVm1W3mkdAmxsYHpQ6E4Xv0B4uFVJW1f6GsRTSOKxtJ11dQ1Ce22BDGTtOfvYNQ3niI299NB9kkcRH5mX09afsZ35bamPt4W5r6G2RQRWNd+IoIYIpkikljkGcqPu/Wn6TrcOpSlIY5FIGcsOKTozS5mtClWg3yp6lTxWv7uJ/RqoaY2QwrX8Tru08nGcGsPTW+dhXDNWqI7YfAbCmpowGfBqup4FPRsNkVbA7c+D45IrV458hsGTI6AjqK5XxppFvpN6sVszMrIHwx5HJ/wrp/DnieGC2FtqBIVF+Rxzx6GuK8R6m+p6hLO3RjwPQdhVz9lyrk3Oen7XnalsZIFQXk6xQO8jbEUEk9M1M3QD1riPHeq7UFpE3B+Z8eg6D/PtSpU3UlY0q1OSNzkvFmsSX055wi8Rr2Uev1rkps4wvT19a0bj97I8j/cXt6nsKqxRebJk/dHb1r1klFWR5Tbk7sihj2qHYfMfuimXDHoOSe/rV51GHk/hAwP6ms9wWO48E8AVSExqgIPXufeljbdJz9TSP6U2Lq59KYiVZC0pIqQNkDFQR/e98VIgw9IEODGOTI5U9RUyqyOksRIGcqw6g1G0RPJ6Hp9ataa5jfyn5jY5we9Q2Wkdz4VKas0UMjCO86xSjgMR1U+46/Q16v4TsY7qKXTtRgIKtuABwVb+8h/hb9DXiGlwvY3yBDJ5DEOsi/eQ9mHuDkfmK9z8O65DqFoy3DJHrNmu2UoceYh5Dqf7p6j+6f18rEws7rY9KjO6s9zuYbyXS4kgvG81QMJcAY3gf3h2Yf8A6vSiXUBHcedEwG7ncOjfX/GsODXhPG1vdbXm2gsCMCVezD39R2NY813/AGdNsZ2NpKcxk/wn2P8ASuKUnsjojBbs9c0+5S4tA6dT1FQpzHJ9TXDeHNca0vBBKQyScDnH5V2dvIsluzIcg13Uq3tEr7nHVo+zfkJCeas5xg1UgPzVdiVHdQ7hRnp61V2lZESJZMkbT1HFXbJNqZPWoJ1RZCwYhm6jGas2n3K6aXx2fQ55u8box/FwZ4YVUfxVBpUAEA3AZNWPFm77PEV6hqwrbVvs0eH5xXi5gv8AaG2XSdomheWp+0DacA9qa8yWybWOGFUItVN1ckn5R2pLw/aZlQHJ9a87Z6I0vdGnYX++5QkkIK6WOdbnKpyO9clY23lkK31rodMkjikK5ALCvYy6tJPkezMKsb6lq6Y20BYLkLXP/bvMlY4wDXS3joLd95G3BriQylio6k8Vebe64pPQKD3Nu1m81wobA71dljVk2g1hxoYEBH3qU6gynDNzXnU8SoR5Zq5s431RsCzj2HIrGuVEMrIOBWlHfAwjPXFZF8DPJv5pYmVNxXJuEE1ufOOiHZqEZ/2q9g8Jtm0kHcNXjmnttvl+or1zwk2BKv0NejtXR3vWizQ8QWdvf2qw3DiNif3b5wQawrG8urO6l0q/fzS0ZMb+2K39a01NSthGzsjodysOxrK07w+be7Nzc3LTy7Sqk9q9SE48lpM8qcJc6cV8zkIxNbWReD7lwTC31zWx4fJ0+PVISeY13fpXQaVo6Wds0U5WbMhkGR0NU7zRZXnv5I5lUXKBeR0rWVeM7xexjDDyp2kt/wDgHM6XcwW11YSo374sRL9Cau6pfHTddvNsXmiWIfh71sXWhRy6MlvEIxOoGJAO4pkekzNqcc9xsaMweW/1p+1pt8z8wVGpFKK8v8ivo9mYfDc24hjIrOMds1N4RwdGiO0AgkZxU2lWNxZwXNq+DDk+Uc9j2p3h6zmsrForgAHeSMelYVJJqWvU6KcGnHTpYfrab9OlHoM1zNlw6n1FddqC77KZf9k1x9lkFM/SvNraSiz0aWzRrr0FPAJXI7VGOlSIxVSAeKoojfIzniqR+8avSuXYs3U1Rb7x+tSBQ1W8Sws5riU8KOAO9eOaxevPM8jHMsrdPT0/Cu88cXhaBVBxGTge4HU/59PevLrmcebNMeq/Kv1NelhYcsb9WediZ80rdiK5kAOxeUTr7mpEBjjVf42PPt/+oVUtQGm3N9yMbjU0blpC5PT+ddBzk1xghY16Hr9BVd48sSf4R+tSxtl3Y84wg/rT2wYlB4LEf41YigUIyfbNMgTJYd60/IDq4HFMtYMTs3r8oH0qW7DUblKND5oBHfFWPKIlAI6jNWjb7LhCehI/PFW54QZYWA6HBx6YqWylEXTrA3MUqYO7GVPvjI/kaILHLASghc4YjqPeuu8IQI8kqnBwqv8A98sCT+RapfF2iPpV7OqpwuWI9Vz1H0P6EVxyr8tTkfU7I0OanzLoYtrdhbfySwW4gYkHqD6/gRU6arLZ3MN9aPtuYeFHYjuh9jWJdkq3mry+PzFUzcgjjoeme3tWygmYubR6XHrpmigvbY5Q/NGjHkH+KIn+R+ldNZatDqlgfMy8Mg78H6+zDv7ivGdJ1FYLjyLhtttMcN/0zfswrorHUZNLupA+TEWyyr3Pcj+Y+mO9cVbDdEdVKv1Z3tteSW832SdwZk+aKX++vY/4/jXpXhfVGvNP85STMuRLGTyf/r15HMU1WyieCULOo8y3nXofUf4it7wDrTwaiiXHyeedjr2Vx/n8jXJFcrudEveVj2WzYSKrqcg1bZc1l6e4jmwv+rk5Hsa1M/MK7Lcysziloy+o3Auecgfyq1b/AHarqf3FTWvKV1U1ys5Z6oxfF74jhGcZJrirhsOQe9d7rtvDdFFkPK8isOfTLduorzcXQlOq5IuC90ztO0tpofM3EE9MVJGDbz7XOWBrWtHjtIRGq5A6VVnEckpkKc1x/U5vdmiiOkaYkMowKnQyIN75NRC+2oFCDikbUX248tapYVrqPlYzUb+XbtLOy+lVNPk3zjeD+VSvOW6otRmdlPCqKp0L/FK41TZuS8RjjNZU9vLIxIBqI6hOVxuH5VG17Of48fhUSwyk9xqmzQtI5VQB84FWZUYr8lYRupz/AMtGpjXE2OZG/OpWGgupfs2eCRHbdgivWPCbfvB/tIK8lbi5r1DwhL89t/tJiuyppVizqjrTkjtCKjIqY00rmuw4iHFYvivzF03MZZV3DeV64rcIxXP+LGPk2wfcLYv+9x6UMmo/dZB4aZt1yEkd7UEeWW/WtwmuJN2kF2Lazmb7CZA5Yfw+1doCGQEHII61KZNGV1bsBNMY013xVeeYpEzLyQOlDNxmqXS21m8jglMYPtXFi9jSJpkOVDHFbw1WO8iltrmMoWBHNcDMrW15LbsSYt3Brmr62aBVuT5nX6PeteI7MMYPFaVcxZ38Wn2fHLt0FX9H1Ca+kYsAEFCldalwqLRPc13HArNuiwjIThmO0H0960WPFZN9JsVnJ+6CR+VUavY808e3JN8UBwkSAAe3+RXn14x2xxdCMu/1NdX4nl+0avMucpuwfoB/9auTuTuldz/G36CvXpq0UjyajvJsdCDHbYP3pDk/SiOTEe7sST+Aps77VPPIGPxqJ32wgD+6BWhBOjbYlz1PP4mpZZf3kYHQAn+lUXk+6PTFEknzZ78CmBqxz4B+laa2xitPOYEfP+pBNYelr599bxHo7qD+ddvc2jf8IZ55HBdWB+ox/WuPEVeWUV5nXh6fPGT8jmLmZfKzxnII/Oi3uvMKL6nFUpiZL5oxypkIH51BaMRdRD/bH8616GXU7nwRdl9TeI55jZePcFf6/pXuviHRF17Qra8hC/ajCsqE9DleQfY5wa8B8HQ/8V15A4UPMn/jrYr6b8NnOg2CsOPs8ZA9iorycY/eTPTwt1FnzF4j06XTLkSxoywFyAGHMbDqjf55FZN/ZFoFvbZf9Gc4YD+Bu4/z619FeOfCqX4lnhRW8wYljPAkHrnsw7GvHf7JuPDl3OlzBJd6TN8koVfmX0OOzD8iM+tXQxd1Z7r8Sa2Gs7rZ/gcKQXBH8Q/UVrabe/aoFt5WxKvyxsT0PYH2rQ17w29osd5p5+0WMnKSqPu98MO341geSY52IBUnhkPB+o9a741I1Y3RxOnKm9TqvDervplw8MhPlE7njb+Bv7w/rXYSSAyJeQkLFKwKyA8JIOx9if6V5pM7XcC3UWftEBCyj+8Ozf0NdP4X1aJ4TZTnNtc/IQf+Wb9j+P8ASuWvS+2vmdFGp9ln0d4dvftmnxyMNrhkbGfXGf5mupQ5Aryn4dTyQulnI5cRsQxPpwQfzzXqMR4IPrWdJ3QVo2ZrxHNvTVm8uI460yOQLanNVVOa63K1rHIo3Keo3flzqWBORWZdaxDEmWyK27mBMqZcZPTNc14is0LIVA9xXmV684TsXfTQngv0ni3jgE4FS3jiCNWxwa54q6FcdBzitFLlr1VixjHWuOpiqi1TGpNliadEVTnrUsSLJjDdaqzaewUNycUlpK0coxyBURxNSXUpyaNG6thFCWQ5YCsNtQ5IKjirmqX7CPao61z7vvOB1q41J9WRKo+h0Nqy3AUADJq3e6dJHBviGSOorF0yYxSK2eB1rqV1W3lhwHG7HSoVVu92UpSMGEOHXeuAa1fKgMQ+UZqhd3SiNiB9Kzo9QPIdiBXM6lR9S+Y8LlOLgH3r0XwfLxaN+Feb3RxNn3ruvB8mIYf9l69vEaOLOyjqmj1Kqt1deRLEm3Ic9asg5QH2rL1olRE46g1riZunTco9DmpRUpWZNJdg3QhRSx7kdqheZJnlidMhByD3qLSGUyS+YP3p559KF41Odf7y1jCtKUYy7s0dOKbj2Qy2SzkgkKQIAOWXFNe/jS1EgQhc7QKoRO1u7P8AwElWqGd86c4H8LZrKOKlKPnZlujFPTYtrqMUzbeVb0NRXF3HApeVgqDqTWVqzD7PDKow4xyKfIiXcISYZVhyK6ac5N8sjOUVa8TE1bV7CebMEgDdPxriHvJ5LyYO2cHINbnifRFgfNixJz930rBg0fVWuPMWEkHgjNVyXOCrzt2sWbe5N5OoyRtOM12unX9naQrGh+Y9cVyln4a1rDLHb4JPXNb+naFdRoBcRsjjuaylFxeiKouUXsdNv3JkdCM1h604FjMzdhWnbiRISkpyRwDWH4gcvD9nTO6TliP4VHU/0q46tHe37p5Nq8hMlzO/BZj/AD5rm2O6VFrW1+T5xGvClsD881jowa7yPuivXR5TG3bcsPemSn5F+v8ASm3ZzOwz3NJN91frVEsRidw+tOIyR7UmMlateXtthIRwXx+lJysNRuaXhmEvftJjPkxO4+uMD9SK9U8Q2a2Xg2C1OP8AlmD/AN9Ln+dcT8PbA3FyNyny3kXe3oq/Nj8SF/I16T4tglk0ogISZHRUAGcYOen6/hXi4yrevGPY9rB07UZPueM6FAbrXI0IJTcXP0Az/SmaLYvd69BDECR5uTj0Br0fwJ4G1C2F1dXcQSSSJkiVu2R1P511Pgz4drpV295cMGncMAB0XP8An9a0q4+EXJJ300MqeCnJRclbXU4PwjA1z8Rri4t0PlRSTynA7AMP5kfnX0lYR+TZwRLwY0VR9ABXOeHvC2m6LJJJbQ/vpM73JyTnHH6V0TzrGuTXnVq6qSTWyR2U6PImu5eMayLggEHsapXOl2BUmWGPkYOR2rF1HXbnGyyQA/3iKrWNlqd9N5l3OVQ+v+FZ80WXySXU2LjTNPuLdoY4odmMFAAK8W+J3gj7PE91ZJtVeQFFe1jShjmZ8+o4qHUtNFzYvBM3m8YDMOacakqUueIOMakeSR8oWN35cys/yuRtb3HTmrUcTQzs4by8/eP8PXr7c1L490WXQvEcybdsTfOhPQ5qtZ3izGJSSAyj3weh+v07170ZKcFOOzPGlFwk4S3R6z8ONdZtRtWckyBhDKh7k8BhXvdrJuiUjqBivl/QIpLG8tryxX5YypZM5UjPQHsPTPTp6V9I6PdJdWqTxHKOAw/EA1yqylZHRO8ops2w+Y8Va0+HecnoKow81s2I2x8V001dnJUdkc147me1S2aI4Oa42bUJ7sruY8Gu48arC6wCdgFyeteeXMqwXH7vlO1edjIp1mZq9jXSVTHh/vetSW0DxyCUZI61nxXUckQKjJrb029jKhZMbvSvMnFpaI0VnuaAv4TbsGIDAdDWP5wD7l7mm3bxteYHQ1HeFEQeWeaujTsrhOV9DqbW0tZ7L5gpLDrXI39iILuRVPy9qdY3tzG5RXO30qO6uCWZnPJrWtUTSilqSl1Kk8zQxbR19aS0ZkYSNUM0yyzKuOKnZgpVVPWuXlKuaak3MfJwKqT2m0ZBqOad7ZPl71DFfvMuGqtFoB45dff/ABrrfCMoERGejA1hz6TM+cYzWvoNu9nu804BFe/iMLVlHSJ00MTSUtZHr8DbrdD6gVV1KBp4VCDJBzWVZ+IrSO2RJN2QMdKm/wCEjsiOC35VpPDSnDlktzFYiEZXTLNzavvjlhwJF4I9aa8Mn24TYG0rg1FbazbXMwjjJ3H1q+zD1FYywyi9dOprGtzLTUy1tTsnSQDDHIrOa1kW2njI5PT3rdlYDuKoTMCeo/Os3h4aeV/xNFUkcxc2l1LsWUhY07VOr7SADwOKu3TDDZI/OsaWUBjhh+dEKahsOUnIq6mwW6JPer+mSKWB5rNv3DOhyDxWhpDAkVr0IOrsJVwMg0moyKY2wetS6aV7gGq2rsNmMDrSewLcyHPFcxqjbYL6UthgAAfTv/LH5V0knT61xni+cWuk3J53SttH15H8qUFeSRdR2Vzx7WZS10T6Dj6mqMY8soT65NaWpQH7eFbHyoMkfjmsm7l+bjuc/gK9Vao8p6DZ+bmY+9PcZVB7011Jkc+uDQDlVPagCSNC3lgcnpXf6N4Nm1SxsxI/lR/fbjk5/wD1frWL4M0lbzUI3kUtGp/rXsALwQxwWqfvXGBjoo9a8nHYuUJKFPc9bA4RSi5z2JNB0zTtBtViQjci4LHueprTXXrDzNoVpCPRaZp3h7zgGu5GOeoWtqDw1YxD93GAfc5rxpSi3d6s9VJxVlohlrrML4AjIrYtrpZOR+VZL6csJ4VcCnwv5b4HFc7lroaqN0dBG2cVDdoX+lNsm345q3coRGeK0V2jF6MyykcXOBWTq3j3QtDcRXl7GJv7gOT+lVfF0l62lSxacdt1ICkZPY4J/pXgFhZXrXztKtvIZEZZDcIJHBIweD/F+orsweFVW85uyRhiq7p2jBXbPo3TPiBpGo3CwQXEfmH+Attb8mAzXUQTLcAFTnNcBofhO11fwvokWpWaG8t4l82VlwR1wuepOMV6Bo+m2+n2yxW6bVUY6k1NaEYztB3QoSbheSszyT4/6Lv0+11CNfmjfy2Psen6ivC0RoYgRkEHIP1PSvrH4oWAvvBmpoVyVi8xfqvP9K+abS0jlZmmUshO1gvVff3r0sDV5aTi+jOHFU+eomuqOn8B+NbeyY2+rowcDAkRckjuCP4hj15689q998D6tpl3ZrBYTLwC6rnsT29q+U543TVZoLWYxpGQqYOMkD+ter+DFk0a90K8iLmK9BR17BuBn25xV1YRTU49SISbThLofRtooK1rWR+XFZdkf3RrQsW+Y10UtGjlqa3OX+IwYC0dQDhuh5BrhTbmYFiAM9BXofjoBkgDepri41MbEvjZXm4x2quxMdi3Y6OIigdwy9WxxSX8Yt7tREMLjNOGrxhGAB3AfKB3qsxnkCzTnJYcYryMP7d1G6mx1VvZKC9nuR3Mncn5u1U90jZYk4q3NZXBZWaJwhxgkcV00vhuNtPXyDibGTnoa65VYqyOdU2zB0YLNIEY/Ma6DUfD6zWZKcOBnNSweH0hSBonKyg/Mauy3E8dvMNhKx8bj3op1KUr8xTpySPOBp8/2kqQQVNSTo8Dp5gPFact6BK0hHU5qpPqMVw4Vl46Vk7ISRZUwSw/ORnHeqawqudgqzc2qyWytBkMKzUklg+VxkVjdPYtxfUy457E2sW8L5nelmlsAyhAuD1pF0CyXndIfxp66FY/9NPzr6r+0qPmR/Z9XyFE9hjnbVWykhW7JfHl5OKvR6HYDPyOfxqVdGs16Rn86l5lRs1rqUsvq8yemhkXlykU7yQvtA6EVS/t1if+Pl66ZdJsyT+6496kGkaeB/x7rn6VxYrFQrNON1Y68Nh5UU1Kzuzkm1sngzSVDLq+f+WsldkdNsF6QJn6U02Fn2t0x9K5faJdWdVn2PPrjUyw+WSX8jWZc3UrH5XlxXqf9n2eP+PdPyo/s6zzk26flTVZITptnmOlXEj3BVy54712Gjtz1rd/s+yHS2j/ACpVtYE5SJRWixcVpYh0G+po6ewCjJANUtYnUMoY5+lOBCjgU12U8soY0ni0+gLDtdTLeZcZ5riPGrB73T7diCpcyEfTFejEr2VRXC6pALrxVckgMbeKNVHYbi3P6D8qujXu722Jq0tLHl/iJFTULsDhS7DP+zmuRmbe5Y8DtXQ+K7nfeXJ6MzkY/GsGOP8Aik5Pp6V7kPhR48/iaJh/q1Y9SBmoomHlgH61YEEotzI6N5ZOVbHBqogPmYPA6U1Zid0evfDW3D2KOAM5r0y0iRDux83rXmfwpuA9pJFnlG/Q16kibo8r1r5THXVaSPqcHZ0YtDdT1uHSbN5XI3AZwTj868p8UfEnXvNxYj7KmwSZYclT0OK7TXdDm1SaP7TKfKRtwjHRvTNM1nwadaNvNiGKeNPLYkBldPccc+9XhHQhrV1ZGKjWnpT0RgeCfGGuapcQoLqHUw0DTSxJGyPHtOCuTwTg54+ma9LjdbuxivLZt8Td/T1B9CKyvCXhKw8OytLAzS3DxmIhRtVVJyQAPUj1rrRaxW9kY4YkiRju2IMCpxUqNR3pKwYeNWnG1R3F0Z8sN1dHPEGjU9iK5ixxHLkdzXV2x324z2qKCTTQ6+jTMLU9NEsYIiSTB3AN2NY0Gn+VcmVbGBZc8sEGT+NdyFXFV3hXJ4FVOm7aMmnVtuihZrO4UPhVHYVpou1RTYowKkYZpRjYU5czKus2y3mh38eMsYXGP+AmvmfRtPb7ZG9yu1Zl+TP8RUAH/GvqmzjWUPG38Slfzrw/V9I8nSriJRm9iYC1Xu7H5cfl/Kt4T5VbuZxim2+x5GYotQ1WR422wO5yG/hGeoPWvcPDlpLe22kPBARp1g8bGRxgyPuxgD0Gc+9Z/gn4ex6bOx1iFJbhJMBdwKLxwc9+35V6dYwCONbGM5SOQO2BgAcED8/5V6E5czSWyOCK5Vd7s7C1H7v6VdsjhzVOzOYjVi2Yhx9a6Ibo5p9TG8eMVityq5Oa4q+hnmtiYxgd67fxvIEityRnLYrJEYitAJk27hxmvJx83GsxQjdHn0btHIdxOa6jQEudQsyvlkhDlG/pWLqMCCWQrjGeK6LwjHewWuWKiBuVB61yYmr7OnzLc0o0+eVjqknVLdUuEA46Gq76oqHAIwOKzNWuykTGQ9BnNeT674ounkdoHYRAlRt715FJVcRLlp9D1lRhGPNM9ut9TViTkVbfF3avGW2BxjIrwjw94ou43UzMzISMg167ol29wqNjgjvVz9rh5qFTUidCDjzwI7/QIYBGsEjMT1zWHqGkLCdw4Irsr+IxKZllDN/cNVRp/wDaMSyOSjK/zIe4ru5k43e55/LaWhzVhdose1+1Zuo3Eckh2V2tx4Zt2mmaM7dyfKOwPrXHavotxZXHlqDKcZJUVEUr6lS1Whzh8WaOvW5BpjeNdHX/AJbV4uR6UwiveWDh3NfrMj2g+PNGHRzUbfELSB3avGGOKjY8VSwcBPEyPZx8RdJOQgc/QUw/ETT88RSEfSvGbbhjVuI5yPSk8LBDWIkz1ZviBYk5SF/ypp8eQHlYGxXmER5q2g9Kh4eCLVWTPSrPxmLq4SFIGBY4BrWvtWms7SSdowQgzivPPDqAX8DHrurufEgP9jXJA/hrnnCKkkkbxbcW2YUnxAKjItj+dVv+FgzHpbD864yUfLzUNupdhgZ5rq+r07bHN7ad9zuT46u25W2UA+9N/wCE0vGP+qQVo2nh77X8P5NQjh/eW93sZgOdrIP5ED864traSNzuU8Go5KfYpVJPqdIfFl6w+6orKGrXJ1m4lQKDNGu73xkf1qrEhPWrL6fJNAHt+J0OVz0PsacYxWltxycmrnB+IrItqDF8jcxYkc5OayZylrPHG4yisC4Hpnmu61V38lRcWjR3APHGefb1rz+9icO5ckk859a9alLmikzyqq5ZXR0mpwZmiht+YZWVo8dCCOKzb3Tmt3KyEb+wHejSLuTZBbSNzGwaNj/B/s/Q10OoaWUYXDI7Kw5PXB9K5+Z0WotnXyqunKKLPwzu/smtC3kOBMuBn1r2yzbKV4FagW8lvNGGSeOTK8dRXtug3gu7OKZTw6g15GZRvL2i6nqYBtQ9m+hvxW6S9auw6cMfeNUbaT5hW3bPlRk15XXU9CV0tBLayERyAKW9UhT6Cr6EYrP1qUR2jkH5iMCtdEjC7lIy4ZgbgKDzXV6aSyheua4yNY4YhO8ipt6ljgfnWtY6srJlXBHqpyDRTqcrux1afMrI6WZWDlR1qhJOyOQ1ZT61ffbVjtLTzY+jyM2MewGOa1JIy8e6QAOeTjtW8p8/wmCpuHxE8U2ee1SNLxxWSspjfbmrCy5rNVCnT6mvpr5uAB1r5z8Ra7dy+K9T/tKYKmn3E32cKNqqFcjJ/vHFfQumOFuAzHCjkk18geIrm8vtU1LVZIbl7Oa6kJk2NsCMxOM9BnNeng6aqx1PPxM3Tloe7+FPHGn6jZwPduqlSqbwO3bd7+9ehaIonjluk+5M+5OP4QMA/pXx14Y1htMvSqoXgYfOrnjb3H86+jPCPiM6E9ql3OX0a8AMEr8hc9s9j7d/rW1SEqErboyjJVY36nrdgMRNU8DbST6c1mWWoRyT+VF5Z3DIw3X3HtViWaSA7tox3qp4iNOn7R7IxdNuXKPv3gv4tsqj5TkZqvcQQXkcSvyEOcVharqixl5Adqr1rK0TxLBcX5iWTJ7CvlJ4upVm5vXzPQWDtD9CLxTpU0cstzEqpASABnmoNDmnTiaV9q/dTtXS+IEEtqs80g8tOQnYmsix1eESiK8twsZ4DCt+f21HkZyfwqqkXJf+JhC0ZUAYwTXmes+EL+3vWGnss0TkkqR92vQ7+RYZFFqT5TnrmltZBHuZuc968+nUqYaTcHdHqxcakbNHEaJ4SnhuI59TIMY52KMYNen6SsTALb9VHSsC0uZrm4nV0+RCNtX7vTLsXEVxYy+UduGAPWtVGriZ80zGtWpwhyxJZ9RGo6gttEnkzxt8xb2rfe4a3RfNIzjBIrgfsN2+sYctHL94vXVRbb2xktllJnUY3H1rStLkajF6nNSjzq8loWoNXRpcB1OPetJJUlhZkUM5FeGX11d6bdSpHIXmikIfB616V4O1dr6zRiMP3zTfPSScndM2qUYtNx3R8qCNz/CaRwVGCDV7N3akecg2+4ratLeK5tUeRBk19pKPLueMsRE5FhnNQtxXd2ejW91cmHbg4zmrF14KtSjMHYEDPFc0sVThLlkzrhSlUjzx2PNoWwx+tXIG5PvVhNKj+0SL5v3SRVtdEnYZhIf2rpnFmUJoqxDkVoQLnqKhNhdW3zTREKO9WoCD9a5qia3Oqm09jb0UAXsAA/iFdr4l40S4/wByuJ0f/j/t/wDervdeUNpU4I4K1xT+NHStIM8ZmcGMYrpfBtjpdy5bVL42sa4+7EZGP0HFNOjwSIMjjFS23hyXaDDIVWu6orqyPPpVFUeh9H+Dx4c/4Rd7XTJkuLGNSbjzVwTxyWH0H6V4t4y1TQppp4dH0pYE3cTPKzMfoM4H61F4K1waNLqtndy4Se1lhJ99uV/Xj8a5ab97csR0zWVSfOlG1rGtOnyybuPtYhI/sOa6DTYdyydlx19DWfYxhYiQOlbWkFfKmDEDismdKRzmtQxtf6b567085gynkHKnFYPiHwvFIPMtItqA5JL4A+oNb/ie+s0tWQTKlyjCSI/7QOR/hXL6v4yWS1NskB2tw7Fu3sK7aano4nHUcNVI4aWGSGWffwQfX3rsPCviqEwrY6rN5Mg+VbhuVYdg/v71zd46XBY5yp+6wrHkXb94c9K66lKNePLI5adadCXNA9pmsreXTRIQkpjIkV19OOhFdB4bLWxNvjCfeQe3cV4t4d8U3uiwNapGlxbP1jckFfoe30rZHj+//tezk8lIraFh5ka8lx0OSa8mrgKzvFao9anmFGyk9Ge9QSYYVsW1wMDmud06eK8s4bi3cSRSqHRh3BrQgdlrwpppntRakjpIZsjrWXrDGZ9o6AUQStgVi+INctdMkjF5OsIfuxwKcby0Rk0ou4y4s3niWGYrLEDkK6g1qaZo6JEzAlePurwKxIvEmnyoxtbiKcrjPlsGC56ZxVq2vNTuJGW3VkI7ZArZU3s0F+ZXukdlYskdv85VAOMnjNJe6jZ28LSzXMKRqMlmcACuXkjlkt5JLy8AlGQIYiGdiO3tVc+H4tQukW6iLQh1dYpOSpA6n+dbqNlZkexi9b/5E1hry6rqcotI5Daj/VzMuFkPqvtXVxLhQT1qF7CKKNFiRUCDAAHSor27W0tnkc/dHT1PpXNJJS0FfmVkXmufLRlU/O4KjHOM96fZWMNxZXFpcxrLYzoYJlbGCrcdKxRfxW6Yc5nIBI7kmuk0plkij3/xjafx/wDr1tQbcl5GVeHLB6bnxl4k0x9B8Rajp1w/z2sskBOPvYJAP4jmu78E6uL3weNEuP3kivIId54DABgPockfkaqftAW6R/Ee7kVQvnRQynA6koAf5Vx+kXb213mJiFj2tn3zX0Uo+2pp/M8GEvZ1Gj2z4d+Jzcf8S25uXUIubWVj8wU9Ub3U4r1ez1aR7f7JfgC9QA5XgSL6j+or5ZhuWttVMlvwBKJOP7rdf517xpmqnVNH06/DDz4FHmEd8HB/MV5GYx5Kbtszvw753r0GeOrwwWDBWILnH19q4zwfeuNatZGUkbvuj0rt/EluL62ZgQxJyoPfnoawfBukz21/LPdIqgfKorx6NSnTwsk9zunCUqsWtj0y8t/7RiUqx4GQmaqXMNk1sI3jMc6d6hkvHs7iKC4GwNyj1W1q4V03Bvm9fWvPdWUYRitGTTw8alRt6oia4CAoeRUkUytwTwK8717xObScxRYaRevoKr6N4veS5RJwArHG4GtFltZw50jsdakpcl9T1uGzUQTXE0+1WXgDtWd4dub6+kleK63JE2NrdxU+j3kc0W6cbkI4FPgv4DdSGC2MCr8pbGA1YwryhBo46mEvUua11fIXRmxvHBNR2V9GkrhABvPJrz7xd4hbT7gRR8yMcj6Vm6H4uaW6EU2Bk4yDWkcJXnD2qWhu40o/u29T0zUdBsbiwu2to1N5L8289d1Q+ENJv7AP9p2hieg6Vb0S5R9hYkjrWxdX0cRDk7BnAz3qYVHKNmc9Tmptx3PmPxMjJHECMHNXNFhaWzRVxx61J4y2+ZEW6ZqTw0/7rjGDntX6HiXpc+UjFc1i3o67dV299tdFcowgckcbTXP6dn+3c+orqbzf9mcHG3HFfPYpXq3PosD/AAUjzdYY2ZmKLncc1d0kY1JVHC46U/SXVPtRMYkIbgfjT4XH9tLtXbkdK+sg7xSseFWVpNk/iUAaVNgDgVx1idw967jXo9mmylsEEc1y1lbxyYKccV52Llex3YNJJ2Zp6QuL63I/vCu+1n5tMmB/u1w+lLtu4QezCu41n/kFz4/u15M/jR6X2GctFbFrMSqRjHStTRVM9t8vUVTso92krIc4Aqx4WbeJVTPHJrub0Z5uGXK9OqOO11TDq8wHGTmnWQzl2BOOg96v+K7V5NXZohuJGSB1/Kszzo7OPM7bAPXuai3Nsdl7bmqkvlW7tjC9DgZJ9h71xmt6rcs7RW87KCfmCn7v1PSpNY8TKY2EIKjG0H/CuSubqW4yPuDuB2rtoUOTWRxVq/NpEivbtxkNKzHPJzkmsySUuMNnaelSyrzljgelV5OenSu1I42xY7howVHK+hroPDGjSeINQRFQ+SrAzMCAVWubRNxr0jwOi6cZZWYAAjDE4ySq7l/Csq8uSOm5pRjzSs9hT4MWOZ02SSNGedjAEjseax5PC9y0bSojKAfukc49fevQNa1eL7OrWTZuAOGPT6e9UfDpvbqQm7YmPp5TdenX6VxRq1ErtnW6cG7Im+G+rNo0B0/UZx9nZyYt4wYiTyCfQ/pXqcZzyMH3rw3xjYzW+pqI9whnGVb0I4Ndl4Q1u4s7CGGYmaFFCjJ+YY44NebjsOp/vY7s9PBVnH929kenW0oGA1VtY022v2UyorcY5Gao2l/DdIGhcH/ZPBFXBPkYNeUrxZ6L11OYuvC9rFIwghRVbquODV+wtBbNnynDHGTk81uLtkGD1qzb2RY9eK3VaT0LjU5N0UrUbJQ0KKh9QOldFp0IQFuSzcljTLbT4lI3c1qKkaINtXeUtzCtX5tCCYgKSTwK858Q67Dd6/BpkcyrHE++c57jkJ9e9dxrLTyxtbWTqk7jHmEZEfvjufas3w54H0nSX85IPPuyS7XE/wA7lj1PPA/ClCKk3ciMuSzZg2VhHr2vLcXcT7bU7YFbKgng7h644/WvRbNBbwhQWOD/ABc4qR40RRwpI6Z7VSu71LeNnkZVUcnJxWluTcidT2uyPDf2kNP8jxtbXI5jubNcfVWYEfyryi0HzejMQK7j4u+LofFniSL7G26zs08mN/75zlm+nT8q4hWChnHX7qH39a+ho39mrngVLc7sascxlb5PvBSo969x+FMST+DrwzHDCcIvuMAnFeC6eMqp9D1r374KQvKzWl75kbRAXESdAwb+L3rnxNOM48klobUpuPvI6UWk8cIMyFQMficUtjZySqxQgY5BPrXU+NAttpkThRgEfnXIWmoNDan7Sv7kHdkdTXzGLy50p76HdHHpxtbUlvNTS5EYvVQSQ8ZrP1KQSQt5Z7cGsW71q2vdVCFBDbD+93rWS9tbkeVaurnHQdq4cTR5JpxTOnL6/NH3rHjeuxSyXd0r8S7s/UVT02KSJtufnYgAV6drfheC/lLgFZO7Cq+leEoLWcSMWcjpur3IZnSVKzMpYKbqc3Q6Pw6ZlsohI+SFHFdLZ3MUyG3kTaV7+tYkKReX5W8I+PWsTTfNbWZFnuyIYz69a+e9n7ZyltY7a9ZQcY9zH+I1mYNWjuAxMLArnsK4+wgdL0FHzuPGK9y1Ows9Qtlt5VVw3Ssiz8IWNnceZHEMg16OGzONKj7OS1RhUw3tJ86Zu+FFdYIQ4LHAzXR6v5M0K288O0v92TsDVDSLby2XyjgVi+LdX1KJ2tJUCorZVwOtcmDi5zbsY5hNHj3i4lljJOTu7Vb8MtiFcdckVR8UKVs4z6MKm8Nuvljd0zX6Bi0fLU371zZsP+Q4M4rq7lc2xyf4TXIWxC6um3pXVzyAw49q+dxWlQ+iwOtJHFeH/lvroZXgnr9abk/8JGMkfhS6Iivf3QZgBk9aY+F8QJsORmvqqWy9EeLX3fqzW8Uf8gWXAx8lcb4YkZ1IbnFdl4nYf2NLjqEOa4jwjuLyDtiuLFr3bnThH71jpNP/AOPxD/tiu31k40m4x12VxVjhbhf98V2uq4/smcnp5f8ASvFqP3kesl7rOQsXkbTVwzBcdO1bHgq+Syu5JEjjZxw28ZB/CrUN7pDeEIltIGE4O1VlbLpnknI6jiub0mcW1xcOegDN+QzXZSm6qleLVmeVSiqclrfQZ4+vBeatizCrJ/EqrhV+uP5Vx2qRxLB5l0xlkY4G7v8AQV1Os232TTbd3/17kvK3csa861K/a41PGf3cecfyFdOHjeXkjSvK0fNmdfvudpDjYnCD1PrWe0xClVqXUJQ0uwfdU12Xgnwh9rtxf6nBvif/AFMLkqGH95u+PQDr/PtnNQV2ccYuTsjhY4Zbl8RI0jf3UGTXQ6L4J1bUm3S2txbQjo0kRyfoK9asnv8ATGUWQ09I1GBFHbBRj0yOa6nRdah1hjbTw/Z79BkxZyGHqp7/AErjnjGl7qOmGHi3qzxUeC7SB8PLI7rwyv8ALg/SrFxYmCIIiBcdCOle0apokF5ERIMPj5JAPmX/AD6V5/f6dLbzvDOo3DgkdD71zrEue7NpUFDY5hVdkChCQo4HcV1+j20s8EN0F2YG315rBFttLIwJxyMHqK63wSkchubYhlnIDIOvA60pyuh01ZjPEelSXehmUxK00Hzgd8d8fh2rnNDIEjp/Dww/GvT7dNyOjck8elcDeaf/AGZqjxg5CHr6qeRXNN3TR20tzSRChDIcH2OMVoQajLGAHw49+tVrfDoD1qQwgj0rgkk9z0EbdnqUUhALbG/2q3La72YzXCldg56VUnuJ42PkzSJ6bWIqFTu9Bt9z1Br9AMhqbFqouX8q0IkP8Tj7q/j3+lcJFbyXUUfnyyPuxncxOa7PREjiRY41CqB0FPyuHKrXNy0gVE+Y5J5JPUmrnnKi8VU5IyKpXUrpnNbKXKtDmceZ6k9/fLGpJavn34qeP31MzaXpch+yA7ZZlP8ArT/dH+z/AD+la/xW8UXJhNpp0o+zlik7g/Mf9ke3rXjN3P5lxleMfzr08DheZ+1n8jzsZieVezh8x7NsURxnMjdfap0Qs4TnaowKrWUZ+Z+rE4Fdf4V0X7bcgzExxqNzMR0H+NenUkoK7POhFydiXwlo0mpX9tEuQu4YU9+QP619LS20VjrelXVsojLM1oVXgFAu4D81I/GvPfh3pS6l4jF5YxeVZ2EaoinBLY7/AF3c/jXqUsIudUsUQf8AHrmYj0JG1c/XLH8K4XLndzrtyqxoePQF0UOwz8w4rzXUNRC2u2RDjsK9d160iv8ATljncqpIORXn2reExcX0UVvcDYRli3auXG0HOV7HOr9DzHUYWuXMkmFHtUnhzVLbR0uPNVi7cgjvXa634Plha3toHWRpTjI7Vl654VbQ7BprmJSDwGznmuR0XODpzWhVKUqc+eG5FYeIo5tOe6nwhL4CnsKbrviOLTHtXGHRz8wHYVxdxbtIu1M4/ujpUJs5JIwtwSWHTJ6Vzxy2jzc727HY8xq8m3zOi8Ra3b3UlvNaysDt5INZkeqtFCY48+azZLGs64s5jBGsMRcBucVqxabvaNgpJ7iuqNGnSgo9Diq1KlWXO+p0+k6qYbmCe+uN3GAB0FdPZa0t19qYKfLUfKwHWvPdP02ZdQYTxsID0J7V6P4ashpdyiu6PBMMDI6GvOxOFp82vU66WJrU1Z/iWfD2r8eXdxnbnhxXSeI7CLUNGfZtZwNynvVDxRo0S6SbuzbEyckJ0IrkLLXLuxcq0jPEwwVJrojQdC6SWphUqOT95nl3ils6eP8AeFQ+H3Jt2we9SeJFzpzexFV9A4icV9ZikePBnS6dbyy3ccqoSin5m7Cuut7KW8+SEoxI4GetcRY3EkN/D5bkZOCM8GvRdDmt3ZRcZSTI+deCp/CvncZFe01PVw9epTprl2PNdR0m/wBLvJhd28sKOxKOR8rj2I4NVLNv+JpBn1r6Lv4IH0u5tdShW4sJlDbypGG7/wC6e4PrXg/iLSP7D8UrZmTzEVwUf+8p5B/KvoMHilUp8j3SOStF8/P3NS9tVvIHhkfYrjGQMmodM0XStNAAWV9w5dpMfypgvCZN396rVp5bMAwL46ZHSvExWKnVd72QU5uHwlk6LYrEbiG7aFkYHEoyrE9FGBnPB7HpWhrLf8Sefj/ln/Suf1S8E11bwRHMUTZyP4mPU/0rotRXdpki92TFYK/uuR7lBS9n7+5xWjHfYIDnPtVZSRczqvXpj1q9oMHyPG7bdp7VjaxdNp93M8YRmB+XPevWpO8mjylHlNLxncxNpbh22sVyhPevIpZNsmxPnYtyw710PiFNSvIEu759odsRx9OPp2roPhx4SKbNY1VMMObeJx+Tkfy/OummlCI6snJl/wAH+C7TTlS/1VVnvHXcIXUFIc/zP8q6m4lDDgYX+6KbdzeZL2OPT1qNAec81xVqrkzSnC2o0sehzTZEkQpPbtsuIW8yJ/Rh/SrJUHHr70/YMD1rmubo7nS7lNV0y3vI12iVclT/AAsOGH4HNYHjCwDQR3CL8yHy29wen6/zq54Ak2jULHsjrOnsHBB/Vf1ra1mzE9hcpj7yHH1HIrN6M6E+aJ4/cwFJA3bpWn4SmFrrsPmHCzgwk47np+uKbdRiSASAdt1UbnhlIDBh8ytnGPpW0Xcw2Z6aYQspJHzkDOOme9YvizTBPbpdRr+8i4bA6qf8P8a2tGmfUbGOWQHzYwu4/wB/I6/pWi8CtGyldwf5SPUVElc6ISs7nmdofLAX0q+HGOKTV9NfTLx4sExZyh9RVZCa4px1PRhK6uSyNweaoTgOxqeVjzSQKDICwz7UkrFN3NbSQ5tkVxyp4+ldJZfuwp56461y1rfIuoJbE8sOvv2FdNBJ+7K9+tZSXcpM6i05Tmo72ze6UxxuEkYEKxHAPYn8ahsJsouTWgW4zW8bNHLK6Z8veMrG60+K+tryNknhl2vn1B5/WvPQpyT7V738fNMuDffbY4XeG8hVmZVJAYfKc+/yg/jXhrR+XHjHFfQ4WV4XPBrxtIms2EartGSFzXaaI93Lpot7bKRv880hH6CuMs4d4DE7Rnj0r1fRjGugWSSAKGA/nk1GJlZFUUeqfC0x6VZW1qI0Es4LPJnHTp9ep/Ku8itYoHLQcrId+fU+9eS+FpXudRg+bEanHWvVoZP9BfaTvjkOc+hrjpS1szaXkaWqbjYDCliOwrC6NllYH3FXoNYeH5XQOKtR6zbNxNBz9K6Woy1uZWcehiNCHmWUfeXge1ZHjOCW70ho+Wx2Ndn5um3J52p+lUtc06zbS5pIJ+VGcZzmodK6Y4vVJnhhsPJ6jJHWqt9b5Ksvfg1u36nznUetRQ2zS9FyBWUoK1j03RjKnyMgsLcRxADqat2Nvsuw56VLFHsO0gg1fihdBkqQKznBSXKzZ0YSiojxD5uAPWtbSrC4knj2ksqt09Kg0wFWLbQxrqPDJkMzfKACcmolQjU92SCvGLjqtiz58ai6s5GG8R5INeXXi5lIXoK9du7WxmuGkePEhGGYDqKyZvDGjykkM0ZPoxpSwsr6bHjVbydzwbxgIfsJ8rpxnFZnhraC27kZrZvtMluoDG/Q+gqPTdClhZiXZY/93JNerWrU2lFM5ZYardzcSZmQ6jCUAxmuuicxbZI22uO9ZGn6bBJcoPLkkYchlbJH4V0N1oFybA3VrcCWFRl0/iUevuOv0xXiYj95O8T0MHVg4OE+pn2/jiUTzrLHNGY8oSvzxuPdTXMa1MNV1KC9DEQrlSpPK45x9OeKVopTKwAO7OOatwaOPtbQNgfug7LngZP/AOuuilUhT96OjOFQdaTSIPIWKHzDJuIXIArEt72/ubsJcfu4d33UGB+PrXYtawRERPIN3TaozirltpNnJKsZmUSn+FhgD8aKlaivhjY6aNGnSl70tTmV2m6Qg5AYc11t6xNg+3rs4qK+0SOzfbLAVcDcDngj1B70OxaIKTx6Vzyd3c9WK0OWsI5o1cunzMc5rIggn1HU57p0AjhbYgIzkjrXoT+Wse0BVBGM1j6OkdvBdLKQXjlk3Y5zliR/MV00q0teXc454eEXdmfZ6Il49nPqAVo4TvWM/wAbHGM+wxWnfXZc+WmDngEdAKa7mGM+cT5rDoP4F9PrVQk5AAww7V01JtR5TjS5pcxIp5FS8cY5pkS7jkH61MikZA55rlbN0hygFRninxvu4xyKST7ox3FUbWb/AEtk3VNrjOq8EtjxI6AcS2rA/wDAWU/1rurhMgjHGK4HwZk+KFPZbaX+a16C3IqZG1PY8mu4DBcXMBGAjsv4Z/8Ar1hSqrRdCWHBJ7V13iSPZr14A2N21sf8BFcdKxZp0AOxXI9O9XTM57np/g8g+GLcqQcscnvkdv8APrXQWyAqpPSuW+HksUmkG33DzUkL7PRSBz+ldUuUFv6bzmtRp6FTVdPjv7R0kABQ5RvQ1xF5YiJmXG1xwRXo864gZe5IrE1rSGu4lniYCQDBU/xf/XrmrU76o66FXl0exwDQMztjtS2yhA8kn3UGavmJ4ZisiMpI5DDBqCQxqhWTpnJrlO0564aYS+bGD57PlfY9q72wlLwq7YDYwwHY965a1Uz3hnACwxZO49zjgVqaNcgXc1u7jcyh1GeeOv8AStJwvC/YxVTlnynZac/ygZrbhwy1zNhJtYCtyCYBeTWUGXURS8Y30lppVm9ucXEd2gA65RuGGO/Y/hXh3xs8Iw6B4ihuLOJYrPUU85Ik/gf+MD2ycj616zrt59r1CPYrNFD83H860/EPh2Pxj4W+zu0RuYG822cr91scj2BAzXoYSq4s8vFQV9D5d+yt9mQnCh2CIPXnrXdaQhaSK3JZjANuO3+cVkR2Yg1WRrsMRZ5G0jGZPSuk0NWtomuJUAlkOSPX0rqrTujmgrHaaCohZGBKAcnFeo+Hz9p0q4YL/rCSpPfj/wCtXk2ms8oUbDlsE5r2DQf3WnwJjbwBj19a5qb94uWxlyW0r/cODVeSG5Q8pmu1tLW1HR1J781b+zW2RkKTXoKjfqZOtboeeF5F+8hpk8u6F1JIyK7+5s7Rhjyh+VZdzokcqttTAxUSpNFRrI8b1VNlw3qavaOAbcEdc81F4kj8q8kQjlWK1U0e78mTY5+VqyZ6jXNHQ6FLaN5VkIGRV90Vrd84xiqsBBAx0pt1c8eUh69azMoJykkgsxxgV2Ph9dkZJHAFcnYLyK6+zJh06RlGTiqhub4l+7Yn/dSucSYPvUbwFj8rKaxDcOv3lIpRegDqQarnOH2fmcAZSP4VWmNOoHzSKPxrzx7jVLiDeLhycZ4rHmur0kiSaU/jWCwr6s0eIXRHprzw2solt7iNXBztJ7+1Wo/Gbhz580HmqMCVWAOPRh0YV5FG+Zo/PdzHuG7ntnmurOk2t9Hs2QxFh8rjjHvSnRjTV2zzqzipXirXOjOqpcanGIvLVXXdsGMOfbPpVeTWoI9RnKK/nzZRAR93aOc/ia4O+hntrSNCxMlrLhZFP8J5BH5VZ1+5mWG3AcmaVMu3fH19z/Kp+rptWe5XtZdDsbR5DIG2ndnOTWzFqdpo8fnzzlGIyEOCxPsOteWQpex2nnNcSInQL5hB/L0ohVnO5iSx7k5qJYS71kFLD63bO41Xx1qOszLCsUMVsGGxQo3AepPqfyrUuiy2TMrHdszXFafEFZSeuRXcMAbUc9VoqJJqx6lJWVjg5ru+bCtLJljgCuo0yNtN04u6l7h8M7OeAegAqzbWEEY+03CAohyoPc1EHNy3nMcIDkL7/wD1q7IPljzHBWlzS5UVb2SRCkkjLnOWA9T/AIU8qSNw61VumDXkceeAdxPvVmLKOUP3Oo9vasZO+oJWJ7Y8+pI/OnTzCJVOMbjx7UyLCPjBxTNVB2R+nJqOpRbf5odwPQ5rFtZM6jgHkjNX7Wffanac8YrC0t/N1Bn644/WritGJs9H8DKX1u7k4xHbhendm/8Asa748Z9hXH+AIgYL25HPmSrGD/uD/EmuuJ7E4zxWEtzpgrI838RsP+EjvD12kL+SiuJLNJezRouSXY89ua6W/nF1qN1PnIeVmHPbJxXMaa5uNUuCM7CxwR65raC0ZhPVnpPwujQnUAXUyRhDz26/p0rs5gSwyOFOQa8y8JXS6PrSzuhEDgxyY54Pf8wK9SaaK4sllgZXjcDaw71pGzRSuglGQ23knFQKPNjTn5QefpVuBd6SA+lUYQxiKrzgj8uaUkUmVr+2gvpGMsSlVBAY9RXG65obxyqYZf3JBLM5Hy/4128jhQNmD9RXM30wvbjCEEA5wD2FYTimdFOckYFzbPb6bCIhlI3y+Byc9/8APrXJXurCx8QW1ychUYBv908H+ddlr+omyh+zQ4Nw+CTj7oNef+KLVnXeOSq/MD1FbU4p6M56s2ndHq9tcrwd3FT3uolLUiMnceuK4XwrqZudItmdvmVdh+o4rZaaRZVclWQ9h2NcPsWpNHdLERUFLuXIpACHDluSkgB7Guw8G3ZhAidlYq20ZPft+mR+VcWoCSsequAD/jV/Rbow3TRStjeuwNjof4T+BrZLl2OBvm3D4meFgNVh1bT7ZTbz/NMqcfvfX8R+ua5W1t8TeZOQz9kHava9Klj1fT3t7pcLIhR1I9euPx5rz+58J6hpccrfZzcKhOZUYMcDvgc1rJtq6M1poQ6c6258xlyxHAPSux8LXc+oakquWEESEnHSvP0kYgA5zXqHhK0+zaYSxPmONzflxUQ1Y3sZ2oNPZ6hMnmOCGJBBxkHvS2+uXdu+4SlvZq0tdt/tVglyUxNH8jMP4h2JrlJopFyFbI9K609LoFZ7nTQeLZhIGnjDj2NX28Zwnjyyg968/bzVzuWojIzNjac+1Wqkl1B0oPoQ+J5xdXk0ydGbNYinkYrVv7C/uSPslpcSeyxMf6U618La7Ng/2XOo9Xwv8zTs2dtOpGK1YWl9KsezPtmrUWS2epNXofCGpIoa5ezth/01nA/lmrkWk2Vtzd69p6e0ZMhqfZSfQpYijDqSadGWK4rvdHtleDbIOK4yDU/D1iQW1Secj/nlbkfzq+PiBpNsMW1vey4/vFVBrSlSad5HHisTGorQOvk0i3k6Jj3qlP4agfO0gfhXI3PxQc8W+nKPd5Sf5Csu4+JWrEnyo7WMf7hb+ZrodODOBTqLqeS6VKotwoGRUzeGLjU3E8Plw2v8c0pwo/xq7p2npFdvEfu11VzJDFpttaTQ+ZAUydpwc5PSsMU1Spc63NqDlUqcnQ5CPwho8MZa71C4mb0hjCKPxOf5VXvIdOtItlpI8IQ43TThvwxgYq3qHhj+0fNVNbuBFIciGdMAe2V7fhWNc/DnWZRtsrrTWRup80g/qteXGpGetSqddSlpbkuRz3diG8uRoryNkbKq2PnwdvIPrzV+zh0B44E1KJZb0rgkXDKR9QOB1qpa/C/xBDMJIxaF/X7QCD+FbFh8MNckm864/s8SMSX3y7g2fbBxTnKj0qGNKjKMruOhFPoWizyGQyajG7dX81Zf5gH9aZN4PnW0e70q4S/t4xmQKpWRB6lf8DXT2HwjnhO+51qOCInJFsC7A+gJI/WvQvDmiafoFs6WImnmcBWmuCCT+A4rGWI9npz3OpJPZHgkC4dMdq7OFBJCA52pt5NcqyAXMijs5H610V3KYrdbcdQuXPv6V1RjztN7E1KnJHTdkGo3LXDpDB9zoFH5AUpUKPLi5EY28Hv3NVrZTFL5hGWHb09Kt2qEr83XqfetaknY44LUxrlQtwGJyfWrCkyRE89OcVHqC/v89vbvT7NlGeetZ9DQtREsBnBYdfcetN1DBgRl6ZxREQkLBh8yHg9cio78f6FLzxtJpLcDP0+4GxguCOc1m+HpOZZ/4N2SfaqkN2Y7e4KfeOcCtHw3aebPYaevLXMyxtj+71b9M1vy2TM07tHtnhG2+x6Faqww7J5rAju/zf1qxrF4LPTrm4Y42Rsw+uMD9TVmMgIB0UdPYdhXJ/Ea8EWkxWynmeZQ2Ou1Tk/riuNas7n7sTjt223c+inHFY/h+NvLMseAWYgk/wCfareoz+TZTFT/AAYx7mpNKQRaUpYbSACT/Ot9onK9WaNivm3QQbiSQCT0r1rSBHJo0fl8bFCFPQivJ7BzHfIw4AOTXpWiERSIYzuWaMk/0pQdmaJXRuWq/unPeqUPyvj8KvWnKOffAqhIQshz61s9kKPUp3o2rIxGAFJzXLWxWz08zSD99Lyg9u34V0l6Wnhkjk+VHGwevP8A9auV1bckLoTl3IUewFYtXdzZOyscxeOZJZLi4YkMTz9KzXWK8cSSRBlI2sVOM/WtDWh5aCIHA21xltqnk6zLbEsYZG2Y9D61qotq6MKjSep0+nRW1vG1vax+UjEkgMScn3rTs7jBaGQ5YdPesUPkho+HHX3HrV6J/OiDocSKetZSV9xI6CBihCseT0PrUjnZhyDxzxWfaTiZArHDjvV4SZUE9zg1kyjrPD9/JHtdTlQv7xQOcev+e/1rXuNUu7PUBcwRF7ZwNz8jt3HT8cVwdpctbzIV+8vA9wex9q2NL8ValYzmG4wbcnIAA5BoTsJnWX2naZHBJrX2JXJGZkQgDB6nHTvVXS/EOmeYI1SWOPhfmORj3rWsbu01WwkWFR5cyFJF9CRXn1x4L1GxkCxyxP8A3f3v3h684q5d0SuzPTzPZ3+nyxWbq5dThQec1wct1CsjIWAcHBBqPR7LVtPvSq20/mqCcgHH51N4403bcW92kYja4TMgH98dePxrSFRvRoaSRVubqJHRN6hmBck9lHU1K3jW+hjWOyitoEQYB8oFj7k9K5SRSrksSWA28+nWomJzjtXoUl7phU1kdBc+L9anBzfyKPSMBf5CsubVr6Ynzry5k/3pWP8AWqBNJjOa0MyVpmZskkn3qNpGPGaaeKTNMQu49zRuPrTTQaAFJ4pjnihjSfWmAolzqHTqK2bs5gtT28s/zNcrc3AivEZjjNdGJRNp1m47ow/8eNcWYW+raHRhE1iG2PgwStadqoIzWTbnoa1YpFjjLuwVFGWJOABXytQ9tGtbLha1rZcAVg6LfWuowCazmWWLP3lrfgIwKwcXF2Ym7rQ0lx5YFKBhTisPVvEdjpN5b2l27CSZS4xjCrkDccn1PQZPWtlyQpNbSi0lJrcwW9jxbT7Ite3MzrwkrBc9M56/hU008UAbDeZKeN3YH2qDWb8tPJHEAqK7YVenWsbexbqTX0kXaKSPNlecrs0mmBwAeM5PPWr9s6nPriud8055rU0+fecHk9BWctRqyC/TLHGTgcVnxP8AMFJ5zjFaF2cykZxispP+PrGAaEgbNokmEEDkdaozyBYZY2JOARV3/lmvzfjWNqciRTf74OPwpxWoM47T7j7RcbB03ZP0FekfC22F14guLsji0i2r/vPx/IH86838M2skt0BGo8yZ9iA9OTX0H4V8ORaBoIeCc3DTSeZO+3btbGAPpXRiFo7EUNZK5u+aBk9ABXmvji+N3rMiA5jtgsX/AALqx/UD8K7a+vFtbSW4lbCxqXPuBzXk0s7SRyTyj55ZN7H3PJrjpRvqddZ2VirqUnnTRQg8E810US7LJEbozD8utcxZj7TqYJHyrzXUTNsiQAZKKWOOa0npZGEe4wHgqDt55Hf2r0DwdefabIBnAlt+MeqmufiSGG2Mbxrt2c56fWjwMjTXwYZ8o8H8axpVOd6I3nTdOx6ha/JbQ5PXmqV3hLjkjnLVJeOFiGDjbyKx55JJndlOWxwT2rqk9LERXUhv7xJIgULbhnHH4Z/nXMXzebeEA5SMYFaeqSNGuEAB4H0ArGZtkJJ6ms0Xsc5rkyiWSRzwoP6V5dPOxu3mU4YNuz6Gu88WTiC1kLthnO0CvOZgZJhEh5YgAV20I6HHXetj0KznEkEMoPDqG/McirttMI5Nyn5W61i2DRwxC3Un90O9aMBBBA9dwrllHU0TN5co6yxnjvitNJBtyMHI5xWPDOIrb9593pk84FP0yUF2V+RE5G0jtWLRVy/fmdYFniI+RsEY6irlpdx3UCmT7w/SpoMSQvG53KR3qisAgmATjJqRna+ELlkSeMHhRu+oA6/WtGy1SPWbP+zr1SkuPkkB5VuxrG8IRebPMrgDdEUyTjkjGKYr/wBlagWmVgyHHB6Uk2gsEGvavo9+9hqCyRxq2xXI+Vxnqp78VreJnkksLNzJ5qO7srDp24+vWrcupQalpUrSwLcouPMhYZJX/Edc1DAtvJ4fvVtZPNsVjaaNm+9EwH3T/j71pB2kI89mbLE+rE1ETzT5BhsHtURr1Y7HM9xD1paBRTENakHNONIOKYhCKaafTTTEMIzQRxTgOaGHHFAGLrpXdER2NdBpjb9Fs27AuP1/+vWDqMQk2CTgZrd0lPK0hUzkLKf1Ary6+tFpnqRXLUVi1bnipr+Jb/Tbqy3lPOjKb8dM1VgbBx2q9AgZs5xXhXjGV2elGKatIr+BtFl8O2Vy+o3iOGxjDHZGoz3PTljXZ27XH22N/OhWxWI70KfMWzwd2emKzFiintngmRXikUqynoR6VFa6DmIW8up3z2WMeQWXlf7pfG4j8aynU9rJzm9X5GPJyLlitC7rGgaZ4jksNUkkkdIlDIYzhZUzkA5HTP8AOuijmaWNg4HBHSo7fYkSxoqqgAUKBwB6VJcFYbOVgANqFsD2FP2nNDkfyJsl01PIJdPj+0yNJJglySFHqai+xKuShB9yKgu7HU5zvgDLjnDcA021sNZY/vRDGvp5hP8AIV7/AEPOVGo/sskexHYc+1Rw2zxXIIwcdSKjvG1azcMbJ54x1MTBv061HbazFM20/LL/AHWGCPwocZWFKLg7SVhdbcxTRsON461lxTk3K4IHata/AvrUiIguvK1yk10EnVBlXBwc1cFdWM5Ox2cEm+IY5IrlfFd1gRBD8zFlrYsLgmDOccZriJ7pry8JX5lQkA+vPWrpQ1v2JnLQvWccsk1paWZInlkWNSOq5IGa90tNYFjctZPmaJiEdWHDZzwfyryz4eWIfxFFNJ832dTKT79B/OvS9SgSR/NTA7P/AEP4VNSpaaRtSheDYz4jwyw6GrWCtLZzuqmQD/VrnO1vyAz3rza7fZaoCcZNex+FtQtp4bnTr1RJE5MUsbDn/OOQa83+Inh2XQdSit4w0lrIC9vNjh19PqO9JWeqCaa3MXw+hMrSY6nrWykq/aX3EbVABxWfp4+z27EgAgd6dC7b9xOQetTLViWhppdTbRH5jMh4CnsPT1rvvCln9ieJT1ILN9cVxnhm2FzqClxmOP5mz/n1r0G1YRbpCRzSiktjRXerLl/LkEBvbFZ0soRCI+S1RXdzubAI57Cqc7k/cJz0FEpFxiVb1zNLsB4XrWbqUixxk9McCtKULDEWY/N3NcT4p1TarJEcueP92nFXdgk7K5xXjS9S6vxCHwIuv1rF0NBNq8YAyFJYk+wp9+4eRm+83YnkmjQC0WrIHIBZWFeglaFkefJ807nRSDbHOxPDDJx7Hp/Otm3CfZvMjOd4G0jsKpSxL9kkxycYNQ6RctDmGTJizj6VyPVGy0Z1WkQedYtC/BIIB68/5xUVuXS6OeM8NVnTZFUKARjORVu7tVP7xByeornb1NLF60k+UDsOgqfcGHAye1VLUbVwSARVoZY9OazZRehdotOnMblXJUY/HOf0qC71OW9KtOxLKuDz1qSb/jwABw28E+4xWVOcSDA5oQjrfDt21tbyuDkhSQMZHHNU9WlfTLy7t7b5bS/jWVFHQAnnH4giotFYrDc45JhbA9Tiptelim0XTZDzcJ5if8B4x+pqqWs0gexzTHJJJ5PNNNOA4phr10codaXFMFOBpiDvRtzS1qaNYee7SSj92vQeppSkoq7NKNKVaahHdlCO0nlGYo2Yewpktu8JxIjKfcV2aqFACgADsKZd263MDRuBnsfQ1iq+uqPVnlFoXjLU42KJpGCopYnoBVttLuwm4RfhkZrobKyS1QYALnq1WcUpV9dB0MpTjeq9fI88uYEl2gyDg88Gr9tJEsLxeZ1AIyMcisORpBnk1VleUjgnIrKUVKPKU6cb3tqdDHJhsE1pW8wGMmuGh1ORJCJ0kXn7yjcD/hWrbatESB58Y9i2P514tbCyR0Qa6nd284wOlatvKDiuEt9TjH/LaL/vsVqW2rRDANzDn0DgmuGVCSNeRM7aGZQeSKg1a8H2OSNDlnG3/GsKG8knGIElk9yNi/mf6VZ2MMGUgn26VpQovnTkKNHW7M3yiO3FHlHrxmr7rntSCIn+E/lXscxvyooGMnsKr3Om211j7TBHIR0LKMj6HrWr5Z9R+eaetszdFY/RaE30E4xaszmJfDsAGbWSWFuwzuA/PmuQ8S+FNS+0faLSJZ16sEODn6GvWlsHODgAf7TAVNHpoJyzoPoCa0jOUXc462DoTW1vQ8Xui+m6dI7xssoXAVhjk+1crbBbaIyNyT2r6WudHsLi2KXSeco52FAAa848deFtJjvEa3jlt42jDDBztOcH69P1ranVWzPLxGEdNc0XdEHw6tjFpsl3L9+5c8+irwP1zXSatqKWVjNM54jQvn1PYfniqGimKHToYIjxCgX/AOvWB41vC1rDZqeZ23t7KvT9T+lYW56hSahT0L3hXUpboxyMxN/EuCf+e6Dnb/vDt+VerRR2Xi3w+dPunUE/vIJ8cxv2b6diK8Ckka0s1aNirnABB5BrqPBfiq4tdRiS9kVYG2qrKAojI4z9D3p1lNe/Dp07kU5Rl7k+vUr+INMudFupbK/Xy7hGwwz1HqPUHjmsqOco4Ar3fxHott4x0pZYo4zqttHiMn/lovXZ/gf8a8UisGk1SWJAVSNiDnqMH/GqjKMldbMiUHF2e52HhuIWtiJH4eT5jn0rTlu2ZiVPXtWZZJIQFLEtitOKOOHmRgW70mbLQkgiON7fePSm3EiQqzswG3jnvVG81VVLCI8Dof61kztJON0jEJ70rDuRaxqL3APlErF69zXCa/OTIUjyzHrjtWvr2sQ27NDEwaXGTj+EVxjX5zLvBJc5zXRTg97HPUmtrlKVshiRgJxj3pmlgtdic9IzxUE0xnkYLwoP5mtOzUQ2yg9Sf1rrekTkWrOtt2VwAOVfnmomt/LlLYwD0qlpFyHBgZjvQbl/wrfKrNHg4zjiuKXus6VqhNNnKPtJOw8fSujt5iV2HniuTAML4HINbenS7oxnkjn8KxmuppFmwAUfOeMelW42JK4GPT6VTjG5e3tmrMDYdfWsmM0bgYtQfTk1lMoMuR27VryAmDBIHHes2CPdKDjODRsIub/JspCDhnGwD+f6Cql1IzW0YY57CpJRJcXkUMK7uwx3Y1Fqjf6QEAC4ySB9f/rVrhleoE9IlXOBTSaTOaQmvVOQQ9aAeaKdTEOj5YCuvtI/Kto0HYc/WuQh5cV2cJzGh9QDXPiOh7OTpc0n1J7eF55o4ol3SOwVR7mug8R6Jb6Zp0Mtu7vJ5nlyEnIzg/lyKn8Gae5E2oeWGdAVhU8Atjr/AEqbWLO4t/CrJeMGmWfzCQc9T/8AXpRp+420b18W3iYwjLRNJrvf/IytKsrdtA1G+uYw7J8kWSRhv8kVh5rpdR/0PwhYW44a4cysPbr/AFFcZq92LS2O0/vX4X296iUdVFHRRrKMalab0u7ei0Od/suLqd1KdJgI53GoYbu7sGw4FxCP7/UCuuiiie3jlErYZA4CAAYNc0m0OnOE1dHLroduf+Wchpw0O043Qof95q6YpEP+We4f7RJq/punT3ysbWKJVU4JIA5pWbNJTjBXlojkodFtc/JbxfhHn+la1tpyQgbEC/RQtXbpZYJpIZSQ6HBANbGkaLa31ukr3RLkZMaYyOcc0vZObsTUrxpR53sZCBEGPlAHvmn5jbjOfov+NO1RbW2ujHZO0kYGCW6hu9VIi8hPlIz7Rk7RnA9an2MUyk+aPMSMU9JCP97H8qQFc8Rp+PNX57ZZ7TSvsqKJbjcrEnqQfeq2mHyddt4J0DES7GVhkelaclmQqqcW10v+BGGclVTjJwAoxSyh45Gjl3CRTghuxror6SCW0i+2SowiutuLZQNpxwDn9apeIha7NRdISLiKZFaQt97PoKtwsjCGJ5pJcu/+a/zGw6PfM8YdUiDnaC7D+QqcaekcDsbtJG8tpFCIcEL15pqTWVvY6PO1xM5SVgjBe5+8COvHbFXprqRtPG1bq43xyr8sQQc9CwPTHaqUYnPOtVv5X7W797nNfasv354rm/GEu6O2kLAYLL+eP8KuCchhk5rC8WPvtIQGxmXA4znisF8R14yCVGRmxMMAqwGSEGByxPYepq/J4cu7uNZp9LtyAD881yFcc8cemPfvTdBCxSNOyriPKxnGM+pq/d38s5Csx2egrKdVqVonn0sKnG8jn5vDcct2oaUi2UD92p3Et/velegeFtJ06xtMfZ0DN/EVB/PNZ2hWZuZC2PlFdGtuUicL94DIHrWVSpKWh006MIbI2NINvC37lhDMDxj7p/wqLxH4Wgv5pNTtQttcSYNyoXKsf74x69/zrBtrsStuVuAcH6+hroNM1mWGRYxh1PBVuhFOjWUPdexFfDOT5o7nG39heWEZ2W5YZxvi+bP5VgS/aJWImYxr3Xv+NeqX1iYJFubd99sx59Yz6fT3rD+J1kJvDlvqcA2XUDKrMo++h45+hx+ddVObk2pHPUgopOLvc4W5e3iA5CpGOST3rl9e15pYmW1Plwjjeep+lQX0Ek53TSzEZzjoKzri1jYgNuYf7QrePKtTCSkzmbm4LzFIznJ+ZvWqVyJGcrCGYdN2K6mSyUf6tcfSqz2xVjhDXQqq6HO6L6sxIIGRkDJgDn6mpnuZIm+VBkcgNyM+tXni45DZ+lQSQk9UNVzX3F7O2wabfujxpJGuN3+szzXUQX6owEp256N2rk1/djG0flU66g8a7XQOvvUThzbFJ8qO8WOOZc8ZPSliBhlAclcdK4/RdY8ucRZO1j8qt2+ldja38M/7uYbX9DXPOm4lxkma9hcbhtP3hWvEAxDDrXPpCysHhYYHQVq6dMSQp4FYSiWmazSZjYE4PamwRmOInqcZOaiRgGYt0zWlpdpJqc4t7YcdXbso96zY0VLGKRnIgBMiguW9AOprLvmLXb5OccV6bqdlb6P4buIoFBeXCtIR8zc8/hgGvK3fc7Me5JrswcLNszrPSwh4pAaa7nI9KTNdxzjieaUcmos0qtzTAnQ7WBFdVpFws9qBn5k4NcgDzV7Tbw2kwfkqeGHqKzqw5kdeBxHsKt3s9z0rV9YQ2tpZaVJKlvCvzNypdv8AOfzqFdYP9hzWEiM7SPu8xm6dP8KxoXWVFkjO5W5Bpl5dRWkW+U8novc1zc0mz3/Y0YU03stb/jc0vEGuCeGF50WKOBNiIpzn/OK8/wBQunup2kkPXoOwHpUmoXj3UpZz7KB0FUHOVrqhBrV7ngYrEqp+7pq0Ebd1ACjDGcirug3IbSLYE5YIVP4VHIuenFZ+hzbLbZjO2Rh+tedPY9LAu90dCbhT05rq9OuRp3hgXTABmbdj1y2P5CvPUnZnVFGSxwPrXoGpyabbWNrbam/7tQNqjPzEDHb61dPqzTG292Fr3f5FTxhEP3N9CcxygKSO/cH8v5VB4Km/4mUy54MRP6itETWmtaLcWun5EcY2ICMYIGVrC8FRzG9e4AHkoGiY553cHpTa99NGMJ3w0qc9Gu/4GfqsmzU7tf7srfzNaOkyfZdG1C+JxuXyE9yev9Kz/F9ubLUWmMqMLh2cKOq/X86w47vYy7iWi3BimTg1G0jtVqtJW8vwOrvbgjw3pc0R2ukr4I7HNSyXcN74g0y4szuuJNjTIONpHX9P5Vz+s63BdWsNtZWwtreNiwXdkkmsQ3hRtysVb1Bp3IhSvG70ev49z1K5EV3JLBdXMO6Of7QFhH3EU/xmsbUbgjRb66uCga9nWSFdwJK+v5V57LrKWwYvOsYIwSXxkelZsniO2ZsRyvKfSJC/8hVqMp7Iw5KdH4po9Ih1+18uG0Tfa26Dc02N8m/g/L6cjrUl54j01rWOCVby7CEndJLs3Z9cV5g2q3En/HvYzn3kYIP55pE/tq5I8qKGPPoGkP8ASto4Ss+hhUxmDi7833f5/wDBOoa8UyEpwpOQPQVj6/MJFgG4hssVIPRuAOPzqGPQtUkYG9vXRfTKxj/GrcujWuF8y7RZF5XZl8kA4BNN5fUinK+pjWzelVXs0nZ9SZCIrRIx0AFNQ7qqyz/u15qa1lAUE9K8ZxZ6KZ0uhTyQqAuQK6Bb3fgt1HXFZumRQPZoVYb8ZIov45VQSWqhyD8yZwSPb3rJLUt66Ms3VitwzT2bCKduWwOH+o/rVO0vjFciK5Uwy9PmPyt9DS2F+rAhSQR95Twy/UVoReXcnE6I6nrkZptJjTaN3S74QAhgHjbh1PQipNRW3ktHilHn6dcDYyZ+ZM/17g1x9zPJpswG5msnPyseSnsfat7RroPkTHcjgYHUexx3rSEn8JjOktZHMJ8P2d2JvlERPykIScdu/Wpl+HVgP9fdXMvsNqj+Rr0BVBAIKkHkY5p2w4716ippHkuq2cJ/wg2jQwsYrETSgcedI2Cf8+1cbrngtYml+yRnagBcIjEqx7Lk4YfrXtLRg9R+tV7qxjuEAkALKco2Pun1FPlsTzHzTeaY8J+YblzgMCMZ9PY+1UJbPjuD9a9z8R+GDKB5cR81mIG0FldQP4+MAk9xXnmp+HZYHlzEyMpOUBz+Kn+Ie9F2i00zh2sziqsloTnAro5bQr3OKlhhicDZgN3HetafvdTOpaPQ457F85CnPYitC1uruJAksXnbfuknBrphajPIqaKyTOSgz9K39mnuc/P2KFhrjQkFobge2NwrorLWVkC4huM+nlkfzqKG2VcfKAPpWhbxqMcYrKVCDKVSQhutRupBDa2jDd/EeT+QrtfClnf6Wime6diedgPyj69iayNFiunuFNkJA/qmeK9EjjX7PG9+8cb45dmVCfwPWiNOEXsNyk1uYXiu7k/sw+Y5PBOPfoP5158TXX+Np4zCqQzJKhIG5Dkccn+lcaTTjrJtDtZJCFs0BhTSeKZ3rQglJFIGplBNMRLu4o3kdKh3Zpc0AatjqstqpCEEHselVru6e4cvIxZj3NU800tSUEnct1ZuKg3oTbsmncd6g3cdaTfxTMzStdcjkOy5/dSe/wB0/jTNMmAVjngysa5y7sLrT9wbM9t+o/wpINVmWNUtbJ3xkZZgozXJLDSkvc1PXw+Lo023J8vkzr9Ovo7W/gnmUyJG4cqO+KteINdGrXSShDEiLtClsnr1riHk1iXgLbW/1Jc06PRNVu8GS9uWB6+VGFH51pHA1WuwTzXDKfNq2jqLPXrnTVlFpP5fmABjgHp9azJvEccAdTfbS7FmVZOpPU4FUR4VhDD7XICR1M0u4/lzVy30vTrcgK4J/wCmcf8AU1vDLu7OSpnSTbjBfMz5NfDsfKhuJye4TA/M1Gb7VJh+6sliHrLJ/QVvKLSMfu7cufV2/oKcl0xbbBHEh/2Vyf1rojgKa3RyVM5ry2dvRf5mHDZ6xcjm42D0hiyfzNS/8I3K/N7czkH/AJ6TY/QVuQfa74ypEWfyozK4LYAUdTVvSdEutShjmSa1ihkbarSygEnOOB1rX2VGnrZI5JYvEVftNnP2/h/S4PmbYzf7Kbj+ZrQihsYVIWF2+rYH6Vs6focMmvXNhcXBkFvGzEwEDcRjjLcDr+lbo0TTLfVbVEVWYGRUgkcuJnHTcQMAeo+lOVanB2MlSqT1Zx6TJEMxQQJ77dx/Wr0MWo3FzHa7ZVkl+6rfIDxn6dKsaha2l34pt7CwhjihTCzFGJBI5cgnsOR+Fb9texTeJ7i2ub2JCt4hht/LJYYQAYI4AIOPwqZ1rLRa2uOFJt6vS9jibqGaFYpJoyqygshJ+8AcZ/OqrsBg571qeLZ0kkgaCK9WKEG3Ek8YRTtPAXH4/Wuakn+U5PcVtGfNFNmUo2k0jl4/EyGeaCdJI9jlN23I4OK6XSr2O6tg0bBh0yD3riZXW9ubhAoXErbgOvU81oabHPpkyoo3RSHqDnNfPV6EdbaM+iw+Jlpzao9V0dnEA7kdM1oxXymUqGG8dVzyK5vSNWBiWJ2AdOx4IrT8yK4IZgNw6MOo/GvMcGnqespJo17qCG6Tf9yYdHXg1BG9zaqrzKJY84LIcH8RVE3UsThTiRfXoaP7bilPkRxTMy8HgYz+dCg5bA5qK1NmS7huLcqpD+g75qCbw5qEOnwXenyyxMH3PEGIGM8HHp6/nV/w6/lqC8KlWbcSy9/yrsIbiJwAXXPoa7sPTUHzNnnYmq5LlS0Knh+/TULPccrOh2zRngo/f8D1/GtTb7fpWbLp32e5F7YJ+86SRA4Ei+3uOcVsYHt+Jrrvc4diEjA9KZtz61Yx/kCmsvsfzoC5BJCroVdQUIwQec1z2seHoLqNcxq8SEvyNzR8cCMY4+nsK6gAe386Cp7f4Umh3PEPFXhSQYeRjECu4XD4A6/8tFHIPuOK82vYb/R7srdRs0fXjqB6qehFfVN/p6TLM8CQpdSKEMjpv49MZrg/EPhKGUzW9tDI8MaAtCVVFLf3o2I4PtnFCbiP4tzy/TtQhuIlYMGHTcO3sRWvAiF0Mm7y++3rj2rB1vwvd6XM95pzMYx98d0/2XH9RxTtF1tZGFvOvkz/ANxvut7qa3jUTMpU7FybV7hWZINIYFTjM0u7+W0frUV1rerRsrKltBG3O2KNSU9iWyT9RW0tvHexvHgkMMEA4P4Vk6l4Wu7K2a5VjPGCMAIWkA9TjsPUflWyszF3Ras9Vvb+5iW81G9SFRtOz7uPdc8mui8zTGQBzfyqo+SVpFjCsR2wOD9eD71x1iI44QxuAc9CpA/+vW7p7DzV+zjLuNjBs854OCfXPT6/Ss5IuLNTWHxBZxFiSsW4k4yST7VksxJq/rz/APExmUY2phBj2FZTNyayp/CbT3H5pM5NMLYpm/BrQgmLcUwt1phfNMLVRJJupN9M3U0mgRLvoL8VAX54ppcetMCfzKC/FVWlA71BNeRwrmV1QerNigDvpYAwOR+Nc5qVhFYTJepHgK671H3XBPeur3qRkGsbxOoOi3W3su7H0NcdCThUVu501oqdN3In1FtjeVDFEobjYgzg+9V/OnuGSMO7sxCqpbvVOOXNsTnkgGp9IR7rVbSCNgrvKoBPQc17qsuZ/wBbHhtN2R0MPhS7kuPJmuLaFgMyZbJQk4CntuPpmo9R0KOw0Rb5bl5HaRUKlAoGQT6mu1lu0a9eaPedxMalsAZDcgb2x1GOBXPeIry2tNMvNLmiLMqebH5bb/LfPRsAAceua5IYipKSOqeHpxix/hq302e0smFglwzSeVctI7HYecEDpzxx71saIxW3smijitQFcSxhEzKgBAkyOQM45JrnPCtzJPpLXUtzIv2RxBHH56wxhTzkkjr+taMn2W8h1SQ29k8jWztviSR8EDj5yAv4Cs6rbk0/8zSkkopoyvB92iWWqOLSKSVFA8xsncHYKEI9O9b1nZ6eviu6nS8t1lUOsdqkfzRlVwW9BjBNcd4M1f8Asr7bcyXSR28aBmg43TtyFA/E8mn2Ou6UdcudWk862fadtuo3+Y7KQx3dua1qRlzSa7f0jKnJcsUyxodxZp4kRdOurgxzIULzwh2kZjyNvQDHOT6Guy1W5SHWoVFxcYmOxUTDKzcfLhRuUDgk9xXkFjqk1g0rW7hWkjMZbGSAeuPQ+9WrnxPem9u7m1kFu9yqq/ljkAADgnkdOcU6lBzldPoKFZQjZ9zf8Y6pv1K3gH2f7VDn7TLAu0NITyM9SAOPzrRv/ETaf4ye3RreG1M6NNL5YLFSozlvSvLbjUoUPzzKG9M5NV/t8sv/AB7288ue4XaPzNXKFNJRk9kZ+1ldtHWa/rU+oXs3m3ck8CyMYwzHAGeMD6VlNLuQAdzWUlvqszfLbxxKe7NuNX4dGu5YmWW5bzD02rgD+tZzxVKCsmKKcpXkcbDI8F47ocuzluf4vau80CW2k2mZBLbucMMcrz1HvXMa1ot1p8ii6hZA+Sjfwtj0P5UulXzwSAAdwGTPDZPX9a82TVReZ68VyarY9o0rRtOlhjin2TRy4WCRY2O78wePfNakfgmxjbMYaP8A3Mr/ACrjvCurxxxhZMSWjDCKHK7CT97I7eteo6ReMzi2lRdqINswnEgf8etYKKejOjnaV0ZMXg6zDZc3D/WQgfzrUtPD1lbgCO2jH15rb2nHABPuaqiZ7eZxNNCcrwg65qnGMSHVk9Lli3tljUKMAdgB0qx5SsOVz9RUVrdJcEhSQw7Vbx9fzrSNmrozk3fUiWJU+6oX8akGOgwPoKcB9BQAWPy5P0FWRcaR9aQgeg/GrMdrI33hge9WI7NFPzc07Ni5kjOHPQ/kKkW3lfojfUnFaaoi/dAH0FP/AAP41SgS5melic/Oyr9OadPpltcQmKdPNjOCQScH8qvcn0FRSyxRAmWVUH+02KLJbi5mzl9b8Ox3BBkLK5Jb7XGFTylHRWyfmGOMGvHfF3gJZ4jcKbWBncrC0QYQzY9CeFb9K98m1iwClfM84dCqKWrPm1WBoDbwWKmFht2yAbcf7orCTgndM2hz9UfKY1C+0mcW9/5oSNuJR95fY+o/Wu28M+OIGvlstQRtr8290g3LIMZ59+tHjDQTPdSyrEEjJKjbkqMEgD16Y61wb211pNz5lt8pByUYZVv8+tXSrp7lVaDWqPYtT8OW2sMl3ZTi3lK/eQbo5BnPIGOeeoP1zWFo+mX9vrCC9t5o0ifcx8v92QATkPyDXMfD7W5rDUZbeK7cQOdwtZjnaec4PcdOldvrHilp3+xLEIsAtvDZ3cYxjHvW85pppGEIO6Zi3chkmlc9WYn86qMe9LJMOarPOozzUx2LkSs1MY4rPudUtoD+8njU+hbn8qqnWFlP+iw3Fw3/AEzjOP1qr23J32NYtTWkAFZgOszn9zYpCp7yvn9BSjRdWnP+kXojHcRLj9ah1oR3ZSozeyLrXAUZJAHvVKfWrONirXMZbphTuP6VMnheDObhpJz/ANNHJrRttGtYMCKzTPsKzeLitkaLCye7OebV5JCfsllcze+3aP1pyrrVz92CG3B7s2411iWrj7kAFO8mY8FAPxrJ4uT2NVhYrc5Y6DezYNzqMpB6rHhP5VND4XsFOXiaR/70jbjXTJbt/EwFSLFg4DVk683uzVUILZCaP4gjuisVyBBcduflf6en0q/rjh9IuxwCYyK8zkjms22yZeLt7fStS21ic2T25fzoXXaNx+ZK9NUYVGp0/uPJWIlFOFQtwS5tuv8AABU1ncxwXUUkqs8asCyq20kegPas0SbIeT1AFVJtRgj4aVc+g5NegmtbnE1oj0rQNc0qGdro29lYrFn7xeWZ8g/dNc/qHifUr9HjmumEL5DIgCgj0OOtckLmaU/6PbTP7kbR+tTR2upSkZ8mEH6sf6Vzc9GEnJu/4lucmuU6TTPE93pdjNa2oiXzXD72XcVIGOM8VTvPE2oPua61KfDAqQ0uAQe2KpweHprgjzZ7mb1CfKP0q/B4cs7Y5kjgQ/3pXBb/ABrKeMpRd1G7BRm1a+hgnUkmOIA8x/6ZoT+tPSPUJh+6tSM95Hx+grrYLW0UDyzJN7QxHH5mr0FrLJxDY4HrK+f0Fc88yn0RpDCyl0OLi0a/lOZrpYwe0ac/ma0LbwsH+aRLmfHUyE4/oK7e20a/kx86w/8AXNAD+Zq9F4USZs3M8kp773LVyyxdWe7OhYGXU4ZNGsrbALWsJ9Bgn9M1et7O3A/dpdT/AO5HsH5mu/s/DVjbkBUGfYAVqxabaxY2wDjuf/r1k5zZrHBQW7POYbK7fiDT4x7yyF/0HFXY9H1QRM7yLAmCSY4wmB9a9B2Io4UAegqvfLvtpo0XBaNgPxBqbPqbRw9OPQ8G1V7y+Ea3EhkVCSu456//AKhWDc2xjIeM4dTn6V18kARyrKoPtVK+sS670wT3FXGdtDoVNW90o6LqDRMBkbCArr2Xqc/lXpvhjWIokjguSzwsP3BVgNjHvzxjnvXkcsclpJ5qfQj1HpXQ6FqIUR5dRCQqrnqrehrZrm1Rj8Gj2PobSZZztt7iKcuq5859pDc9Mrxn/CtKS3LY3xqfTIzXn/hfWbOS1Wy1e2aYZ3JLHnd9Dg5rtj4ltVA8u3unA6fu8fqaI1ItasmUJJ6IvW9mUUBRtA6VTk069W/Mls7mPO472GD7AVE3iWRv9TYn6vIP6Zqu2vag548iH6LuP6mlOdNq2pPsps1rPTZ1uBNcSFs8gFjx7YrZQBF7AflXGPf3sv372b6Lhf6VVuCu3dcSOR6ySHH60o1lDSKD2D6s7ea+tIf9bcxKfTfz+VVJNcs0+55sh/2UP8ziuLN/aIcLIpI7Rgt/Kq8+uWsCljn/AIGQv8zn9K0U60tokNUYfFI7KTxCx/1Vofq7j+lVpNZvZM7TFGP9lc/zrz248bWwcpE8JI7IrSn9MVTm8TXtx/qYboj1IWIfrzTcKn25JfMFVpv4It/L/M9EmuriUfvbmVh6bsD9MVmz3dlEcyzRbvTIJ/xrgZLvUrjO77Onp5jtKfyNSw6bqF0MNdzhT1ESiNaxl7FfFO/yNV7d/DC3q/8AI6+bXbSNTsEj++3aPzbFZUvi+3jnUM9vGoOTmTe35Af1rPj8Ho/Nxuc/9NJDJ+hOK2dP0GxswCtuu8d9ox+VJ4ihH4Yt+o1h68viml6L/MaJIby3EkMRWKQZCuOo+lc3q/h4SK5iQFTzs64+ldlNcRwDdKwGKw9S1dmytspT/aJ5rjcm5OS0O6MbRUXqeW6n4eJclVYEHgjhgaz30jU5ZEIvJgVPBd84r0KcPM5eXczHqWOaiMK8YQZ9eK3VeUVoZujGT1Ocg0fUp4wJL2JT32AZp48IROd13JcXB9GmOPyrphCmODj8KeIkA+8PxFS8RN9SlQguhjW3hyxtseXYICO+c/zq6mnxr/ywZfoRV9LZW6OPwpWtsDANZube7LUUtiibWFf4GH401rWI/d3A/Wrn2Yd6eLYY4bFHMOxni2KcqTn60qpID8zPViRZEPLLj9aiMsmOgJ96LsLCKH7sT9RT1AHJQfrT0eTHIWpkdScFN30NK47EXA/5ZAj60oI7QmtSCCN+iY+orQisxjhVH4UXZOh//9k="
+        style="width:160px; height:160px; object-fit:cover; border-radius:50%; border:4px solid #FBCFE8; box-shadow:0 8px 24px rgba(236,72,153,0.25);">
+    </div>
+    <div class="login-title">雪媚 AI 助理 🌻</div>
+    <div class="login-sub">管理中心・請輸入密碼進入</div>
 
-        <div class="notice-banner">
-            🔧 網站陸續建置優化中。若使用上有什麼問題，請至<a href="https://line.me/R/ti/p/@431trrjk" target="_blank">官方LINE</a>提供訊息，感謝您的參與。
-        </div>
+    <input type="password" class="login-input" id="pwInput"
+      placeholder="請輸入管理密碼"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="login-btn" onclick="doLogin()">✨ 進入管理中心</button>
+    <div class="login-err" id="loginErr">密碼錯誤，請再試一次 🙈</div>
+  </div>
+</div>
 
-        <div class="article-grid-container">
-            <!-- 共 39 格占位卡片，編號 1～39。日後提供圖片與題目／字幕後，逐格替換 article-card-media 內的內容與 article-card-title 文字即可，不影響其他格。 -->
+<!-- 主介面 -->
+<div id="mainApp">
+  <!-- 頂部 -->
+  <div class="topbar">
+    <div class="topbar-title">🌻 雪媚 <span>AI 助理</span> 管理中心</div>
+    <div class="topbar-time" id="topTime"></div>
+  </div>
 
-            <div class="article-card" id="col-card-01" onclick="openColumnArticle(1)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 1 篇</span><p class="article-card-title">談自己——尋見真我，接納自己的過程</p></div>
-            </div>
-            <div class="article-card" id="col-card-02" onclick="openColumnArticle(2)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 2 篇</span><p class="article-card-title">我就是沒辦法！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-03" onclick="openColumnArticle(3)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 3 篇</span><p class="article-card-title">說再見，到底需要多少時間？</p></div>
-            </div>
-            <div class="article-card" id="col-card-04" onclick="openColumnArticle(4)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 4 篇</span><p class="article-card-title">壓、壓、壓不下去的焦慮（上）</p></div>
-            </div>
-            <div class="article-card" id="col-card-05" onclick="openColumnArticle(5)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 5 篇</span><p class="article-card-title">壓、壓、壓不下去的焦慮（下）</p></div>
-            </div>
-            <div class="article-card" id="col-card-06" onclick="openColumnArticle(6)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 6 篇</span><p class="article-card-title">眼淚不只是眼淚</p></div>
-            </div>
-            <div class="article-card" id="col-card-07" onclick="openColumnArticle(7)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 7 篇</span><p class="article-card-title">確診隔離是生命的石蕊試紙</p></div>
-            </div>
-            <div class="article-card" id="col-card-08" onclick="openColumnArticle(8)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 8 篇</span><p class="article-card-title">生命的冬天</p></div>
-            </div>
-            <div class="article-card" id="col-card-09" onclick="openColumnArticle(9)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 9 篇</span><p class="article-card-title">你追求的標準從哪裡來？</p></div>
-            </div>
-            <div class="article-card" id="col-card-10" onclick="openColumnArticle(10)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 10 篇</span><p class="article-card-title">別讓誤會成了人生的遺憾</p></div>
-            </div>
-            <div class="article-card" id="col-card-11" onclick="openColumnArticle(11)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 11 篇</span><p class="article-card-title">生氣只是表象，別被騙了！</p></div>
-            </div>
-            <div class="article-card" id="col-card-12" onclick="openColumnArticle(12)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 12 篇</span><p class="article-card-title">別讓所見限制了你的未來！</p></div>
-            </div>
-            <div class="article-card" id="col-card-13" onclick="openColumnArticle(13)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 13 篇</span><p class="article-card-title">遠離鬱悶，你需要加法人生！</p></div>
-            </div>
-            <div class="article-card" id="col-card-14" onclick="openColumnArticle(14)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 14 篇</span><p class="article-card-title">打破人生框架，你可以自己來！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-15" onclick="openColumnArticle(15)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 15 篇</span><p class="article-card-title">願你們平安！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-16" onclick="openColumnArticle(16)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 16 篇</span><p class="article-card-title">你當然要好好被照顧！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-17" onclick="openColumnArticle(17)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 17 篇</span><p class="article-card-title">受苦有時候來自錯誤的理解</p></div>
-            </div>
-            <div class="article-card" id="col-card-18" onclick="openColumnArticle(18)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 18 篇</span><p class="article-card-title">原來，我們只是不一樣，也真的不一樣！</p></div>
-            </div>
-            <div class="article-card" id="col-card-19" onclick="openColumnArticle(19)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 19 篇</span><p class="article-card-title">天冷、身體要保暖，心更不能凍著了！</p></div>
-            </div>
-            <div class="article-card" id="col-card-20" onclick="openColumnArticle(20)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 20 篇</span><p class="article-card-title">我生氣他的生氣！</p></div>
-            </div>
-            <div class="article-card" id="col-card-21" onclick="openColumnArticle(21)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 21 篇</span><p class="article-card-title">勇敢打破錯誤的價值框架</p></div>
-            </div>
-            <div class="article-card" id="col-card-22" onclick="openColumnArticle(22)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 22 篇</span><p class="article-card-title">我怎麼可能不焦慮？</p></div>
-            </div>
-            <div class="article-card" id="col-card-23" onclick="openColumnArticle(23)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 23 篇</span><p class="article-card-title">其實，只是需要一個瞭解！</p></div>
-            </div>
-            <div class="article-card" id="col-card-24" onclick="openColumnArticle(24)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 24 篇</span><p class="article-card-title">看起來，無路可走！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-25" onclick="openColumnArticle(25)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 25 篇</span><p class="article-card-title">你可以活成自己喜歡的樣子！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-26" onclick="openColumnArticle(26)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 26 篇</span><p class="article-card-title">在痛苦中，你可以試試靜靜的等待</p></div>
-            </div>
-            <div class="article-card" id="col-card-27" onclick="openColumnArticle(27)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 27 篇</span><p class="article-card-title">你要捍衛屬於自己的幸福</p></div>
-            </div>
-            <div class="article-card" id="col-card-28" onclick="openColumnArticle(28)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 28 篇</span><p class="article-card-title">不要自己嚇自己，沒有什麼失去是不能承受的！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-29" onclick="openColumnArticle(29)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 29 篇</span><p class="article-card-title">從電影『小曉』思考過動兒教養方向</p></div>
-            </div>
-            <div class="article-card" id="col-card-30" onclick="openColumnArticle(30)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 30 篇</span><p class="article-card-title">2024一起來長大！</p></div>
-            </div>
-            <div class="article-card" id="col-card-31" onclick="openColumnArticle(31)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 31 篇</span><p class="article-card-title">當痛苦的感覺排山倒海的來⋯⋯</p></div>
-            </div>
-            <div class="article-card" id="col-card-32" onclick="openColumnArticle(32)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 32 篇</span><p class="article-card-title">不能左右選舉，但是你可以左右自己！</p></div>
-            </div>
-            <div class="article-card" id="col-card-33" onclick="openColumnArticle(33)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 33 篇</span><p class="article-card-title">打不死我們的，將會讓我們更強大！</p></div>
-            </div>
-            <div class="article-card" id="col-card-34" onclick="openColumnArticle(34)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 34 篇</span><p class="article-card-title">心靈自由比堅強更重要！</p></div>
-            </div>
-            <div class="article-card" id="col-card-35" onclick="openColumnArticle(35)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 35 篇</span><p class="article-card-title">從止損苦難的破壞，到滋養生命</p></div>
-            </div>
-            <div class="article-card" id="col-card-36" onclick="openColumnArticle(36)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 36 篇</span><p class="article-card-title">地震教會我的事</p></div>
-            </div>
-            <div class="article-card" id="col-card-37" onclick="openColumnArticle(37)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 37 篇</span><p class="article-card-title">青少年在哪裡學習感情問題？</p></div>
-            </div>
-            <div class="article-card" id="col-card-38">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 38 篇</span><p class="article-card-title placeholder-text">標題等待中</p></div>
-            </div>
-            <div class="article-card" id="col-card-39">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 39 篇</span><p class="article-card-title placeholder-text">標題等待中</p></div>
-            </div>
+  <!-- 快速連結 -->
+  <div class="quicklinks">
+    <a href="https://xinlu-may.github.io" target="_blank" class="ql-btn">🌐 心路新路網站</a>
+    <a href="https://github.com/xinlu-may/xinlu-may.github.io" target="_blank" class="ql-btn">💻 GitHub</a>
+    <a href="https://supabase.com/dashboard/project/iqxzsflawxzvniycmaub/editor" target="_blank" class="ql-btn">🗃️ Supabase</a>
+    <a href="https://manager.line.biz/account/@431trrjk" target="_blank" class="ql-btn">💬 LINE 官方後台</a>
+    <a href="https://calendar.app.google/MLSTczZNmh1TXxG67" target="_blank" class="ql-btn">📅 預約日曆</a>
+  </div>
 
-        </div>
-
+  <!-- 主體 -->
+  <div class="main-body">
+    <!-- 側邊選單 -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">總覽</div>
+        <button class="sidebar-item active" onclick="showPage('home')">
+          <span class="icon">🏠</span> 首頁總覽
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">報名管理</div>
+        <button class="sidebar-item" onclick="showPage('lecture')">
+          <span class="icon">🎤</span> 講座報名
+          <span class="badge" id="badge-lecture">0</span>
+        </button>
+        <button class="sidebar-item" onclick="showPage('bookclub')">
+          <span class="icon">📖</span> 讀書會投票
+          <span class="badge" id="badge-bookclub">0</span>
+        </button>
+        <button class="sidebar-item" onclick="showPage('camp')">
+          <span class="icon">⛺</span> 營隊報名
+          <span class="badge" id="badge-camp">0</span>
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">個案管理</div>
+        <button class="sidebar-item" onclick="showPage('cases')">
+          <span class="icon">📋</span> 個案資料表
+          <span class="badge" id="badge-cases">0</span>
+        </button>
+        <button class="sidebar-item" onclick="showPage('assessment')">
+          <span class="icon">📊</span> 測評結果
+          <span class="badge" id="badge-assessment">0</span>
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">系統管理</div>
+        <button class="sidebar-item" onclick="showPage('codes')">
+          <span class="icon">🔑</span> 序號管理
+          <span class="badge" id="badge-codes">0</span>
+        </button>
+      </div>
     </div>
 
-    <!-- 全螢幕文章閱讀視窗 -->
-    <div class="fullscreen-article-view" id="fullscreenArticleView">
-        <div class="article-max-wrapper">
-            <h2 id="articleViewTitle" style="font-size:26px; color:#1B5E20; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:14px;"></h2>
-            <div id="articleViewContent" style="font-size:19px; line-height:1.9; color:#262626; white-space:pre-wrap;"></div>
-            <div style="text-align:center; margin-top:30px; padding-top:20px; border-top:1px dashed #d8e2da;">
-                <button class="action-link-btn" style="background:#78909C; border:none; padding:13px 32px; border-radius:35px; color:white; font-size:18px; font-weight:bold; border:none; cursor:pointer;" onclick="closeColumnArticle()">🔙 返回專欄列表</button>
-            </div>
-        </div>
+    <!-- 內容區 -->
+    <div class="content" id="contentArea">
+      <div class="loading-state">⏳ 載入中...</div>
     </div>
+  </div>
+</div>
 
-    <script>
-        const columnArticles = [
-            { num: 1, title: "談自己——尋見真我，接納自己的過程", content: "『心路、新路』專欄文章\n\n**『心路、新路』專欄簡介**\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到**『心路』**：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的**『新路』**，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結，https://forms.gle/bKo1ehRFDygcDZZ7A作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n**我以為我只是想了解自己！**\n\n『心路、心路』專欄文章的首篇文章，我想聊聊自己….\n\n    現在的我已經將近五十歲，有還算成熟、能勝任專業要求的能力，在工作上也有相當的意義感、滿足感。但是，很長一段時間裡，我會忘記自己已經是一個有能力的中年人，更熟悉的記憶是害怕犯錯、不被喜歡的挫敗感。\n\n    這些感受跟我在生活中得到的肯定及成就感相當違和，朋友們不解看來幽默、風趣、能力強的我到底在沒自信什麼！年少時，我老是追著朋友問：你們覺得我是一個怎麼樣的人？\n\n    是的，我認真生活、努力學習，聰明反應快，但我就是搞不懂自己是一個什麼樣的人！認不清自己的困惑讓我覺得困擾，我需要一個清晰的答案。\n\n    現在回過頭看，我才明白當時的我需要的不是一個客觀描述自己的答案，而是一個保證：你沒有問題，我喜歡你。但是，不明白自己是極度缺乏被接納的自信，或者，根本不想承認內心的創傷、不想承認我已經努力了那麼多，還是沒能掙脫幼年累積種種被嫌棄的挫敗，我不想承認！所以需要的被肯定便以想瞭解自己的形式出現，看起來只是像一個聊天的話題，透過包裝的方式，希望得到一絲絲被認可、被肯定。\n\n   奇怪的是，稱讚肯定的回應不是沒有，但是內心仍覺得不夠，有一個深深的吶喊：為什麼沒有人瞭解我。甚至，常常我不太相信那些肯定。讀到這兒，您是否覺得納悶我到底要什麼？其實當時的我也不知道，內心有一個趨力讓我不想直接獲取肯定，直接要肯定好像有點丟臉，要到了肯定，我卻又不相信。我有一個詮釋：你們只是喜歡我的能力，因為我很有用處，但是，你們根本不喜歡拿掉那些能力、用處的我。\n\n    當時的自己帶著不被接納的挫敗、努力付出得到很多肯定的矛盾、內心衝突一直前進著。白天，樂觀、開朗，人緣好，生活精彩豐富，夜深人靜時，挫敗、孤單，甚至想結束自己生命，認為我消失了，也不會有人在意。\n\n     現在想起那些過程，真是心疼自己！也還好，這樣的內心衝突違和在我尋見上帝造我的起初心意中漸漸縮小，一直縮小中…..，現在，喜歡自己，坦然接受所謂的好與不好，生活不再糾結，常常湧出的喜悅、平穩是以前的我難以想像的美好。\n\n那之前，我到底怎麼了？\n\n    原來，我所處的環境並不接納我與生俱來的特質，導致我以為自己很遭人嫌！一個過動的野女孩、話多、粗魯、意見多、忘東忘西，一天到晚有狀況，非常不符合華人社會對女孩的期待，加上天生左眼眼皮下垂，不斷在學校、路上被圍觀、嘲笑我是獨眼龍，為了保護自己，我收起內心的脆弱，長出兇巴巴的反應模式。於是從學校、家庭、長輩、同輩口中，我得到許多標籤：我真的很糟糕。\n\n     即便在成長過程中，透過學習，我已完全為自己負責，生活上不需倚賴任何人，甚至常常對周遭可以付出貢獻。這些成就感卻無法抵銷被嫌棄的挫敗。我對小時候嫌棄我的人生氣，生氣他們不愛我，但更大的創傷是我也認為自己不好，只能努力讓自己是個有價值的人，以換取活在世上的資格、別人的肯定。但是再多的肯定，卻更證明我的被接納是因為我的努力，不管有沒有肯定，我都是空虛！\n\n   直到，我找到『我為什麼是這樣的我』之後，我的心終於漸漸釋懷、平靜！\n\n   由於，先天的特質，小時候聽到的評價，有部分是客觀的描述，有部分加上人負面的評價，所以我不喜歡自己。如果有人在我小時候告訴我：妳這麼好動、有意見不是你的錯，那是因為你很有活力、思考敏捷，將來長大後，妳的特質與能力要幫助許多的人，妳的天馬行空、活動力會帶給周遭許多樂趣。但是，妳需要比別人更努力適應團體生活，更多的練習控制自己。我想我能更快坦然接受原本的自己。\n\n    所幸，現在知道也還不慢，因為這些痛苦、糾結的漫長成長過程，讓我在擔任教牧協談員的過程中，深深可以理解來談者所表達為何，我不會輕忽人們所經歷的痛苦、我可以非常有耐心的陪伴，陪伴對方釐清在成長過程中到底累積了什麼，以致現在生命成長被阻礙、無法享受上帝所賜生命的喜樂。我最大的滿足就是看到每一個人真正認識自己、接納自己、並能理解為什麼生命要經歷那麼多痛苦，找到繼續前行，嶄新的自己。\n\n   以前，我生氣，我覺得不公平，我什麼都沒做，就要承受被嘲笑。現在，看到了曾經讓我那麼挫折的特質、痛苦的成長過程，如今都成為我教牧協談工作的助力，我對上帝說：如果，一定要經過這些過程，才能擁有幫助人的能力，我接受，成交！！\n\n   這個願意，意義重大，表示我真正接納了自己，與自己和解，與上帝和解，與這個曾經讓我傷痕纍纍的世界和解！\n\n   有一天，10歲的孩子問我：媽媽，為什麼你會有先天的眼皮下垂？我正要回答，孩子自己搶著說：我知道，上帝讓你經歷被取笑的過程，是為了讓你可以安慰同樣傷心的人。我驚喜，我歷經的痛苦也成為我的孩子生命的養分，現在他就可以練習跳脫世俗的眼光，接受真正的自己，從天賦使命去理解所經歷的。\n\n    我願意因我受的苦讓我的孩子少受無謂的苦，能幫助人早日進入自己的獨特天命呼召!歡歡喜喜迎接各樣挑戰，並享受上帝所賜的每一天！\n\n從前的痛苦，現在變成生命的禮物了！真是奇妙！\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 『心路、新路』教牧協談心靈關顧工作室負責人\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 2, title: "我就是沒辦法！！", content: "心路新路專欄文章\n\n我就是沒辦法！！\n\n- 不想活的人面對找到新生活目標的鼓勵，會說：我沒辦法！\n\n- 覺得自己沒人愛面對接受單身也會有幸福的鼓勵：會說：我沒辦法！\n\n- 很難承受別人生氣的人聽到你可以勇敢表達自己，會說：我沒辦法！\n\n- 暴躁的媽媽聽到要接納孩子的限制、幼稚，會說：我沒辦法！\n\n在陪伴人的過程，常會聽到：我沒辦法！旁人常認為那些都是心病，其實都是可以克服的，但當事人堅定表示做不到，總是讓旁人很著急，深怕他們因此做傻事，斷送自己生命或未來。身旁的催促改變或質疑，也總是讓當事人的困難雪上加霜。\n\n就算不是事實，當事人認為真實的感受，就像事實一樣真實！！\n\n『人飢己飢、人溺己溺』，對於別人身體上的缺乏，我們比較可以認同，給於支持！但其實心理的困難也是困難，在親職講座上，很多父母會陳述管教孩子的不配合、叛逆，覺得孩子故意唱反調。但是，仔細想想，如果可以被稱讚，誰願意被罵？孩子們無法配合父母要求，有各種不同因素及障礙。\n\n比較容易理解的是顯性障礙：如聽力障礙、視力障礙、肢體障礙，因為知道有限制，所以會體諒或主動提供協助。而隱性障礙同樣限制著當事人，但是不容易得到理解及支持。例如可以專注的人不能相信過動孩子真的不能控制自己，天生注意力不足是大腦神經功能不彰，孩子們說不是我自己想要亂動，是真的！！情感豐富的人也無法體會自閉、亞斯特質的人怎麼會看不懂臉色，不知道自己跟別人的感覺？有一位成績好，一路都是第一志願的成人，跟交往多年的對象分手後，想了好幾個月，都不知道問題出在哪裡，幾乎一年後，才能意識到，當時自己的情況。\n\n心理受傷跟身體受傷一樣，都會打擊人，讓人無力面對，自暴自棄。一位向來堅強的先生因為工作遭受打擊，承受經濟壓力，出現憂鬱症狀，對太太說：我從來不知道沮喪是這種感覺，原來你說痛苦是這種感覺。太太第一次感受到跟先生可以心靈交流。\n\n因為身心失功能，以致於失去信心，對於必須要有的改變及需要面對的事實，覺得自己沒辦法的認知，需要旁人的理解。不要怪他們不夠堅強、不願努力！他們是真的覺得舉步維艱！！允許他們可以休息一下，他們覺得撐不下去時，可以讓他們靠一下，再重新出發前，需要先恢復力量。\n\n多年前，在宇宙光關懷熱線電話協談中幫助一位因失戀而想自殺的年輕女孩，每一次來電，總是告訴我：真的不想活了，無法承受男友的離去。在許多靜靜聆聽中，我陪伴了她的無能為力，表達真到聽到了她的傷心，知道這對她很難。有一段時間，不再接到對方的來電，心中一直掛念。約一年後，收到女孩寄到機構的一封信，她表示現在自己已經完全好了，恢復工作的能力，恢復信心、喜樂。每次真的很想死的時候，總會想起我說的一句話：再撐一下，難受就會過去。靠著很多次「再撐一下」，她挺過來了。謝謝她來信，讓我可以放心。\n\n在每一個從心理創傷中走過來的人，我看到一個相同的元素：信心！一位三個多月前恐慌發作的成人表示無來由的恐慌很嚇人，覺得快要不能呼吸，但是昨天他輕鬆的說：現在都好了！當下的他們，都覺得很難想像可以好起來，但是他們願意期待好起來的那一天，艱難的與當下的限制、難受共存，慢慢學習新的思考、新的眼光，新的因應方式。\n\n在陪伴每一位艱難中的人前行時，我都是深深的敬佩，在我心裡，他們都是生命的勇者，除了他們自己，只有上帝能真正明白每一步的艱難！陪伴者再能理解，還是必需當事人自己踏出每一步。\n\n希望跟大家分享：當自己信心不足時，還有上帝。有一個小故事說道：人向上帝抱怨，你不是說會一直與我同在，為什麼我走過的路上，只剩我一雙腳印？上帝回答：那雙腳印是我抱著你走留下的。雖然是虛構的對話，我深深共鳴，因為我也一直經歷很多時刻，我其實都走不下去的無力，只能相信，有一天，上帝會以我無法想像的方式幫助我。就這樣走到今天，我還可以有力量陪伴別人。\n\n哥林多前書 2:9 ：如經上所記： 「上帝為愛他的人所預備的 是眼睛未曾看見，耳朵未曾聽見， 人心也未曾想到的。」\n\n人生可以有無能為力、覺得沒辦法面對時，但要相信縱使烏雲密佈，一片陰暗時，雲上太陽始終都在。再撐一下，就可以等到烏雲散開，重新見到陽光的時刻。\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 3, title: "說再見，到底需要多少時間？", content: "**說再見，到底需要多少時間？**\n\n    最近，台灣藝人王新凌參加大陸乘風破浪比賽節目獲得總冠軍，讓喜歡她的粉絲喜出望外，由王新凌所帶領的團體因著比賽累積出情感，面臨比賽結束的分別依依不捨，大批粉絲也在網路表達不能再看到這個團的難過與失落。在節目最後，團員們送給王新凌隊長一張海島出遊機票，包括到海灘玩的拖鞋、帽子都準備好了。王新凌感動著問了一個最重要的問題：有你們嗎？團員們回答：那當然、那是一定的！\n\n這表示他們不想隨著節目結束，說   再   見！！\n\n為什麼說再見這麼難？\n\n因為說再見，必須面對失落，團員一起面對比賽，有了革命情感。離別，已產生的感情就會在心裡空了一塊！\n\n而最難的再見，是生與死的隔絕！\n\n     面對身邊人的喪親之痛，大部分人的第一反應都擔心他們太難受，會表達：節哀順變。基督徒最常說：不要傷心，離世是到主那裡去，好的無比。或者理性提醒：要堅強，孩子們還需要你。這些表達都是出於善意。但是，我們其實需要練習設身處地體會當事人的處境。\n\n想想：如果一個人全職太太失了去配偶（教授、長老），她同時失去了什麼？\n\n失去的可能有：經濟來源、精神依靠、師母的稱謂、先生的人際關係、平靜（很多人會問你還好嗎？）、生活重心、目標、不需要再做兩人份的飯、作伴者、也有可能失去自信、快樂。\n\n     不僅僅是失去了配偶，可能感受整個生活都空掉了！！所以：當聽到節哀順變、要堅強等表達。可能會有更深的孤單！可能感到連表達脆弱的空間都沒有了！\n\n      連一個綜藝節目要結束，一個粉絲表達不捨，就有許多粉絲一起說：我也是！這提醒我：我們需要給身邊面臨喪親之痛者處理不捨的空間與時間，因為說再見，真的沒有那麼容易！\n\n     為什麼網路上的粉絲可以那麼容易表達不捨，因為偶像節目的結束跟生命中其他的失落相比是很小的失落，所以容易面對及講出來。但是喪親之痛則是很大的失落，太複雜，不容易面對及表達。\n\n   又為什麼我們希望身邊的人能快點走出痛苦？除了擔心，其中一種原因是：我們自己承受別人的痛苦空間不足！！不知如何回答、不知如何因應、說多說少都覺不對。\n\n\t      其實，生命的本質包含著著失落！當我們出生的那一刻，就開始走向死亡，每多活一天，在世界上的日子就少一天！就算沒有遇上戰爭、天災，或者疫情中，家人進了醫院就不能再見的意外，年過中年後，你會發現：體力、青春、健康都會一點一滴的無情流逝，再多的努力也是只能延緩流逝的速度。出生時，一個人來，雖然可能會有婚姻的過程，但很多人在配偶離開後，又回到單身一個人。所以，認知到有一天，生命中所擁有都會慢慢失去，是我們這一生必要的功課。\n\n     我的孩子四歲時曾問我：媽媽，你是不是會比我早死？我說：有很大的可能是。他說：那我要跟你一起死。聽起來很驚駷，但我知道他想表達只是不想跟媽媽分開。我回答：我們一起活著不是更好？他笑笑的，滿意的點頭。現在他十歲了，我們已經可以討論人死後會去哪裡，基督信仰家庭長大的孩子問：天堂長什麼樣子？我們照著聖經的描述告訴他：那是一個沒有痛苦的地方、充滿敬拜上帝的地方，可以跟愛我們的上帝在一起的地方。我想，他長大的過程中可能會有所質疑，沒關係，信仰需要自己去尋求。但是這樣的討論，會讓將來我們必須面臨離別時，可以更容易一點的去接受及開始處面對哀傷的過程。\n\n    在協談中，我聽到不只一個故事是關於親友去世多年後，都未曾處理悲傷的情緒，總是一講就有眼淚。因為太難，也總是很一次又一次把眼淚逼回去。這麼痛苦的情緒需要有被允許表達的空間，否則，情緒會留在生命中很久、很久！\n\n     那麼，該如何面對親友死別的悲傷呢？再想想剛剛那個虛擬的故事：一個開朗的師母跟一個原本就憂鬱的師母：一個父母疼愛長大的師母跟孤單長大的師母：夫妻關係親密的師母跟夫妻關係糾結的師母，同樣面對失去先生，會有何不同？他們的想法可能會是什麼？\n\n       答案是：會有很大的不同。各種打擊、失落會讓人原本的生存之道、因應方式更清楚呈現。原本就悲觀的人可能會比樂觀的人需要更長時間適應、原本生活功能就很差、凡事依賴的人就比獨立能幹的人需要更辛苦的適應。所以，每個人面對失落的反應都不同，處理悲傷的時間也不同。哀傷的歷程因著每個人獨特的先天氣質原型、後天習得的生存方式，對哀傷的感受與歷程都是獨特的，並沒有絕對正確的方式。\n\n     但相同的是：需要旁邊的人支持他們好好面對悲傷。面對失落是從震驚、痛苦到接受、再重新出發的過程。過程中相關情緒會反反覆覆出現，但只要能去面對、處理，終究能夠走出衝擊，重建新生活。\n\n     為了身邊的人都會面臨的失落，我們可以練習讓自己面對別人痛苦有更大承受的能力，我們心中要相信上帝允許發生的苦難，一定會賜下夠用的恩典，帶著這樣的信念來陪伴因為痛苦暫時落在好像沒有盼望的人，接受他們可以感到絕望、可以覺得好像被全世界忘記…..，如果有人能理解他當下的痛苦，並且不急著要他趕快好起來，其實好好的面對悲傷，常常可以讓悲傷更順利的慢慢離開。\n\n     當我們接受所有的東西都有可能慢慢失去的時候，珍惜的情懷會由然而生！我們會更愛身邊的人，會有更多的感恩，到了要說再見的那一天，我們會擁有最多的幸福，期待再見。 \n\n \n\n**『心路、新路』專欄簡介**\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結，https://forms.gle/bKo1ehRFDygcDZZ7A作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n**『專欄作者介紹』**\n\n邱雪媚老師\n\n『心路、新路』教牧協談心靈關顧工作室負責人\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 4, title: "壓、壓、壓不下去的焦慮（上）", content: "**壓、壓、壓不下去的焦慮**\n\n    焦慮一發作，真的很惱人，輕者，心神不寧;嚴重的會出現各種身心症：頭痛、胃痛、失眠…更糟的是會影響日常原本可以發揮的功能。焦慮的原因有很多，例如：工作積壓太多做不完，這是時間不足;能力不足以應付本身責任，像是新手媽媽、菜鳥職員;或是天災人禍等不可控因素，像是最近中國的軍演，你說台灣人不怕嗎？一旦真有戰爭，誰都怕！但是這件事在大多數人掌控範圍之外，只好無耐的承受！\n\n    今天要討論的焦慮原因都不在以上敘述中，是比較辛苦的焦慮體質。簡而言之，就是容易焦慮的特質。常常事情還沒發生，已焦慮過好幾輪，一生中，焦慮的很多事都不會發生，但是，焦慮沒有停止過。有的人，需要長年吃藥控制，常常因為不由自主的焦慮，把人際關係都破壞了。例如：過度焦慮孩子將來沒有競爭力的父母，會永無止盡的碎念孩子必須努力而破壞親子關係。孩子不聽話，自己難受，吃不好、睡不好，會怪孩子不體諒父母，怪配偶沒有一起幫忙教孩子，覺得自己孤軍奮戰，好累！殊不知，是他的焦慮把大家搞得很累！\n\n  \n\n    而容易焦慮的體質，是如何形成的呢？常常是先天及後天因素交互作用而成。例如，有焦慮習慣的父母很容易將焦慮模式傳給下一代，也可能是基因，也可能因為耳濡目染，先天後天因素均有可能。如果過動的孩子生長在家規嚴格的家庭，動輒得咎，或者父母的情緒反應很大，可能都不知道自己錯在哪裡，就得到懲罰，也可能形成不由自主的焦慮，擔心自己又惹誰不高興了。這就是先天過動因素與情緒化或過於嚴格教養的後天因素交互作用而成。或者因為成長過程遭遇過創傷經驗，餘悸猶存，只要類似情況出現，也會出現焦慮反應。例如早年經歷過戰爭的外省移民，擔心中國再打過來，因而不計一切代價再移民至國外，過著辛苦的生活也願意，至少不用再擔心戰爭。\n\n    自帶焦慮體質的人，真的很辛苦，大家可能覺得還好的狀況，他真的就是很難受，反反覆覆的焦慮反應，旁人都聽累了，常常不被理解，尋求支持時，可能聽到的是：不要想太多、都是你自己的問題。或許他焦慮的事不是事實，但是對他而言，就是很真實的感覺！我家兒子下禮拜過生日，我高興的說：那時候剛好在阿嬤家，有好多人可以幫你過生日。沒想到他說：我可不要，大家一起唱生日快樂歌時，很吵！我知道他聽覺敏感，常常我使用果汁機時，他都受不了而離開廚房，可是，我不知道敏感到這種程度。原來，看似很歡樂的生日會，他都在忍耐著很吵的感覺。\n\n    生理的敏感，大家容易理解、體諒，但是對於焦慮體質，大家接受度更低於生理的敏感，因為覺得這是可以控制的。這個理解，我會說只對了一半。如果可以控制，誰願意讓自己長期處於焦慮中！！所以，被嚴重焦慮控制的人，他的主觀感受常常是無法控制。不過，事實上，通過有效的幫助，在不用藥物的情況下，焦慮的確有機會被減緩。\n\n    有效的幫助在於讓當事人辨識出這個模式如何在運作，是過去創傷的影響或是從小被對待的方式制約了他。一旦原因被找出來，可以重新給於建設性、理性的想法，通過自身刻意的練習，焦慮的反應有機會減緩。焦慮難以擺脫是因為當事人以為焦慮是唯一會出現的反應！\n\n    這篇文章希望提醒大家多多關心身旁容易焦慮的人，給予更多接納及陪伴，雖然他們的焦慮常讓旁人也覺得沉重，老話重提，溫馨提醒：如果可以避免，誰願意讓自己長期處於焦慮中。這樣的親友，需要你我更多理解，可能需要重複聽好幾次焦慮之事的細節，如果能夠耐心傾聽，當事人會因為被支持得到力量，待其情緒情度降低一點，再漸進引導理性思考，就算不能改變其焦慮體質，關懷陪伴是我們可以給於的美好禮物！\n\n    我常在有焦慮體值的人身上發現他們有特別認真、注重細節、負責任、樂意關心別人等特質，如果他們的焦慮得到幫助而減緩，也會是我們旁人的祝福。聖經中有很多要人不要憂慮的經文，處在焦慮中的人若能常常誦讀而得到安穩，是很大的祝福。我們也可以使用適當的經文陪伴焦慮中的人，只可惜，很多人使用這些經文責怪別人或自己不應該焦慮，而產生羞愧感，這樣會更不利於焦慮的減緩。\n\n馬太福音9:12-13耶穌聽見就說：「康健的人用不著醫生，有病的人才用得著。經上說：『我喜愛憐恤，不喜愛祭祀』。如果真的焦慮，是心生病了，喜愛憐恤的耶穌會想幫助人痊癒，而不是怪他為什麼沒有信心，願我們都學習耶穌的榜樣，成為他樂意醫治人的祝福管道。\n\n**『心路、新路』專欄簡介**\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n**『專欄作者介紹』**\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 5, title: "壓、壓、壓不下去的焦慮（下）", content: "**壓、壓、壓不下去的焦慮****(下****)**\n\n    焦慮，讓人難受，是不受歡迎的情緒，所以人們的下意識反應會想要消滅造成焦慮的原因，讓自己回到舒適的狀態。通常我們會把問題原因外化，亦即認為是自己以外的因素所造成，所以解決焦慮就往外處理。如果造成焦慮的原因判斷正確，外在因素也可控，焦慮就會解除。但是    但是…，常常事與願違！！因為原因不一定是單一或可控的外在因素。例如擔心先生的身體健康，如果先生不願配合，就是不可控因素，再著急也沒有用。\n\n    焦慮是一個被刺激之後的反應或結果，如果不停止刺激來源，很難讓焦慮減緩。例如被蚊子叮了會癢，意志力強的可以忍住不抓皮膚，但是無法感覺不癢。根本解決之道要消滅蚊子，而不是消除癢。這就是為什麼大家用了很多消除焦慮的方法：如調整呼吸、轉移注意力、運動、旅遊、按摩、往好處想…等等，但是焦慮仍是存在。這些常見方法都有不同程度的幫助，例如運動可以增加大腦腦內啡，可以有效降低焦慮、舒緩壓力、到大自然裡走一走，血清素會提升，人會感到比較平靜、計畫並從事自己喜歡的興趣愛好，大腦多巴胺增加，會讓人感到快樂。這些方法某種程度可以比喻作止癢藥，是有效，但如果一直有蚊子叮，就會再癢，再焦慮。從根本著手是釐清、辨識刺激焦慮產生的原因，再進一步因應。限於篇幅，今天先簡單介紹三種類型。\n\n**類型****一****：老是有做不完的工作、寫不玩的功課**：\n\n這樣的情況，一是時間真的不夠，有的人要兼兩份工作或者學生要半工半讀，一是習慣性的拖延造成。客觀性的時間不足，要認清自己的限制，降低標準，留得青山在，不怕沒材燒，先求有、再求好，提醒自己健康最重要，其他都可以慢慢進步。如果是習慣性拖延，重點在於要留意是否有完美主義或逃避心態，能夠調整拖延，限期完成的焦慮自然會減少。\n\n**類型二；****上一篇文章提到的焦慮型特質****（****欲閱讀者請前往此連結：**[**https://www.facebook.com/106999085393986/posts/pfbid027XWy6W8ZsG4YtT4h2QmJRWRnKo6qhNuHXT5dMieGkmevLTYAjRtrtYLf3hFNXh5Sl/**](https://www.facebook.com/106999085393986/posts/pfbid027XWy6W8ZsG4YtT4h2QmJRWRnKo6qhNuHXT5dMieGkmevLTYAjRtrtYLf3hFNXh5Sl/)** ****）**\n\n一旦可以意識到自己已經形成焦慮體質，可以對自己說：自己只是習慣緊張焦慮了，辛苦了！用慢慢呼吸、深呼吸幫助自己先冷靜下來，才不會太辛苦。冷靜之後，理性可以提升，就可以思考判斷事情的嚴重程度是否真如自己的反應那麼大。例如，很多父母一看到小孩滑手機，擔心影響視力，劈頭就一頓數落，造成親子關係緊張，講了，孩子也不聽，其實想想：結果，就是可能近視！！這是一個大部分人都還能承受的結果。但是習慣緊張焦慮的特質，會放大這些可以承受的事情嚴重性，不同事情累積一多，就超過可以承受的範圍，爆炸。或者擔心孩子功課不好或手機成癮，這影響就比近視要嚴重一些，但孩子也不會因為多滑一天手機就馬上功課退步或上癮。只要我們當下可以冷靜，肯定可以找到比罵孩子一頓、破壞關係更高效的因應方法。\n\n    身心是連動的，習慣焦慮者，身體也常是緊繃的。有個人告訴我：在練習中，他才發現自己的呼吸常常只有一半！所以很急促，他也有長期的肩膀僵硬問題。透過練習，可以有意識的鬆緩自己的身體，身體會記住新的相對平穩的反應，就不會馬上鎖緊眉頭、心跳加速、聳起肩膀了！就算發現自己身體已經緊繃，也可以透過練習刻意放鬆下來。但如果一直告訴自己：我無法放鬆、我無法放鬆，焦慮反應會更固著！現在你選擇告訴自己什麼很重要！！\n\n\t**類型****三****：****給自己設定了絕對的標準卻達不到****又不肯放棄努力****的人****。**\n\n\t\n\n\t很多人以為自己必須達到什麼樣的成績或表現才可以。不能達到自己期待時，會給自己很大的壓力、焦慮，甚至覺得沒有達到目標很丟臉，就會想盡辦法要達標。例如，小時候資優班的孩子，一旦沒有一直讀第一志願，長大後，被取笑，可能就會想在事業上證明自自己的焦慮。或者覺得自己愧對父母的栽培，不能回報父母，也可能會有自責的焦慮。其實，標準都是相對的，成功固然很好，但是對父母而言，應該更想看到孩子享受人生。神學家尼布爾的寧靜祈禱文給了我們很棒的教導，我們需要有勇氣，改變可以改變的事，對於無法改變的事，需要有平靜能夠接受，更重要的是：需要有智慧，分辨什麼可以改變，什麼不能改變。\n\n\t\n\n\t　　小的時候，總會寫到一篇作文叫：我的志願。這是培養孩子有想法、對未來有嚮往的好題目。年幼時尚未理解人生真實困難，有什麼自我期許都很好，一旦開始認知到生命的真實及限制時，自我期許要彈性調整，在接受自己的限制基礎上，一步步的成長。二十歲，我剛從師範學院畢業，是一位幼教老師，懷抱遠大的志向：我要成為孩子的代言人，替孩子們說出這個世界沒聽懂的話，而且，將來我還要成為教老師跟父母的教授，我要在改變台灣幼兒教育上有影響力！！結果，事實上，二十幾歲的我一直為著解決溫飽所苦，五年搬了六次家。最慘的是，我發現自己在幼兒園中，常受不了孩子吵鬧，而想大聲斥責孩子。\n\n\t\n\n\t　　我嚇壞了，更意外我怎麼會只是這個社會這麼不起眼的小人物，混得這麼差，也沒拿得出手的專業能力。接著，我瘋狂的進修，想提昇自己，能力是慢慢提升，但是焦慮更大，因為學得越多，越知道自己懂得太少！！！各種身心症接踵而來，甲狀腺亢進、胃痛……，旁邊的人都叫我不要太拼，但是我停不下來，因為我還不夠好。\n\n\t\n\n\t    現在，我的確擁有了一些我年輕時想要的能力及肯定，但是讓我滿足的來源更多是：心靈的平靜、存在的自在、親情、友情、我相信我是被神所愛的！我很感謝神讓我明白我可以不需要很優秀，我只要認真、盡力完成祂要我在這個世界上完成的任務就是我存在最大的意義及滿足。聖經說：一天的難處一天當就夠了。我用了將近五十年時間才學會：每一天，我只要完成當天上帝給的任務就可以了。\n\n\t\n\n\t    寫這篇文章時，我確診新冠肺炎第四天，前兩天我知道我的任務就是好好睡，因為全身酸痛無力、喉嚨很痛。但是我一點都不焦慮單獨跟我在家，卻不能進來我房間的孩子怎麼辦、也不焦慮這專欄的文章寫不出來怎麼辦、也不焦慮確診前，臨時接了一個下週的演講怎麼辦。\n\n\t\n\n\t    不需一直焦慮的人生真的太美妙了！！可能這幾天，我的孩子會感到孤單，很多的抱怨，我可以接受此時我當不了平常悉心照顧他的媽媽。可能我會寫不出專欄文章，沒關係，我可以道歉。下週的演講不能臨時推怎麼辦？練習仰望上帝，在祂沒有難成的事。如果我不焦慮，這一週我可以有最好的休息，來預備下週的演講，也不會因為焦慮想罵小孩！！先放鬆就對了，深-----呼-----吸----，慢----慢-----呼-----吸----\n\n\t\n\n\t   親愛的朋友們，如果你也有焦慮的困擾，請停下來檢查一下，是否給了自己太太太高的標準，那是一個上帝都沒有要給你的標準，以致，你把自己捆住了！！邀請你回到上帝創造亞當時，給他的伊甸園氛圍。上帝讓亞當可以隨意吃園中的果子，除了一顆叫分別善惡樹的果子。沒問題，夠吃了！亞當在伊甸園不需要焦慮！！但是他需要做好工作就是了！！\n\n    感謝上帝，讓我在交稿前一晚，恢復力氣，可以完成這篇文章！！\n\n**『心路、新路』專欄簡介**\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n**『專欄作者介紹』**\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 6, title: "眼淚不只是眼淚", content: "**眼淚不只是眼淚**\n\n    最近的新聞充滿了眼淚，電視畫面中傷心的家人著實令不人捨！面對親人離世，活著的人內心會出現許多許多的想法：如果當初，我……就好了！如果當初，我不要……就好了！除了傷心，也會有愧疚感、生氣、後悔、自責……等情緒。\n\n    除了新聞事件當事人，有一個令人無法忽視的現象，就是網民針對新聞事件中的人也有各種情緒及聲音。曾經類似經歷的人，悲傷又被勾起，久久不能自己。也有人惋惜、生氣、責備、傷心。然後有另一批人出來批判這些聲音：你又不是當事人，憑什麼這樣說！又或者等你家遇到這樣的事，你就知道。\n\n     最近，整個社會都很沉重……\n\n    許多安慰的話也不斷出現，最多的是：節哀順變、不要傷心、去世的人已經不痛了……，很明顯，說這些是希望當事人不要被悲傷淹沒，不要一直哭泣，擔心他哭壞了身體。\n\n    其實，在這麼強烈的衝擊中，大部分人無法思考，無法透過理性平復自己，眼淚成了這些混亂情緒、想法的出口，其實是好的，否則一直積壓在心裡，會承受不了。有聽過一個故事，一位先生出奇冷靜的處理了太太的後事，幾週後，他也自殺了。\n\n    常常在會談中，人們不能控制的流下了眼淚，他們說：我不知道為什麼我會哭？或者：老師，我沒有很難過，為什麼會哭呢？我會哭多久？如果沒有眼淚，很多的傷痛可能會被壓抑在心裡更久。\n\n     每當這個時候，我會緩緩的遞衛生紙，輕輕的問：這些眼淚在說什麼呢？通常人們會頓一下，有的人要想很久，有的人會開始哭的更傷心，停不下來。但只要給於時間，故事都會慢慢出現、傷心的原因、內容也會慢慢可以講出來，而且講出來的內容，有時候連當事人都驚訝：原來，自己有這個情緒、原來，還那麼在乎那段過程。然後，眼淚會漸漸變少，述說會慢慢增加。我們也得以開始處理觸發眼淚的傷痛。\n\n     哪些傷痛要怎麼處理？人死不能復生，失去就失去了，再也回不來，處理有用嗎？有的，傷痛可以被撫平，但是需要時間，需要讓心裡沒有與離世者處理完的感謝、歉意、愛、願望……慢慢述說、梳理，直到可以將\n\n     那這麼多的情緒其實都被不同的想法牽動著，不管是當事人、網民\n\n眼淚正在訴說，你聽見了嗎？讓眼淚帶領我們找到沒說出口的話，讓心真正得到療癒！\n\n**『心路、新路』專欄簡介**\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n**『專欄作者介紹』**\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 7, title: "確診隔離是生命的石蕊試紙", content: "**金句：****確診隔離是生命的石蕊試紙****，藉由面對困難的反應可以瞭解自己生命的性質，強酸強鹼都會讓自己很不舒服，如果可以改變，****你要嗎****？**\n\n**確診隔離是生命的石蕊試紙**\n\n\t    我小時候有個印象：大人見面打招呼會問：吃飽了沒？很久很久以前，三餐吃飽是人們最在乎的。現在，見面打招呼，簡直可以用以下這問候來互相關心：你確診過了嗎？現在有長新冠症狀嗎？\n\n\t     進入後疫情時代，很多我們以前沒有想像過的情景，因為疫情，有可能變成一長段時間的常態，例如防疫隔離。暑假快結束時，大部分父母總是萬分期待開學，可以將小孩送回學校，但最近社交媒體上一片哀嚎：才剛開學一天，就因為班上有同學確診，小孩又要停課三天。父母們抱怨：小孩在家兩個月，好累。有人補充：暑假前就停課，小孩在家已經三個月了！！因為疫情，大家生活都被打亂了！\n\n\t     更難受的是確診隔離。最近我們全家三人接續確診，我家兒子最慢確診，前後被隔離在家連續十多天。我確診時，先生沒症狀，他選擇0+7，仍然上班，我將自己隔離在臥室，所以，我必須一邊忍受發燒、身體疼痛無力、昏昏欲睡，一邊忍受在家、但是不能進我房間的10歲兒子諸多的抱怨，隔著房門安撫他。他一直喊無聊，一直來敲門。有一天，他受不了了，推開我的房門，但沒有進來，生著氣，搬來椅子，在房門口寫作業，大聲喊著：不能找媽媽，我忍耐的很辛苦！安慰了幾句，他才消氣把門關上，乖乖離開，繼續隔離，我也要擔心他如何自己搞定用餐，對我們兩個都很不容易。我確診五天後，先生確診，也隔離在另一個房間。兒子說：我還沒照顧好你，現在又要照顧爸爸。\n\n\t\n\n\t      但我更慶幸是現在才確診！回想早期確診的人，真是令人不捨。如果更早之前確診，同樣身體不舒服，卻還要忍受巨大社會壓力以及配合更嚴格的隔離規定。如果照我們家這情況，我跟先生要陸續離開家隔離，我兒子只能自己待在家！！心裡不斷感恩，雖然身體虛弱，但是可以很有耐心的安撫兒子。\n\n\t       \n\n       面對自己的柔軟，我感到驚奇！從前的我不是這樣的，以前容易沒有耐心、急躁、焦慮、愛抱怨，很想將原因推給診斷出的成人過動症，但其實不全是！我就是不想接受任何不如意，雖然自己常因迷糊、莽撞、遲到造成別人困擾，但是，如果的計畫的事被耽誤，就是生氣不耐煩。可現在的我竟然願意耐著性子接受生活中、生命中的不順利，這份柔軟讓面對困難變得容易多了！不但沒有抱怨，反而很珍惜跟先生、兒子長時間的相處，我很高興可以的很輕鬆跟家人在一起，因為不能出門、不太舒服，講話有氣無力，家庭氣氛變得很柔和，大家互相關心、打氣、噓寒問暖，一直以來，大家都很忙、都在趕時間、甚至互相怪罪    \n\n       我很想知道從急躁、抱怨變成感恩、珍惜，這個改變是怎麼發生的？隔離中，很多時間無力躺在床上可以想：當了媽媽？年紀大了，反應小了？過動症狀減輕了？因為思考時間很多，人又動不了，生命的一幕幕開始浮現，慢慢的，改變的原因清晰了起來。\n\n       我看見這改變不是自然發生的，是刻意練習來的。生命中的打擊一直來，一開始，不甘願、不耐煩、生氣、奮力抵抗，覺得自己很努力，都是誰誰誰害的，我才會遭罪。有時候，壞情況會因著努力而改善，但是因此脾氣會更大，更覺得全世界都負了我。但是慢慢的，我累了，沒力了，才知道不是誰誰誰害的，是自己太有限、承受度太差、太愛抱怨，其實自己問題也不小，就像聖經說的：可以看到別人眼中的刺，卻看不見自己眼中的樑木。但就在自己無能為力、覺得愧對家人、朋友、上帝時，我身旁很多天使伸出援手，無條件的幫助我，愛我，彷彿是上帝堅持要我收下「愛」，要我相信祂的愛真的無條件。如果不是被打擊的體無完膚，我會繼續奮鬥、以為是自己的功勞，但就在軟弱中，經歷被愛。\n\n     軟弱中被愛的經歷讓我開始願意閉起抱怨的嘴，練習謙卑告訴自己：本來就是能力有限，當然會犯錯，智慧不足，會浪費一些時間、資源，也是正常的，繼續成長進步就是了。聖經說愛人如己也是真的，能夠愛自己，才能真正愛別人，當我接納自己，也開始包容別人，欣賞別人，理解別人的不容易，能接納生活真的是不如意之事，十之八九，但是上帝的愛實實在在，一直都在。練習久了，脾氣真的慢慢柔和，生活也順了起來。\n\n\t    確診隔離讓我看見生命反應模式本質已經改變了，鹼性溶液使紅色石蕊試紙變藍，酸性溶液使藍色石蕊試紙變紅。面對困難的反應，可以看出生命是酸還是鹼！在酸鹼值介乎4.5及8.3的中性溶液中，紅藍石蕊試紙是不會變色的。上帝讓我願意接納自己有限、謙卑操練，抱怨變少、感恩變多、喜樂就增加了！我從激烈反應變成溫和感恩了。\n\n\t\n\n    你在確診隔離中的反應是什麼？面對困難的反應是什麼？如果心理反應劇烈、很不舒服，抱怨、生氣連連，沮喪、焦慮、無法平穩、無法忍受，這個發現是好的，上帝允許苦難出現，我們就有機會認識自己的反應模式本質，一起來練習從馬上有反應的酸或鹼性變成寬容、溫和的中性，練習出心得了，你會覺得過去的辛苦沒有白受，因為能夠感恩、喜樂，日子真的輕鬆很多，也會覺得旁邊的人可愛很多！本質轉換需要時間，給自己耐心，慢慢來，有的是機會。越來越看見受苦是與我有益。這話很難懂，也不想接受，但是懂了，就通了！！\n\n**『心路、新路』專欄簡介**\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n**『專欄作者介紹』**\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 8, title: "生命的冬天", content: "**生命的冬天**\n\n**在台灣，四季如春，曾經住在蘇州三年，才見識到什麼叫四季分明。****春天萬物復甦，一片欣欣向榮，枝頭冒出新芽，鳥叫聲再度回到生活中****，感受春天，嘴角總不自覺上揚****;****冬天，****最冷的時候，****冰雪覆蓋，幾乎看不到綠色，****因為寒冷，人們常常待在家裡，就算在外面，大家都是瑟縮著。第一年，印象最深刻是就算穿了兩層襪子，走在路上，腳總是感到冰冷，每一分鐘，都在忍耐，渴望趕快進到有暖氣的地方，只希望冬天趕快結束。****後來再住到加拿大北部的蒙特羅，有半年都是冬天，記得有一次睡前看氣象預告明天有大風雪，我以為就像下大雨，結果隔天房子周圍有五十公分的積雪！！沒有****鏟****出一條通道，基本無法離開房子。**\n\n**那時小孩剛一歲，不方便出門，大部分時候，****一個禮拜****出一次門，就是到教會主日，下午採買****一週****的食物。整天從窗戶看出去都是白茫茫的一片！**\n\n**天氣的四季，人們可以預知，也會做好相應的準備，****接****受度相對是高的****，而且四季規律反覆，人們知道熬過冬天，春天會來到****。但是生命的冬天，****卻不是如此。會有人會用一年四季對比人生階段，將年老時期比喻成生命的冬天。**\n\n**但今天要****談的****是心境上的冬天。****有一首英文童謠寫著：****雨啊雨啊****，請****改天再來，小孩想出去玩，****雨啊雨啊****，請改天再來。玩是年幼孩子最重要的事，所以****很抗拒、****討厭不能出去玩的雨天。成人最重要的事已經變成完成責任及達到目標，所以也會排斥阻擾前進的情況，我稱之生命的冬天。****生命的冬天會出現各個年齡層，****常讓人無法接受，****如****經濟困窘、失去重要他人、失業、重大疾病、天災人禍、****失去健康****、關係破裂、失去信心、鬥志****…****…****等等。**\n\n**自然界的冬天，熬過去就好，生命的冬天不會有自然界的規律。****有時候，冬天，好長好長好長。****讓人沒有活力、覺得困難重重****。當我服務的對象陷入生命的冬天時，當從對方的角度看人生時，也看到生不如死。**\n\n**我回想到：****來自亞熱帶台灣的我怎麼能夠接受****加拿大寒冬的****生活？如果住中國東北、甚至是蘇州應該都會****比****台灣去的更能適應有雪的生活。但是，我竟然也可以怡然自得在那麼長的冬天。現在想想，是心裡的接受度使然。**\n\n**在台灣時，****下個雨都會****抱怨****麻煩****，因為舒適的氣候，方便出行太理所當然。去到蘇州，太冷，也會抱怨，但是****撐****幾個月，也就過去了。到了加拿大，我從心裡徹底接受：人家這國家就是這樣子，是我們自己要來的，只能趕緊學會如何在這裡生活。車子一定要加裝雪****鍊****、****出門前提早發動車子，否則就像坐在冰塊上、****鞋子****一定買雪靴****，不然，一出門彷彿走在溜冰場上。****很恩典的，在加拿大認識的新朋友陸陸續續送來禦寒用品，教我們如何在漫長寒冬生活。****慢慢的，也習慣一年四季在家都可以穿短袖，也挺輕鬆的。**\n\n**生命的冬天不一定是遇到不可抗的衝擊，****但****是我們無法接受的****態度****讓重重打擊變得更難以承受。****加拿大的寒冬生活提醒我：****生命****中一定****會****經歷冬天，而且****可能****不止一次！****當****我們接受這個事實****，會較容易面對****！特別是有基督信仰者，更要謹記：認識耶穌，****人生****不一定就會****一帆風順****順，但是神給的應許****是****：****祂必同****在、****祂****必看顧，若沒有****祂****的允許，一根頭髮都不會掉。**\n\n**每天我都會掉頭髮，這是神的允許，我曾經歷過不開心的童年、這是神的允許、我的孩子有先天的發展障礙，這是神的允許！當我從心底接受這些事時，就像我接受在加拿大的冬天就是那麼冷、那麼長，其實，我的心****並沒有活在冬天****的狀態。孩子讀聖經，斷章取義的告訴我：上帝不會讓不好的事情發生在我們身上。我的回答是：會的，有時候，上帝會允許一些我們覺得並不好的事情發生。孩子很困惑：怎麼會呢？上帝不是很愛我們，會保護我們嗎？我只能說：上帝為什麼要允許不好的事情發生，我具體原因我不****明白****，但是****如果我們願意相信上帝的愛，我們會更有力量去面對，經歷過冬天，我們的耐心、生存技能、勇敢都會增加。****而且我們就知道如何陪伴還不知道如何面對冬天的人。**\n\n**好消息是生命的冬天不一定要熬三個月，****只要你的心開始復甦，恢復一點活力，****生命的****春天就會再回來！****甚至可以欣賞冬天的風景，****儲備面對下一次冬天的能力。**\n\n**『心路、新路』專欄簡介**\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n**『專欄作者介紹』**\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 9, title: "你追求的標準從哪裡來？", content: "**心路新路專欄文章**\n\n**你追求的標準從哪裡來？**\n\n**前****陣子，****11****歲的兒子在確診隔離的無聊中，將幾年來數學比賽的獎牌都戴在脖子上，叮叮噹當的在家裡晃****過來晃****過去，一邊喊著：****好重喔****！接下來有了以下的對話：**\n\n**媽媽：這樣讓你感到快樂嗎？**\n\n**兒子：是啊，獎牌很好耶！（一個一個拿起來仔細端詳）**\n\n**媽媽：好在哪裡？**\n\n**兒子：嗯****…****…****不知道耶。**\n\n**媽媽：獎牌有什麼用處？讓你覺得很好？**\n\n**兒子：別人看到你有獎牌，會說：你好厲害，聽了很開心！**\n\n**媽媽：別人說你厲害，就開心，那如果有人說你不厲害，就不開心。生活一下開心、一下不開心，心情上上下下，不累嗎？**\n\n\t**兒子：****（****想了一下****…****）****別人說我厲害，我會開心，說我不厲害時，我不會受影響。**\t\n\n**媽媽：****（****內心O****S****：哇！這麼強的功力，媽媽都比不上！）**\n\n**媽媽：如果你真的需要改進，別人說你需要改進，你****不受影響，****那如何進步？**\n\n**兒子：我只是心情不受影響，但是我會聽****一聽****別人講的內容啦！**\n\n**媽媽：****（****內心O****S****：****讚嘆****讚嘆****，高手在人間！！****）**\n\n**許多人心裡受苦常常是因為得不到****某個對象的肯定。****戴資穎****姐姐****比她更早打羽毛球，但是她如何努力都比不上****天份****高也努力的妹妹，戴姐姐說：我追了她的背影十年，當我終於放下要趕上她，作我自己時，我才****鬆****了一口氣。又****例如****成年子女一直追求嚴格父母的肯定，即便已經很努力，卻因為自己有興趣的領域不為父母認同，****一直活在失落****與等待中。也有父母努力走出原生家庭影響，不斷學習最新教養觀念，期望子女成長得比自己好、並認可自己的付出、覺得自己是好父母。當子女成長的重心不再是父母，甚至批評父母的教養，也有父母因此大受打擊。****有位家長****因著****子女的態度傷痕****纍纍****，他說****：我****覺得我太在乎孩子，我讓他對我生命影響太大了。接下來，這位家長不再只是聚焦於如何幫助孩子，開始思考自己的人生應該是如何的？什麼才是應該看重的？**\n\n**這是所謂邁向獨立分化的過程！不管幾歲，當人無法真正獨立時，生活上會倚賴人，心裡上也會****一直****需要某個對象的肯定，來確認自己是有價值的。關係感、成就感是人的基本需求，當年幼時，必然需要倚賴成人，因此會毫不抵抗的接受重要照顧者的價值觀，並為之努力。但因為每個人都是截然不同的個體，隨著自己的成長、與重要照顧者不同的時代、文化觀念，漸漸的，我們不再完全像年幼時****完全認同重要他人，生活上會開始產生意見不同、甚至摩擦。**\n\n**雖然觀念、作法****不****認同重要****他人****，但是****因著****心裡沒有隨著成年真正獨立，仍然希望重要****他人****認可自己，會出現兩種極端。一是為了****繼續活在認可****中，放棄自己真正想要的人生****;****一是為了決定爭取自由，放棄與重要****他人****的關係，用距離、疏離保全自我。不管是那一****種，都會帶來****遺憾！**\n\n**在關係中需要獨立分化並不限於父母子女關係，我們會不自覺將心****理****上的依賴延續到配偶關係、上下屬關係、師生關係****…****…****等等。****因著****在乎延伸出的愛恨糾結的劇情可以演出幾十集的連續劇。在真實的人生的糾結中，更常常是沒完沒了，****一****直到年老，****一****直到離開世界之前！！**\n\n**工作中，常常看見人們因無法有真正的獨立而受苦於種種人際關係，所以****驚喜****兒子竟然可以享受肯定，但是卻不會太在意不被肯定，同時願意聽聽別人的意見。或許因為他年紀還小，還未經歷較大的挫折，但這是很好的開始。**\n\n**受過訓練的幼教老師從孩子學齡前就會訓練孩子獨立****，可以做的事情都要自己來，習慣不依賴人。老師會提供****選擇****，****孩子****的選擇包括後果都要自己承擔，這當中需要練習思考、由於是團體生活，需要判斷自己的選擇會不會影響別人跟團體、最重要是不是自己真正要的。****如果你發現已經成年的自己心裡上還是無法真正的獨立****，****受苦於關係中的糾結，****只要開始練習都不晚。****你可以這樣練習：**\n\n- **辨識自己追求的標準來自哪裡****：****原生家庭、上司、社會價值觀、班級文化？****你讓誰的標準定義自己？我家孩子能夠不受別人不肯定的影響，除了先天特質本來就****比較淡定****，我想跟信仰價值有關。他****曾經說過****：上帝創造每一個人都不一樣，優缺點都不一樣，有的地方會比別人好、有的地方比別人差，這很正常。聖經說我們****受造是****甚好，這是出於上帝的眼光，上帝覺得甚好是因為每一個都是按照上帝心意創造，有上帝要使用來祝福這個世界的設計。或許有人覺得上帝讓有些人有先天的****身心****障礙，****或一出生家庭不****健全，****他們好可憐。****從人的眼光好像是這樣，但是我看見先天障礙或家庭有困難的人幫助我們學習愛心，瞭解人的價值****不****來自外在。從何得知？當弱勢的孩子有一點點進步或得到妥善的照顧，莫不更激發大家良善的愛心及帶來一股暖流。越進步的國家，越重視社會福利照顧。反觀，富裕及身心正常的孩子不一定就會有健全發展，有很多富裕家庭的孩子因為好逸惡勞，誤入歧途，或為了錢，跟父母反目成仇。**\n\n- **選擇你要接受的人觀、價值觀：****如果原來的價值觀讓你沮喪、低落。可以參考以下：****我家孩子調皮搗蛋，低年級在學校常被罰站，有一天，他心情低落，在****家裡哭****著說****：我不好，我到哪裡都影響別人，我待在家就好。講完****矇****在被子裡哭。情緒需要抒發，我只是陪伴，且讓他好好睡一覺。精神好了時，我翻聖經告訴他：上帝沒有覺得你不好，我****也****沒有覺得你不好，****上帝創造了人，說：甚好。兒子還質疑問說：****這誰寫****的？我說；上帝不要我們以為我們不好，所以將這麼重要的事****讓人****記錄在聖經。上帝很喜歡我們原來的樣子，但是我們還有很多地方需要成長學習，慢慢的進步。每個人都有他自己的標準，所以當你聽到批評時，你要判斷別人的標準符不符合上帝創造的你，如果是，而且要幫助你進步的，那要謝謝對方並聽取建議。例如烏龜不需要學習快速跑步，****但是花豹就要****練習。因為上帝設計給每種動物的生活方式不一樣，所以每個人要練習的****不一樣****。如果別人因為不認識上帝在你身上的創造，****而覺得你不好，****那就是因不了解而有的誤解，不需要太在意。**\n\n- **辨識糾結是否來****自****生活上或心理上的依賴****：****當依賴存在，不自由也跟著存在。不想受他人控制，要開始練習不倚賴他人。生活上自己能作的自己來，需用的錢自己賺。心理上的依賴從練習告訴自己：****「****我可以練習獨立、練習判斷別人的評價需不需要在意****」開始****。尋找幫助你心裡邁向完全獨立的支持系統，讓****自己****慢慢練習承受做決定的後果。****無懼則剛****，當你不那麼害怕失去某個人的肯定時，而能好好發展自己時，常常可以帶著更好的自己回過頭去愛那個重要他人。這樣，不需要走極端，發展自己的成就感和關係感都不必失落。**\n\n**方向比速度重要，只要找到往獨立自主的方向，加上時間，你會慢慢****嚐****到自由的美好，****可以自由發展自己、自由去愛，真的很美好！**\n\n**『心路、新路』專欄簡介**\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n**『專欄作者介紹』**\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 10, title: "別讓誤會成了人生的遺憾", content: "心路新路專欄文章\n\n別讓誤會成了人生的遺憾\n\n太太：你嫌棄我，覺得我老了，不想理我。\n\n先生：我沒有。\n\n太太：你有。\n\n先生：我沒有，就是累了，不想講話。\n\n太太；你結婚以前會跟我說很多話。\n\n先生：那時候沒有這麼大壓力呀！現在有房貸、小孩學費……\n\n太太：別找藉口，你是不是外面有人了！\n\n先生：又來了！\n\n用這樣的邏輯和對話可以寫四十集連續劇的劇本！太太一直認定先生對自己沒有愛了，活在哀怨、不滿中，先生疲於解釋，有時候禁不起折騰，愛就真的漸漸沒了。\n\n這樣的故事最令人難過的是：起源於誤會。在關係中，某個人因為對方的表達、行為推論出自己不被愛、被嫌棄、不被尊重、沒有自己意見表達空間……等，因而產生痛苦，在關係中或者攻擊或者退縮。這樣的模式不只出現在夫妻、情侶中，更常出現在父母子女中。\n\n很多成年人其實仍受苦於不被父母喜歡或肯定的失落中，但是有一些情況是因著年幼孩子的眼光及理解而形成的誤會。\n\n例如家中個性最溫順的孩子可能因為父母總是在處理不乖的孩子及闖的禍，而感到不被在乎，於是就跟家裡人疏遠了。事實可能是父母最感謝這個孩子，只是沒有說出來。\n\n又或者年幼時，父母疲累有情緒時，總說是被孩子氣出來的，或者父母常因孩子教養差異吵架以致離婚，如果帶著孩子的父母陷在情緒中，甚至說出都是因為孩子才會離婚，孩子可能長期帶著罪惡感長大。但大部分父母冷靜後會覺得是大人對不起孩子。\n\n有些情況則是孩子有過動症或其他先天障礙，即使父母努力幫助，仍是無法有效幫助孩子適應外在環境，有時因為求好心切，導致跟孩子關係緊張。孩子會覺得：我怎麼做，你們都不滿意！因而產生挫敗感！但是事實是父母清楚孩子的限制，也知道孩子已經努力了，只是擔心孩子競爭力不足，只好一直提醒孩子需要再努力，其實他們是很心疼孩子的。\n\n只可惜，當誤解一直存在，沒有機會得到澄清，人們會活在「很真實但不是事實」的感覺中，慢慢形成自我形像及為人處事之道。可能因此過度努力、想證明自己價值或者自卑而安於條件不佳的工作、對象。這樣的傷害真的很冤枉，因為不是真的！\n\n我的個性活潑外向，有主見，在與父母意見不一時也是有話直說，從小一直被說不聽話。最大衝突發生在爸爸希望我到大陸協助他管理工廠，我一再拒絕後，他很不高興並且表達極深的失望與不認同。我選擇了自己的理想，但始終認為我是被爸爸放棄的女兒，直到父親過世前，我請他說說對每個孩子的叮嚀，五個孩子中的其他四個孩子他都交代，唯獨我沒有！我問：為什麼沒有話對我說？他說：我最放心你，你最能幹，所以不用說什麼。我驚訝極了，我從來不知道在父親心中對我的評價那麼高！多年以來，我將自己活成孤兒一般的淒涼，真是白白受苦了！\n\n如果你是父母，請記得常常對孩子表達愛，不管他的表現好不好，只要孩子感受到被愛，他就能更有力量承受管教並且面對成長的挑戰。如果你是成年人，但是認為自己不被愛，還有機會的話，回家邀請父母說說以前的故事，你會發現當年你以為很了不起的父母，其實跟你現在一樣幼稚、茫然、有限，他們也是在跌跌撞撞中學習當父母，他們也知道很多地方做得不好，但是都盡力了。或許，他們的抱歉都放在心裡，只是沒有說出口。\n\n年少氣盛時，讀了一些心理學，以為是原生家庭沒有給足夠的愛，才會導致我的種種問題，很怪責父母。現在，我當了父母，才知道精力、時間、智慧都非常有限，不可能有完美的父母，因此理解了當年我的父母有多難。原來，不是我不被愛，只是我沒能感受到愛！\n\n最近的地震再度讓人感受到生命的無常，趁著還來得及時，讓我們互相表達愛，不留遺憾！\n\n聖經哥林多前書3:13而今長存的有信、有望、有愛，其中最大的是愛!\n\n耶穌來到世上最大動力就是他愛世人，這給我們最好的提醒：我們每一個人都值得被愛，也可以去愛！\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 11, title: "生氣只是表象，別被騙了！", content: "心路新路專欄文章\n\n**生氣只是表象，別被騙了****！**\n\n不管是在私下或公開場合，只要有人生氣，氣氛都會當場凍結，這時候，如果有人可以出來緩頰，化解緊張，簡直就是大家的的英雄了。生氣、憤怒是不受歡迎的情緒，有很多人有困難面對，甚至非常害怕面對只能選擇沉默、壓抑、委曲求全，也有人生氣別人對他生氣，選擇以牙還牙，就會爆發嚴重衝突。\n\n\t在華人的觀念裡，發脾氣是不好的態度，有衝突的情境，常會有人勸說要以和為貴。小學生的教科書也常會教導和諧的重要性。這導致了一個結果：生氣是不好的，生氣是不應該的！因此，容易發脾氣的那個人總會被要求要控制自己。\n\n除了文化觀念，生氣的結果也真的令旁人難受，不禁影響了所有人的心情，有時候會出現肢體動作、傷害人、砸東西等等相關經驗都讓人對於生氣感到厭惡、恐懼。\n\n今天要跟大家思考的是：如果可以不生氣，誰會願意生氣？大家都知道生氣令人討厭，為什麼生氣仍然會出現在很多人的身上？我們可從導致生氣的動機來找答案。生氣有不同的動機及原因，今天提出三種。\n\n**動機****一****：生氣被拿來當成達到目標的方法。**就像大人常跟小孩子說：如果再不趕快吃飯，我要生氣了。\n\n**動機二；****用生氣當成反抗的方法。**因為感到被壓迫、被為難，溝通無果，最後只好用生氣表達及抗議，希望減輕壓迫。\n\n**動機****三****：找不到表達較為弱勢情緒的方法，如委屈、受傷、感覺被愛的失落，所以以生氣的面貌出現。**例如：因工作常不在家的爸爸，感覺跟大家有距離，會責備家人不配合家庭活動。或者被責備的幼兒常會生氣打父母說；我不喜歡媽媽了。\n\n所以生氣只是表象，底下有更需要明白的原因。如果你自己常有控制不住的怒氣，鼓勵你在安靜獨處時，找出自己用生氣來因應的原因及動機，努力尋找更有智慧、周全的替代建設性方法來面對問題。因為生氣的不好結果最後都會回到自己身上，旁人可能因為害怕假裝配合，就算暫時達到目的，久而久之，會讓大家漸漸遠離你。\n\n如果你正苦惱或恐懼於身邊的人常常有怒氣，**我要鼓勵你勇敢，不要害怕****！！**\n\n只要可以瞭解到其實很多時候人生氣時，內心是脆弱敏感的，不像表面看到的只有暴力、強悍。我們面對生氣的恐懼將會減少，勇氣、理解會增加。在孩子的生氣中總容易理解這點：不管是什麼原因發的脾氣、不管發多大的脾氣，最後總是希望父母能抱抱他。\n\n**甚至****可以說每一個****生氣的背後，真正****要說的是****：請愛我！**\n\n但這個「請愛我」的心聲到了青少年、成人期會被壓抑下去，可能連自己也沒有意識到。為什麼會壓抑下去呢？如果在成長過程，表達被愛時被忽略、嘲笑、羞辱，那麼再把自己希望被愛的渴望呈現出來，就會有再受傷的可能，但是如果呈現出生氣，至少不會比表達需要被愛顯得脆弱，安全一些。也就是說，容易生氣的人，可能是沒有足夠力量面對自己內心需求的人。\n\n記得曾經在一個兒童團體中，有個孩子常打人，常被告狀，其他老師跟他聊時，他總是氣憤述說其他人的不是。有一次，他又被告狀時，我對他說：我很想聽聽是不是有人讓你不舒服了，所以你生氣了，如果是，可以告訴我！如果有人像你對待同學那樣對待你，我也一定會保護你，只見那孩子一下子就柔軟了下來。用較和緩的語氣告訴我剛剛發生了什麼事。我想是：我會保護你，這幾個字觸動了他。他一向是施暴者，竟然有人說要保護他！\n\n我印象很深刻，我想「愛」是所有人的需求，但是常常生氣的人很不容易得到，因為他們令人害怕，但是基於種種原因，他們只能用生氣來表達。耶穌說：健康的人不需要醫生，生病的人才需要醫生。所以祂是為一切心靈有需要的人來到世界上，為要醫治受傷的心靈。耶穌是我們付出愛的榜樣！我很感謝上帝讓我在從事的工作中鍛鍊了不害怕人生氣的能力。當我服務的對象在會談室中大發脾氣的時候，我知道那是受傷的表現。專業訓練讓我知道不但不需害怕，更應該堅定的表示理解及同在，通常人們接受到支持、溫暖，會慢慢恢復平靜，理性甚至反省都會慢慢出現。\n\n如果你實在害怕發脾氣的人，不知如何與之處，甚至可能會因他受到傷害，求上帝賜給你智慧如何保護自己，例如知道如何避免更激怒對方。但如果你能夠認識到人在生氣中可能有被愛的需求，脆弱只是被隱藏起來，恐懼會降低、憐憫會增加，或許你就有機會成為上帝要賜下愛的導管，讓對方有被愛的機會。\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 12, title: "別讓所見限制了你的未來！", content: "心路新路專欄文章\n\n**別讓所見限制了你的****未來****！**\n\n有一本書，書名是：以為長大就會好了：幸運的人用童年治癒一生，不幸的人用一生治癒童年。接觸許多在成長過程中受創傷的人，的確看見童年經驗影響深遠。但是，**未來比過去更重要**，如果你賦予過去絕對的影響力，那麼將削弱未來的可能性;如果你真的認為因為童年，所以我只能如何如何，那麼，未來不就沒戲唱了！！\n\n很多人的童年因為有小叮噹（多拉A夢），增添許多樂趣。今天，陪兒子看一部動畫後問兒子：為什麼只有大雄有多拉A夢，其他人都沒有，會不會不公平？兒子想了想，說：因為小夫有個有錢的爸爸、胖虎可以保護自己、靜香有好人緣，大雄又笨又懶又不會讀書，所以需要給他多拉A夢。\n\n在我家兒子的思維裡，有一個安排一切的那一位存在，所以有間接回答了我的問題：其實是公平的。接著我問他：如果可以選擇，你想成為那一個？他本來想從其中選一個，最後他的答案是：我現在這樣就蠻好的，我當自己就好了，上帝創造的樣子就是最好的樣子！\n\n他的答案讓我有點意外，因為過去幾天，他正因為先天特質在學校適應上受了很大委屈，他在努力適應的過程中，平常溫和開朗的他每天都很挫折、每天都在發脾氣。總是要在平靜時，慢慢開導，我說：人生就是會一直需要學一些我們不擅長的事，像某某同學，奧數沒有你們擅長，跟你們組隊參賽，他要學的東西很多，我看他都靜靜的聽，努力的學，慢慢也在進步。如果每次，面對不擅長的事都很激動、生氣，會學得很辛苦。終於，他忍不住委屈大哭：為什麼我不懂的事那麼多，某某同學不會奧數，我們也不會對他怎麼樣，還會教他。可是，我不懂的事讓我每天被罵、被處罰。如果我不懂，就要把我教會啊，不要一直罵我，把我被扣的分數還給我啊！！\n\n我這才知道因為他的先天特質累積了這麼大的委屈！但他竟然可以在情緒還很強烈的情況下，說出：上帝創造的人是沒有缺點的，我現在的樣子就是最好的樣子。我實在很羨慕他擁有的療癒力！！\n\n如果他在明白自己有限制，也因其限制受苦時，仍然認知他是上帝甚好的創造，只要過程中的情緒處理了，隨時可以從新開始，因為基礎是好的！！我回應他：上帝創造的人不是沒有缺點，上帝因著要讓每個人完成的任務不一樣，所以給的配備不一樣。蝴蝶要授粉，所以需要輕盈的翅膀，但是很脆弱、蚯蚓要鬆土，所以需要有柔軟的身體，但是視力不太好，不過，在泥土裡，也不太需要視力、老鷹需要從高空俯衝掠食，所以就需要絕佳的視力。上帝給你的能力會足夠未來完成你的任務。\n\n當我從聖經的觀點面對他的身心障礙時，我也被激勵了。在上帝的心意裡，每個人可以不被先天特質、童年經驗限制，因為上帝給的配備足以完成天賦使命。在許多見證中更是看到成長過程中的辛苦其實是上帝訓練能力的一部份，摩西經歷曠野四十年的卑微才磨塑出謙卑順服，得以擔任帶領百姓出埃及的重任！！在馬斯洛的心理需求層次表中，一開始最底層是生理需求、其次是安全感、歸屬感、愛與尊重、最上層是自我實現。到了晚年時期，他在自我實現上面有增加了靈性需求。當人完成天賦使命、自我實現時，將是其心理需求最滿足之時！\n\n所以每一個人的未來都值得期待！如果用人的眼光看耶穌的一生，真的很慘！但是耶穌說：他的滿足是來自於完成上帝交付他的工作，所以，最後在十字架的羞辱及痛苦中，也是最大的滿足中，他完成了自我實現，說：成了！\n\n從媽媽的心理出發，我不希望兒子成為像耶穌一樣那麼偉大的人，太辛苦了，媽媽捨不得。但是，心裡更是深深知道，只要他找到上帝天賦使命，他也能自我實現，有深深的滿足感。就算他需要一輩子承受其身心障礙帶來的限制與苦痛，就算他缺乏一般人都有的能力！蚯蚓不需要視力，只要盡責，就是一隻卓越的蚯蚓！！\n\n這個星期，陪著兒子面對挫折，要接收他的情緒，要頻繁的與學校老師溝通，我真的很累，更多不捨。謝謝上帝透過兒子今天看的多拉A夢動畫，開啟與兒子的對話提醒我：祂是公平的，兒子的未來值得期待！不是從世界的標準，乃是從上帝的心意。\n\n信就是所望之事的實底，是未見之事的確據。希伯來書十一章1節：凡盼望的事，都是尚未見到的事。憑信心不憑眼見是上帝幫助我們在世上能活在喜樂盼望中的基本準則，你開始用了嗎？一起來經歷面對未來，仍能有不被苦難、童年經驗限制的盼望！！\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 13, title: "遠離鬱悶，你需要加法人生！", content: "心路新路專欄文章\n\n**遠離鬱悶，你需要加法人生！**\n\n十一歲的兒子因為接近期中考，需要較多時間複習功課，無法接受，哀怨大喊：這個世界怎麼這麼難啊！！氣到情緒強烈！！我雖然深知同理的重要，但只想翻白眼，心中OS：一星期課外有六堂運動課，從來不會因為成績責備孩子，每天九點睡覺，不上安親班、補習班，媽媽陪伴完成功課，這樣的日子到底有多難，應該是幸福的不得了吧！！\n\n可惜，孩子因著放大當下所經歷的難處，越想越鬱悶，整個人被無力、不快樂包圍！媽媽深吸一口氣，讓自己先放下想講大道理的碎碎念模式，建議道：你需要做點讓自己恢復開心的事。後來，他選了一邊吃飯一遍看哆啦A夢，很快進入劇情，邊看邊笑。媽媽問：有哆啦A夢可以看，是在這世界上開心的事嗎？他嘴角上揚回答：是啊！接著，媽媽送上他愛吃的水梨，他開心的說：喔耶！媽媽再問：有人削好水果，是不是開心的事？此時的他情已經完全轉換，連連附和：是啊是啊！晚上睡覺前，數算兒子今天完成了功課，讓大家都很輕鬆，謝謝他完成了家事，肯定他的貢獻，表達有他這個兒子很幸福，送上抱抱。最後，再問他一次：現在覺得這個世界難嗎？兒子陶醉的抱著媽媽說：不會不會，現在睡在床上真舒服。如果今天我生氣數落他貪玩，責備他情緒失控，就不會有美好的睡前溫馨時刻了。\n\n俗話說：人生不如意之事，十之八九。活到快五十歲，人生經驗，真是如此。活越久，累積越多失敗，好處就是挫折耐受力提升。記得大學畢業，剛入職場，只是同事沒有樂意協助對公司業務尚生疏的我，就可以躲到廁所，壓抑的大哭一場，回家還會延續小可憐的人設，自怨自艾一整個晚上。現在，已經操練到可以在同一天錯過公車、買錯東西、被誤會、跑了第二次大醫院，沒有得到足夠的醫療資訊，累積諸多不順，還有力氣回家煮好晚餐，輔導搞怪孩子的功課。\n\n為了不想自己情緒容易波動、下滑，必須一直練習轉念。如果不轉念，鬱悶一旦形成，總要內耗許多精力才能恢復，甚至又影響其他工作，造成惡性循環，累上加累。我用的的轉念練習是**人生加法練習**：藉由提醒自己我還擁有什麼，避免陷在失落中。今天，為了同一個問題，第二次到台大醫院，耗費許多交通往返、候診時間，醫生卻說他幫不了忙，心情往下沉，還要繼續求醫之路。排隊等電梯時，看到坐輪椅者，我提醒自己：要為著我可以自由行走感恩。回家耽誤了時間，來不及接小孩，心裡開始焦慮小孩在家會瘋狂打電動，不做功課。我提醒自己：頂多就是貪玩一天，只要我能控制脾氣，小孩跟我有很好的關係，已經很好教了。工作減少、收入減少，開始擔心經濟問題時，我提醒自己：這是上帝給我的休息時間，也可以好好煮飯給家人吃，是幸福的。\n\n一點一滴尋找累積值得感恩及所擁有的，幸福感會提升，喜樂會提升。當光進來了，黑暗就會離開。開心和不開心就像天平兩端，當開心的心情越來越多，不開心的影響就會自動降低，用意志力告訴自己：不要擔心、不要擔心，效果其實不佳。在生活中，你要找什麼，就會找到什麼。如果想證明自己有多慘，你會成功;如果想找到有哪些感恩、快樂，你也會成功，看你的選擇！！\n\n小孩心智尚未成熟，理性思考有限，當被眼前的難處困住，放大難處，深陷鬱悶中，情有可原。成人應善用較成熟的理性思考能力，縱然有情緒，只要願意坐下來或穩住自己，開始尋找擁有的恩典、快樂、幸福，相信心裡的力量會慢慢恢復。聖經帖撒羅尼迦前書5章18節所說：「凡事謝恩，因為這是上帝在基督耶穌裡向你們所定的旨意。」這個命令太棒了，可以保護我們免受情緒攻擊。\n\n人生道路上，隨著我們不斷成長，責任感逐漸增加，會承受越來越大的挑戰，意味著困難會一直存在，練習加法人生運算，不斷增加恩典快樂清單在記憶中，同樣的人生，幸福感會遠大於挫敗失落感，超神奇的！\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 14, title: "打破人生框架，你可以自己來！！", content: "心路新路專欄文章\n\n**打破人生框架，你可以自己來****!****!**\n\n寫作之前，開玩笑的問11歲兒子有沒有什麼可以建議的主題，他熱烈的說：我希望你寫如何讓小孩打電動不會近視、不會上癮，又不會影響唸書！好令人振奮的方向，我也熱切的回應：如果可以寫得出來，真是太棒了，主題就叫做：作夢！！真抱歉，為了開玩笑，澆滅兒子的夢（幻）想！\n\n真感謝兒子不設限的不切實際讓媽媽開心的大笑。我得到一個啟發：不設限的思考可以幫助人離開無力感，為突破帶來一絲的可能性;不設限的思考可能是人生彷彿走在黑暗隧道中時，可以引領走到出口的那一道微小的光。\n\n許多人的痛苦在於一個長期運作的模式，這個模式很不客氣的主宰當事人的想法、行為和情緒。當事人就算不喜歡，也覺得就是必須照著做;就算對這個模式運作的結果充滿抱怨。\n\n**例如：****無奈接受被安排的模式**：『我不喜歡這個科系，是我爸要我選的，他不在乎我的意願。』、『我先生很過份，當初要我為了小孩放棄工作，現在卻嫌我對家裡沒貢獻。』、『我公婆勸說結婚後，跟他們一起住可以省錢，我本來是希望可以過兩人世界的，但是他們一直說服我，只好答應，真的覺得沒有個人空間，快窒息了。』、『我同事很過份，一直要我分擔工作，欺人太甚。』乍聽之下，好像遇到很過份的人，**但是這些『****過份****』的存在其實都需要經過自己同意。**為什麼人會同意不喜歡的決定呢？可能是小時候，長輩比較嚴格，如不順服就會受處罰，因此形成不要反抗的習慣;也可能是自身缺乏反抗的條件，如不配合同事，可能在公司會被孤立，只好忍氣吞聲配合。\n\n不管是什麼因素，以為自己沒有選擇空間，長期下去，戰鬥力會逐漸消磨殆盡，也會慢慢累積怨氣，形成被害者情結，越來越鬱悶。\n\n**例如：避免他人不高興的模式**：這樣的模式讓人一直揣測別人的意思，甚至將目標鎖定在如何討好他人。可能會因此得到肯定、發展空間。但是，因為不是自己意願，最終會覺得空虛，因為自己不見了！\n\n**例如；將安全感建立在各種掌控中**：習慣所有一切都安排好了才讓自己安心，為了安心，只好掌控一切。但未來不可掌控、連植物怎麼長都無法掌控，活著的人都有自由意志，也不太能掌控。但是不放棄追求掌控帶來的安全感者，只好\n\n使出所有力氣控制，即使遭遇反抗，只要旁人堅持度低一點，也是能成功，得到一些安全感，但付出的代價就是不斷的焦慮。可以說是我焦慮、故我在。口頭禪是；我怎麼可能不擔心！！\n\n模式一旦固著，會讓人以為天經地義，理所當然，於是衍生的困擾也就一直存在。其實大家都多多少少知道可能有更好的生活方式，但是這些模式像一個無形的框架，一旦想要走出框架，試試看新方法，框架會透過要走出舒適圈的恐懼擋住我們，讓我們擔心：用新方法如果遇到攔阻怎麼辦？如果不同意別人的安排，關係破裂怎麼辦？如果不強迫小孩唸書，將來不長進怎麼辦？種種未知、恐懼常常讓人對於改變卻步，選擇安於現狀，繼續舊模式，也繼續受著同樣的困擾。\n\n今天我兒子的異想天開讓我想起聖經兩處經文：以賽亞書 43:19看哪，我要做一件新事； 如今要發現，你們豈不知道嗎？ 我必在曠野開道路， 在沙漠開江河。哥林多前書 2:9如經上所記： 神為愛他的人所預備的 是眼睛未曾看見， 耳朵未曾聽見， 人心也未曾想到的。\n\n有神這位神隊友，我們不要劃地自限，要相信只要出於上帝的祝福，在祂沒有難成的事。神樂意我們不活在恐懼中、樂意我們在這個變化無常的世界中仍有安全感，如果你有以上模式及困擾，要相信上帝願意我們過得更豐盛、自由。\n\n今天一位剛過六十歲生日的來談者在會談中述說在人際關係中何等的不安、生氣別人勉強他的過程。他的委屈憤怒來自一輩子競競業業、努力不懈，承受長期被評價的壓力。會談中，他體會到這些壓力讓他很不舒服，為了別人的眼光評價，又不得不努力。我問他：努力了六十年，能不能給自己放個假？他不再說話，陷入思考！！\n\n我替他高興，陷入思考，表示原有的模式被停止運作，可能他沒想過：可以不要那麼努力配合別人，即便已經到了六十歲！會談結束之前，他說他整個人都鬆了，六十歲這一年要成為自由之年，練習勇敢不配合別人的勉強，要練習享受生命。**所有的被勉強都必須有自己的同意才能進行，**我們練習了幾個他需要拒絕的情境，他很意外發現他拒絕的很優雅，原來沒有那麼難，只是沒想過可以有新作法，今天他經歷了上帝帶著他做新事。看著他眼裡充滿喜悅，我既高興也心疼：六十歲了，辛辛苦苦一輩子，竟然仍像個孩子，因為怕被罵，而戰戰兢兢。但只要有開始，什麼時候都不晚，我祝福他在接下來的日子，得到的自由、喜樂足以補償之前模式帶來的壓力。\n\n**不想再被框住了！很棒，那麼你需要的是輕輕抬起腳，邁出第一步，接著，一步接著一步****……****，沒有腳的框框****跟不上你，****就不能限制你了！**\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 15, title: "願你們平安！！", content: "心路新路專欄文章\n\n**願你們平安！！**\n\n韓國黎泰院萬聖節活動踩踏意外讓人感到無比心痛，參加者帶著愉悅欣喜心情前往，萬萬沒想到會經歷巨大的驚恐。許多倖存著並沒有因為活下來就充滿慶幸，因為他們看著身旁的人在幾分鐘內失去了生命，有人痛苦的說：為什麼我可以活下來！目睹者可能需要不同時間來撫平受到的衝擊、恐懼、罪惡感。\n\n此次事故中離世者多為二十多歲的年輕人，跟七年前台灣八仙塵暴事件類似。離世年輕人的父母是接下來需要關心陪伴的對象，他們也經歷驚恐：被迫接受兒女突然就失去了。有一個影片，女兒去世之前，媽媽說：我拉著她的手，沒辦法讓她走。爸爸說：只要她能活著，不管在醫院、在哪裡都沒關係，我們可以一直等她醒過來。父母將心愛的女兒埋葬之後，媽媽哭著說：謝謝妳來當我的女兒。爸爸說：請好好休息，我們會常常來看你，直到我們去世。好深好深的愛，我相信應該很多父母在辦完孩子的後事，還是不能相信這是真的！\n\n當我想像事發當時的驚恐和父母巨大的傷心，我的心好痛，不知道他們到底如何承受？到底要如何面對接下來的生活？此時，我想起耶穌復活後，看見門徒時所說的第一句話是：「願你們平安！」（馬太福音28:9；約翰福音20:19）\n\n耶穌的死讓追隨他的人失去盼望、失去方向，對未來茫然。我想應該是深深理解人的耶穌捨不得人心裡的失落，所以第一句話就是安慰！認識耶穌的人到聽到這句話，會得到安慰，因為他們認識耶穌的憐憫、真心，知道耶穌醫治的大能。\n\n常常看到走失或在外受傷的兒童，看到父母來的那一刻，莫不急切投入父母的懷抱，被爸媽抱著，他們的心就得安慰，知道安全了！很快的，就可以平靜下來！有時，聽到面臨死亡或災難中，有些人在及惡劣的環境中，竟然可以經歷上帝同在，心靈得著平安。我多麼希望當時被壓在人群中的人在身體極大的痛苦中，能夠經歷到耶穌的安慰。\n\n天災人禍一直會發生，意外一直會出現，明天跟死亡，不知道那一個先到，我們**需要把平安準備好！！**\n\n最近的新聞，還有印度吊橋損壞，橋上的人瞬間掉落水裡，有141人死亡。除了告訴孩子要注意安全，更需要告訴孩子，如果危險發生，父母會盡一切力量保護你、尋找你，如果是上帝要你回天家的時間到了，天使會引導你，不要怕，將來我們在天上還會相聚！\n\n我希望孩子面對每一天、面對死亡，都知道他是被愛著的，有地上的親人愛著，也有天上的阿爸天父愛著，去到哪裡，都是蒙愛的，平安的。\n\n羅馬書 8:35-39 CNV\n\n誰能使我們與基督的愛隔絕呢？是患難嗎？是困苦嗎？是迫害嗎？是飢餓嗎？是赤身露體嗎？是危險嗎？是刀劍嗎？正如經上所記：“為你的緣故，我們終日面對死亡， 人看我們像待宰的羊。” 但靠著愛我們的那一位，我們在這一切事上就得勝有餘了。因為我深信：無論是死、是生，是天使、是掌權的，是現在的事，是將來的事，是有能力的，是高天的、是深淵的，或是任何別的被造之物，\n\n懼怕與平安就像光與暗，無法共存！被主的平安充滿，心裡就很難有懼怕的位置了！\n\n親愛的朋友，願你們平安！！\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n    歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 16, title: "你當然要好好被照顧！！", content: "心路新路專欄文章\n\n**你當然要好好被照顧！！**\n\n華人善於壓抑，很多人傾向忽視心理的感受，能壓就壓。\n\n直到什麼時候呢？\n\n身體出現反應時！！\n\n身體就像車子，用久了，難免開始出現一些毛病。但是有一些症狀查不到特定病因，如自律神經失調、偏頭痛、胃痛，醫生就會交代要正常作息、減少壓力。只要身體出現毛病，多數華人就會比較認真看待。\n\n身心靈之間有著密切的連結，心情絕對會影響身體。荷蘭的一項研究指出當人知道自己不受歡迎，心率會降低。（資料出處：）也聽過有人說：情緒激烈時，曾感到心臟真的會痛。\n\n上帝設計身體會疼痛其實是為了保護人，痛才知道要保護自己，避免更多傷害。很可惜，很多人面對心靈的傷害，沒有採取避免受到更多傷害的作法，反而讓自己一直進到感到受傷的情境，直到身體也出了狀況。\n\n有的人談起傷害，都會感到歷歷在目，眼淚會出來，甚至會出現身體顫抖的激動，表示傷害還在繼續，當事人的身心都因此受苦。當然這些過程都讓人心疼：可能是小時候被打罵、剛入職場被欺負、婚姻中的冷暴力、他人的言語傷害、排擠等等。恨不得能有穿越時空能力，到當時情境去進行『拯救』，但是，常常都只有當事人自己承受。\n\n正因為只有當事人自己承受，不管是過去情境、或事後的回想，都會讓當事人感到痛苦，其他人不知道或不在，如何能給協助或支持？所以，自己幫助自己，是非常重要的生存技能。\n\n但很多人誤以為自己的痛苦是別人或環境造成，所以不知道自己可以幫自己，一直等著別人改變，別人一直沒有改變或道歉時，就讓痛苦一直持續著。甚至，隨著時間加長，累積的不快樂越來越多。\n\n我自己人生的一個重大突破在於真實體會到：別人不是我，當然感受不到我的痛苦，若對方EQ很低，沒有覺察及表達情緒的能力，如果對方本身也是壓抑的人，那麼，不能同理我，也是理所當然的。如果我一直處於被動位置，需要對方的瞭解、同理、溫暖來得到力量，那麼我將一直在失望中。\n\n當我想幫助自己時，又發現另一個挑戰：我不敢也不習慣對自己太好。例如，面對有人帶著情緒批評我時，一開始，我擔心關係惡劣，總是盡量溫和回應，如果對方情緒高漲，越講越過份，我會很傷心，不是不講話就是離開。離開之後，一直傷心自己被惡劣的對待，越想越不舒服。事後，發現自己其實是在控訴對方，並沒有疼惜自己，陪伴自己，傾聽自己。\n\n原來，在我成長過程中，沒有被疼惜的經驗，我不知道在聽到別人情緒化的批評中，我可以怎麼做是照顧自己，保護自己，只能任由別人的話一直在心上劃下傷口。直到在禱告中，一首一首的詩歌都在引導我們體會耶穌的理解、同在及安慰。甚至在羅馬書5:8唯有基督在我們還作罪人的時候為我們死，神的愛就在此向我們顯明了。耶穌既然都願意為我而死，當然捨不得我經歷的創傷，更不願意我一直泡在傷害中。\n\n我更進一步思想，當我在傷害中，可以體會到耶穌的心，我想祂會告訴我：我愛你，愛到願意給出我的生命。我也想祂會教我怎麼做？我想到：如果是出於對方的錯或是限制，我不需要活在那些批評裡。如果是我需要學習成長的之處，也可以被尊重的告知。\n\n這個默想讓我堅強了起來，我知道不用接受別人惡劣的態度，我需要起來照顧我自己。只是需要有智慧，別人也是耶穌用生命在愛的人，我需要瞭解別人可能是被他的情緒限制住了，可能是被他的觀念限制住了，可能是被他的經驗限制住了，所以才會那樣對待我。因此，我慢慢練習在心裡用上帝眼光重新看待別人的態度及話語，別人對待我的態度不等於我的價值，我的價值。耶穌說了算！如果對方真的太過份，我也慢慢可以為自己有一些表達。練習結果，驚喜的發現，在乎我的人，會願意調整對我的態度。我也接受世界上有些人就是不那麼在乎我，當然，有些人，我不是那在乎他。\n\n從耶穌為我而死看見自己值得被愛，在面對別人不友善的態度，慢慢從只能被動接受到有一些主動性，不再照單全收，但是也無須對立反抗，傷害的形成被降低了。日子，輕鬆多了！\n\n年幼的孩子只能被動等待被愛、被照顧，成熟的大人比較能照顧自己的需要，讓我們一起練習做一個看見自己值得被愛，主動照顧內心需求的成熟大人。\n\n你當然需要被好好照顧，因為你值得！！\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 17, title: "受苦有時候來自錯誤的理解", content: "心路新路專欄文章\n\n**受苦有時候來自錯誤的理解**\n\n最近參與了一場很溫馨、很可愛的對話。\n\n有一位高年級孩子充滿委屈、淚眼汪汪的對他媽媽說：我覺得妳在欺負我，有時候妳一生氣，就離開家，就不管我，把我留給爸爸照顧，我就是覺得你在欺負我和爸爸。\n\n媽媽很驚訝，因為她離開家時，大多是很委屈，或是孩子發脾氣或吵雜給她很大壓力、情緒上的衝擊，可說是在心靈脆弱時逃離現場，但是卻被孩子認定是在欺負他跟爸爸。媽媽說明：我是因為想讓自己冷靜下來才暫時離開家，但是我會一直用手機看家裡狀況，我不會不管你們。孩子被提醒了，說：喔，對，你有說過。但是我就是覺得你在欺負我們！\n\n我很高興孩子有機會說出心理的想法及感受，肯定他說出來，讓誤解有機會解開，媽媽趕緊去抱抱他。稍晚，我再見到他時，發現他心情很好，我問原因，他說：因為媽媽抱抱我，我心情就變好了。\n\n其實，這位媽媽是一位很認真照顧孩子、疼孩子的媽媽，只要能力所及，會滿足孩子所有需要，也不斷成長，學習調整教養之道。如果孩子能體會到媽媽為他所做的努力及付出，是可以生活在被愛的幸福中。很可惜，孩子選擇性的記憶覺得媽媽不愛他的事件，並且一直詮釋為媽媽不愛自己，所以，容易受傷及生氣，也常出現拒絕關心的反應，感到委屈時，就把自己關在房間，不斷沉浸在受傷情緒中。\n\n你真正經歷的事實不是最重要的，你感受到什麼塑造成現在的你！我常提醒來談者：感覺『真實』的不一定是『事實』。對這個孩子來說：事實是有一位愛他的媽媽，但是對他而言，真實是：媽媽不愛我！他把感覺『真實』的感受當成事實，他的心一直在受苦！\n\n雖然在餐廳裡陪著一個哭泣的男孩，對有些大人來說有點尷尬。但是，孩子能夠講出心裡的感受，我們就有機會澄清，讓他離開心靈的受苦，讓我多尷尬都值得，所以，我不斷引導他能夠多說一些。看到他晚上的開心，我確定那一天下午，他真實感受到媽媽所愛！！好溫馨的交流！！\n\n能夠在年幼時解開破壞親子關係的誤解，真的很幸福。很多成人帶著類似的誤解長大、度過婚姻，累積許多不自信、失落、傷心，很令人不捨！\n\n要脫離這一類的受苦，關鍵在於離開幼年受傷的眼光，當年認知理解有限、情緒承受度有限，所以形成某些眼光及定論。當事人往往沒有懷疑過這些眼光、定論，並認定其為真實的。雖然時間比較久了，但是只要願意來談，重新面對，就有機會澄清那些眼光、定論是否為真、是否要一直活在那些眼光中。\n\n聖經羅馬書12:2-3，不要效法這個世界，只要心意更新而變化，叫你們察驗何爲上帝的善良、純全、可喜悅的旨意。我憑着所賜我的恩對你們各人說：不要看自己過於所當看的；要照着上帝所分給各人信心的大小，看得合乎中道。\n\n年輕時我看這段經文以為重點在於不要驕傲，是一個道德要求。後來，聽了許許多多受苦的生命故事，再看這段經文，覺得這真是可以保我們一生心靈平安的錦囊妙計呀！合乎中道是要我們客觀看待自己，不錯誤評斷自己，而且只要練習察驗上帝的旨意，就有機會看見每個生命都是蒙愛的，都是神看為甚好的，心靈的受苦得以被醫治。\n\n我如何運用這段經文在我的婚姻中呢？當夫妻互動中有了情緒，通常都會說氣話、撂狠話，善於表達的我常常抓著先生表達的錯誤，指控他傷害我，活成受害者。我禱告求神更新變化我的心，覺得不被愛實在太痛苦了。後來，我慢慢從先生的行動中可以知道他是愛我的，只是不善表達。我可以選擇活在被愛還是被傷害中，我選擇了相信我是被愛的，這是神善良、純全、可喜悅的旨意。有一次，先生講了難聽話，我回應說：上帝一定不會像你一樣對我說這樣的話！後來，先生就不講話，而我的選擇讓難聽話的傷害只停留在當下。現在，誤解不累積，感情越來越好。\n\n感覺『真實』的不一定是『事實』，釐清誤解，讓受苦的心得醫治！\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 18, title: "原來，我們只是不一樣，也真的不一樣！", content: "心路新路專欄文章\n\n**原來，我們****只是****不一樣****，也真的不一樣！**\n\n小時候，我無法尊敬我的爸爸，就算後來他在大陸開了工廠，成為邱董，在我心裡，他就是一個充滿缺點的老頭。\n\n主要原因，我很少能夠在他身上感受到愛，連話也沒聽他說過幾句。在家，他的臉幾乎沒有表情，有的只是責備、嫌棄，覺得孩子們吵的時候，就趕我們到樓上，面對買布的客人倒是能堆滿笑容。對媽媽總是講話不耐煩，家裡有五個孩子，布店沒客人時，他也常只是沉浸在跟鄰居的象棋戰局或出去打麻將，小時候我的零用錢一部份是媽媽要我去叫爸爸回家，爸爸讓我吃紅打發我走得來的。媽媽表示家裡的孩子或事情需要討論，爸爸都不想聽，要媽媽自己處理，兩人因此常吵架。爸爸為了發展事業，把五個孩子和一間布行留給在南部的媽媽，自己到中部打天下，媽媽還常需要幫他周轉資金。幾年後，全家搬到中部團聚，不久，他又放下家庭，到大陸開工廠。某一天，好不容易見面，他問我：你現在在做什麼？我說：念高中。他問：幾年級？我說：二年級。談話結束。\n\n我覺得爸爸很自私，凡事自我中心，完全不考量家人的需要及感受。很久以來，我以為我是不被期待的生命及討人厭的。從小學我特別喜歡看西方家庭影集，父母是如此疼愛孩子，影集裡的孩子可以撒嬌、可以說出對父母不認同的意見仍被尊重，他們生活充滿愛及溫馨，因此我將缺乏自信、不快樂都歸咎到爸爸不愛妻子、孩子的失職。\n\n直到，我的見識被打開後，這個定論才被打破！！\n\n最近幾年，我常在服務的一些來談者敘述中聽到如下的描述：我不知道在那種時候要說什麼話、我不知道人家到底在生氣什麼，不想講錯話，所以不講話。我覺得要講話很累，我喜歡自己一個人、別人講的一大堆，我不知道重點到底是什麼，我希望能列點說明。我很受不了別人莫名其妙很多情緒，我覺得那些事根本沒什麼，我就不想多講，但是別人就是要我溝通，真的很累，事情做好不就好了，我希望別人清清楚楚告訴我到底要我做什麼，我感受到常不被滿意，別人總是希望我說更多，很有壓力。以上我暫且稱之為社交不力者。\n\n而這些人的配偶、子女、同事則表示跟他們相處令人感到絕望，無法交流、溝通，無法得到回應，如果期待有情感的交流，常會吵架，或者得到冷暴力。有的說好像跟石頭在一起，甚至有人說就像面對一堵牆，毫無回應。接著，我常會看到許多的眼淚、悲傷、絕望，更多的配偶指控對方無心經營婚姻、不願付出愛，想要放棄婚姻關係。以上我暫且稱之為自覺社交不力受害者。\n\n摘要兩方的重點：社交不力者雖然也需要關係感，但是社交對他們而言困難重重，要談感受、溝通能避免就避免。受害者則覺得不被在乎不被愛，絕望痛苦。年輕時，我以為這一類問題透過溝通訓練，就可以改善。但是，教導當事人溝通能有成效的通常都是本身雙方的溝通意願及能力原本就不錯。社交不力者一聽到溝通就想逃之夭夭。\n\n後來，我開始服務一些從兒童、青少年期就有社交不力的情況中發現，這些社交不力者竟有很大一部份是來是生理原因，不是不願意、反抗、故意的態度問題，是大腦功能的限制！！\n\n舉例如下：\n\n- 小三的孩子在課堂上起來走動，詢問他為何走動，他表示老師說上課不能講話，會吵到別人，所以只好走到那位同學旁邊給他東西。\n\n- 小五孩子很困惑同學為何問他有沒有煩，有沒有事？他覺得自己沒有事情，也不煩才會跟對方玩。結果，原來是他惹得同學很煩，同學說：你煩不煩？你有事嗎？但他完全聽不懂是討厭他的意思。\n\n- 小六孩子在某一項技能上表現優異，為校爭光。回到學校後，常聽到人說：你好厲害。他很困擾的問：這有很怎麼樣嗎？為什麼大家都來說我很厲害。我只想拿第一名，但我不喜歡別人一直來跟我說我很厲害。這孩子不理解社會的喜好標準。\n\n- 一位國三男生一直無故的吹前面位置女同學的頭髮，同學不堪其擾。該生說：他只是想看頭髮飛起來的樣子。完全意識不到騷擾到別人。\n\n- 大四學生面對同學經常不知道要如何講話、沒話可講，只有喝了酒，才能講出話，酒醒了，又回到原狀。覺得面對同學很困難。勉強自己社交很痛苦，不參與社交又會沒朋友，很孤單。\n\n- 在夫妻會談中，太太說婚姻中有很大問題，過不下去了。先生說沒有什麼問題。太太說；這就是最大的問題。先生渾然不覺太太平常的抱怨已在表示受不了這個婚姻，先生意識不到。\n\n以上例子中社交不力者之共通點是活在自己的世界，思考事情被限在自己的邏輯，常講出讓人傻眼、不近人情、覺得白目的話。原因在於他們就算智力正常、甚至能力優異，但是缺乏理解別人感受的能力。所以就說出自認為有道理的話，無法避免會得罪別人的話。更辛苦的是，社交不力者因著長期的挫敗，只要有人願意與之互動，大都願意回應，但是常常得不到接納或欣賞，其實有很深的困惑、挫敗，沒有能力將自己的困難說清楚，久而久之，在社交上不斷承受罵名、越來越被動及想逃避。\n\n因為有一些兒童青少年被鑑定出是自閉類群中亞斯伯格症，這是大腦功能的限制，所以我與父母們找到他們能理解的教導社交方式，一點一滴讓孩子瞭解社會運作的方式、人們的喜好，也幫助父母不再責備其不合時宜的態度及表達，告訴孩子不同的因應方式會有不同的結果，行動之前需要思考自己希望出現什麼後果。雖然進步無法很快，但至少孩子被理解了，反抗、親子衝突就減少了，孩子有安全感之後，也慢慢願意表達及學習。\n\n面對成人，我向配偶說明大部分社交不力者都不是故意的，如果可以讓配偶高興，他們是願意的。協助其配偶的情緒抒解之後，再提醒配偶大部分不是故意的，是缺乏能力經營感情，配偶們慢慢會想起對方的愛的確相當含蓄，而且是偏向行動付出。我也與其配偶尋找更容易讓社交不力者聽得懂的表達、更簡單的陳述，慢慢的，夫妻的互動滿意度會提升。絕不能用一般的標準，特別不能用偶像劇裡男女主角的深情溫柔甜言蜜語去要求社交不力者，那只會挫敗實實在在、但不善言辭的好男人、好女人。\n\n有了這些服務來談者的經驗，我再回過頭想爸爸。本來我認為爸爸是失職的爸爸，但是當我發現他也有相同的困境時，頓時覺得很心疼。當我離開女兒埋怨的心態，才看到原來他是一個老實、不善言辭、為了賺錢很願意吃苦的爸爸，對待員工寬厚，所以員工們都願意跟著他，事業上遇難時，客戶同行都願意挺他。我的眼光被拓寬後，我才知道我有一個值得尊敬的爸爸。但是，他的社交不力讓他沒有得到孩子們承歡膝下的天倫之樂，也無力面對家中五個孩子的吵鬧、太太的不滿，所以他總是選擇離家工作生活，家人常說以後他會是個孤單老人。\n\n曾經，他因為傳統信仰，激烈反對我們信耶穌，但是當他受洗後，就問我們他要到哪裡作見證！我超驚訝，不善言辭的他平常連話都沒幾句，竟然要上台作見證，原來帶他信主的曹永衫牧師信主後到處作見證，他以為這是基督徒的本分，沒想到上帝真的開路，讓他在受洗隔天，就有機會對著八百個大陸員工作見證。他只要聽到牧師什麼教導，就身體力行，例如會跟太太道歉，去世之前，也跟孩子道歉之前都沒有關心我們。五個孩子都覺得我們真的有個爸爸了。原來他只是不知道應該要這樣當爸爸、當丈夫，一旦知道，就身體力行，說改就改。媽媽也說好像換了一個老公。\n\n（我有為爸爸寫了一本見證小冊，有興趣閱讀爸爸完整生命故事，請留言，我可以提供電子檔全文。）\n\n服務許多社交不力者後，我深切體悟道：誰不想受歡迎？誰不想被肯定？就算不是先天性的自閉類群，是後天成長經驗造成，那也是一種限制，需要被理解，被接納、被引導。\n\n我曾經問上帝：聖經上說上帝看祂所創造的人是甚好，但是像自閉類群者這樣與生俱來的情感障礙、社交障礙，如何是甚好？他們本人及親近的人都承受很大辛苦。當我努力用上帝眼光與之相處，求上帝讓我看見祂的眼光時，我看見了這一類特質的人大部分正直、忠心、可靠、不詭詐，我相信他們在社會能穩定運作上提供了默默的貢獻。前不久，台灣東友科技公司公開招聘泛自閉症員工，因為公司統計過這些特質員工正確率高、流動率低，且不容易有勾心鬥角等情況破壞公司和諧，雖然有時會有一些人際互動上的限制，公司認為對公司的益處大於缺點。其實，也有很多研究證明自閉類群能夠專注在某一些領域上深入研究，帶來一些關鍵性的進展與突破。\n\n謝謝上帝拓展我，讓我知道祂所創造的人中，有一類人跟伶牙利齒的我不一樣，但是他們不是比較差，而是被上帝託付任務不一樣，至少，他們幫助了我謙卑，並學習真正的愛心，不只去愛我喜歡的人，也學著去瞭解我不喜歡的人，直到，我看見了他們有我沒有的優點，而能真正理解、敬佩、喜歡跟我不一樣的社交不力者。\n\n謝謝上帝，讓世界上的每個人都不一樣，以致於我們豐富了彼此的生命！\n\n想請大家幫一個忙：如果你身邊也有不善面對情緒、社交互動，可能跟他們互動也會不舒服，但是仍能看見他們表達愛或善意或付出貢獻之處，請大家在留言處分享，讓更多人看見他們質樸、、良善、可愛的一面。\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 19, title: "天冷、身體要保暖，心更不能凍著了！", content: "心路新路專欄文章\n\n**天冷、身體要****保暖，****心更不能凍著了！**** **\n\n最近，氣溫驟降，感覺冬天好像是一天之內突然到來！第一天降溫時，還不及沒反應過來，沒拿出厚被子，有冷到！隔天，就趕快請出羽絨被了！ \n\n身體的保暖是本能反應，但是人們常常忘記心也可以保暖，溫度不夠，心就冷了！如果對整個世界都感到心冷，生命就無所眷戀的想離開！\n\n年幼的時候，有一位歌手鄭怡唱的一首歌叫心情，歌詞寫道：\n\n| 當他離我而去　外面有太陽　可是我心中在下雨 當另一個他出現　白雲在徘徊　我的心也在猶豫 當結局出現喜劇　外面在下雨可是我心中有太陽 當我看著你的眼　她給我溫暖也給我一點點感傷 ＊啊～心情　心情　我用想像的心情 　想像我醉了　使我有雨天的心情　雨天的心情 　啊～心情　心情　我用假裝的心情 　假裝你打電話給我　使我有晴天的心情　晴天的心情 可不可以用多雲的你　幫助我隱藏自己 可不可以用不同的你　好讓我表現我的心情 我的心　我的情 |\n| --- |\n\n小時候第一次唱的時候，感到訝異：真的耶，心裡的感受是可以跟外面天氣不一樣的！作詞者寫出尚缺乏表達能力的我所經歷的經驗，當時嘖嘖稱奇的印象，至今仍感清晰。\n\n現在從事助人工作，更是有感：經過訴說、梳理、思考，對同一件事的感受真的可以不一樣，所謂的痛苦就會減少，也可以因著找到不一樣的因應方式，會從負面循環慢慢變成正面循環，日子甚至比以往更有盼望，因為小時候的快樂多是被動得到的，而自我成長的快樂是主動尋見的，所以有更大的力量與自信。\n\n遺憾的是陷在痛苦中的人常常深深相信受傷感受是無力掙脫的，甚至以為那是自己的命，提早放棄期待，認命又不滿的辛苦掙扎存在著！\n\n請相信自己的心是可以藉由自己的照顧漸漸恢復溫度、不再心冷，感受到愛！道理本質很簡單，如何幫身體保暖就如何幫心保暖！\n\n溫度太低時，多數人會留在家中、在不影響呼吸情況下，關好門窗，不讓冷空氣吹進屋內。當你面對某個記憶點，感到不舒服時，可以先減少讓它影響你的機會。例如：發現自己常常回想受傷相關經驗或常常想起而難受時，檢視一下什麼情況會讓你陷入相關思考，如果是深夜，那麼需要早睡;如果是看見別人成雙成對，那麼避免落單出門;如果是太累之後，常會感嘆沒有人關心，那麼需要多安排休息時間……\n\n當難受的是面對現在生活中的某個對象時，需要判斷需不需要保持距離，甚至離開。例如面對主管或同事，真的盡了力，但已經出現精神官能症或恐懼上班，離職可能是緩解之道，先讓自己健康起來，留得青山在，不怕沒材燒。有了力量，在恢復中，再慢慢思考可以有的成長空間為何，可能是需要練習溝通、提升能力、可能那份工作根本不適合自己。\n\n如果痛苦是面對配偶跟孩子，則需要慎重考量，因為離不離開牽涉層面太過廣泛。面對感到無法相處的配偶，如果有暴力存在，先找出安全的生活方式，反覆出現的暴力，可能需要先隔離，如果是被激怒的暴力，那麼盡量維持自己情緒平穩，就可以減少刺激到對方的機會。如果是感情淡了，可以試著想想當初是如何產生感情、對方當初吸引你的地方為何，婚姻中透過經營恢復感情、破鏡重圓後，比以往更緊密也常有所聞。如果痛苦是面對孩子，那麼可能是高期待不符孩子本質、能力，需要調整期待，修復親子關係為先。\n\n以上都是說得簡單，做得難！但是如果你覺得完全不可能做得到而絕望，我幾乎可以斷定：你讓心冷太久了。\n\n請啟動心的保暖計畫！！\n\n身體的保暖是穿多一點，或者開暖氣，或者靠近體溫高的人。心的保暖是懂得建立心理界線，保護自己、靠近溫暖的人，別讓自己落在孤孤單單、悽悽慘慘的心境，不要對人失望，總是不要放棄交朋友。而耶穌，是我最推薦的溫暖者，因為祂不需要我們的回報，也能一直給於愛，因為祂是神！\n\n耶穌說：健康的人不需要醫生，生病的人才需要醫生，我來是為著要醫治生病的人！如果你的心感到絕望，就是心生病的人，就是耶穌要醫治的人，就是現在全世界都在慶祝的聖誕節的主人翁耶穌要賜予溫暖、盼望、重生的對象。\n\n首先，你要相信耶穌願意讓你過得更好，這個相信是你可以配合的，甚至用意志力告訴自己：我想要好，耶穌，請幫助我，讓我相信你會醫治我，請給我相信的力量。就算你覺得你完全無法使力，但是這個期待要好起來，會讓你向著盼望的方向，背向絕望。\n\n如果你不是基督徒，我要邀請你相信你的生命絕非偶然，身體上很多器官一旦功能受限，即便再現代醫學條件中要恢復都是艱難的挑戰，例如聽力、視力、行走能力，所以證明人的受造是經過完美設計的。有些人一出生就有常態分布的兩端情況，被世界評定為異常、缺陷、障礙，本人是非常受苦，但是在越先進的國家，總是願意給於這些各式障礙者更多的資源，最重要的是尊重。\n\n當然，如果可以選擇，大部分人都想成為常態分布中的正常人，但是，生命來到這個世界的樣貌，我們決定不了。所以我們只能選擇「人觀」：你要如何看待自己生而為人的價值，是你可以決定的！澳洲的力克·胡哲出生時沒手沒腳，實在悲慘，雖然有愛他的父母親，仍然被欺負到很想自殺。上帝賦予他的任務竟是戰勝險惡成為世界激勵大師，光是看到他還能笑著面對大家，就夠鼓勵人的了，因為像他這麼慘的，真的比例比較低。\n\n聖經中說：上帝創造了人之後，說：甚好。所以先進國家對人的態度比較接近聖經中的人觀。人的生命是值得被尊重、欣賞、珍惜的，不管生命的樣貌為何！這也是上帝願意讓祂的愛子耶穌來到世上拯救世人，因為上帝看人的價值是值得耶穌經由受苦而保全的。\n\n小時候，我聰明、活潑、開朗、人緣好，家庭小康，常有被稱讚及開心時刻，但是因為眼皮下垂天生缺陷，常遭圍觀嘲笑，內心其實很自卑憂鬱，童年是外面有太陽，我心裡在下雨;現在生命中有很多艱難，但是因著有耶穌溫暖的愛，以及越來越會照顧自己的心，常常是旁人看來艱難，但我仍能喜樂，中年以後是外面在下雨，但我心中有太陽！\n\n一起來練習，雖然寒冷下雨，可以讓心中有太陽，很難，我知道，但是不要放棄期待，好嗎？\n\n外頭很冷，別讓心一直冷著，要靠近溫暖喔!\n\n心的保暖秘訣之三：常常喜樂、不住禱告、凡事謝恩！歡迎在留言區留下你的心保暖秘訣！\n\n耶穌愛你、聖誕快樂！\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 20, title: "我生氣他的生氣！", content: "心路新路專欄文章\n\n**我生氣他的生氣！**\n\n孩子放學回家氣呼呼的表示：週四我要請假！我想要把某某老師換掉！\n\n原來是該位老師為了某個原因生氣罵全班男生，說班上有同學批評老師，訓話時間很長。又孩子因故被處罰，並問：為何犯同樣錯誤的兩人處罰不一樣，老師只好讓原本較輕罰則學生處罰再加重跟孩子一樣。老師轉頭就不滿表示：別人被處罰，你有得到什麼嗎…………（以下省略一千字）\n\n孩子表示：不公平，為什麼對我那麼生氣？為什麼讓女生自由活動，男生就要被罵，處罰方式是老師自己講的，為什麼不一樣？（以下省略三千字加一直掉的眼淚）\n\n學生生氣是不滿老師的生氣！\n\n如果媽媽定力不夠，無法安撫，孩子在家生氣，不寫功課，或鬧性子，接著，生氣的應該會是媽媽。如果爸爸剛好回家，無法安撫生氣的媽媽，爸爸也可能接著生氣。\n\n生氣真的很會傳染！\n\n類似例子屢見不鮮，如何面對別人生氣及處理自己的生氣就很重要了！\n\n在剛剛例子，孩子被委屈、生氣充滿，基本理性暫停運作，任何道理都吸收不進去。讓情緒抒發並讓當事人緩和下來是第一要務。不管聽幾遍，讓孩子講到不想講了，讓想流的眼淚都流出來，抱抱孩子，表達知道他真的很委屈。\n\n孩子慢慢安靜下來，問他：現在可以做點什麼，會覺得心裡比較舒服一點？孩子說：下週四我要請假，我不想再看到那個老師。喔喔，情緒雖緩和，但是還是非常不滿。於是建議他去洗個澡，預告有他喜歡的花生湯圓。喔耶！高興去洗澡了。\n\n吃了飯、吃了湯圓，好一點了嗎？孩子點頭。媽媽表示情緒是可調節的，情緒不好時，會講讓別人也很不舒服的話，緩和下來就好了。再聊這件事，發現孩子已能平靜表達他不懂為什麼罰則不一樣，為什麼罵這麼久？媽媽說明：聽起來，老師今天心情不好，情緒很差，是嗎？孩子：應該吧！媽媽：從老師生氣的內容看起來他也很不舒服，但是回家還要照顧小孩，像我照顧你一樣，也不一定有人安慰他，可能現在也不一定舒服了。我們體諒老師情緒不好時說的話，好嗎？孩子點點頭。接著，跟他討論了當時的一些情況，如果再來一遍，可以怎麼回應會更好？最後孩子的結論是：有些話真的很想說，但是沒有說，否則會被罵更慘。\n\n看起來，理性恢復運作，可以思考了，再接著討論他想要請假的優缺點。因為時間有點晚了，決定先唸書。經歷剛剛的情緒，竟然還可以唸書，太令人振奮了。晚上氣氛沒有被破壞掉！\n\n孩子如何處理情緒：把事情說出來，流了眼淚，洗了澡，吃了飯、吃了湯圓，看了一些影片，聊聊天。\n\n孩子如何面對老師的生氣：最後決定不要管他，忍耐。\n\n其實這個題目是孩子建議我寫的，或許他經歷了今晚的過程，覺得重要，但有趣的是他卻無法回答是如何處理自己的情緒，我問好幾次，他只能回答：有打一下電動，就變開心了。可見，要內化如何處理情緒對孩子而言，還有一段路要走。面對老師的情緒也只能表示那就忍耐。\n\n其實，處理自己情緒、面對他人情緒都是不容易的練習。箴言16:32 不輕易發怒的勝過勇士，制伏己心的強如取城。但是成人用自己經驗看孩子的事件，覺得沒什麼，容易輕忽以待，常常忘記孩子其實沒有足夠的能力承受那些情緒的衝擊，輕忽或壓制，無效處理，情緒會發洩出來又影響成人，全家人無一倖免。\n\n今天我很感恩上帝給我智慧耐心可以包容小男生的衝動、憤怒，雖然他說不出大道理，但是他經歷了一次不被憤怒引導，很可貴，我想，再練習100次，就會有明顯效果了。\n\n很多連續劇，光是因為憤怒引發憤怒，就可以寫好幾集劇情。自己的生命，劇情自己決定要不要讓憤怒出現那麼多集！聽說今年農曆年會很冷，讓我們與家人團聚時，練習不輕易發怒、制伏己心，以恩慈相待，給彼此溫暖吧！\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路新路個人成長工作室負責人、拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 21, title: "勇敢打破錯誤的價值框架", content: "心路新路專欄文章\n\n勇敢打破錯誤的價值框架\n\n自從有了修圖APP，很多人生活的小確幸就是PO一張很漂亮但是不一定像自己的照片！大家也知道有修圖，仍然會捧場的按讚、說漂亮，當事人也就又高興一回。這是科技時代的社交。以往要花很多時間維持皮膚、身材，才能有漂亮照片，現在輕輕鬆鬆就可以有漂亮照片，如果是剛學會用修圖APP，樂此不疲也是人之常情！但是，一個驚悚的現象正在持續…\n\n整個社會追求外表的完美已經到了匪夷所思的地步，常看到文章標題：某某女星64歲，皮膚鬆垮，呈現老態！！言下之意，是貶低該女星維持年輕的能力。人類皮膚用了六十多年，呈現鬆垮、皺紋是正常，卻被寫成新聞：老態！這樣的社會風氣讓人們對外表焦慮提升，加上美容相關產業商業炒作，越來越多人在努力至少不能醜。\n\n以前AI偶像只出現在日本，現在及未來將會如雨後春筍般地很多國家出現。中國近日出現一位虛擬偶像：「翎」，特斯拉聘請其為產品代言人，她是一個不存在人！只因為可以任意塑造其形像，開設社群媒體帳號，與粉絲互動，永遠不會老、不會有醜聞、不會損害企業形像。大家都知道是假的，但是只要沒有缺點，都討人喜歡，甚至將感情投射，為其歡喜為其憂！\n\n可怕之處在於人不能接受自然老化規律，努力抵抗老化以致於乾脆創造一個不會老的偶像來崇拜。人努力要與自身缺點隔絕，彷彿看著沒有缺點的虛擬偶像，自己不完美的遺憾就可以被忽略。因為不能接受身為人的限制，社會開始追求非人的世界、不能有錯的世界。\n\n但是，人再怎麼努力，總無法不面對真正的自己，卸妝後、原形畢露。離開社群媒體的包裝，生活還是很平凡。因此，集體的憂悶產生！為了離開低落的情緒，在受不了之前，趕快繼續包裝自己，享受不一定真實的社交。\n\n如果這也是你的生活，你可以將自己救出來！！脫離這個世界制訂的標準及速度，找回當人的真實。為什麼要努力這件事？因為時間一久，你會以為不快樂就是因為自己不夠好，因為在完美面前，大家都不夠好，最後，你會以為自己就是沒有資格快樂幸福。\n\n很多來談者在協談室揭露出心中的痛苦時，令人心疼的除了其所遭遇，更多的是被破壞了的自我價值。因為整個社會的價值觀、因為周遭人的嫌棄，長大後，甚至不敢承認自己渴望被愛，說出口很不好意思，想要被愛好像是丟臉的。\n\n在一次的師資培訓中，我問老師們：如果我將一張千元鈔票揉過之後，丟在地上，有誰想要？沒想到只有少數人舉手。我提醒：揉過的鈔票還是有一千元的價值，可以買東西。馬上，有更多人舉手。我提醒有很多學生長久無法得到肯定，覺得自己很糟。鼓勵老師們重視學生勝過其表現，給學生一生有益的教育是恢復其價值感，讓他不用為了追求世界標準而失去自己。\n\n上帝造人之後，說：甚好！親愛的朋友們，讓我們一起勇敢的打破世界追求非人完美的標準，接受自己就算是一個再平凡不過、很多缺點、限制的人，我們也可以暢快呼吸、享受陽光、歡笑、自己努力過後的成果。並且讓身邊的人從你身上得到欣賞其獨特的眼光，我們一起找回成為人與生俱來的價值感。這個價值感不再依附世界的標準，回到上帝的眼光。你被造時的價值，甚好，就是你現在的價值，雖然，可能被不當對待過，但是，價值依然存在，沒有改變過。\n\n我喜歡會開心也會挫折，有胖有瘦的真人，你呢？\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、心靈家園關懷協會教牧協談師、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 22, title: "我怎麼可能不焦慮？", content: "心路新路專欄文章\n\n我怎麼可能不焦慮？\n\n每個人都會有常掛在嘴邊的話。我家兒子四歲時說：媽媽，你可以把我的名字改成快點，這樣你要讓我快點時，說一遍快點就可以了。兒子真貼心，一整天聽到媽媽不斷喊「兒子、快點」，想讓我省力些。當下我立刻覺察到：當「快點」這個詞不斷出現時，我跟孩子都有壓迫感，其實很不舒服。\n\n但更辛苦的是腦海中常出現預期性災難的句子，如：AI智能會讓很多工作消失，我這麼老了，學不會，完蛋了！孩子的將來很辛苦，我怎麼可能不擔心、房價這麼高，買不起房子，退休後一定很慘、如果中國真的打過來，逃去哪裡？都是命啦！\n\n以上句子如果只是拿來當閒聊話題，影響不大，但是有些人因為深深相信，因而受困其中。常常是人們擔心的情況還沒發生，但是焦慮症狀先報到了：情緒低落、不自覺緊張，發怒，嚴重的影響睡眠、工作表現，更常常出現因情緒壓力引起的疾病，如胃潰瘍、頭痛、自律神經失調…。\n\n焦慮的人腦海中會不斷出現同樣的擔心，好像趕不走的蚊子，嗡嗡嗡的在耳邊響，不堪其擾。為了減緩焦慮，人們必須阻止情況惡化，於是開始控制，例如父母開始嘮叨孩子、主管開始監控員工，中年女人開始醫美之路。慢慢的，緊張焦慮變成一種自動化反應，身體因而一直處於緊繃狀態，更糟的是思考趨於僵化，行為缺乏彈性，身邊的人並沒有同樣的焦慮，卻成為被控制的對象時，關係緊張及衝突也會開始出現，當事人更覺人生失控，陷入更多的焦慮。\n\n當來談者無法停止的、一遍又一遍緊張的述說其焦慮時，是很令人心疼的。你會明顯「看」到生命正在受苦：深鎖的眉頭、聳起的肩膀、越來越快、越來越混亂的思緒…，但是焦慮讓當事人無暇顧及自己，他們正用盡全力想辦法要消滅他們焦慮的情況，卻被焦慮困在原地！\n\n常常，我所能做的是貼近當事人無法貼近的自己，用穩定的、慢慢的語速表達我聽到了他的焦慮，讓他放心，並引導他當下也能慢下來，大部分人終於意識到自己的緊繃後，總會嘆一大口氣，把力量放掉，肩膀下垂或身體往後倒，不再撐了，然後說：我真的很累！那要怎麼辦？\n\n如果能意識到「焦慮」本身才是最大的威脅，目標正確，困擾才能有機會被處理。換句話說，首先要處理的是「焦慮」，而不是你的孩子、你的員工、你的配偶。所以，必須先找出：到底是什麼讓你這麼焦慮？\n\n焦慮，通常開始於一些想法及情境，如果是無法改變的情境，焦慮是正常，但過度的焦慮會讓該情境更難面對，而想法卻常是可以調整的地方。如果不調整導向焦慮的想法，焦慮會更深。如果能夠調整想法不往焦慮的方向，有機會保持能量，開始建設性行動。但無奈的是，焦慮的人們會不斷尋找證據證明自己應該焦慮，而陷在焦慮回圈中。我焦慮、故我在！\n\n停下來，很重要！！\n\n不管理由多麼充足應該焦慮，焦慮久了，也應該休息，休息夠了，才有力氣繼續焦慮！！當然，這不會是大家想要的，哈哈！如果你文章看到這裡，開始警覺：我才不要焦慮或者我不想再焦慮了。恭喜你，焦慮迴圈就已開始鬆動了！\n\n此時，試著做個深呼吸，慢慢的吐氣……慢慢的吸氣……只要幾分鐘，你會發現心跳被控制下來、驚慌壓迫感減緩了，好像旁邊的空間變比較大了！\n\n你當然可以不焦慮，從呼吸開始！\n\n在我年輕，剛學協談技巧的時候，萬萬沒想到，有那麼多人需要練習呼吸。這不是一生下來就會的本事嗎？但，事實如此！我找到的原因是：我們都被嚇壞了！\n\n這個世界一直告訴人們，不夠、不夠、還不夠！各種商業炒作和宣傳讓你以為你是缺乏的，需要透過不斷的得到才會滿足、才不會被邊緣化，人生才安全。其實，這不是真的。慾望會讓人軟弱，無慾則剛，不是嗎？\n\n如果你不斷吸收由商業炒作形成的主流文化，你的慾望會加大，害怕缺乏會增加。如果你相信聖經說的：我留下平安給你們；我將我的平安賜給你們。我所賜的，不像世人所賜的。你們心裡不要憂愁，也不要膽怯。（約翰福音 14:27）。詩人在詩篇中描述：我心平靜安穩，好像斷過奶的孩子，在母親懷中。你會知道你是當得平安的人！你也會像詩人對神有深深的安全感：我心默默無聲，專等候主。心就可以慢慢遠離焦慮，進入平安！\n\n有位CEO到小鎮度假，在寧靜湖邊中得到相當大的滿足，他看到商機，開始說服為他划船的船家，可以擴大觀光項目，船家問：我為什麼要這麼累？CEO說：當你賺到足夠的錢，就可以退休，享受生活了。船家說：我現在已經在享受我的生活了。\n\n親愛的朋友，明天跟死亡，你無法知道誰先臨到你的生命，因為生命無法掌控，所以你必須要有分辨力，知道每一天最重要需要掌握的是什麼！耶穌既然交代我們：不要為明天憂慮，一天的難處一天當就夠了。那麼我們可以想想，今天有哪些力量、祝福、喜樂是上帝要賜給我們以承擔今天的難處？\n\n最基本的恩典：今天的陽光你曬了沒？孩子的笑容你收進心裡了沒？有沒有使用可以走的腳去看看風景、聽聽鳥兒歌唱、感受家人的陪伴……，當你每一天都沉浸在恩典、祝福、喜樂、平安中，有一天你往回看，會發現這樣的人生，蠻不錯的！\n\n你當然可以不焦慮，從呼吸開始，從相信你可以享受神所賜的平安開始！\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 23, title: "其實，只是需要一個瞭解！", content: "心路新路專欄文章\n\n其實，只是需要一個瞭解！\n\n清明假期，許多人闔家掃墓，追憶已逝的家人，這也是除了除夕新年以外，較多家族成員會見面的時刻，社群媒體刷了不少溫馨的團聚時光照片，叫人感受到家的溫暖真是令人嚮往的情感歸宿。\n\n但是，在不久前，傳出不只一件學生跳樓輕生的新聞，父母莫不驚嚇、痛哭，令人鼻酸。許多的言論圍繞在孩子不想活都是因為教育壓力大、三C對孩子身心的殘害、父母管教…等，成因固然值得討論，我更想把焦點放在我們可以做些什麼來守護下一代的身心健康！\n\n很多尋死的行為其實不是不再眷戀這個世界，而是找不到可以好好活著的方式，在當下，他們以為只有死能讓他們解脫痛苦。這樣的想法很容易出現在精神極度痛苦、感到無力及年幼、缺乏因應問題的資源及生活經驗有限的孩子們身上。\n\n如果在當事人在覺得走投無路的絕望中、在覺得無力承受、沒有任何辦法中，感受到一點亮光、一點可能性，就像在隧道中前方的一點光線，會讓在黑暗中的人們想要往有光的出口走。\n\n如果有光，就不需要一直在黑暗中！！\n\n最近，在和父母的合作中，我們幫了一個孩子走出心中的黑暗，超讚的！！謝謝家長同意讓我分享這個過程。\n\n孩子的媽媽傷心、焦慮、自責的告訴我：他們家中年級的孩子竟然偷拿教室的集點卡、在朋友家偷糖果吃、在家偷拿手機在廁所玩。當下，我比較關心的是媽媽的眼淚。這麼難過，一方面因為從小乖巧、順服的媽媽很難接受孩子有品格上的偏差，另一方面，媽媽不願意孩子像自己小時候的被忽略，非常用心的陪伴孩子長大，但是一直挫折這個孩子近來都不願跟父母溝通，當孩子表現不佳，媽媽要與之討論時，孩子就是一直哭，媽媽陪他在房間耗幾個小時，什麼都不講，媽媽很無力。\n\n聽起來，孩子很需要協助，但是，眼下，已成年的媽媽其實也像個傷心、無助的孩子，也很需要能指引的光。我想，幫助媽媽找到離開心中黑暗的無力及方向，她就可以陪自己的孩子找到「不用偷偷來」的生活方式。\n\n當媽媽的情緒被接住，恢復力量之後，就可以理性思考，在混亂中慢慢清晰教養的方向。跟媽媽有了共識後，我和孩子有了一段獨處的時間。孩子就像媽媽描述的一樣，閒聊的時候，很開心，但是講到要處理的事件後，孩子不再講話，一直哭、一直哭、一直哭………\n\n雖然他不講話，但是可以感受到孩子心中巨大的壓力。我說：聽到老師知道你偷拿集點卡，嚇一跳是不是？一兩分鐘後，孩子在眼淚中小小的點點頭。\n\n「也很怕爸爸媽媽知道會生氣，是嗎？」\n\n「要跟阿姨講這件事，很難，講不出來，是嗎？」\n\n「我知道你很緊張，怕被罵，你放心，媽媽找阿姨來是為了保護你，要跟你一起想辦法，找一個老師可以不會對你生氣的處理方法，你覺得這樣好嗎？」\n\n孩子聽到理解的表達，越哭越厲害，但是點頭也越來越快。我想，他在心中的黑暗裡看到一絲亮光了。\n\n接下來我陪他寫了要給老師一封表達歉意及要如何處理的信。然後請媽媽進來聽孩子把信念了一遍。孩子因為找到解決辦法、感受到媽媽要保護他的安全感，眼淚已經不再流，緊張焦慮也已舒緩，反而是媽媽開始流眼淚，媽媽抱住孩子說：你真勇敢，可以把事情說出來，可以面對做錯的事，媽媽看到你好大的進步。孩子臉上有了放鬆及笑容。\n\n更感動的是，隔天，爸爸也一起來了，在父母的保證下，孩子也練習表達在父母朋友家偷拿糖果的事件，孩子已不像昨天什麼都不講，變得很柔軟、放鬆、開放。很快的，我們就寫好給糖果主人的道歉信及處理方式。但是，有一個環節，孩子又不講話、又一直哭了。\n\n其實這是一對勤勤懇懇，辛勤賺錢養家，非常愛孩子的夫妻，他們很心疼孩子心裡的挫折，只是孩子表現得太乖巧，沒有察覺到孩子的認知有誤。為了讓孩子認為「父母不在乎、不顧念他的需要，所以只能偷偷做」的信念鬆動，我當著父母的面，問孩子：是不是覺得跟爸爸媽媽說想吃糖果、想玩電腦沒有用，所以只能偷偷做，孩子不表達，只是哭。再問：是不是有時候會覺得爸爸媽媽不想要自己開心，不愛自己？孩子的眼淚又掉下來了，同樣不表達，連點頭也沒有。我拿起一塊板子，擋住父母的視線，問孩子：是不是擔心說出覺得爸媽不愛自己，爸媽會生氣？有了板子的遮擋，孩子很快點頭，我邀請父母給出保證。\n\n後來父母保證不會生氣，會很願意聽到孩子真正的感受，孩子才在父母面前坦承會覺得父母不愛自己。最後是爸爸含淚，心疼抱著兒子，表達肯定兒子很有勇氣，以後想吃什麼都可以討論，只要顧及身體健康。\n\n看著孩子完全釋放、蹦蹦跳跳的跟父母走到車上，回到孩子該有的活潑，心中有說不出的暖意，感動父母柔軟包容謙卑的愛，感動孩子不需要自己承受著控制不住慾望的掙扎與偷拿、偷玩的緊張。\n\n過幾天，媽媽傳來好消息，爸爸變溫柔，孩子不像之前都不講話了！！\n\n哥林多前書13:13 如今常存的有信、有望、有愛這三樣，其中最大的是愛。 所以現在常存的有信、望、愛這三樣；而其中更大的是愛。 所以现在常存的有信、望、爱这三样；而其中更大的是爱。\n\n讓我們有意識的去理解旁人的立場，先不要套上對錯的框框，在包容的愛中，慢慢引導走向真理、正確的道路，這樣溫暖的愛可以讓當事人不覺得走投無路、需要結束生命才能讓痛苦解脫，可以避免讓孩子覺得只能用自己的方法解決問題。\n\n真心祝福大家都能珍惜親友同在時，彼此以恩慈相待、切實相愛，不但可以減少很多遺憾，更在將來只剩回憶時，想起的都是愛與感恩的溫暖。\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 24, title: "看起來，無路可走！！", content: "心路新路專欄文章\n\n看起來，無路可走！！\n\n今天的專欄是回應讀者投稿。溫馨叮嚀：請大家避免在文章底下針對投稿讀者的選擇及作法留言評論或建議，願意分享故事跟大家一同思考成長，我都很感謝，不希望分享者因而受到打擊。當然，非常歡迎祝福肯定的鼓勵喔！如果留言讓人感到有可能會打擊到分享者，雪媚老師會將其刪除喔，請見諒！當事人已經是承受壓力最大的人了，我們應盡力給予支持而非再增加其重擔。\n\n讀者來稿：\n\n我這兩天,很努力的閱讀老師專欄，希望從中間可以得到一絲絲的救贖的曙光，也試著整理出自己的問題。我很累,想做好很多事,但是我做不好,很多是別人的事,但是當事者不負責任,所以重擔在我這邊。我即將50歲,是婆家,唯一的媳婦,二個小叔跟我年齡相近。兩位小叔,從來沒有出去工作過,每天只會上網打遊戲,看卡通,還有吃飯,我婆婆常常說,他跟公公百年以後,叫我要好好照顧兩位小叔。我婆家的經濟很不好,兩個老人家被兩位小叔啃老,活得很辛苦。目前兩位老人家養兩位小叔，他們的生活費,主要還是先生的薪水, 因為我要照顧失智媽媽,目前沒工作，身心狀況也都很不好。\n\n婆家房子已經年久失修,回去根本沒洗澡的地方都不方便,所以這一兩年,先生為了保護我,通常就是他坐火車回婆家,當天來回。而我,就是婆婆口中的壞媳婦,都不回家，我只有大日子回去,例如過年,但是就是忍者1~2天,沒有洗澡,用毛巾擦拭。\n\n為了婆家要傳宗接代，我還在努力生, 婆婆常常暗示或是明示,很多夫妻生不出小孩,各自離婚後,都各自當爸媽了。試管嬰兒療程至少20次以上了,每次存夠錢就做一次,目前是再一次等植入。\n\n這個問題是雞生蛋,蛋生雞，我放不下先生,先生放不下父母,父母放不下,兩個無能的兒子。\n\n同時,我在娘家,也是父母的主要照顧者,我哥哥棄養父母,遠走高飛,我姐姐住的比較遠,所以她負責電話的關懷。父母現在都80幾歲了,生病,房子也是年久失修,完全沒有住的生活品質(囤物症)。\n\n哥哥一心一意,在等父母趕快死了,他就會找房仲,賣掉父母的老房子，父母也是重男輕女,愛的是遠在天邊的天邊孝子，同時,我爸跟我媽的感情很不好,媽媽失智症,爸爸在外人面前,只會嘲笑媽媽,完全不跟媽媽互動,所以媽媽情緒來了,只會對我發脾氣,丟東西,把她人生,所有的怨念(沒有老公的互動),都發洩在我身上。\n\n我好累,很想丟下這一切,像艾成一樣跳下去,一切的問題,就可以回歸給當事者去面對\n\n我想得到的回應：\n\n我的心放不下(別人的責任),我好像希望能夠再多做些什麼,例如鼓勵小叔,學著洗衣服,學者去賺一些能糊口的錢(說真的,喜憨兒都比他們優秀了),又會心疼,自己的父母,先生的父母,所受的遭遇。\n\n但是同時,現在,金錢,傳宗接代的期待(做試管很燒錢),跟未來的責任(2+2個老人+2位小叔),真的會把我跟先生壓垮了。我目前支持來自信仰、目前在家線上主日,參加甜甜圈線上課程、先生(不是基督徒,很願意聽我說)、姐姐(基督徒,不支持我去心理諮商)、心理諮商師。\n\n頂不住的頂客族\n\n想聽老師給的看法及意見\n\n親愛的讀者，平安：\n\n    瞭解了您的處境後，第一印象是您跟先生對家人有滿滿的愛，令人感動。在幾乎無力承擔的重擔、舉步維艱中，您和先生仍然願意任重道遠的堅持下去，不但沒有放棄任何一位家人，還持續努力孕育下一代。\n\n您和先生是上帝賜給婆家和娘家人非常大的祝福及支柱，為著他們擁有您和先生的愛及付出深深感謝主。\n\n目前您和先生的責任在您身上已經超負荷，在先生身上也是勉強撐著，先生似乎還可以傾聽您，比你的承受度多一點點。\n\n我的看法是：未來比過去重要，按照目前兩個家族的支持系統，萬一您和先生撐不下去，兩個家族的安穩都會受到很大威脅。那是您和先生最不願意見到的。畢竟，您說的放不下中，雖然無奈，也可能只是責任，但終歸是不希望家人過得不好。\n\n所以，我建議接下來，應該讓承擔最重責任的您和先生進行壓力管理。任何可以減輕壓力的作法，都應該盡量執行。只要家人的基本生活還能運作，您和先生應該盡全力彼此幫助修復身心靈的健康。您和先生好，才是真的對家人好。\n\n在您目前身心都很不好的情況下，如果按照計畫繼續試管嬰兒療程，會在目前的重擔上再繼續加重，因為您至少有兩星期必須非常小心等待著床，除了繼續往上加的治療費用，還有極大心理壓力（剛好，我也做過兩次試管嬰兒療程），如果失敗，還要承受再一次失落。如果成功受孕，接下來，您必須在虛弱的高齡產後的辛苦同時承受照顧嬰兒和失智母親。如果您無法照顧，則需再增加開銷請媬姆。\n\n就算您不需要照顧失智的媽媽，光是高齡照顧孩子的長期辛苦，例如前幾個月到一年幾乎不可能睡飽。而您先生在原有的經濟擔子上，則還要再加上不見斷、只會越來越高的育兒開支………，最後，如果孩子順利成長，您還要擔心如果您和先生有什麼意外，這個孩子，誰可以照顧他長大？\n\n任何人要承擔您的壓力，都會感到力不能勝！！\n\n想要幫助家人、盡照顧的責任，真的值得肯定，也沒有錯。所以，要很實際的衡量自身限制，如果什麼都要兼顧，就會如您所說：什麼都做不好。不是您能力不好，是擔子太重。另一方面，小叔已經是成人，本就不是您和先生的責任，他們有自由意志，可以決定要如何生活，如果他們不願意，不是其他人可以左右的。\n\n為了您和先生願意照顧家人的心，請就您和先生可以做決定的範圍內，速速進行減壓計畫。例如暫時延緩植入受精卵（我家兒子是受精卵的時候，也在醫院冰箱冰了半年），好的孕育胎兒的環境需要喜樂健康的母體。例如，能力所及內，兩人要有很多的放鬆行程，想想，如果生命只剩一星期，你們最想做的是什麼，趕快去做。\n\n如果減壓計畫成功，身心恢復健康，屆時再來評估是否要繼續生育下一代。如果繼續試管嬰兒療程是對孩子、您和先生、長輩們都是最好決定的話，當然可以繼續。\n\n為您感恩有信仰成為支持的力量，我想到聖經：\n\n箴言16:9 人心籌算自己的道路，唯耶和華指引他的腳步。\n\n耶利米書 29:11耶和華說：我知道我向你們所懷的意念是賜平安的意念，不是降災禍的意念，要叫你們末後有指望。\n\n因為種種原因，您和先生在生育孩子上已經承受超長時間經濟及心理壓力損耗，需要相信順著上帝給的平安的意念會比自己設定的人生道路更好。請勇敢相信要我們愛人如己的神很喜悅您和先生對家人的付出，但是更心疼您和先生長期超負荷的生命，請勇敢跟著上帝指引，先好好尋求身心靈的恢復，如果上帝真的仍要賜下新生命，您的身心靈恢復健康、喜樂是首要之務。\n\n最後，我要為您和先生禱告：主啊，求您賜福並賜下力量給對對家人不離不棄的善良夫妻，他們捨下自己的需要，為要照顧家人、滿足長輩對新生命的期待，生命幾乎要燃燒殆盡。求您醫治他們並奇妙帶領他們找到一個可以大口呼吸、卸下重擔、重新感受喜樂、盼望的生命。他們兩位不但善良、也彼此相愛，也愛家人，這麼美好的人，理應享有更多生命的美好，懇求上帝將更多得著您祝福的秘訣，賜給這對夫妻，在生活計畫中作減壓的安排，找回對生命的掌控感，讓她們的生命可以如倒吃甘蔗一般，越來越甜，讓她們體會到您的恩惠慈愛隨著他們，跟著他們跑，直到永遠，最後，也祈求讓他們可以體會並享受到自己的生命是神看為甚好的美好，阿們！\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 25, title: "你可以活成自己喜歡的樣子！！", content: "心路新路專欄文章\n\n你可以活成自己喜歡的樣子！！\n\n最近，過馬路的時候明顯感覺到車輛大都會停下來讓行人先走，好新鮮的感受，這種過馬路的安全感以前只有在加拿大才體會過！\n\n不禮讓行人會遭罰的法令才宣布不久，馬上可以明顯感覺到改變，這是第二次的經驗，第一次的經驗是不帶安全帽要罰款！\n\n早期的經驗，很少人騎摩托車會帶安全帽，所以當政府提出此要求時，反彈聲浪很大：那麼熱怎麼戴的住啊？頭髮都塌了！\n\n在推廣期間還是很多人不帶安全帽，但是一開始要罰款之後，大家都戴上了！現在不戴安全帽會覺得不習慣！\n\n面對改變，大部分人會先抗拒，除非為了趨吉避凶！\n\n所以只要生活還能過得下去，生命模式還能運作，改變是不被歡迎的，甚至不被相信會成功！\n\n但希望生命成為自己想要的樣子，改變是無法避免的！\n\n人會一直陷在痛苦中，常常以為痛苦是別人或者環境造成的，所以自己只能很無奈的承受，很倒楣！於是形成長期抱怨且與痛苦並存！\n\n我的工作常要思考我服務的對象最大的好處是什麼？我常常集中心力想要幫助對方離苦得樂，但是我也常常發現痛苦中的人沒有那麼積極要離開痛苦，因為覺得改變不可能、太難了，所以放棄期待跟盼望！\n\n雖然面對生命中痛苦需要做出的改變不像戴上安全帽或者禮讓行人這樣的改變這麼簡單，但最近走在路上常常被車輛禮讓的驚喜提醒我：值得在生命中為自己想要的樣子嘗試突破！\n\n橫衝直撞的衝動性格要相信「慢」不是一件壞事、「謹慎」不一定就會錯失先機，反而是降低風險提高成功機率！\n\n不容錯誤發生，厭惡失控的謹慎性格要試著在不得不改變的時候深呼吸，告訴自己：別怕，可以的，我可以慢慢練習有更大的承受能力面對變動的過程！\n\n最近沸沸揚揚的Me Too事件，讓許多曾受性侵害事件長折磨的當事人勇敢面對自己，不管有沒有出來披露曾被侵犯，這個令人遺憾心疼的過程我相信是幫助更多人勇敢的去知道要照顧自己，勇於拒絕傷害，雖然也有人趁機蹭熱度刷存在感，讓社會的氛圍更低迷煩躁，但這整個過程相信對於群體心理健康的提升是有助益的！\n\n不曉得是不是天氣熱，讓人煩躁，也陸陸續續有自殺以及殺害親人的案件，每一個案例都有很多面向可以討論，我在當中看到了一個共同點：不管是被性侵害痛苦、因痛苦想自殺、或因痛苦殺人，如果他們可以更早照顧好自己，可以聽到內心真正的呼喊，成為自己邁向幸福最佳支持，或許可以不被痛苦淹沒而長期忍受及造成遺憾！\n\n如何將生命活成自己喜歡的樣子？聖經有很好的建議：常常喜樂、凡事謝恩、不住的禱告。帖撒羅尼迦前書5:16-18\n\n為了常常喜樂，要主動的積極的去做自己開心的事情；凡事謝恩就是常常看見自己擁有的，更容易發掘自己的幸福；不住的禱告則是不把痛苦累積在心裡，要常常清空重擔，交託給愛我們的上帝！\n\n那麼久沒有寫文章是因為我把時間留給了放暑假的兒子，把握我能陪他的時間，創造很多開心的回憶！這就是我最喜歡的生命的樣子！\n\n兒子剛放暑假時，我焦慮如何兼顧工作及帶孩子，經歷一些不舒服的過程後，我發現兼顧效果很差，所以，做了一個決定：不要糾結：需要陪伴時，就完全放下工作，接著，我和兒子狀態都對了！！\n\n你找到你最喜歡的生命的樣子了嗎？改變，可以從一小步開始！不要放棄建構自己要的幸福哦！ \n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 26, title: "在痛苦中，你可以試試靜靜的等待", content: "心路新路專欄文章\n\n在痛苦中，你可以試試靜靜的等待\n\n醫生安排我進行需要全身麻醉的斜視手術，所以手術前一天12點開始禁食，隔天年長者跟小孩被安排先開刀，他們比較不耐餓，我的年紀一直等到下午三點才被通知進手術房。\n\n在飢餓及無盡的等待中，我所能做的就是靜靜的躺著，因為活動會讓我更餓！早上六點就被叫起來換手術衣、接點滴，接下來九個小時我眼睛所能看見的就是病房裡面的隔簾！以及因為越來越餓，腦海浮現各種美食！\n\n當下我意識到，我能夠不抱怨、不生氣，只是靜靜躺著等待，是上帝給我很大面對飢餓痛苦的工具！\n\n來陪伴我的姊妹比我更不滿：怎麼可以讓要手術的病人餓這麼久！\n\n看著姊妹為我不滿，我靜靜的感受被愛。同時也想起幾位我服務的個案，除了創傷跟打擊，其實讓他們最痛苦的是憤怒跟不滿：為什麼我要承受這些事情！\n\n這樣的吶喊是每個痛苦中的人都會有的，但卻不能帶來力量，能讓人慢慢走向療癒恢復及重生之路，首要是平靜！這是我在已走出痛苦的成功者身上獲得的秘訣！\n\n當下忍受飢餓的我，更是深深體會靜靜等待痛苦過去是讓我最不費力的面對方法！因為不生氣，我可以不花力氣，因為靜靜等待，我可以儲備力氣！\n\n禁食15個小時，終於等到被通知要進手術房，想到麻醉之後就可以終結飢餓，真是太開心了！\n\n配合護理師的要求要先去上廁所，扶著點滴架行走也感覺雀躍無比！\n\n但是還沒從廁所出來，就聽到護理站打來電話通知需要再等一下！\n\n垂頭喪氣又躺回床上，靜靜的等待！\n\n終於終於，晚上九點讓我進到手術房外的等候室了！已經禁食19個小時了！\n\n在等候室等了約莫20分鐘，終於等到醫生靠近，太開心了！醫生非常嚴肅的表情問我：你看了下午的新聞了嗎？\n\n原來在我第一次被通知要進手術房的時候，在基隆發生爆炸案的傷兵都被送到了這個醫院，當然要先救治他們！於是，醫生設法在我住院的第三天下午幫我安排手術。\n\n所以我還要再禁食一次！！！\n\n住院第三天早上，一樣六點被叫醒，接點滴、換手術衣。我繼續靜靜的等待，原本說好的下午三點也是延到六點。\n\n同樣流程再來一次，我躺在病床上，從病房被推到手術室。我真高興我可以不生氣、不抱怨，靜靜的等待！因為這只是一個斜視小手術，卻要住院四天。再次感謝主，我心中沒有不滿！\n\n從醫生到麻醉師都一直跟我抱歉，我回報給他們真誠的笑容說：沒關係的，是他們辛苦了！\n\n人生真的是很辛苦，很多的意外，比起在爆炸案中嚴重受傷的官兵、我旁邊的病友每個半小時要打一次止痛劑，我旁邊旁邊的病友在洗腎的同時，拖著衰弱的身體要進行開刀，我只是餓肚子，真的沒什麼！\n\n但在我還不知道有爆炸案，也不知道病友這麼難受的情況下，可以讓我靜靜等待飢餓的過去，是在自己過往及別人的苦難中所學到的！\n\n詩篇 37:7你當默然倚靠耶和華，耐性等候他；不要因那道路通達的和那惡謀成 就的心懷不平 。年輕看這段經文，覺得是信仰的要求，經歷過諸多苦難，才知這是可以勝過痛苦的秘訣！\n\n我能夠經驗到默然等候耶和華的力量，來自於長期經歷主同在的安全感，在痛苦中總是能同時感受到恩典及醫治，謝謝上帝的愛讓我在充滿意外的人生仍能感受幸福！\n\n文章寫於術後傷口的腫脹以及麻藥的副作用：頭暈、頭痛、噁心想吐中，感謝主賜我力量，依然可以在幸福中靜靜等待痛苦過去！也等待已經跟父母分開四天的可愛兒子回家！\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 27, title: "你要捍衛屬於自己的幸福", content: "心路新路專欄文章\n\n你要捍衛屬於自己的幸福\n\n很多人的痛苦常常跟生命中某個對象對自己不好的態度有關。即便那一段經驗可能是十幾二十年前，甚至是三、四十年前！\n\n面對那些經驗，當事人總是會深深記得對方對自己講了什麼樣的話、用什麼樣的語氣、做了什麼樣的事，每次想起，當下的委屈、害怕、憤怒、無能為力總是那麼清晰，甚至心中的酸楚、眼淚馬上就湧現！\n\n創傷反應在生命中運作得越久，鬆動就需要花更多力氣。當過去的傷痛得到療癒，當事人總會很驚訝：怎麼可能自己竟然沒那麼難過了？面對有權威的人竟然可以慢慢沒那麼害怕了？\n\n能有這些進展已經夠讓人興奮的了，但這些療癒對人生需要的幸福來說，遠遠還不夠！\n\n我們需要的不只是：不再那麼痛、不再那麼焦慮恐懼、不再那麼徬徨無力，而是能夠像泉水一樣從心裡湧出的幸福！\n\n這種幸福建立在心裡可以獨立的安全感！能感受到自己就是一個完整的個體，沒有缺少什麼，不會懷疑自己的存在，能夠自然而然享受自己與生俱來的特質需要的生活風格，可以享受與別人來往的關係感，也可以享受獨處，大部分時候心靈是平靜而喜悅的！\n\n以上這些描述有沒有讓人覺得超棒的！\n\n要進到這種幸福的境界，除了創傷的修復，還要鍛練心靈的肌肉，重新練習能讓自己進入幸福的因應模式！\n\n有一位很愛唱歌的中年媽媽眉飛色舞的說：我年輕的時候只要被我婆婆聽到我在唱歌，就會被罵不正經，他們是比較傳統的家庭。所以後來長輩都過世之後，這位媽媽在自己客廳裝設了整套的頂級的卡拉OK音響，每天都唱得好開心！\n\n我聽她講這段經歷的時候，真心替她高興，她唱歌的樣子真像一個年輕的小女孩，非常享受在透過旋律及歌詞展現自己的感情！\n\n當阻礙自己得到快樂的因素消失了，那位媽媽就無縫接軌回到自己的快樂當中！但很遺憾的，很多人在阻礙自己快樂的因素不在之後，卻仍然繼續不能快樂的生活方式！\n\n例如小時候因為害怕父母的打罵而習慣了小心翼翼，當到了中年之後，會打罵自己的父母早已不在，但是害怕別人臉色以及不高興的反應卻如影隨形，時常出沒在生活中，讓自己感覺到心很累，一直不自由。\n\n \n\n對容易恐懼害怕的模式來說，幸福就是養成能平靜放鬆的新習慣、能理解安全感是來自於建立起能保護自己的心理界線，而不是跟據是不是遇到友善的人！\n\n有個青少年因為害怕常常生氣的爸爸，產生憂鬱焦慮情緒，也要求媽媽要符合爸爸的要求，才不會惹爸爸生氣！\n\n孩子還未成人，性格尚未定型。還有很大空間可以幫助他發展出健康的心理界線。我向他說明：我們無法控制別人的生氣，就像我們沒有辦法控制天要下雨，但我們可以在下雨的時候保護自己，撐開傘或穿上雨衣，讓自己不被淋濕！爸爸生氣，是因為他認為需要生氣或者他想要透過生氣讓你害怕而聽話，這個時候你可以保護自己的心，爸爸的生氣不等於自己就需要很害怕，可以冷靜的思考當下應該怎麼做是正確的，雨下的時間或長或短， 總會結束，爸爸的生氣是自己開始的，最後也會自己結束。\n\n青少年經過支持，雖然表面上並不能反駁爸爸的生氣，但是心裡沒有那麼害怕了！\n\n很多成人雖然長大了，但仍然停在小時候害怕的狀態，如果你也有這樣的情況，該是起來捍衛自己幸福的時候了！\n\n你可以使用自己的理性來陪伴引導自己的情緒，例如當你充滿預期性焦慮時，你可以默想耶利米書29章11節耶 和 華 說 ： 我 知 道 我 向 你 們 所 懷 的 意 念 是 賜 平 安 的 意 念 ， 不 是 降 災 禍 的 意 念 ， 要 叫 你 們 末 後 有 指 望 。\n\n告訴自己平安才是上帝要我們走的道路，所以可以坦然無懼等候神要給自己的平安，而我們要當上帝最佳的助手，跟上帝合作：幫助自己冷靜下來，然後開始尋求怎麼樣可以進入平安，你的理性就會幫助你想起來自己可以運用的能力及資源！\n\n我們最大的資源是能夠引導我們行在道路真理生命中的聖靈。約十四26-27「但保惠師，就是父因我的名所要差來的聖靈，祂要將一切的事，指教你們，並且要叫你們想起我對你們所說的一切話。」，「我留下平安給你們，我將我的平安賜給你們；我所賜的，不像世人所賜的；你們心裏不要憂愁，也不要膽怯。」\n\n當我們平靜下來，就可以更容易領受聖靈保惠師的引導，即便真的有人生氣，我們仍然可以進入平安。這樣的幸福必須靠自己主動地選擇來捍衛！\n\n情緒受苦的人中有很多是因為感覺自己不被愛，成長過程中感到不被愛會產生羞恥感以及很大的失落。當沒有人愛自己的時候會覺得自己很沒有價值，也很傷心！\n\n被踩髒的$1000紙鈔，可能因為沒有被看出是$1000而沒有人愛，但它的價值從來沒有減少過。被很多人喜歡的$1000紙鈔，也不會增加其價值！有沒有人喜歡並不會改變一個人的價值！\n\n每個生命在來到世界上的時候，價值就已經存在，因著有神的形像樣式，每個生命都是尊貴，也值得被疼惜！\n\n失落愛的人需要的幸福就是相信自己的價值不在於有沒有人愛！可以試著研究為何耶穌愛每一個人，愛到願意為人上十字架，你一定會超感動的！原來上帝那麼滿意你原來的樣子！\n\n慢慢找到自己一個人時就可以擁有的幸福喜悅！勇敢放開不被愛的害怕，才能看到一個人時就會有的滿足！\n\n你可以一直害怕天要下雨，而不敢出門，也可以把雨具準備好，自由的到每一個你想去，而且會讓你幸福的地方！\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 28, title: "不要自己嚇自己，沒有什麼失去是不能承受的！！", content: "心路新路專欄文章\n\n不要自己嚇自己，沒有什麼失去是不能承受的！！\n\n生產：如果能預知生小孩的痛，還要承受四度裂傷，在無法坐著餵奶的情況下，艱難孤單一人坐月子，我不知道有沒有勇氣懷孕。但現在，我的孩子已經長大了。\n\n孩子近視：九歲孩子竟然近視了，我那麼努力保護他的視力！！我無法接受！！\n\n身材：我受不了那麼胖。\n\n婚姻：有受不了婚姻的，也有受不了無法進入婚姻的。\n\n人生很多痛苦都跟『受不了』有關，而『受不了』跟人生經驗、價值觀有關。例如先生一向溫和，偶而因為壓力大講話不耐煩，太太就會受不了。被家暴的太太沒有被打罵就覺得確幸。也就是說，「受不了」是主觀的，不一定真的承受不了，是『感覺』受不了！\n\n受不了的難受會因為反覆思想及擔心，會不斷不斷加深！\n\n如果已經發生的衝擊，來不及反應，只能趕快因應，沒有『受不了』空間，通常會經歷關關難過關關過。我的父親從發現癌症到離世只有三個月，一直到追思禮拜結束，都還很恍惚，不是很清楚到底經歷了什麼！雖然這是不容易的過程，但是更難的是：一直擔心害怕某種狀況會發生。\n\n大部分擔心的情況不一定會發生，就算發生了，也不一定應付不了，就算無法解決，也不一定接受不了，就算一下子接受不了，慢慢慢慢隨著時間過去接受度都會提升，因為患難生忍耐、忍耐生老練！！！！但是擔心害怕卻馬上讓情緒很糟，當下日子就很難過！！\n\n憂慮是一種習慣，讓自己很難受的習慣，如果你想擺脫憂慮習慣，首先要有一個認知：憂慮習慣是被形成的，更是可以被改變的。練習不憂慮就像舉重訓練，一點一點增加難度。所以要做一個選擇跟渴望：找到取代憂慮習慣的因應方式。\n\n如果將憂慮比喻成心中的黑暗，沒辦法將黑暗趕走，但只要引進光，那怕只是小小燭光，全然黑暗馬上就消失。要練習的不是抑制憂慮，而是尋找光！\n\n當有人在憂慮中，我們要有同理心，設身處地，站在對方角度去扶持、安慰，但是如果要練習擺脫憂慮習慣，可以參考這句聖經：你們所遇見的試探，無非是人所能受的。神是信實的，必不叫你們受試探過於所能受的，在受試探的時候，總要給你們開一條出路，叫你們能忍受得住。」（哥林多前書 10 : 13）\n\n再次溫馨提醒：這段經文更適合自己用來操練信心，不一定適合用來鼓勵正在患難中的人喲！深處患難中就像溺水，先將人救上來，再慢慢練習游泳。\n\n人們心中相信什麼，就會往這個方向前進，你相信憂慮會成真，整個人會為憂慮做準備，開始緊張、心情低落;你相信上帝會賜力量，就會尋找力量，就會期待承接力量，是帶著盼望的。\n\n留在憂慮習慣中的黑暗、相信日子如何力量就如何，你選哪一個？\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 29, title: "從電影『小曉』思考過動兒教養方向", content: "心路新路專欄文章\n\n從電影『小曉』思考過動兒教養方\n\n看電影看得我職業病都犯了！真想走進螢幕，跟小曉聊聊，跟媽媽聊聊…..\n\n這是一對很辛苦的母女，除了各自本身生理、心理的困難，最讓人難過的是深深愛著彼此的母女卻不了解彼此！\n\n小曉的過動、社交不利和媽媽的情緒激烈、不耐煩都不是一兩天可以改善的情況。日子一天天的過，帶給彼此的痛苦也一天天的累積，因為彼此不理解，由自己的角度詮釋對方，產生許許多多的誤解、受傷、防衛、對立，大爆發只是遲早的事！\n\n要避免因著誤解而累積許多受傷的捷徑就是讓母女雙方看見對方對自己的在意！\n\n小曉的老師試圖努力這件事情，可惜不得法，甚至後來因著跟媽媽的關係威脅到小曉的安全感，最後落得一個真心換絕情的結果！\n\n如果要幫助這對母女， 要當一個有效的情感翻譯者，必須從老生常談的同理當事人開始。\n\n當人感受到完全被理解、準確的被理解，會有更大的空間跟能量去理解身邊的人。\n\n消除母女之間的隔閡之後，再協助雙方體認種種限制，在有限的條件下建立共同往前的共識，不斷累積的傷害或許可能逐漸減少，甚至在繼續前行的人生中，成為彼此最好的同伴！\n\n面對特殊需求，如過動的孩子，家長跟老師常有的最大的迷思在於認為只要孩子願意配合，有好的態度，就可以不再出現違規、不聽話的行為。   \n\n成人總是著眼於行為必須改變！但孩子一再一再讓成人失望，成人常常覺得孩子是故意的，雙方的關係很難緩和！\n\n有一次在國小教師特殊教育研習中，一開始我問老師，面對過動學生，大家想著要幫助孩子的目標是什麼？得到的答案通常是幫助孩子專心、學會社交互動、提高責任感每天按時交作業…等等。當我們深入研究孩子因為大腦功能的限制，必須帶著過動症狀持續一輩子，常常犯錯，忘東忘西，衝動控制很弱，常常只能做想做的事而不是該做的事，總是輕忽自己對別人的干擾，讓人討厭，他們需要什麼樣的能力走人生的路？\n\n在全場沉默一會兒之後，有個老師突然說出兩個字，讓大家頻頻點頭！那位老師的答案是：樂觀！接著老師們紛紛說出需要永不放棄的能力、需要原諒自己的能力、需要承受挫折！\n\n我給予老師們大大的肯定！果然是第一線工作者，很快釐清迷思，抓到正確方向。現今台灣小學的制度每個孩子會跟著老師兩年，但這些症狀會跟著孩子一輩子！所以我們要思考的是在孩子跟我們相處這兩年，我們要幫助他培養什麼能力，他可以帶到往後一生都需要的！\n\n如果他的過動是天生的，你希望那些行為消失，只有一條路，就是把他的大腦換掉，醫生也做不到，何況父母跟老師！\n\n面對特殊需求孩子，我們要努力幫助孩子，永不放棄，但是要分辨什麼是可以改變，什麼是不能改變，可以改變的地方勇敢的去改變，不能改變的地方在愛裡接納！\n\n我家兒子國一段考前一天，在學校情緒行為都很失控，兒子說：我就是覺得很無聊，很煩，不想坐在椅子上，想一直走來走去，才會做那些事情！我心裡默默禱告求上帝讓我看懂這個孩子，突然我說出了連自己都有點驚訝的話：你是不是因為要考的部分還有很多沒唸完，但是你又不想念，所以覺得很煩？兒子突然安靜了下來，說：對啦！被理解了，就不再浮躁的反抗！\n\n愛玩、幼稚、不想唸書、不耐煩，這些都不可能一夕之間改變，但是當我給出空間理解之後，我得到一個配合的兒子，可以好好對話，不需要破壞親子關係，願意思考下一次段考之前可以怎麼改善，避免自己進入這麼不安的心情！\n\n方向對了，找到方法，加上時間，才有可能達標。\n\n如果您願意更多瞭解如何幫助過動特質的孩子，歡迎參加20240106(六)線上過動特質兒童教養討論會，詳細資訊在留言處。\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n- 曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 30, title: "2024一起來長大！", content: "心路新路專欄文章\n\n2024一起來長大！\n\n曾經聽過有人的新年願望是長歲不長肉！但我覺得更慘的是不長獨立性！\n\n當你是嬰幼兒的時候，沒有獨立行動的你需要被抱著，抱著你的人大部分也甘心樂意，還非常享受你的可愛，雖然手很酸！\n\n到了你會走路的時候，被抱的機會就減少了，當走累了想要抱抱，大人總是說長大了要自己走！不是大人不愛你了，而是抱不動了！\n\n再大一點，你被要求的就不再只是自己走路，你會被期待在能力所及以內自己做完自己該做的事、不要增加別人的麻煩，甚至還要幫助別人！\n\n類似以上的獨立性，對大部分人來講也不難，大家也有能力獨立，因為有成就感，有時還會得到稱讚，更重要的是不用倚靠別人，其實很輕鬆，不需要看別人臉色！\n\n但有一種獨立相對困難，就是減少過往對某個對象的心理依賴、或者是不倚靠對方照著我們需要的方式讓我們感到被愛！\n\n當你渴望某些對象按照你的期望愛你，但因為種種因素對方不願意或做不到的時候，如果自己產生了無可自拔的痛苦，覺得不被這個人所愛感到精神崩潰活不下去，最極端的方式就是選擇結束生命來結束這個痛苦，但大部分人不會因此就輕生￼會，而是變成索求愛的乞丐！\n\n索愛的乞丐會讓自己感覺沒有尊嚴，但礙於面子，常常用發脾氣、冷戰、責備別人的方式想要得到被愛，但往往事與願違，反而把對方越推越遠！\n\n這樣的結果會讓當事人產生一種結論：終究我是沒有人愛的人！\n\n2024年，你可以透過讓自己心裡真正的長大，可以有獨立性照顧自己的心理需求，來扭轉以上一系列的惡性循環！\n\n如果你希望別人按著你想要的方式來愛你，失望機率會很高，因為沒有人是你肚子裡的蛔蟲，不會知道你想要什麼樣的方式，更重要的他也有他自己的渴望跟生活重心！\n\n如果願意努力的從痛苦的感覺破繭而出走出來，學習照顧自己的方法，你會發現有許多的心理滿足不需要透過別人給予而得到，當你越來越能照顧自己越來越健康，你不但不需要再祈求別人來愛你，反而會因著你的獨立性、健康，以及特有的人格特質，例如幽默、細心、熱誠等等，會吸引許多欣賞你的朋友，關係感會自然而然提升！\n\n哥林多前書14 ： 20弟兄們，你們在思想上不要做小孩子，但是在惡事上要做嬰孩，在思想上要做成熟的人。\n\n我看過許許多多努力希望自己的生命得到翻轉及優化的人們，在承受不被愛的痛苦情況下，仍願意舉步維艱的一步一步踏出邁向獨立的步伐！\n\n這很像爬山的過程，當相信登頂的獲得值得他付出，就可以忍受過程中每一步的酸楚及無力感！\n\n我要誠實的說：從痛苦沒有人愛自己，感到沒有尊嚴、孤單寂寞冷、甚至覺得活不下去要練習到慢慢長出獨立性，照顧自己的心理情緒需求，重建自己的人際支持網，真的沒有很簡單，但是成功的人也不少！\n\n邀請你2024年一起來長大，享受獨立自主之後的自由、豐盛、有更大的力量愛與被愛的新生命！\n\n在練習獨立過程中，常常會因為感覺沒被愛而失落傷心，這個時候就是我們要像枝子聯於葡萄樹一樣，連結上帝得著滋養，尋求療癒跟恢復，心靈強健之後就可以繼續練習新的生活方式！\n\n我自己很努力的在練習，過程常常會有傷心的眼淚更孤單，但獨立的力量越來越強健，真喜歡可以獨立自主的自由，生命多了很多快樂滿足跟成就感，很納悶為什麼以前總是哭哭啼啼的玻璃心，再也不想回到過去那麼辛苦的生活方式了！\n\n別被過去的經驗限制住，歡迎加入獨立成長，眼界、力量都被提高的新生活！\n\n2024，我們來了！\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n@現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n@曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n@專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 31, title: "當痛苦的感覺排山倒海的來⋯⋯", content: "心路新路專欄文章\n\n心路新路專欄文章\n\n當痛苦的感覺排山倒海的來….\n\n2024新年的日本發生大地震，雖然沒有發生因為海嘯而有的傷亡，但是強浪不斷湧進沿海低窪地區，政府紛紛警告居民盡速逃往高處！\n\n而當心靈的痛苦海嘯來臨時，不需要逃跑，要告訴自己：我是安全的！現實中的海嘯會奪去你的生命所以你要趕快逃，但感受痛苦的海嘯不會傷害你的生命，你可以冷靜以對！\n\n新生命都是從「哭」開始的！不會講話的嬰幼兒，也只能用哭來表達！照理說，人類應該要能接受跟習慣生活中會有痛苦！常言道：不如意之事十之八九！\n\n但是，人在痛苦中的反應有九成以上都是抗拒、無法接受！因此在真正可以解決問題之前，總是因為抗拒痛苦而消耗掉大量的心力！\n\n曾經在加拿大看到許多的孩子們在冰冷的海水中玩得不亦樂乎，讓來自東南亞的我驚嘆：原來人對冷的接受度差距可以這麼大！所以很多北歐國家的孩子們從小因著有許多的機會承受寒冷，耐寒的能力就慢慢形成了！\n\n如果你可以認知痛苦是你這一生必然的存在，把焦點放在找出承受痛苦的能力，這是減少痛苦的捷徑！\n\n小的時候，大人不會滿足我們所有的要求，痛苦！成績優秀的是少數， 平庸的多數總是只能羨慕，在偶像劇裡面看到的幸福以及對象對很多人來說不能達到的遙遠，你覺得應該愛你的人卻沒有那麼在乎你，痛苦！就連最基本的居住需求，也有很大一群人連付房租都很吃力！痛苦真的很多很多，存在你我的周圍！噢，對了，還有生小孩，真的超痛的！\n\n所以承受痛苦是每個人都要鍛鍊的能力！怎麼鍛鍊呢？\n\n想想健身房裡面訓練舉重的過程！\n\n不施力並反覆訓練，你的負重能力不會進步，可能你會說我對健身沒有興趣，我不喜歡運動。但過了50歲，你會發現你走路越來越吃力，那時候你不得不運動，提高肌耐力！\n\n如果你在痛苦出現時，最常有的反應：怎麼會這樣？為什麼是我？我不想要！那麽痛苦￼￼就會是你生命的常態！\n\n提高承受痛苦的練習第一步就是不要逃避，承認自己很痛苦，把焦點集中在觀照自己，不要讓自己繼續往下沉！\n\n我自己的經驗中，如果能夠在最快時間貼近自己的難過，好好哭一場，並讓自己得到支持，是好的最快的方法！\n\n如果把焦點放在你認為讓你痛苦的人事物，那麼你將需要耗費極大的精力在控訴、不滿、攻擊、委屈、無力感，而這些反應可能還會導致別人給你更多的痛苦！因為人們對於負面情緒的忍受程度通常不高！\n\n親愛的，請記得日子如何力量必如何，不要輕忽自己在患難中可以生忍耐，忍耐可以生老練，老練可以生盼望的能力！這是聖經羅馬書 5:3-5 告訴我們的：不但如此，就是在患難中也是歡歡喜喜的，因為知道患難生忍耐， 忍耐生老練，老練生盼望， 盼望不至於落空，因為上帝的愛，已藉著所賜給我們的聖靈，澆灌在我們心裏。\n\n相信自己可以像北歐地區的人們處在寒冷中會有耐寒的能力，每一個人也都可以在自己所處環境中￼長出承受痛苦的能力，那麼照著以上的聖經描述，最後你會看到自己能力的提升以及上帝的愛！\n\n如果你長期承受痛苦，卻感覺越來越無力，越來越孤單，要請你跟我走這一條不逃避痛苦，鍛鍊自己提高承受痛苦能力的路！你的承受能力越高，痛苦就越小！￼\n\n就在今天，我遇到了一個打擊，哭的肝腸寸斷，我選擇坐在椅子上，好好的陪著自己哭了一場，聽著能安慰我的詩歌，我想起了小時候唯一讓我感覺到會疼惜我的但早早就去世的爺爺，好想念爺爺！我知道如果現在他在我身邊，會有多捨不得我，所以我讓自己留在愛我的人希望我有的平穩還有上帝的愛中！\n\n我體會到好傷心好傷心的同時卻還可以有力量！\n\n我知道我是安全的，只是傷心的情緒需要一段時間才能平復，所以我靜靜的在哭泣中等待上帝的醫治！\n\n比較有力氣的時候，我打電話給一個好朋友，她靜靜的在電話一頭聽我哇哇大哭，然後聽我慢慢說完到底在委屈什麼，我就慢慢平靜了，雖然還有些眼淚，但我開始地想起這幾天讓我非常感恩跟滿足的事情！例如昨天跟30幾位關心過動孩子的同學們一起思考如何幫助他們！￼\n\n朋友說：你的恢復能力真的超強！但我更感恩上帝帶我又一次練習了承受痛苦的能力，這些訓練可以讓我存留我的性命去做滿足又有意義的事情！\n\n我難過的原因是我遇到了一個困難，可是我沒有相關能力。但身邊輕而易舉能做到這件事情的人不願意幫我！恢復力量之後，我決定不要依賴別人，明天我要去找能夠教導我學會新能力的人！這樣我不需要再依賴旁邊的人幫我做事情。能夠慢慢獨立真的比陷在痛苦中哀怨要好的太多了！\n\n痛苦會給我很大的誘惑，想要去埋怨為什麼別人不幫我，只要稍微想到就會感覺心酸流眼淚，但我不在當中停留，我會刻意去想生命中還有疼愛我的人，我只要耐著性質去學習新能力，￼習慣獨立面對這件事情，慢慢地我就不會覺得困難了！\n\n親愛的朋友們，如果你在痛苦中，請相信你不但不孤單，在上帝創造的心意裡，是要幫助我們勝過苦難的，邀請你一起來練習提高承受痛苦的能力！\n\n「上帝是我們的避難所和力量，是我們患難中隨時的幫助。因此，縱使大地震動。高山崩坍，墜入大洋；縱使怒濤澎湃，群山震撼，我們也不驚惶。」（詩篇四十六篇1-3節）\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n@現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n@曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n@專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練https://www.facebook.com/100091664977728/posts/pfbid02mt66FRSqxwcu5V2JNUMerh8VdicE4TP4xqRqrFzQ7vB6hHtuJjmCDrhzbgKpeXAyl/?d=n" },
-            { num: 32, title: "不能左右選舉，但是你可以左右自己！", content: "心路新路專欄文章心路新路專欄文章\n\n不能左右選舉，但是你可以左右自己！\n\n政治，乃眾人之事，總統選舉結果更是直接或間接方方面面影響著整個社會，所以會有許多的人在意選舉結果。\n\n如果你的情緒因為選舉結果反應很大，有兩種可能。第一、生活很實際的受到影響，例如你服務的政黨沒有選上，失業了。第二、你將希望放在無法掌控的事物上！\n\n每個人都有完全的自由期待各種願望的發生：健健康康活到最後一口氣、小孩聽話上進、在台北市有房子、找到深愛自己的白馬王子、白雪公主，顏值高、收入高，自己欣賞的候選人當總統！\n\n林林總總的願望中，有的在你可掌控範圍內，例如一個月要存多少錢？有的你完全無法掌控，例如孩子將來的前途。可以透過你自己的付出而成就的確定性不太一樣，也就是結果的和掌握度不一樣！\n\n理性的人對於可掌控性低的期待知道不能有太重的得失心，例如總統大選的結果！但如果是選里長，有可能該里大部分都是多年的老鄰居，可以透過運作來決定誰當選，這個目標有機會透過努力來達成，就算得失心重，失落的機會比較小！\n\n或許你沒有那麼重視政治，但如果你對於可掌控性低的目標卻放了理所當然的期待，可能常常會感到不安、挫折、生氣！\n\n很多的父母以為在孩子的食、衣、住、行、育、樂、學習都提供最好的資源，孩子就會身體健康、聽話、聰明、有美好的未來。孩子漸長後，發現其個人意志很難被掌控！特別到青春期，孩子叛逆，家長受傷，只希望孩子明白父母的愛，尊重父母、不要變壞！\n\n很多人面對另一半，常常以為只要自己真心付出就可以得到相對回報。實際生活中，卻常見對婚姻極度失望的人！\n\n現實感高的人，比較不會被真實的人生打擊的太重。自己兒子3歲的時候在公園玩，總有熱心的媽媽會過來一開始表示兒子很活潑，然後支支吾吾的說你有沒有覺得他…，就是…，最後終於說出重點：是不是應該去看醫生鑑定過動症？前面的支支吾吾大概怕傷了我的心不敢直接講！我常常淡定微笑地回答：這麼明顯還看不出來嗎？還需要醫生告訴我他是過動嗎？然後對方就會鬆了一口氣的說：對啊！我就覺得他很像猴子，動個不停！很多剛剛不好意思講的形容詞噼哩啪啦一次講完！\n\n我可以不難過的原因在於坦然接受無法控制的天生過動！我能做什麼？難不成把兒子大腦給換掉？但當不糾結為什麼孩子是過動，我就有把更多精力放在建造我們母子關係的快樂以及孩子的能力！\n\n誰當總統對我們的國家會更好，每個人當然都有自己的想法，但這件事真的不是一個人可以掌控的！最好的心態就是盡人事，聽天命！\n\n在希望國家更好的大前提下，可以掌控的是你自己這一票要投給誰、不管選舉結果如何，你可以發揮怎麼樣的影響力讓身邊的人都成為國家更穩定發展的一分子！至少可以不要製造分裂，散播絕望的氛圍！\n\n當你將目標放在自己可以掌控的範圍內，容易有成就感、開心的心情，還能行有餘力幫助別人！\n\n更能坦然接受不如意，比較不會被憂鬱情緒風暴席捲跟打敗，除了歲月的歷練，還有在聖經中學到的信靠。詩篇138 ：8耶和華必成全關乎我的事。耶和華啊，你的慈愛永遠長存，求你不要離棄你手所造的。\n\n我相信有一位上帝可以讓我呼求：不要離棄我和我的世界，因著他的慈愛，必成全關乎我的事，相信上帝允許的不會超過我的能力所能承受。\n\n多年的經驗常常經歷上帝用我想像不到的方式在照顧我，以至於雖然意外不斷發生，心境可以不受環境的影響，活在相信恩惠慈愛會隨著我的安全感中！\n\n就在寫這篇文章的時候又來了一個打擊！兩個禮拜前孩子一副兩萬多的角膜塑形片，被兒子弄丟了一片，所以重配。這是一筆意外、負擔稍重的支出，今天剛拿到，沒想到孩子睡前戴上後，從餐桌走到沙發幾步路中，其中一片憑空消失！\n\n除了經濟的損失，今天為了拿鏡片，順便回台大醫院檢查孩子眼睛視神經頭凹陷，從總院兩個檢查室到兒童醫院，在醫院停留了五個多小時已經身心俱疲。因爲還需要到外面辦事讓孩子自己先回家，所以晚上九點打電話回家才知道，從他的低落、害怕，不難想像他的挫敗以及在他旁邊非常節省的先生的衝擊！\n\n感謝上帝，透過生命中數不清的挫敗苦難和養成的耐受力，讓我馬上警覺，刻意放慢語速，溫柔地跟孩子說：我知道你很難過鏡片不見，因為你是一直想幫家裡省錢的孩子，不用太難過，你比鏡片更重要。這件事情不難解決，回去媽媽也幫忙找，或許我們可以找到，如果找不到再配一副，爸爸媽媽也是有錢的。但明天要考試了，你安安心心地去睡覺，保持最好的體力去考試，說不定你又可以像之前一樣拿獎學金就可以幫忙家裡付這個錢了，雖然有損失，提醒我們要練習更小心。也要練習不因爲錯誤而繼續影響我們原來有的生活跟表現。先去睡覺，媽媽愛你，下次發生難過的事情可以更快打電話跟媽媽講，就不用自己擔心難過了。很快我就回家陪你囉！\n\n一邊跟兒子講話的時候，一邊收起本來要繼續在外面奮鬥的報告，趕緊把媽媽的愛帶到兒子身邊。\n\n其實過動的孩子，因爲粗心大意這一生會弄丟、弄壞很多很多很多的東西，為什麼我這麼肯定呢？因為兒子的過動是遺傳我。師範學院九天畢業旅行，擔任團長的我竟然在每一天住宿的旅館都遺落一樣以上的東西，最後我沒有跟著遊覽車回學校，中途下車回家之後才發現我的行李跟著遊覽車一起回學校了。所以我撥著著司機大哥在當時非常昂貴話費的大哥大行動電話聯絡，請同學協助將行李放到我的寢室，沒想到班上同學不顧我需要不斷投錢的電話費，不准我掛斷，硬要唱一首歌給我聽：你是一隻可愛的小烏龍，一天到晚掉東西！\n\n在一生中不斷因為掉東西而很長時間活在自責，自我形象低落、羞愧感中成長，從堅定認爲自己就是一個成事不足，敗事有餘的麻煩製造者 ，經歷很久很久的心理重建，才漸漸轉變總是悲觀充滿陰霾的心情，到現在坦然接納自己的限制，回復生命本質的開朗，看見自己是一個認真可愛充滿熱誠的雪媚！\n\n過動可不是只有容易掉東西，衝動、不專心等特質讓孩子與很多老師都不對盤，在學校常不達標，父母常血壓飆高，親子許多衝突緊張，道歉修復關係再衝突、再修復。國一剛開學兩個月就跟同學打架，但已練就淡定以對，積極教育，並沒有影響親子關係、同儕關係、家長關係。\n\n只希望孩子國中平安度過的我無法知道過動在未來還會帶來什麼衝擊，只知道肯定會有！！但是很清晰的目標：孩子、學校都無法掌控，但我可以決定自己要向左還是向右、一端是坦然接受現實，努力自己可以做的部分，一端是糾結、擔憂、害怕、生氣。\n\n年輕時，有一首歌叫：守著陽光守著你！不管誰當總統、不管立法院長是誰、不管孩子能力如何、不管他的成長出現什麼狀況，我都決定，守著陽光一樣的溫暖、盼望和愛來守護孩子，弄丟鏡片還能接受，孩子的快樂、自信、被愛的安全感可不能弄丟了！\n\n親愛的朋友，邀請你一起加入左右自己行列：背對受困無法掌控的無力感、陰霾，面向可以自主的成就感，堅持向著光的方向。\n\n在2024.02.03將進行一場關於兒童情緒、社交技巧議題講座。由於大腦功能限制，亞斯特質孩子在情緒因應及社交技巧學習有諸多限制，成長中不少挫折，父母照顧起來有很多無力感，如果你想找到面對孩子限制如何左右自己不被困住，讓自己的情緒先出黑暗入光明，或者孩子沒有亞斯特質，但是想學習提升孩子情緒及社交技巧家長，也適合參加。這兩天有學員表示其朋友養育亞斯孩子有困難，但是沒有預算進行一對一協談，我開玩笑回應，可以為他開一個講座，他就可以沒有負擔的得到建議。本來只是想想，知道兒子弄丟鏡片後，給了我工作的動力，增加收入買鏡片，孩子就不用那麼難過了。過動媽媽常常有拖延症，為了疼兒子，馬上完成講座報名連結。又一次左右自己不被打擊影響，反而轉化成利人利己的工作動力！超棒的！\n\n有興趣者請見留言處的報名連結。\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n@現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n@曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n@專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 33, title: "打不死我們的，將會讓我們更強大！", content: "心路新路專欄文章\n\n打不死我們的將會讓我們更強大！\n\n這兩天身體不舒服，一直頭痛，必須臥床。孩子放寒假了，只好請孩子自己打理吃的，並且請他將餐食拿到我床旁邊吃，我能夠提供的就是一個躺在床上陪他聊天的媽媽，止痛藥也用了，但是似乎太慢使用，緩解頭痛的時間超過預期的好幾倍。\n\n在頭部不斷抽痛中卻同時存在著一種喜悅！\n\n以往類似的情況，我總是不耐煩頭痛的存在，覺得人生不應該有頭痛，另一方面覺得很對不起孩子，不能照顧他，讓他看到一個沒有功能的媽媽，擔心他孤單、沒有安全感，更不滿為什麼自己要承受從國中開始生理期之後就同時存在的嚴重的偏頭痛一直到現在，覺得很不公平、很痛苦！\n\n但是，今天，我的心情很平靜，還可以愉悅地引導孩子分享今天跟同學出遊的點點滴滴，並且告訴孩子：很感謝他可以照顧自己，也很感恩上帝，媽媽雖然不舒服還有力氣開心的跟他聊天。\n\n喜悅的點是看見現有的反應是在許多的不舒服中堅持選擇相信上帝對人生命的祝福，慢慢從絕望變成盼望、從覺得自己很可憐變成相信有恩惠慈愛會隨著我。  \n\n￼就算我常常出現的偏頭痛是一種還沒有發現的重大疾病，就算因此在不久之後離開這個世界，在痛苦中可以平靜、喜樂、感恩會是從現在開始到我離開世界之前的每一天，這真是蒙福的人生！\n\n我真喜歡上了年紀的自己，不敏感、不脆弱，相較於從小學就因為情緒困擾一直鑽牛角尖，一直覺得自己死了旁邊的人會比較高興，現在的人生可是太開心了！\n\n小時候無法承受痛苦，成長過程中擔憂各種痛苦的來臨，現在即便在痛苦中，可以有耐性跟平穩靜靜的等候痛苦過去！我看見自己的堅強跟承受度成長變化的過程！￼\n\n另外還發現了軟弱中的一個附帶好處：我沒有力氣一直叮囑孩子不要玩手機！所以當他用了太長的時間，媽媽沒有力氣講道理唸他的時候，孩子自己走到我身邊懊惱的說：我看了太久的手機，眼睛很酸，很浪費時間。我還可以安慰他：手機真的很難克制。所以今天當我詢問他要不要把手機給我，讓我幫他保管，他依依不捨地打完最後一局，就甘心樂意地把手機給媽媽了！\n\n我相信他的人生接下來還要繼續跟手機成癮奮鬥，但是我們不用賠上親子衝突的代價、在媽媽軟弱無力管教的時候，孩子有機會體驗人生有些時候是沒有人可以幫忙的，只能自己承受選擇的後果！\n\n這兩天台灣寒流來襲，讓大家的生活變得更辛苦，我們沒有冰雪奇緣中姐姐可以改變環境的能力，但我們可以照顧自己！當我們嘴巴一直說好冷好冷好冷的時候，我們的身體會一直關注很冷的不舒服。\n\n氣溫低的時候我怎麼照顧自己呢？需要外出的時候，把自己包得暖暖的，去感受衣服帶給自己的保護，在家的時候，知道剛上床的時候被子都涼涼的，所以我先開了烘被機，不到1分鐘就暖呼呼的，很快就可以關掉了，接著讓小小的電熱毯持續提供微微的溫度就讓我覺得好幸福！\n\n親愛的朋友們，當天氣冷的時候，我們可以更多練習照顧自己，提高承受天氣冷的心態跟力量，你的心會比較快暖和起來！\n\n原來被生命苦難擊打的淬煉可以長出不被痛苦傷害的堅韌！躺在床上什麼也做不了，看到一個製作刀具過程的影片，我會心一笑，知道痛苦都是與我有益的，感謝上帝！\n\n頭痛中，躺在床上用手機完成一篇文章比健康的時候完成文章更有成就感！\n\n刀具製作過程影片連結在留言處https://www.facebook.com/100094763360263/videos/911047157242168/?__cft__[0]=AZVmKGKsSOUgrBUohcxc_BtI4_SarqRiaksX8c5t0X4G7C2UYVehFMKo6g1J-JRaOvNXsmf8jBF4r0zJ6IvKcNUhmK6DsfvDFfHq_7fSAYX1QezUG_b4LiWgC8Z5YYkEewkl6QyHGjIqbmQwNHrH5dV7IGwJKd9wCuzPMqxFUJ-3R-Myv2l_MODRfD2drxV885k&__tn__=R]-R\n\n 詩篇119 ：71我受苦是與我有益，為要使我學習你的律例。\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n@現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n@曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n@專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 34, title: "心靈自由比堅強更重要！", content: "心路新路專欄文章\n\n心靈自由比堅強更重要！\n\n 農曆年節看了好消息電視台的一部影片：靈魂衝浪手。劇情描述的是少女衝浪手貝瑟妮漢米爾頓的真實故事。被視為明日之星的貝瑟妮在一次衝浪時被鯊魚攻擊，整隻左手臂被咬走，當下展現了驚人的冷靜及意志力，幫助同行者解救她。雖然她一直很堅強，身體恢復後，獨臂的她克服心理及身體障礙再度回到海上衝浪，但終究因著限制，不能像以往順利完成比賽，徹底被打敗而決定放棄衝浪。爸爸努力要讓女兒重新開始，媽媽說了一句我認為整部劇最重要的一句話：如果讓女兒認為衝浪是一切，而沒有成功，會帶來很深很深真實的失落。\n\n 如果大部分人有貝瑟妮的堅強應該就無懼任何困難了，但是這份堅強也無法讓她倖免於自暴自棄。當媽媽鼓勵她時，她說：人們還會接受一個失敗的我嗎？\n\n原來，她的堅強是為了追求不失敗！！一旦失敗，堅強就消失了。\n\n後來，她在信仰的引導下，深刻體會到衝浪不是人生最重要的，幫助遭遇海嘯的難民孩子克服對海的恐懼帶給她前所未有的意義感！！終究用她的天分與熱愛找回生命的熱情，找回自己，也找回最愛的衝浪。再度面對海洋，好友問她：妳不怕嗎？她說：我更怕不能衝浪！找回自己比逃避恐懼更重要！\n\n重拾信心的她果然在重要比賽中有令眾人沸騰的超凡表現，但因為沒在比賽時間內完成，所以沒有得到好名次，當親友憤憤不平時，她笑笑的安慰爸爸：沒關係，我是為衝浪來的，不是為比賽來的！！\n\n當貝瑟妮單純聚焦自己內心的喜愛及追求，而非將眾人認為的榮耀設定為自己的目標，就沒有所謂的失敗！！超超超自由的心靈啊！！！！！！\n\n你給自己設定的目標是什麼？孩子品學兼優的父母、眾人眼中的孝順兒女、情緒穩定、堅強不軟弱、高收入、有房子……？這些都是很好的目標，也值得付出心力去追求，但任何目標都不該以付出『失去一顆自由的心』為代價！每一次的失敗都可以是下一次再度躍起的基礎、也是讓你更自由的擴充：原來，經過這樣的失敗，我還是可以活著！！\n\n加拉太書5：1 基督釋放了我們、叫我們得以自由、所以要站立得穩、不要再被奴僕的軛挾制。\n\n害怕達不到目標；害怕被人議論；無法接受自己的表現，都是不自由！\n\n想像在一個喜歡的地方，例如森林、海邊，高山上，邀請您現在就閉起眼睛，深呼吸，盡自己所能的自由吸氣、吐氣，直到過癮了、夠了！ 無拘無束的深呼吸是不是馬上一秒放鬆！！\n\n當你有意識的不讓自己被困住，點點滴滴的自由累積起來就是很多的自由。有位醫生練習深呼吸時，才發現原來自己的呼吸不深、只有一半，難怪老是有急促感！離你最近的自由從深呼吸即可開始！\n\n人生中很多『應該』是自己給自己設定的。劇中，在女兒差點死掉時，父母只希望她能活下來，生命面前，什麼都是次要的！鼓勵大家到Netflix上搜尋Soul Surfer靈魂衝浪手電影版。如果您正對苦難感到困惑、痛苦、無法接受，或者為人父母的您不知應該給孩子什麼人生引導，應該可以從影片中得到一些啟發，留言區有影片解說連結，也歡迎在留言區交流關影心得。\n\n自由是『可以沒有什麼』。英文很多地方用到free，例如：免費、免稅店duty-free shop是不需加稅，freeway是沒有交叉路口、沒有紅綠燈的公路。所以free可以當成沒有什麼來使用。可以沒有財富、健康、名聲，甚至自由嗎？其實，世界上從來不缺有缺乏的人。意義治療法創始者經歷過集中營的痛苦，發現還有意義感是苦難奪不走的！更可以讓人從其中找到繼續下去的力量！\n\n自由“在希伯來文的意思有打開、放鬆、打開結、揭開枷鎖或使擺脫約束、解放。也說是說：耶穌願意我們離開被限制、被困住的情況，除了離開世界價值觀、成長過程價值觀的限制，更可以離開自己給自己的限制得到自由！！\n\n歌林多後書3:17主就是那靈；主的靈在那裡，那裡就得以自由。當你擁有失去依賴也不害怕的自由，將會發現還有應許永遠同在並帶領您繼續前行的耶穌！\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n@現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n@曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n@專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 35, title: "從止損苦難的破壞，到滋養生命", content: "心路新路專欄文章\n\n從止損苦難的破壞到滋養生命\n\n20240403花蓮7.2級地震把台灣嚇壞了！這是25年來，921地震之後強度最大的地震。衷心期盼每個受困的同胞都能得到最好的資源，生命及財產都安全！\n\n很多地震影片傳出，如果是在馬路上，看到前方有大樓倒塌；或者是山路上，看到坍方，因著深怕再有傷亡發生，我們都會聽到親友互相提醒：不要太靠近！！\n\n人在面對危險的時候會出現保護生命的本能。\n\n但如果是自家的房子半倒，雖然害怕，但仍會有人想要進去搶救財物。不是不看重生命，而是沒有立即的生命危險時，會放不下財物，以至於忽略可能的危險。但只要恢復理性，通常不會將財物看得比生命還要重要。\n\n在地震一類的天災苦難面前，人類是這麼渺小跟無能為力。除了身體、財物的損失，更難受的是心理的創傷。生活會慢慢重啟，但是經歷的恐懼、不安、失落、憂傷、茫然...等情緒會延續很長的時間，會哭、會做惡夢、失眠、提不起勁，如果還有親人的意外離世，恢復期更是難以預計。\n\n如同現在政府在各個災害現場拉起封鎖線，要防止再有人受傷；或者小心監控傾斜的建物，研擬最小程度破壞的處理。面對心裡的創傷及情緒，也要意識到：現在已經非常脆弱，要避免再增加心理的任何負擔，例如非理性的自責。\n\n要告訴自己：當下的反應已經盡全力了，事後回想，當然會想到更好的因應，但是在巨大恐懼、壓力及很短時間裡，只有以本能反應，任何不好的結果，都不是自己願意的。如果讓後悔、自責不斷擴大，就是讓自己繼續被打擊，現在只能保護、把握住還有的資源，相信會逐漸恢復力量，可以繼續前行。 \n\n如此，就能止損苦難對生命的繼續破壞。921之後，有的人過了好幾年，才能慢慢走出陰霾，重拾笑容。但是懂得止損苦難破壞力量的人，會讓自己把精力馬上投入生命重建中。\n\n我的小妹在921地震時，是埔里基督教醫院產科病房的護士，當時，剛從護專畢業，年紀很輕，地震當下，每個護士身上都用袋子裝了不止一個嬰兒衝出醫院，沒有時間緩和，就開始在克難環境中照顧孩子。嚇得不輕的她體會到生命的意義，隨後就開始裝備自己預備念神學院，現在跟著先生一起牧養信徒。我為此深深感謝，妹妹不但沒有因著在震央經歷許多人同時間離世的恐懼，落入創傷症候群，反而清晰了生命方向，讓她開始有意義又滿足的事奉直到如今！\n\n創傷情緒重建的第一步就是接受自己真實的狀態，毋須勉強自己堅強或壓抑。詩人說：神啊，憂傷痛悔的心，你必不輕看（詩篇 51:17）耶和華靠近傷心的人，拯救靈性痛悔的人（詩篇34:18），上帝極其願意接納我們的憂傷軟弱，遇到打擊，可以崩潰，會哭、無法接受事實都是正常。哭過之後，累了就睡一覺，哭腫的眼睛痛，記得冰敷。哭過了、休息夠了，有力氣了，再出發。\n\n軟弱中可以讓我們學習接受幫助、接受愛，心中會自然生發出感恩；很多人死裡逃生，知道只差一秒，前面被埋在土石中的就是自己，各種失去讓我們體會到擁有並不都是理所當然的，就會真正的珍惜。面對死亡，我們也會突然明白生命重要順序，就可以放下無所謂的得失，把力量放在最重要的事情上，種種苦難終究會成為生命的養分。 \n\n然而，有一種抗拒非但不能止損苦難對生命的破壞，甚至加劇並延長。那抗拒就是不接受事實，認為人生不應該出現這些苦難，甚至質問上帝：你怎麼搞的？怎麼可以讓這種事情發生？你這樣的上帝我才不要相信！！\n\n每個人都有完全的自由這樣抗拒，只是抗拒已經發生的事實會讓人產生許多的憤怒、苦毒，轉而把焦點放在責備上帝，抗拒無法掌控的事物會產生更深的無力感。最大的損失是無法從願意幫助我們走過困境的上帝支取恢復及前行的力量。看著被憤怒、傷心淹沒而無力的自己，我們會更軟弱！無疑是雪上加霜！\n\n盜賊來，無非要偷竊，殺害，毀壞；我來了，是要叫羊 得生命，並且得的更豐盛（約翰福音 10:10），我在苦難中時，發現會讓自己越來越糟糕的想法，就知道是從盜賊來的，沒有價值、可以忽略；讓我能恢復力量，生命更自由豐盛的才是耶穌要給我的，我就緊緊抓住。\n\n苦難已經讓我重創，所以，不能再失去耶穌為我們上十架犧牲而成就的新生命，相信接受耶穌救恩、跟隨祂的人都會經歷跟祂一樣從羞愧進入榮耀，並經歷如 經上 所記：神為愛他的人所預備的 是眼睛未曾看見，耳朵未曾聽見，人心也未曾想到的（哥林多前書 2:9） \n\n我真的很討厭這些苦難，希望上帝賜下平安順利給我所愛的台灣，但是既然無法阻止苦難的發生，我更願意用相信為台灣、為我所愛的人祈禱：讓我們領受相信盼望的心，棄絕憤怒苦毒，遠離苦難的傷害，活在期待醫治、重新得力、重建生命的新路上！\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n@專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 36, title: "地震教會我的事", content: "心路新路專欄文章\n\n心路新路專欄文章\n\n地震教會我的事\n\n經歷許多地震的台灣讓我看見專屬於這個土地的韌性以及力量！\n\n最近看到一個影片，整理了台灣九大地震。影片中記錄了早期房子不耐震，倒塌情況怵目驚心、慘不忍睹！（影片連結在留言）\n\n921地震之後，我們在台北教會組織了一個假日災後服務團隊，長達數月的時間每個週六進到災區進行心靈重建的服務，由於很快時間進到災區，到當地的時候還可以聞到死亡的氣息！\n\n那次經歷之後，地震對於20幾歲的我至今都是：人類無法抵擋的巨大的破壞力！渺小無助的人類只能恐懼並無奈地接受未知的下一次地震！\n\n很奇妙的，看完這個影片，吸引我注意力的卻是以往我忽略的：不管經過怎麼樣的摧毁，在重建之後已完全看不到當年的破敗！\n\n原來，在這一次地震之後被日本媒體稱讚我們房屋倒塌不嚴重以及震候恢復日常的快速其實是經歷多次毁壞、重建、毁壞、重建過程中累積許多經驗、承受能力、不斷檢討並學習新的防震建築工法而有的成果！\n\n這不就是每個人面對生命的創傷、毀壞、衰敗需要的復原力！我好興奮了發現這件事情！因為我所服務的對象他們需要的就是重建的信心盼望跟能力！\n\n感謝台灣有許多的專業人才以及無私奉獻的公部門團隊合作為著一次又一次的重建而付出，我們才得以以享受歲月靜好。\n\n但個人面對自己生命的創傷，常常因為孤軍奮鬥，被當下的驚恐困住了、也被自己單薄的力量無法快速重建、重複浸泡在挫敗中而逐漸失去盼望跟信心！\n\n看完影片之後，深深以我是台灣女兒為榮，喚醒我內心堅毅以及可以不擔憂未來繼續前行的態度，這是台灣這土地母親給我們的孕育！\n\n有一次聽著朋友描述他們工作場合的西方國家同事，遇到工作上的挫折常常瞬間會表現出非常受不了的情緒，跟其他台灣同事的內斂、低調面對形成很大對比。光是平復自己的憤怒就耗掉許多力氣了！\n\n我的確也觀察到面對生命創傷，讓自己平穩下來，恢復理性以及提高功能是最快重建生活喜樂的狀態！\n\n在面對後來的餘震，生活歷練多的長輩以及平常就不太擔心憂慮的人，比較多鎮定地坐在原位或就地找一下掩護，但仍然存在驚恐焦慮的人，每一次餘震就要嚇一次，甚至已經開始失眠！\n\n處於地震帶的臺灣，每過一段時間就需要釋放能量，地震是不可避免的必然。我們需要練就『不要怕』的鎮定，更要效法台灣幾十年來接受現實、不斷超越、認真重建，讓台灣的建築防震能力越來越高，百姓的防震意識及能力也越來越高的方向來成長！\n\n為此我有一個禱告：求主賜給個性容易急躁、焦慮的我「安靜的力量」就像聖經中所說的可以默然等候耶和華，我相信聖經說的：若沒有上帝的應許我們一根頭髮都不會掉！\n\n如果上帝允許我的財產、身心靈遭受了破壞，一定會給我重建的力量，而且重建之後的生命會比舊的生命更加提升、更加美好！\n\n地震之前，天王星大樓總是比旁邊低樓層的建築更引人注目，但此刻旁邊低樓層的建築沒有倒掉是更令人安慰感恩的！所以穩固比高度更重要！\n\n在許多日本的老舊房子改建中，可以看見舊的，不符合需求的建築物拆掉，雖然主人會有不捨的心情，但在設計師的巧思重建中，新的家帶給家人更大的幸福跟快樂！\n\n不管是建築物或者生命的重建，這次地震給我兩大提醒：未來比過去更重要、穩固比高度重要！\n\n哈該書2:9：這殿後來的榮耀必大過先前的榮耀，在這地方我必賜平安。這是萬軍之耶和華說的。』\n\n除了為台灣地震後重建繼續祈禱，也願我們面對自己生命創傷的時候，相信上帝非常樂意重建我們生命，給我們生命未來的榮耀祝福更要勝過先前的榮耀祝福！\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n@專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練\n\n地震教會我的事\n\n《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n現任：心路、新路個人成長工作室負責人、台灣教牧協談學會教牧協談師\n\n曾任：拿撒勒人會神學院教牧輔導老師、幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n@專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、生命成長支持團體讀書會、同理心訓練、基本協談技巧訓練" },
-            { num: 37, title: "青少年在哪裡學習感情問題？", content: "心路新路專欄文章\n\n**青少年在哪裡學習感情問題？**\n\n近日，在魏連嶽老師『信仰、神學與人生』課程中，老師提到這個議題，真心覺得很重要，值得我們這些大人們好好思考。\n\n先說說青少年會面對什麼情感問題\n\n- 自身條件不符主流價值，沒有人喜歡，自我形像差、自卑、與人疏離。\n\n- 渴望感受愛情，花心思想吸引異性，又不知如何開始，患得患失，情緒起伏大。\n\n- 受人歡迎，許多愛慕者，蒙懂中\n\n沒有這樣的課程，也不在家長覺得應該討論的話題。\n\n影音主流文化：強調愛情的必要與滿足。\n\n補習班分析升學趨勢的講座，座無虛席。但教導家長與孩子討論感情的講座比例很低\n\n當個體缺乏比愛情更高的追求時，愛情就是最高的價值與追求。\n\n愛情可能就影響其身心健康：情殺\n\n成人的會談議題中：情感與關係比例最高\n\n美好的期待：讓自己家的孩子良善、正直，影響交往的對象\n\n跟孩子要有信任關係就可以持續影響小孩\n\n“愛情，眾水不能熄滅，洪流不能淹沒；如果有人拿自己家裏所有的財產去換取愛情，就必被藐視。”（歌八：7）\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。\n\n『專欄作者介紹』\n\n邱雪媚老師\n\n- 學歷：現為衛理神學研究院教牧學博士研究生、衛理神學研究院教牧諮商碩士畢業、道學碩士畢業、台北市立師院幼教系畢業\n\n- 現任：拿撒勒人會神學院教牧輔導老師、教牧協談師  \n\n- 曾任：幼兒園園長、彩虹愛家生命教育協會特約訓練講師、教會兒童工作團隊督導、常受邀至托兒所、安親班、國小、社區親職講座主講。\n\n- 專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談），婚姻講座、親職訓練講座、從聖經中尋見真我協談讀書會、同理心訓練、基本協談技巧訓練" },
-        ];
+<script>
+const SUPABASE_URL = 'https://iqxzsflawxzvniycmaub.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4';
+const ADMIN_HASH = 'e327c17c6a8d080a989e8885bb74f9ad8e1a400d522d29d57745d510e1b7cf04';
+let sb;
+let currentPage = 'home';
 
-        function openColumnArticle(num) {
-            const article = columnArticles.find(a => a.num === num);
-            if (!article) return;
-            document.getElementById('articleViewTitle').innerText = `第 ${article.num} 篇　${article.title}`;
-            document.getElementById('articleViewContent').innerText = article.content;
-            document.getElementById('fullscreenArticleView').classList.add('open');
-            window.scrollTo(0, 0);
-        }
+// 密碼驗證
+async function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  const hash = await sha256(pw);
+  if (hash === ADMIN_HASH) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    initApp();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
 
-        function closeColumnArticle() {
-            document.getElementById('fullscreenArticleView').classList.remove('open');
-            window.scrollTo(0, 0);
-        }
-    </script>
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function initApp() {
+  updateTime();
+  setInterval(updateTime, 1000);
+  loadBadges();
+  showPage('home');
+}
+
+function updateTime() {
+  const now = new Date();
+  document.getElementById('topTime').textContent =
+    now.toLocaleDateString('zh-TW') + ' ' + now.toLocaleTimeString('zh-TW');
+}
+
+async function loadBadges() {
+  const tables = [
+    { id: 'lecture', table: 'lecture_registrations' },
+    { id: 'bookclub', table: 'bookclub_votes' },
+    { id: 'camp', table: 'camp_registrations' },
+    { id: 'cases', table: 'case_forms' },
+    { id: 'assessment', table: 'assessment_results' },
+    { id: 'codes', table: 'booking_codes' },
+  ];
+  for (const t of tables) {
+    const { count } = await sb.from(t.table).select('*', { count: 'exact', head: true });
+    const el = document.getElementById('badge-' + t.id);
+    if (el) el.textContent = count || 0;
+  }
+}
+
+// 頁面切換
+function showPage(page) {
+  currentPage = page;
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(el => {
+    if (el.getAttribute('onclick')?.includes(`'${page}'`)) el.classList.add('active');
+  });
+  const content = document.getElementById('contentArea');
+  content.innerHTML = '<div class="loading-state">⏳ 載入中...</div>';
+
+  const pages = {
+    home: showHome,
+    lecture: () => showTable('lecture_registrations', '7/17 講座報名', [
+      { key: 'name', label: '姓名' },
+      { key: 'phone', label: '電話' },
+      { key: 'line_nick', label: 'LINE 暱稱' },
+      { key: 'age_groups', label: '孩子年齡' },
+      { key: 'question', label: '問題' },
+      { key: 'created_at', label: '報名時間', isDate: true },
+    ]),
+    bookclub: showBookclubVotes,
+    camp: () => showTable('camp_registrations', '兒童青少年營隊報名', [
+      { key: 'name', label: '姓名' },
+      { key: 'phone', label: '電話' },
+      { key: 'child_name', label: '孩子姓名' },
+      { key: 'child_age', label: '年齡' },
+      { key: 'created_at', label: '報名時間', isDate: true },
+    ]),
+    cases: () => showTable('case_forms', '個案資料表', [
+      { key: 'writer_name', label: '填寫者' },
+      { key: 'writer_phone', label: '電話' },
+      { key: 'code', label: '序號' },
+      { key: 'scenario', label: '情境' },
+      { key: 'created_at', label: '填寫時間', isDate: true },
+    ]),
+    assessment: () => showTable('assessment_results', '測評結果', [
+      { key: 'code', label: '序號' },
+      { key: 'name', label: '姓名' },
+      { key: 'age_group', label: '年齡組' },
+      { key: 'created_at', label: '完成時間', isDate: true },
+    ]),
+    codes: showCodes,
+  };
+
+  if (pages[page]) pages[page]();
+}
+
+async function showHome() {
+  const tables = [
+    { id: 'lecture', table: 'lecture_registrations', icon: '🎤', label: '講座報名', page: 'lecture' },
+    { id: 'bookclub', table: 'bookclub_votes', icon: '📖', label: '讀書會投票', page: 'bookclub' },
+    { id: 'camp', table: 'camp_registrations', icon: '⛺', label: '營隊報名', page: 'camp' },
+    { id: 'cases', table: 'case_forms', icon: '📋', label: '個案資料', page: 'cases' },
+    { id: 'assessment', table: 'assessment_results', icon: '📊', label: '測評結果', page: 'assessment' },
+    { id: 'codes', table: 'booking_codes', icon: '🔑', label: '序號', page: 'codes' },
+  ];
+
+  const counts = {};
+  for (const t of tables) {
+    const { count } = await sb.from(t.table).select('*', { count: 'exact', head: true });
+    counts[t.id] = count || 0;
+  }
+
+  const content = document.getElementById('contentArea');
+  content.innerHTML = `
+    <div class="content-header">
+      <div class="content-title">🏠 首頁總覽</div>
+      <div class="content-sub">歡迎回來，雪媚老師 🌻 以下是目前各項資料統計</div>
+    </div>
+    <div class="home-grid">
+      ${tables.map(t => `
+        <div class="home-card" onclick="showPage('${t.page}')">
+          <div class="home-card-icon">${t.icon}</div>
+          <div class="home-card-title">${t.label}</div>
+          <div class="home-card-count">${counts[t.id]}</div>
+          <div class="home-card-sub">筆資料・點擊查看</div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+async function showTable(tableName, title, columns) {
+  const { data, error } = await sb.from(tableName).select('*').order('created_at', { ascending: false });
+  const content = document.getElementById('contentArea');
+
+  if (error) {
+    content.innerHTML = `<div class="empty-state"><div class="empty-icon">❌</div>載入失敗：${error.message}</div>`;
+    return;
+  }
+
+  const rows = data || [];
+  content.innerHTML = `
+    <div class="content-header">
+      <div class="content-title">${title}</div>
+      <div class="content-sub">共 ${rows.length} 筆資料</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">${rows.length}</div>
+        <div class="stat-label">總筆數</div>
+      </div>
+      ${rows.length > 0 ? `
+      <div class="stat-card">
+        <div class="stat-num">${formatDate(rows[0].created_at).split(' ')[0]}</div>
+        <div class="stat-label">最新一筆</div>
+      </div>` : ''}
+    </div>
+    <div class="table-card">
+      <div class="table-toolbar">
+        <div class="table-toolbar-title">${title}</div>
+        <button class="refresh-btn" onclick="showPage('${currentPage}')">🔄 重新整理</button>
+      </div>
+      ${rows.length === 0 ? `
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          目前尚無資料
+        </div>` : `
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                ${columns.map(c => `<th>${c.label}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map((row, i) => `
+                <tr>
+                  <td style="color:#aaa; font-size:12px;">${i+1}</td>
+                  ${columns.map(c => `
+                    <td>${c.isDate ? formatDate(row[c.key]) : (row[c.key] || '<span style="color:#ccc">—</span>')}</td>
+                  `).join('')}
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>`}
+    </div>`;
+}
+
+async function showBookclubVotes() {
+  const { data } = await sb.from('bookclub_votes').select('*').order('created_at', { ascending: false });
+  const rows = data || [];
+
+  const slots = [
+    { key: 'monday_eve', label: '週一晚上 19:00–21:30', group: '晚上班' },
+    { key: 'thursday_eve', label: '週四晚上 19:00–21:30', group: '晚上班' },
+    { key: 'friday_eve', label: '週五晚上 19:00–21:30', group: '晚上班' },
+    { key: 'tuesday_am', label: '週二上午 9:30–12:00', group: '白天班' },
+    { key: 'tuesday_pm', label: '週二下午 13:30–16:00', group: '白天班' },
+    { key: 'friday_am', label: '週五上午 9:30–12:00', group: '白天班' },
+    { key: 'friday_pm', label: '週五下午 13:30–16:00', group: '白天班' },
+  ];
+
+  const counts = {};
+  const voters = {};
+  slots.forEach(s => {
+    counts[s.key] = rows.filter(r => r[s.key]).length;
+    voters[s.key] = rows.filter(r => r[s.key]).map(r => r.voter_name);
+  });
+
+  const maxCount = Math.max(...Object.values(counts));
+  const sorted = [...slots].sort((a, b) => counts[b.key] - counts[a.key]);
+
+  const content = document.getElementById('contentArea');
+  content.innerHTML = `
+    <div class="content-header">
+      <div class="content-title">📖 讀書會時段投票</div>
+      <div class="content-sub">共 ${rows.length} 人投票</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">${rows.length}</div><div class="stat-label">投票人數</div></div>
+      <div class="stat-card"><div class="stat-num">${rows.filter(r=>r.member_type==='新生').length}</div><div class="stat-label">新生</div></div>
+      <div class="stat-card"><div class="stat-num">${rows.filter(r=>r.member_type==='老同學').length}</div><div class="stat-label">老同學</div></div>
+    </div>
+    <div class="table-card" style="margin-bottom:20px;">
+      <div class="table-toolbar">
+        <div class="table-toolbar-title">📊 各時段票數（由高到低）</div>
+        <button class="refresh-btn" onclick="showPage('bookclub')">🔄 更新</button>
+      </div>
+      <div style="padding:16px 20px;">
+        ${sorted.map(slot => {
+          const pct = maxCount > 0 ? Math.round(counts[slot.key] / maxCount * 100) : 0;
+          const isTop = counts[slot.key] === maxCount && maxCount > 0;
+          return `
+          <div style="margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-size:14px; font-weight:${isTop?'700':'400'}; color:${isTop?'#EC4899':'#333'};">
+                ${isTop ? '🏆 ' : ''}${slot.label}
+                <span style="font-size:12px; color:#aaa; margin-left:6px;">${slot.group}</span>
+              </span>
+              <span style="font-size:16px; font-weight:700; color:#EC4899;">${counts[slot.key]} 票</span>
+            </div>
+            <div style="background:#F0F2F5; border-radius:20px; height:8px; overflow:hidden;">
+              <div style="background:${isTop?'#EC4899':'#A8D8C0'}; width:${pct}%; height:100%; border-radius:20px; transition:width 0.5s;"></div>
+            </div>
+            ${voters[slot.key].length > 0 ? `<div style="font-size:12px; color:#aaa; margin-top:3px;">${voters[slot.key].join('、')}</div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <div class="table-card">
+      <div class="table-toolbar"><div class="table-toolbar-title">投票名單</div></div>
+      ${rows.length === 0 ? '<div class="empty-state"><div class="empty-icon">📭</div>尚無投票</div>' : `
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead><tr><th>#</th><th>姓名</th><th>身份</th><th>可參加時段</th><th>投票時間</th></tr></thead>
+          <tbody>
+            ${rows.map((row, i) => `
+              <tr>
+                <td style="color:#aaa;font-size:12px;">${i+1}</td>
+                <td><strong>${row.voter_name}</strong></td>
+                <td><span class="tag ${row.member_type==='新生'?'tag-blue':'tag-green'}">${row.member_type||'—'}</span></td>
+                <td style="font-size:13px;">${slots.filter(s=>row[s.key]).map(s=>s.label.split(' ')[0]).join('、') || '—'}</td>
+                <td style="font-size:12px; color:#aaa;">${formatDate(row.created_at)}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>`;
+}
+
+async function showCodes() {
+  const { data } = await sb.from('booking_codes').select('*').order('created_at', { ascending: false });
+  const rows = data || [];
+
+  const content = document.getElementById('contentArea');
+  content.innerHTML = `
+    <div class="content-header">
+      <div class="content-title">🔑 序號管理</div>
+      <div class="content-sub">管理已發出的序號</div>
+    </div>
+    <div class="code-form">
+      <div class="code-form-title">＋ 新增序號</div>
+      <div class="form-row">
+        <input type="text" class="form-input" id="newCode" placeholder="序號（例：XL-0716-001）" style="text-transform:uppercase; letter-spacing:1px;">
+        <input type="text" class="form-input" id="newName" placeholder="學員姓名">
+        <input type="text" class="form-input" id="newService" placeholder="服務項目（例：一對一諮詢）">
+        <button class="add-btn" onclick="addCode()">新增</button>
+      </div>
+      <div id="codeMsg" style="font-size:13px; color:#0C4A6E; display:none;"></div>
+    </div>
+    <div class="table-card">
+      <div class="table-toolbar">
+        <div class="table-toolbar-title">已發出的序號（共 ${rows.length} 筆）</div>
+        <button class="refresh-btn" onclick="showPage('codes')">🔄 更新</button>
+      </div>
+      ${rows.length === 0 ? '<div class="empty-state"><div class="empty-icon">🔑</div>尚未發出任何序號</div>' : `
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead><tr><th>#</th><th>序號</th><th>學員</th><th>服務項目</th><th>狀態</th><th>發出時間</th></tr></thead>
+          <tbody>
+            ${rows.map((row, i) => `
+              <tr>
+                <td style="color:#aaa;font-size:12px;">${i+1}</td>
+                <td><strong style="letter-spacing:1px;">${row.code}</strong></td>
+                <td>${row.client_name || '—'}</td>
+                <td>${row.service_type || '—'}</td>
+                <td><span class="tag ${row.is_used ? 'tag-red' : 'tag-green'}">${row.is_used ? '已使用' : '未使用'}</span></td>
+                <td style="font-size:12px; color:#aaa;">${formatDate(row.created_at)}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>`;
+}
+
+async function addCode() {
+  const code = document.getElementById('newCode').value.trim().toUpperCase();
+  const name = document.getElementById('newName').value.trim();
+  const service = document.getElementById('newService').value.trim();
+  const msg = document.getElementById('codeMsg');
+
+  if (!code) { msg.textContent = '請輸入序號'; msg.style.display = 'block'; return; }
+  if (!name) { msg.textContent = '請輸入學員姓名'; msg.style.display = 'block'; return; }
+
+  const { error } = await sb.from('booking_codes').insert([{
+    code, client_name: name, service_type: service, is_used: false
+  }]);
+
+  if (error) {
+    msg.textContent = '新增失敗：' + (error.message || '序號可能重複');
+    msg.style.display = 'block';
+    return;
+  }
+
+  msg.style.color = '#0C4A6E';
+  msg.textContent = `✅ 序號 ${code} 已新增！`;
+  msg.style.display = 'block';
+  document.getElementById('newCode').value = '';
+  document.getElementById('newName').value = '';
+  document.getElementById('newService').value = '';
+  setTimeout(() => { showPage('codes'); loadBadges(); }, 1000);
+}
+
+function formatDate(str) {
+  if (!str) return '—';
+  const d = new Date(str);
+  return d.toLocaleDateString('zh-TW') + ' ' + d.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+}
+</script>
 </body>
 </html>
