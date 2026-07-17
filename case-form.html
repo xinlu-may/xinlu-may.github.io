@@ -64,6 +64,49 @@
 </style>
 </head>
 <body>
+
+<!-- 序號驗證畫面 -->
+<div id="verifyScreen" style="max-width:480px; margin:40px auto; background:#fff; border-radius:20px; padding:32px 24px; box-shadow:0 8px 30px rgba(0,0,0,0.1); font-family:'Segoe UI','Microsoft JhengHei',sans-serif;">
+  <div style="text-align:center; margin-bottom:24px;">
+    <div style="font-size:56px; margin-bottom:12px;">📋</div>
+    <h2 style="color:#1565C0; font-size:22px; margin:0 0 8px;">個案資料表 & 家族圖</h2>
+    <p style="color:#555; font-size:14px; line-height:1.7; margin:0;">
+      請輸入您的專屬序號<br>
+      序號由心路新路小幫手透過 LINE 發送給您
+    </p>
+  </div>
+
+  <div style="background:#E3F2FD; border-radius:12px; padding:14px 16px; margin-bottom:20px; font-size:13px; color:#01579B; line-height:1.7;">
+    📌 尚未取得序號？請先完成以下步驟：<br>
+    1. 選擇方案並完成匯款<br>
+    2. 將匯款截圖傳給官方 LINE 小幫手<br>
+    3. 收到序號後再回來填寫
+  </div>
+
+  <input type="text" id="verifyInput"
+    placeholder="請輸入序號（例：XL-0716-001）"
+    maxlength="30"
+    oninput="this.value=this.value.toUpperCase()"
+    onkeydown="if(event.key==='Enter') doVerify()"
+    style="width:100%; padding:14px 16px; font-size:18px; font-weight:bold; letter-spacing:2px; text-align:center; border:2px solid #BBDEFB; border-radius:12px; box-sizing:border-box; margin-bottom:12px; text-transform:uppercase;">
+
+  <button onclick="doVerify()" id="verifyBtn"
+    style="width:100%; padding:16px; background:#1565C0; color:#fff; border:none; border-radius:12px; font-size:17px; font-weight:bold; cursor:pointer; letter-spacing:1px;">
+    驗證序號 →
+  </button>
+
+  <div id="verifyMsg" style="display:none; margin-top:12px; padding:12px 16px; border-radius:10px; font-size:14px; text-align:center; line-height:1.6;"></div>
+
+  <div style="text-align:center; margin-top:20px;">
+    <a href="https://line.me/R/ti/p/@431trrjk" target="_blank"
+      style="color:#06C755; font-size:14px; text-decoration:none; font-weight:bold;">
+      💬 前往官方 LINE 取得序號
+    </a>
+  </div>
+</div>
+
+<!-- 主要表單（驗證通過後才顯示） -->
+<div id="mainForm" style="display:none;">
 <div class="wrap">
   <h1>📋 個案資料表 & 家族圖</h1>
   <div class="top-info">
@@ -419,6 +462,11 @@
   <div class="step" id="s13">
     <h3>十三、配偶基本資料</h3>
     <p style="color:#01579B; font-size:14px;">📌 若主要幫助者曾結婚（含離婚、喪偶），請填寫配偶資料。若未婚可留白。</p>
+    <label>配偶關係 <span class="req">*</span></label>
+    <select id="sp_type">
+      <option value="">-- 請選擇 --</option>
+      <option>現任配偶</option><option>前任配偶（已離婚）</option><option>已故配偶</option>
+    </select>
     <label>配偶的姓名 / 暱稱</label>
     <input type="text" id="sp_name" placeholder="或填「不清楚」">
     <label>配偶的性別</label>
@@ -453,6 +501,8 @@
       <option>雙方皆已過世</option>
       <option>其他 / 不清楚</option>
     </select>
+    <label>配偶（與前任）是否有子女？</label>
+    <textarea id="sp_children_note" placeholder="例：與前妻育有老大兒子（18歲）、老二女兒（15歲）；若無請填「無」"></textarea>
   </div>
 
   <!-- 步驟 14:配偶父母 -->
@@ -787,7 +837,7 @@
       data.mgma_disease = document.getElementById('mgma_disease').value.trim();
     } else if (currentStep === 13) {
       // 配偶基本資料
-      ['sp_name','sp_gender','sp_age','sp_birth','sp_status','sp_job','sp_personality','sp_econ','sp_disease','sp_par_marriage'].forEach(k => {
+      ['sp_type','sp_name','sp_gender','sp_age','sp_birth','sp_status','sp_job','sp_personality','sp_econ','sp_disease','sp_par_marriage','sp_children_note'].forEach(k => {
         const el = document.getElementById(k);
         data[k] = el ? el.value.trim() : '';
       });
@@ -898,7 +948,7 @@
         &nbsp;&nbsp;兄弟姊妹:${data.mo_siblings || '未填'}<br>
         <br>
         <strong>排行：</strong>${data.sib_order || ''}<br>
-        <strong>兄弟姊妹：</strong>${(data.siblings || []).map(sib => `${sib.name || '排行'+sib.order}(${sib.gender}, ${sib.birth ? sib.birth+'生' : ''}${sib.age})`).join('、') || '未填'}<br>
+        <strong>兄弟姊妹：</strong>${(data.siblings || []).map(sib => `${sib.name || '排行'+sib.order}(${sib.gender}${sib.marriage ? ', '+sib.marriage : ''}, ${sib.birth ? sib.birth+'生' : ''}${sib.age})`).join('、') || '未填'}<br>
         <br>
         <strong>祖父母婚姻：</strong>${data.gpar_marriage || '未填'}<br>
         <strong>👴 祖父：</strong>${data.gpa_name || '不清楚'}｜${data.gpa_status || ''}｜${data.gpa_age || ''}｜${data.gpa_birth ? data.gpa_birth+' 生' : ''}<br>
@@ -930,6 +980,16 @@
             孩子:${kidsStr}
           </div>`;
         }).join('')}
+      </div>
+      ` : ''}
+      ${(data.sp_name || data.sp_type) ? `
+      <div style="background:#FFF9C4; padding:14px; border-radius:10px; font-size:14px; line-height:1.9; margin-top:10px; color:#000;">
+        <strong style="color:#F57C00;">💑 配偶資料</strong><br>
+        <strong>配偶關係：</strong>${data.sp_type || '未填'}<br>
+        <strong>姓名：</strong>${data.sp_name || '未填'}｜${data.sp_gender || ''}｜${data.sp_age || ''}｜${data.sp_birth ? data.sp_birth+'生' : ''}<br>
+        <strong>在世狀況：</strong>${data.sp_status || '未填'}<br>
+        <strong>職業：</strong>${data.sp_job || '未填'}｜<strong>個性：</strong>${data.sp_personality || '未填'}<br>
+        ${data.sp_children_note ? `<strong>配偶的子女：</strong>${data.sp_children_note}<br>` : ''}
       </div>
       ` : ''}
       <h3 style="margin-top:20px;">🌳 家族圖預覽</h3>
@@ -1053,7 +1113,8 @@
     svg += drawCouple(mainCoupleX, y_couple, '主要幫助者', s.h_age, s.h_birth, '在世', s.h_gender, true, s.sib_order);
     // 配偶（如果有）
     if (s.sp_status || s.sp_age) {
-      svg += drawCouple(spCoupleX, y_couple, '配偶', s.sp_age, s.sp_birth, s.sp_status || '在世', s.sp_gender, false, s.sp_sib_order);
+      const spLabel = (s.sp_type && s.sp_type !== '現任配偶') ? `${s.sp_type||'配偶'}` : '配偶';
+      svg += drawCouple(spCoupleX, y_couple, spLabel, s.sp_age, s.sp_birth, s.sp_status || '在世', s.sp_gender, false, s.sp_sib_order);
       // 婚姻線（單線）
       const marY = y_couple + 37;
       const marriage = s.f_marriage || '';
@@ -1177,17 +1238,21 @@
 
     // ============= 內部函數 =============
     function drawCouple(cx, cy, kin, age, birth, status, gender, isMain, order) {
-      const bg = isMain ? '#FFECB3' : (status === '已過世' ? '#EEE' : '#E8F5E9');
-      const bd = isMain ? '#F57C00' : (status === '已過世' ? '#999' : '#66BB6A');
+      const bg = isMain ? '#FFF3E0' : (status === '已過世' ? '#EEE' : '#E8F5E9');
+      const bd = isMain ? '#E65100' : (status === '已過世' ? '#999' : '#66BB6A');
+      const bdOuter = isMain ? '#E65100' : bd;
       let svg = '';
       const isMale = gender === '男';
-      // 雙框
+      // 雙框（isMain 用橘色加粗）
       if (isMale) {
-        svg += `<rect x="${cx-78}" y="${cy-3}" width="156" height="81" fill="none" stroke="${bd}" stroke-width="1.5" rx="6"/>`;
-        svg += `<rect x="${cx-73}" y="${cy}" width="146" height="75" fill="${bg}" stroke="${bd}" stroke-width="2" rx="4"/>`;
+        svg += `<rect x="${cx-82}" y="${cy-6}" width="164" height="87" fill="none" stroke="${bdOuter}" stroke-width="${isMain?3:1.5}" rx="7"/>`;
+        svg += `<rect x="${cx-73}" y="${cy}" width="146" height="75" fill="${bg}" stroke="${bd}" stroke-width="${isMain?2.5:2}" rx="4"/>`;
       } else {
-        svg += `<ellipse cx="${cx}" cy="${cy+37}" rx="80" ry="42" fill="none" stroke="${bd}" stroke-width="1.5"/>`;
-        svg += `<ellipse cx="${cx}" cy="${cy+37}" rx="73" ry="37" fill="${bg}" stroke="${bd}" stroke-width="2"/>`;
+        svg += `<ellipse cx="${cx}" cy="${cy+37}" rx="84" ry="46" fill="none" stroke="${bdOuter}" stroke-width="${isMain?3:1.5}"/>`;
+        svg += `<ellipse cx="${cx}" cy="${cy+37}" rx="73" ry="37" fill="${bg}" stroke="${bd}" stroke-width="${isMain?2.5:2}"/>`;
+      }
+      if (isMain) {
+        svg += `<text x="${cx}" y="${cy-8}" text-anchor="middle" font-size="9" fill="#E65100" font-weight="bold">★ 主要幫助者</text>`;
       }
       svg += `<text x="${cx}" y="${cy+20}" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">${kin}</text>`;
       svg += `<text x="${cx}" y="${cy+38}" text-anchor="middle" font-size="11" fill="#000">${age || ''}｜${gender || ''}</text>`;
@@ -1310,10 +1375,21 @@
         const sMidX = sx + smallW/2;
         svg += `<line x1="${sMidX}" y1="${y3-15}" x2="${sMidX}" y2="${y3}" stroke="#666" stroke-width="1"/>`;
         if (sib.isMain) {
-          // 主角位置留空（畫虛線框當佔位符）
-          svg += `<rect x="${sx}" y="${y3}" width="${smallW}" height="${smallH}" fill="#FFF9E6" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,3" rx="4"/>`;
-          svg += `<text x="${sMidX}" y="${y3+smallH/2-2}" text-anchor="middle" font-size="10" fill="#F57C00" font-weight="bold">↓</text>`;
-          svg += `<text x="${sMidX}" y="${y3+smallH/2+12}" text-anchor="middle" font-size="9" fill="#F57C00">往下看</text>`;
+          // 主角：橘色實線雙框
+          const mGender = sib.gender === '男' ? 'M' : (sib.gender === '女' ? 'F' : 'M');
+          if (mGender === 'M') {
+            svg += `<rect x="${sx-3}" y="${y3-3}" width="${smallW+6}" height="${smallH+6}" fill="none" stroke="#E65100" stroke-width="2.5" rx="5"/>`;
+            svg += `<rect x="${sx}" y="${y3}" width="${smallW}" height="${smallH}" fill="#FFF3E0" stroke="#F57C00" stroke-width="2" rx="3"/>`;
+          } else {
+            svg += `<ellipse cx="${sMidX}" cy="${y3+smallH/2}" rx="${smallW/2+5}" ry="${smallH/2+5}" fill="none" stroke="#E65100" stroke-width="2.5"/>`;
+            svg += `<ellipse cx="${sMidX}" cy="${y3+smallH/2}" rx="${smallW/2}" ry="${smallH/2}" fill="#FFF3E0" stroke="#F57C00" stroke-width="2"/>`;
+          }
+          const kin = '本人';
+          const age = sib.age ? sib.age : '';
+          const birth = sib.birth ? sib.birth : '';
+          svg += `<text x="${sMidX}" y="${y3+13}" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">${kin}</text>`;
+          if (age) svg += `<text x="${sMidX}" y="${y3+26}" text-anchor="middle" font-size="10" fill="#333">${age}</text>`;
+          if (birth) svg += `<text x="${sMidX}" y="${y3+38}" text-anchor="middle" font-size="9" fill="#666">${birth}生</text>`;
           // 標記位置給外面用
           fam._mainX_in_block = sMidX;
         } else {
@@ -1455,8 +1531,10 @@
       const name = document.getElementById(`${prefix}_name`)?.value.trim() || '';
       const birth = document.getElementById(`${prefix}_birth`)?.value || '';
       const age = document.getElementById(`${prefix}_age`)?.value.trim() || '';
+      const marriage = document.getElementById(`${prefix}_marriage`)?.value || '';
+      const status = document.getElementById(`${prefix}_status`)?.value || '';
       if (order || gender || name || birth || age) {
-        list.push({ order, gender, name, birth, age });
+        list.push({ order, gender, name, birth, age, marriage, status });
       }
     });
     return list;
@@ -1725,6 +1803,80 @@
   }
 
   renderProgress();
+</script>
+</div><!-- end mainForm -->
+
+<script>
+  const SUPABASE_URL = 'https://iqxzsflawxzvniycmaub.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_vjWW-hsmNdYqjjqPmiWo2w_YQ4X6kP4';
+
+  async function doVerify() {
+    const code = document.getElementById('verifyInput').value.trim().toUpperCase();
+    const btn = document.getElementById('verifyBtn');
+    const msg = document.getElementById('verifyMsg');
+
+    if (!code) {
+      showVerifyMsg('請輸入您的專屬序號', 'error');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '驗證中...';
+    showVerifyMsg('⏳ 驗證中，請稍候...', 'loading');
+
+    try {
+      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      const { data, error } = await sb
+        .from('booking_codes')
+        .select('*')
+        .eq('code', code)
+        .single();
+
+      if (error || !data) {
+        showVerifyMsg('序號不正確，請確認後再試。<br>如尚未收到序號，請先完成匯款並傳截圖給小幫手 🌻', 'error');
+        btn.disabled = false;
+        btn.textContent = '驗證序號 →';
+        return;
+      }
+
+      // 驗證成功
+      showVerifyMsg('✅ 驗證成功！正在開啟表單...', 'success');
+      
+      // 把序號帶入表單的 w_code 欄位
+      setTimeout(() => {
+        document.getElementById('verifyScreen').style.display = 'none';
+        document.getElementById('mainForm').style.display = 'block';
+        const codeInput = document.getElementById('w_code');
+        if (codeInput) {
+          codeInput.value = code;
+          codeInput.readOnly = true;
+          codeInput.style.background = '#F0FAF4';
+          codeInput.style.color = '#2C5E3B';
+        }
+        window.scrollTo(0, 0);
+      }, 800);
+
+    } catch(e) {
+      showVerifyMsg('網路連線異常，請稍後再試', 'error');
+      btn.disabled = false;
+      btn.textContent = '驗證序號 →';
+    }
+  }
+
+  function showVerifyMsg(text, type) {
+    const el = document.getElementById('verifyMsg');
+    const colors = {
+      error: { bg: '#FFF3F3', border: '#FFCDD2', color: '#C62828' },
+      success: { bg: '#F0FAF4', border: '#A5D6A7', color: '#2C5E3B' },
+      loading: { bg: '#F3F8FF', border: '#BBDEFB', color: '#1565C0' }
+    };
+    const c = colors[type] || colors.loading;
+    el.style.background = c.bg;
+    el.style.border = `1px solid ${c.border}`;
+    el.style.color = c.color;
+    el.innerHTML = text;
+    el.style.display = 'block';
+  }
 </script>
 </body>
 </html>
