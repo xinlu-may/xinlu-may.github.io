@@ -1826,13 +1826,24 @@
 
     try {
       const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      console.log('開始驗證序號:', code);
       const { data, error } = await sb
         .from('booking_codes')
         .select('*')
         .eq('code', code)
-        .single();
+        .maybeSingle();
 
-      if (error || !data) {
+      console.log('驗證結果:', data, error);
+
+      if (error) {
+        console.error('Supabase 錯誤:', error);
+        showVerifyMsg('系統錯誤：' + (error.message || '請稍後再試'), 'error');
+        btn.disabled = false;
+        btn.textContent = '驗證序號 →';
+        return;
+      }
+
+      if (!data) {
         showVerifyMsg('序號不正確，請確認後再試。<br>如尚未收到序號，請先完成匯款並傳截圖給小幫手 🌻', 'error');
         btn.disabled = false;
         btn.textContent = '驗證序號 →';
