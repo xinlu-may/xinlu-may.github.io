@@ -285,10 +285,14 @@
     <label>姓名 / 暱稱</label>
     <input type="text" id="fa_name" placeholder="或填「不清楚」">
     <label>在世狀況</label>
-    <select id="fa_status">
+    <select id="fa_status" onchange="toggleDeathReason('fa')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="fa_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="fa_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>年齡 / 稱謂在家族圖顯示<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="fa_age" placeholder="例:65 歲／過世時 58 歲">
     <label>出生年（西元）</label>
@@ -310,10 +314,14 @@
     <label>姓名 / 暱稱</label>
     <input type="text" id="mo_name" placeholder="或填「不清楚」">
     <label>在世狀況</label>
-    <select id="mo_status">
+    <select id="mo_status" onchange="toggleDeathReason('mo')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="mo_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="mo_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>年齡<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="mo_age" placeholder="例:65 歲／過世時 58 歲">
     <label>出生年（西元）</label>
@@ -362,10 +370,14 @@
     <label>姓名 / 暱稱</label>
     <input type="text" id="gpa_name" placeholder="或填「不清楚」">
     <label>在世狀況</label>
-    <select id="gpa_status">
+    <select id="gpa_status" onchange="toggleDeathReason('gpa')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="gpa_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="gpa_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>年齡<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="gpa_age" placeholder="例:65 歲／過世時 58 歲">
     <label>出生年（西元）</label>
@@ -383,10 +395,14 @@
     <label>姓名 / 暱稱</label>
     <input type="text" id="gma_name" placeholder="或填「不清楚」">
     <label>在世狀況</label>
-    <select id="gma_status">
+    <select id="gma_status" onchange="toggleDeathReason('gma')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="gma_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="gma_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>年齡<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="gma_age" placeholder="例:65 歲／過世時 58 歲">
     <label>出生年（西元）</label>
@@ -419,10 +435,14 @@
     <label>姓名 / 暱稱</label>
     <input type="text" id="mgpa_name" placeholder="或填「不清楚」">
     <label>在世狀況</label>
-    <select id="mgpa_status">
+    <select id="mgpa_status" onchange="toggleDeathReason('mgpa')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="mgpa_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="mgpa_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>年齡<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="mgpa_age" placeholder="例:65 歲／過世時 58 歲">
     <label>出生年（西元）</label>
@@ -440,10 +460,14 @@
     <label>姓名 / 暱稱</label>
     <input type="text" id="mgma_name" placeholder="或填「不清楚」">
     <label>在世狀況</label>
-    <select id="mgma_status">
+    <select id="mgma_status" onchange="toggleDeathReason('mgma')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="mgma_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="mgma_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>年齡<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="mgma_age" placeholder="例:65 歲／過世時 58 歲">
     <label>出生年（西元）</label>
@@ -479,10 +503,14 @@
     <label>配偶的出生年（西元）</label>
     <input type="number" id="sp_birth" min="1900" max="2030" placeholder="例:1975">
     <label>配偶的在世狀況</label>
-    <select id="sp_status">
+    <select id="sp_status" onchange="toggleDeathReason('sp')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="sp_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="sp_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>配偶的職業</label>
     <input type="text" id="sp_job" placeholder="或填「不清楚」">
     <label>配偶的個性</label>
@@ -513,10 +541,14 @@
     <label>姓名 / 暱稱</label>
     <input type="text" id="sfa_name" placeholder="或填「不清楚」">
     <label>在世狀況</label>
-    <select id="sfa_status">
+    <select id="sfa_status" onchange="toggleDeathReason('sfa')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="sfa_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="sfa_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>年齡<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="sfa_age" placeholder="例:65 歲／過世時 58 歲">
     <label>出生年（西元）</label>
@@ -536,10 +568,14 @@
     <label>姓名 / 暱稱</label>
     <input type="text" id="smo_name" placeholder="或填「不清楚」">
     <label>在世狀況</label>
-    <select id="smo_status">
+    <select id="smo_status" onchange="toggleDeathReason('smo')">
       <option value="">-- 請選擇 --</option>
       <option>在世</option><option>已過世</option><option>不清楚</option>
     </select>
+    <div id="smo_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:10px 12px; margin-top:6px;">
+      <label style="color:#C62828; font-size:13px; margin-bottom:4px;">死亡原因</label>
+      <input type="text" id="smo_death_reason" placeholder="例：心臟病、癌症、意外、年老、不清楚">
+    </div>
     <label>年齡<br><span style="font-size:13px; color:#666; font-weight:normal;">若成員已過世，請填去世時的年齡</span></label>
     <input type="text" id="smo_age" placeholder="例:65 歲／過世時 58 歲">
     <label>出生年（西元）</label>
@@ -742,6 +778,8 @@
       data.h_edu = document.getElementById('h_edu').value.trim();
       data.h_faith = document.getElementById('h_faith').value.trim();
       data.h_birth = document.getElementById('h_birth').value.trim();
+      data.h_status = document.getElementById('h_status')?.value || '';
+      data.h_death_reason = document.getElementById('h_death_reason')?.value.trim() || '';
       data.children = collectChildren();
     } else if (currentStep === 5) {
       const marriage = document.getElementById('f_marriage').value;
@@ -776,6 +814,8 @@
       data.par_relation = document.getElementById('par_relation').value;
       data.fa_name = document.getElementById('fa_name').value.trim();
       data.fa_status = document.getElementById('fa_status').value;
+      data.fa_death_reason = document.getElementById('fa_death_reason')?.value.trim() || '';
+      data.mo_death_reason = document.getElementById('mo_death_reason')?.value.trim() || '';
       data.fa_age = document.getElementById('fa_age').value.trim();
       data.fa_birth = document.getElementById('fa_birth').value.trim();
       data.fa_job = document.getElementById('fa_job').value.trim();
@@ -817,6 +857,8 @@
       data.gma_personality = document.getElementById('gma_personality').value.trim();
       data.gma_econ = document.getElementById('gma_econ').value.trim();
       data.gma_disease = document.getElementById('gma_disease').value.trim();
+      data.gpa_death_reason = document.getElementById('gpa_death_reason')?.value.trim() || '';
+      data.gma_death_reason = document.getElementById('gma_death_reason')?.value.trim() || '';
     } else if (currentStep === 12) {
       data.mgpar_marriage = document.getElementById('mgpar_marriage').value;
       data.mgpa_name = document.getElementById('mgpa_name').value.trim();
@@ -835,16 +877,18 @@
       data.mgma_personality = document.getElementById('mgma_personality').value.trim();
       data.mgma_econ = document.getElementById('mgma_econ').value.trim();
       data.mgma_disease = document.getElementById('mgma_disease').value.trim();
+      data.mgpa_death_reason = document.getElementById('mgpa_death_reason')?.value.trim() || '';
+      data.mgma_death_reason = document.getElementById('mgma_death_reason')?.value.trim() || '';
     } else if (currentStep === 13) {
       // 配偶基本資料
-      ['sp_type','sp_name','sp_gender','sp_age','sp_birth','sp_status','sp_job','sp_personality','sp_econ','sp_disease','sp_par_marriage','sp_children_note'].forEach(k => {
+      ['sp_type','sp_name','sp_gender','sp_age','sp_birth','sp_status','sp_job','sp_personality','sp_econ','sp_disease','sp_par_marriage','sp_children_note','sp_death_reason'].forEach(k => {
         const el = document.getElementById(k);
         data[k] = el ? el.value.trim() : '';
       });
     } else if (currentStep === 14) {
       // 配偶父母 + 兄弟姊妹
-      ['sfa_name','sfa_status','sfa_age','sfa_birth','sfa_job','sfa_personality','sfa_econ','sfa_disease','sfa_siblings',
-       'smo_name','smo_status','smo_age','smo_birth','smo_job','smo_personality','smo_econ','smo_disease','smo_siblings',
+      ['sfa_name','sfa_status','sfa_age','sfa_birth','sfa_job','sfa_personality','sfa_econ','sfa_disease','sfa_siblings','sfa_death_reason',
+       'smo_name','smo_status','smo_age','smo_birth','smo_job','smo_personality','smo_econ','smo_disease','smo_siblings','smo_death_reason',
        'sp_sib_order'].forEach(k => {
         const el = document.getElementById(k);
         data[k] = el ? el.value.trim() : '';
@@ -1448,6 +1492,12 @@
   window._sibCounter = 0;
   window._spSibCounter = 0;
 
+  function toggleDeathReason(prefix) {
+    const status = document.getElementById(prefix + '_status').value;
+    const wrap = document.getElementById(prefix + '_death_wrap');
+    if (wrap) wrap.style.display = (status === '已過世') ? 'block' : 'none';
+  }
+
   function addSibling() {
     window._sibCounter++;
     const c = window._sibCounter;
@@ -1480,6 +1530,26 @@
             <label style="font-size:13px; margin:0 0 4px;">在世/過世年紀</label>
             <input type="text" id="sib_${c}_age" placeholder="45歲 或 過世時40歲" style="padding:8px; font-size:14px;">
           </div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:6px;">
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">婚姻狀況</label>
+            <select id="sib_${c}_marriage" style="padding:8px; font-size:14px;">
+              <option value="">請選</option>
+              <option>已婚</option><option>未婚</option><option>離婚</option><option>喪偶</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">在世狀況</label>
+            <select id="sib_${c}_status" style="padding:8px; font-size:14px;" onchange="var w=document.getElementById('sib_'+${c}+'_death_wrap'); if(w) w.style.display=this.value==='已過世'?'block':'none'">
+              <option value="">請選</option>
+              <option>在世</option><option>已過世</option><option>不清楚</option>
+            </select>
+          </div>
+        </div>
+        <div id="sib_${c}_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:8px 10px; margin-top:6px;">
+          <label style="font-size:12px; color:#C62828; margin-bottom:3px;">死亡原因</label>
+          <input type="text" id="sib_${c}_death_reason" placeholder="例：疾病、意外、不清楚" style="padding:6px; font-size:13px; width:100%;">
         </div>
       </div>`;
     document.getElementById('siblingList').insertAdjacentHTML('beforeend', html);
@@ -1518,6 +1588,26 @@
             <input type="text" id="spsib_${c}_age" placeholder="45歲 或 過世時40歲" style="padding:8px; font-size:14px;">
           </div>
         </div>
+        <div style="display:flex; gap:8px; margin-top:6px;">
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">婚姻狀況</label>
+            <select id="spsib_${c}_marriage" style="padding:8px; font-size:14px;">
+              <option value="">請選</option>
+              <option>已婚</option><option>未婚</option><option>離婚</option><option>喪偶</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:13px; margin:0 0 4px;">在世狀況</label>
+            <select id="spsib_${c}_status" style="padding:8px; font-size:14px;">
+              <option value="">請選</option>
+              <option>在世</option><option>已過世</option><option>不清楚</option>
+            </select>
+          </div>
+        </div>
+        <div id="spsib_${c}_death_wrap" style="display:none; background:#FFF3F3; border-radius:8px; padding:8px 10px; margin-top:6px;">
+          <label style="font-size:12px; color:#C62828; margin-bottom:3px;">死亡原因</label>
+          <input type="text" id="spsib_${c}_death_reason" placeholder="例：疾病、意外、不清楚" style="padding:6px; font-size:13px; width:100%;">
+        </div>
       </div>`;
     document.getElementById('spSiblingList').insertAdjacentHTML('beforeend', html);
   }
@@ -1533,8 +1623,9 @@
       const age = document.getElementById(`${prefix}_age`)?.value.trim() || '';
       const marriage = document.getElementById(`${prefix}_marriage`)?.value || '';
       const status = document.getElementById(`${prefix}_status`)?.value || '';
+      const death_reason = document.getElementById(`${prefix}_death_reason`)?.value.trim() || '';
       if (order || gender || name || birth || age) {
-        list.push({ order, gender, name, birth, age, marriage, status });
+        list.push({ order, gender, name, birth, age, marriage, status, death_reason });
       }
     });
     return list;
