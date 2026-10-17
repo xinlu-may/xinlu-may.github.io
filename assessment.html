@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>全齡關懷十大向度健康幸福測評系統｜心路新路</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -39,6 +40,20 @@
 </style>
 </head>
 <body>
+<!-- 測評系統建置中：一般訪客只看到公告；網址加上 ?preview=1 可進入測試 -->
+<div id="buildingNotice" style="max-width:520px;margin:80px auto;padding:36px 24px;text-align:center;background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);line-height:1.8;">
+  <h1 style="font-size:24px;color:#2C5E3B;margin-bottom:12px;">🧭 全齡關懷十大向度<br>健康幸福測評系統</h1>
+  <p style="font-size:18px;color:#444;margin-bottom:22px;">系統建置中，敬請期待！<br>如有測評需求，歡迎加官方 LINE 詢問。</p>
+  <a href="https://line.me/R/ti/p/@431trrjk" target="_blank" rel="noopener" style="display:inline-block;background:#06C755;color:#fff;padding:12px 26px;border-radius:30px;font-weight:bold;text-decoration:none;">💬 加官方 LINE 好友</a>
+  <p style="margin-top:18px;"><a href="index.html" style="color:#555;">← 回首頁</a></p>
+</div>
+<script>
+  if (!/[?&]preview=1\b/.test(location.search)) {
+    document.write('<style>body > *:not(#buildingNotice){display:none !important;}</style>');
+  } else {
+    document.getElementById('buildingNotice').style.display = 'none';
+  }
+</script>
 <button class="flower" onclick="adminLogin()" title="管理">🌻</button>
 
 <div class="wrap" id="main">

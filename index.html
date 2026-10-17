@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>心路新路全齡關懷健康幸福導航站</title>
+    <meta name="description" content="心路新路個人成長中心工作室（邱雪媚 教牧協談師）：從聖經中尋見真我「找回自己」線上讀書會、全齡關懷十大向度健康幸福測評、兒童青少年課程及營隊、個人與樂齡成長課程、生命故事花園與專欄。">
+    <link rel="canonical" href="https://xinlu-may.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="心路新路全齡關懷健康幸福導航站">
+    <meta property="og:title" content="心路新路全齡關懷健康幸福導航站">
+    <meta property="og:description" content="從聖經中尋見真我讀書會、健康幸福測評、兒童青少年課程、個人與樂齡成長課程。帶領老師：邱雪媚。">
+    <meta property="og:url" content="https://xinlu-may.github.io/">
+    <meta property="og:image" content="https://xinlu-may.github.io/hero-banner.png">
+    <meta property="og:locale" content="zh_TW">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* 基礎行動優先設定：字體特大、行高舒適，完全消除疲勞與壓迫感 */
@@ -728,11 +737,12 @@
                         <div class="sub-item-box" style="border-left:none; box-shadow:none; background:transparent; padding:6px 0; margin-bottom:12px;">
                             <div class="sub-item-title" style="color:#1B5E20; text-decoration:none;">📢 最新當期招生資訊</div>
                             <p class="sub-item-desc" style="margin-bottom:10px;">現在正進行報名的是第 21、22 期讀書會。兩期的讀書會都用同一個群組。</p>
-                            <p class="sub-item-desc" style="margin-bottom:6px;"><strong>📖 第21期（晚上班）：2026年8月開始</strong><br>週一或週四、五晚上 7:00-9:30</p>
-                            <p class="sub-item-desc" style="margin-bottom:14px;"><strong>📖 第22期（白天班）：2026年9月開始</strong><br>週二/週五上午 9:30-12:00、週二/週五下午 1:30-4:00</p>
+                            <p class="sub-item-desc" style="margin-bottom:6px;"><strong>📖 2026年10月開始・線上讀書會</strong><br>晚上班：週四、週五晚上 7:00-9:30</p>
+                            <p class="sub-item-desc" style="margin-bottom:14px;">白天班：週二、週四、週五上午 9:30-12:00，週二、週五下午 1:30-4:00<br>（以得票數最高的時段開課，滿 6 人開班）</p>
                             <p class="sub-item-desc" style="margin-bottom:4px;">(a) 每週一堂課，每堂 2.5 小時，共 15 堂課</p>
                             <p class="sub-item-desc" style="margin-bottom:4px;">(b) 請假可看回放影片補課</p>
-                            <p class="sub-item-desc">(c) 有意願者請加入讀書會群組</p>
+                            <p class="sub-item-desc">(c) 有意願者請加入讀書會群組，並在群組中投票選擇上課時段</p>
+                            <p class="sub-item-desc" style="margin-top:10px;"><a href="bible-self.html" style="color:#1B5E20; font-weight:bold;">👉 查看完整課程介紹、課程大綱與報名方式</a></p>
                         </div>
 
                         <div class="sub-item-box" style="border-left:none; box-shadow:none; background:transparent; padding:6px 0; margin-bottom:12px;">
@@ -1393,7 +1403,7 @@
             <!-- 📸 動態相簿顯示區：內建完美滑動相簿控制框架 🌟 -->
             <div id="dynamicPhotoGallery" style="display:none; text-align:center; background:#eef2ee; padding:15px; border-radius:16px; margin:15px 0;">
                 <p style="font-size:19px; font-weight:bold; color:#2C5E3B; margin-bottom:10px;" id="galleryLabel">📸 營隊現場珍貴成果記錄牆（點擊下方縮圖可切換放大）：</p>
-                <img src="image_ef6f43.png" class="article-photo-frame" alt="營隊精彩活動海報成果" id="galleryImageTarget" style="cursor:zoom-in;" onclick="openImageLightbox(this.src)">
+                <img src="images/camps/2024-puli-01.png" class="article-photo-frame" alt="營隊精彩活動海報成果" id="galleryImageTarget" style="cursor:zoom-in;" onclick="openImageLightbox(this.src)">
                 
                 <!-- 智慧縮圖導覽列，供家長一鍵點擊切換查看 -->
                 <div id="thumbBarArea" style="display:flex; justify-content:center; gap:10px; margin-top:12px; overflow-x:auto; padding:5px;">
@@ -1564,7 +1574,7 @@
             camp:      { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('兒童青少年課程及營隊'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             adult:     { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('個人成長課程'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             elder:     { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('樂齡成長課程'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
-            bible:     { registerLabel:'📝 填寫報名表單', registerFn: () => window.open('https://forms.gle/VBFcwoxNCousAezG7','_blank'), groupLabel:'👥 加入讀書會群組', groupUrl:'https://line.me/ti/g/Ba5eCG3vKS' },
+            bible:     { registerLabel:'📝 填寫報名表單', registerFn: () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfTHfxYjzN0XPKSakZP3eNYgC3XrvWgF1-dg9-Sa8GcLn-IGA/viewform','_blank'), groupLabel:'👥 加入讀書會群組', groupUrl:'https://line.me/ti/g/Ba5eCG3vKS' },
             garden:    { registerLabel:'📖 前往生命故事花園', registerFn: () => window.open('life-stories.html','_blank'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             column:    { registerLabel:'✍️ 前往心路新路專欄', registerFn: () => window.open('columns.html','_blank'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             footprint: { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('尚未確定，請與我聯繫'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
@@ -1817,19 +1827,15 @@
             elder_power: "【樂齡成長課程 ── 肌力課程】\n\n專為長輩量身設計的專業、安全身體活動引導，有效預防肌少症，維持身體的豐沛活力與日常功能防護防禦力資料。",
             elder_hobby: "【樂齡成長課程 ── 興趣小組與生活美學】\n\n多元豐富的社交活動、生活美學小組與讀書分享，陪伴長者擴展社交圈，快樂無憂地建立第二精彩人生詳細介紹。",
             
-            bible_info: "【從聖經中尋見真我讀書會 ── 最新當期招生訊息】\n\n📖 2026年八月份週間晚上班　第21期熱情招生中\n📖 2026年九月份週間白天班　第22期熱情招生中\n\n如果你需要搞清楚自己到底是怎麼樣的一個人\n如果你需要把自己找回來\n如果你需要為目前的生命挑戰找到新的方向及力量\n如果你需要真誠地被聆聽\n如果你需要了解跟你不一樣的人到底是怎麼想的\n\n你將會在這個CP值超高的讀書會經歷超乎想像的豐富、收穫、支持以及愛。課程最後，每位同學將獲贈一堂100分鐘一對一諮詢，將生命歷程做統整性的分析歸納整理。\n\n【上課時間】\n2026年1月開始，一堂2.5小時，共十五堂。請假可看回放影片補課。\n第21期（晚上班）：週一或週四、五晚上7:00-9:30，目前開放兩個時段投票，將以最多人選擇的時段開課。\n第22期（白天班）：週二/週五上午9:30-12:00、週二/週五下午1:30-4:00，共四個時段開放投票。\n\n有意願上課者請掃描QR code進入讀書會群組詢問相關問題並參與時段投票。歡迎老同學回來複習，費用自由奉獻！\n\n【上課地點】線上讀書會\n\n【費用】9,000元，共15堂課（一堂2.5小時）。講義印製及寄送費用，實支實付。如有困難一次繳清全期費用，可分期；確定開班、時間可配合後再繳費。\n\n【帶領老師：邱雪媚】\n學歷：台北市立師院幼教系畢業、衛理神學研究院教牧諮商碩士、道學碩士畢業，現為衛理神學研究院教牧學博士研究生。\n現任：心路新路個人成長中心工作室負責人、教牧協談學會教牧協談師、拿撒勒神學院教牧輔導老師，常應邀至社區、國小進行親職講座、教師研習。\n曾任：宇宙光關懷輔導中心教牧輔導員、台灣教牧協談學會秘書長。\n合作過單位：仁愛國小、明倫國小、桃園中壢興仁國小、國語實小、彭福國小、佳音幼兒園、純得幼兒園、葫蘆幼兒園、安坑國小、蘆洲國小、八里國小、牡丹國小、1919救助協會、伊甸基金會、新竹人本基金會、新竹世界展望會、樂福社區關懷協會、勵友中心、伯大尼兒少家園⋯等。\n專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談）、婚姻講座、親職訓練及講座、兒童師資訓練、三一原型尋見真我讀書會、同理心訓練、基本協談技巧。\n\n【課程介紹】\n閱讀書籍：《從聖經中尋見真我》，作者林瑜琳，使徒出版社出版，請於讀書會開始前自行購買。\n博客來：https://shop.campus.org.tw/ProductDetails.aspx?ProductID=000523400\n\n小班制：每班招收上限新生十位，以填單順序錄取，確保每個人都有足夠的分享時間。\n\n許多人對心理成長很有興趣，也上了很多課程，卻不知如何運用。您需要的是可以帶著您細細整理自己生命經驗的讀書會！隨著讀書會進行，您將逐步完成生命歷程的書寫，也將擁有從神而來的新眼光，看見新的方向。\n\n有興趣進一步學習關懷技巧者，均須先在此讀書會完成自己生命歷程的梳理，方能參加進階課程喔！\n\n如果您有以下情況，這個讀書會就是您所需要的：\n★想要更認識自己，及明白上帝對自己生命的帶領\n★理性上知道需要接納、鼓勵孩子或配偶，但就是會看不慣其言行舉止，有意無意說出破壞關係的話\n★一直覺得自己不夠好，深受低自信、羞愧的困擾\n★希望學習有效關懷、幫助他人\n\n很多成員在過程中如釋重負、豁然開朗地說：「我現在終於知道自己為什麼會這樣了」、「我知道接下去該怎麼面對生命的問題了！」\n\n從聖經中尋見自己的生命，會讓您驚訝——自己生命的祝福、美好及力量，超過自己原本的想像。",
+            bible_info: "【從聖經中尋見真我讀書會 ── 最新當期招生訊息】\n\n📖 2026年十月份週間白天班、晚上班　第21、22期熱情招生中\n\n如果你需要搞清楚自己到底是怎麼樣的一個人\n如果你需要把自己找回來\n如果你需要為目前的生命挑戰找到新的方向及力量\n如果你需要真誠地被聆聽\n如果你需要了解跟你不一樣的人到底是怎麼想的\n\n你將會在這個CP值超高的讀書會經歷超乎想像的豐富、收穫、支持以及愛。課程最後，每位同學將獲贈一堂100分鐘一對一諮詢，將生命歷程做統整性的分析歸納整理。\n\n【上課時間】\n2026年10月開始，一堂2.5小時，共十五堂。請假可看回放影片補課。\n晚上班：週四、週五晚上7:00-9:30，兩個時段開放投票。\n白天班：週二、週四、週五上午9:30-12:00，週二、週五下午1:30-4:00，五個時段開放投票。\n將以得票數最高的時段開課，滿6人開班。\n\n有意願上課者請掃描QR code進入讀書會群組詢問相關問題並參與時段投票。歡迎老同學回來複習，費用自由奉獻！\n\n【上課地點】線上讀書會\n\n【費用】9,000元，共15堂課（一堂2.5小時）。講義印製及寄送費用，實支實付。如有困難一次繳清全期費用，可分期；確定開班、時間可配合後再繳費。\n\n【帶領老師：邱雪媚】\n學歷：台北市立師院幼教系畢業、衛理神學研究院教牧諮商碩士、道學碩士畢業，現為衛理神學研究院教牧學博士研究生。\n現任：心路新路個人成長中心工作室負責人、教牧協談學會教牧協談師、拿撒勒神學院教牧輔導老師，常應邀至社區、國小進行親職講座、教師研習。\n曾任：宇宙光關懷輔導中心教牧輔導員、台灣教牧協談學會秘書長。\n合作過單位：仁愛國小、明倫國小、桃園中壢興仁國小、國語實小、彭福國小、佳音幼兒園、純得幼兒園、葫蘆幼兒園、安坑國小、蘆洲國小、八里國小、牡丹國小、1919救助協會、伊甸基金會、新竹人本基金會、新竹世界展望會、樂福社區關懷協會、勵友中心、伯大尼兒少家園⋯等。\n專長：教牧協談（成人、兒童、家庭協談、婚姻協談、婚前協談）、婚姻講座、親職訓練及講座、兒童師資訓練、三一原型尋見真我讀書會、同理心訓練、基本協談技巧。\n\n【課程介紹】\n閱讀書籍：《從聖經中尋見真我》，作者林瑜琳，使徒出版社出版，請於讀書會開始前自行購買。\n博客來：https://shop.campus.org.tw/ProductDetails.aspx?ProductID=000523400\n\n小班制：每班招收上限新生十位，以填單順序錄取，確保每個人都有足夠的分享時間。\n\n許多人對心理成長很有興趣，也上了很多課程，卻不知如何運用。您需要的是可以帶著您細細整理自己生命經驗的讀書會！隨著讀書會進行，您將逐步完成生命歷程的書寫，也將擁有從神而來的新眼光，看見新的方向。\n\n有興趣進一步學習關懷技巧者，均須先在此讀書會完成自己生命歷程的梳理，方能參加進階課程喔！\n\n如果您有以下情況，這個讀書會就是您所需要的：\n★想要更認識自己，及明白上帝對自己生命的帶領\n★理性上知道需要接納、鼓勵孩子或配偶，但就是會看不慣其言行舉止，有意無意說出破壞關係的話\n★一直覺得自己不夠好，深受低自信、羞愧的困擾\n★希望學習有效關懷、幫助他人\n\n很多成員在過程中如釋重負、豁然開朗地說：「我現在終於知道自己為什麼會這樣了」、「我知道接下去該怎麼面對生命的問題了！」\n\n從聖經中尋見自己的生命，會讓您驚訝——自己生命的祝福、美好及力量，超過自己原本的想像。",
 
         };
 
         // 🌟 智慧多媒體矩陣：動態加載四張精采成果大圖 🌟
         const photoMatrix = {
-            past_camp_2026_winter: ['image_efcd15.png'],
-            past_camp_2025_summer: [
-                '2025暑假營_01.jpg','2025暑假營_02.jpg','2025暑假營_03.jpg','2025暑假營_04.jpg',
-                '2025暑假營_05.jpg','2025暑假營_06.jpg','2025暑假營_07.jpg','2025暑假營_08.jpg',
-                '2025暑假營_09.jpg','2025暑假營_10.jpg','2025暑假營_11.jpg','2025暑假營_12.jpg','2025暑假營_13.jpg',
-            ],
-            past_camp_brain_summer: ['image_ef6f43.png', 'image_ef6385.png', 'image_ef6360.png', 'image_ef6328.png', 'image_ef6305.png']
+            past_camp_2026_winter: ['images/camps/2026-winter-camp.png'],
+            past_camp_2025_summer: ['images/camps/2025-summer-01.jpg', 'images/camps/2025-summer-02.jpg', 'images/camps/2025-summer-03.jpg', 'images/camps/2025-summer-04.jpg', 'images/camps/2025-summer-05.jpg', 'images/camps/2025-summer-06.jpg', 'images/camps/2025-summer-07.jpg', 'images/camps/2025-summer-08.jpg', 'images/camps/2025-summer-09.jpg', 'images/camps/2025-summer-10.jpg', 'images/camps/2025-summer-11.jpg'],
+            past_camp_brain_summer: ['images/camps/2024-puli-01.png', 'images/camps/2024-puli-02.png', 'images/camps/2024-puli-03.webp', 'images/camps/2024-puli-04.png', 'images/camps/2024-puli-05.webp', 'images/camps/2024-puli-06.webp', 'images/camps/2024-puli-07.webp', 'images/camps/2024-puli-08.webp', 'images/camps/2024-puli-09.webp']
         };
 
         function openArticle(key) {
