@@ -541,7 +541,7 @@
       <div class="sidebar-section">
         <div class="sidebar-label">個案管理</div>
         <button class="sidebar-item" onclick="showPage('cases')">
-          <span class="icon">📋</span> 個案資料表
+          <span class="icon">📋</span> 生命歷程資料表
           <span class="badge" id="badge-cases">0</span>
         </button>
         <button class="sidebar-item" onclick="showPage('assessment')">
@@ -648,7 +648,7 @@ function showPage(page) {
       { key: 'child_age', label: '年齡' },
       { key: 'created_at', label: '報名時間', isDate: true },
     ]),
-    cases: () => showTable('case_forms', '個案資料表', [
+    cases: () => showTable('case_forms', '生命歷程資料表', [
       { key: 'writer_name', label: '填寫者' },
       { key: 'writer_phone', label: '電話' },
       { key: 'code', label: '序號' },
