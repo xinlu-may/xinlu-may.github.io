@@ -539,11 +539,7 @@
         </button>
       </div>
       <div class="sidebar-section">
-        <div class="sidebar-label">個案管理</div>
-        <button class="sidebar-item" onclick="showPage('cases')">
-          <span class="icon">📋</span> 生命歷程資料表
-          <span class="badge" id="badge-cases">0</span>
-        </button>
+        <div class="sidebar-label">測評管理</div>
         <button class="sidebar-item" onclick="showPage('assessment')">
           <span class="icon">📊</span> 測評結果
           <span class="badge" id="badge-assessment">0</span>
@@ -609,7 +605,6 @@ async function loadBadges() {
     { id: 'lecture', table: 'lecture_registrations' },
     { id: 'bookclub', table: 'bookclub_votes' },
     { id: 'camp', table: 'camp_registrations' },
-    { id: 'cases', table: 'case_forms' },
     { id: 'assessment', table: 'assessment_results' },
     { id: 'codes', table: 'booking_codes' },
   ];
@@ -648,13 +643,6 @@ function showPage(page) {
       { key: 'child_age', label: '年齡' },
       { key: 'created_at', label: '報名時間', isDate: true },
     ]),
-    cases: () => showTable('case_forms', '生命歷程資料表', [
-      { key: 'writer_name', label: '填寫者' },
-      { key: 'writer_phone', label: '電話' },
-      { key: 'code', label: '序號' },
-      { key: 'scenario', label: '情境' },
-      { key: 'created_at', label: '填寫時間', isDate: true },
-    ]),
     assessment: () => showTable('assessment_results', '測評結果', [
       { key: 'code', label: '序號' },
       { key: 'name', label: '姓名' },
@@ -672,7 +660,6 @@ async function showHome() {
     { id: 'lecture', table: 'lecture_registrations', icon: '🎤', label: '講座報名', page: 'lecture' },
     { id: 'bookclub', table: 'bookclub_votes', icon: '📖', label: '讀書會投票', page: 'bookclub' },
     { id: 'camp', table: 'camp_registrations', icon: '⛺', label: '營隊報名', page: 'camp' },
-    { id: 'cases', table: 'case_forms', icon: '📋', label: '個案資料', page: 'cases' },
     { id: 'assessment', table: 'assessment_results', icon: '📊', label: '測評結果', page: 'assessment' },
     { id: 'codes', table: 'booking_codes', icon: '🔑', label: '序號', page: 'codes' },
   ];
