@@ -1911,5 +1911,49 @@
         })();
     </script>
 <div class="xl-disclaimer" style="max-width:900px;margin:30px auto 20px;padding:14px 18px;font-size:13.5px;line-height:1.75;color:#777;text-align:center;border-top:1px solid #e5e5e5;font-family:'PingFang TC','Microsoft JhengHei',sans-serif;"><div style="margin-bottom:8px;color:#555;font-size:14.5px;"><b>聯絡我們</b>｜心路新路個人成長中心工作室（邱雪媚）｜Email：<a href="mailto:xinlumay@gmail.com" style="color:#2C5E3B;">xinlumay@gmail.com</a>｜官方 LINE：<a href="https://line.me/R/ti/p/@431trrjk" style="color:#2C5E3B;">@431trrjk</a></div>本工作室提供教牧協談、生命成長陪伴與教育課程，非心理諮商或心理治療，亦不進行心理疾病之診斷。如有身心疾病或危機狀況，請尋求醫療機構或合格心理師協助。</div>
+
+<!-- 心路新路主題曲播放器：一進網站就嘗試播放；瀏覽器擋住自動播放時，訪客第一次點擊畫面就開始播 -->
+<audio id="themeSong" src="audio/theme-song.mp3" preload="auto"></audio>
+<button id="themeSongBtn" type="button" aria-label="播放心路新路主題曲"
+  style="position:fixed;left:16px;bottom:16px;z-index:9999;display:flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border:0;border-radius:999px;background:#FFF8E7;color:#2C5E3B;box-shadow:0 4px 16px rgba(140,90,43,.28);font-family:'標楷體','DFKai-SB','Microsoft JhengHei',serif;font-size:15px;cursor:pointer;max-width:calc(100vw - 32px)">
+  <span id="themeSongIcon" style="display:inline-flex;width:34px;height:34px;border-radius:50%;background:#F6B93B;color:#fff;align-items:center;justify-content:center;font-size:16px;flex:none">▶</span>
+  <span style="text-align:left;line-height:1.3"><b>心路新路主題曲</b><br><span style="font-size:13px;color:#8C5A2B">《開始自己的新路》</span></span>
+</button>
+<script>
+(function () {
+  var audio = document.getElementById('themeSong');
+  var btn = document.getElementById('themeSongBtn');
+  var icon = document.getElementById('themeSongIcon');
+  var KEY = 'xl-theme-song-paused';
+  var userPaused = false;
+  try { userPaused = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  audio.volume = 0.6;
+  function sync() {
+    var on = !audio.paused;
+    icon.textContent = on ? '❚❚' : '▶';
+    btn.setAttribute('aria-label', on ? '暫停心路新路主題曲' : '播放心路新路主題曲');
+  }
+  audio.addEventListener('play', sync);
+  audio.addEventListener('pause', sync);
+  audio.addEventListener('ended', sync);
+  function tryPlay() { return audio.play().catch(function () {}); }
+  function startOnFirstTouch(e) {
+    if (e && btn.contains(e.target)) return;
+    document.removeEventListener('pointerdown', startOnFirstTouch, true);
+    document.removeEventListener('keydown', startOnFirstTouch, true);
+    if (!userPaused && audio.paused && audio.currentTime === 0) tryPlay();
+  }
+  btn.addEventListener('click', function () {
+    if (audio.paused) { userPaused = false; try { localStorage.removeItem(KEY); } catch (e) {} tryPlay(); }
+    else { userPaused = true; try { localStorage.setItem(KEY, '1'); } catch (e) {} audio.pause(); }
+  });
+  if (!userPaused) {
+    tryPlay();
+    document.addEventListener('pointerdown', startOnFirstTouch, true);
+    document.addEventListener('keydown', startOnFirstTouch, true);
+  }
+  sync();
+})();
+</script>
 </body>
 </html>
