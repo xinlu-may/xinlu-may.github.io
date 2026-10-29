@@ -205,6 +205,17 @@
             body { padding-top: 130px; }
             .nav-container { flex-direction: column; gap: 8px; }
         }
+        /* 🌟 心路新路之歌 歌詞卡 */
+        .song-card { background:#FFF8E7; border:1px solid #F3E2BF; border-radius:20px; padding:14px 18px 8px; position:relative; margin:0 -12px; text-align:center; font-family:'標楷體','DFKai-SB','BiauKai','Kaiti TC','KaiTi',serif; }
+        .song-card-title { font-size:22px; color:#2C5E3B; font-weight:bold; margin:0; }
+        .song-card-credit { font-size:13px; color:#8C5A2B; margin:2px 0 10px; }
+        .song-card-credit span { display:inline-block; }
+        .song-card-play { border:0; border-radius:999px; background:#F6B93B; color:#fff; font-size:15px; font-weight:bold; padding:6px 14px; cursor:pointer; font-family:inherit; position:absolute; top:12px; right:14px; }
+        .song-card-lyrics p { font-size:15.5px; line-height:1.75; color:#333; margin:0 0 10px; }
+        .song-card-lyrics .song-chorus { color:#2C5E3B; font-weight:bold; }
+        .song-card-lyrics .h { display:inline-block; }
+        .song-card-copy { text-align:right; font-size:13px; color:#8C5A2B; }
+        @media (max-width:600px) { .song-card { padding-top:52px; } .song-card-play { font-size:14px; } }
         /* 🌟 關於雪媚老師 */
         .about-may-card { background:#ffffff; border-radius:20px; border:1px solid #eef2f0; box-shadow:0 4px 15px rgba(0,0,0,0.03); padding:26px 20px; margin:0 -12px; font-family:'標楷體','DFKai-SB','BiauKai','Kaiti TC','KaiTi',serif; }
         .about-may-flex { display:flex; gap:24px; align-items:center; flex-wrap:wrap; margin-bottom:18px; }
@@ -268,6 +279,19 @@
                 <div style="position:absolute; top:30px; left:16%; width:50px; height:16px; border-radius:50px; background:rgba(255,255,255,0.4); filter:blur(3px); pointer-events:none;"></div>
                 <h1 class="hero-title">心路新路全齡關懷<br>健康幸福導航站</h1>
                 <p class="main-text-p intro-welcome-text" style="text-wrap:pretty; text-align:center;"><span style="display:block; margin-bottom:8px; color:#E07B17; font-weight:bold;">🌻 歡迎來到恢復笑容的起點 🌻</span>不論您正處於人生的哪一個階段，<br>面對教養的挑戰、關係的迷茫，<br>長輩的心理關懷、生活安排建議<br>我們都將以專業的身心靈團隊，<br>全方位關懷、陪伴您撥雲見日，<br><span class="bold-highlight">尋回內在的安息、韌性、喜樂與<span style="white-space:nowrap;">盼望。</span></span></p>
+            </div>
+        </section>
+
+        <!-- 🌟 心路新路之歌：歌詞卡（重複的段落只列一次），按鈕和左下角播放器同一首歌 -->
+        <section id="song-lyrics-section" style="padding-top:0; padding-bottom:10px; border-top:none;">
+            <div class="song-card">
+                <button id="songCardPlay" type="button" class="song-card-play">▶ 開始播放，請按這</button>
+                <div class="song-card-title">《開始自己的新路》</div>
+                <div class="song-card-credit"><span>作詞：邱雪媚（AI 協作）</span>　<span>編曲・演唱：AI 音樂生成</span></div>
+                <div class="song-card-lyrics">
+                    <p><span class="h">同一個地方　我又跌倒，</span><span class="h">同樣的眼淚　同樣的煩惱</span><br><span class="h">心裡有個聲音　說我不夠好，</span><span class="h">一圈又一圈　找不到出口</span><br><span class="h">停下腳步　靜靜地看，</span><span class="h">原來那是　舊的循環</span><br><span class="h">被愛的我　一直都在，</span><span class="h">只是忘了　抬頭看見光</span><br><span class="song-chorus"><span class="h">心路　新路　走一條新的路，</span><span class="h">從覺察開始　看見真實的自己</span><br><span class="h">一個小改變　帶來新的力量，</span><span class="h">回到最自在　最喜歡的自己</span></span><br><span class="h">不是一次就到達　而是每天一小步，</span><span class="h">祂說我「甚好」　我就敢再走出去</span><br><span class="song-chorus"><span class="h">心路　新路　我要找回自己</span></span></p>
+                </div>
+                <div class="song-card-copy">版權所有：心路新路有限公司</div>
             </div>
         </section>
 
@@ -1912,41 +1936,35 @@
     </script>
 <div class="xl-disclaimer" style="max-width:900px;margin:30px auto 20px;padding:14px 18px;font-size:13.5px;line-height:1.75;color:#777;text-align:center;border-top:1px solid #e5e5e5;font-family:'PingFang TC','Microsoft JhengHei',sans-serif;"><div style="margin-bottom:8px;color:#555;font-size:14.5px;"><b>聯絡我們</b>｜心路新路個人成長中心工作室（邱雪媚）｜Email：<a href="mailto:xinlumay@gmail.com" style="color:#2C5E3B;">xinlumay@gmail.com</a>｜官方 LINE：<a href="https://line.me/R/ti/p/@431trrjk" style="color:#2C5E3B;">@431trrjk</a></div>本工作室提供教牧協談、生命成長陪伴與教育課程，非心理諮商或心理治療，亦不進行心理疾病之診斷。如有身心疾病或危機狀況，請尋求醫療機構或合格心理師協助。</div>
 
-<!-- 心路新路主題曲播放器：一進網站就嘗試播放；瀏覽器擋住自動播放時，訪客第一次點擊畫面就開始播 -->
+<!-- 心路新路之歌：一進網站就嘗試播放；瀏覽器擋住自動播放時，訪客第一次點擊畫面就開始播。停止／播放按鈕在歌詞卡右上角 -->
 <audio id="themeSong" src="audio/theme-song.mp3" preload="auto"></audio>
-<button id="themeSongBtn" type="button" aria-label="播放心路新路主題曲"
-  style="position:fixed;left:16px;bottom:16px;z-index:9999;display:flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border:0;border-radius:999px;background:#FFF8E7;color:#2C5E3B;box-shadow:0 4px 16px rgba(140,90,43,.28);font-family:'標楷體','DFKai-SB','Microsoft JhengHei',serif;font-size:15px;cursor:pointer;max-width:calc(100vw - 32px)">
-  <span id="themeSongIcon" style="display:inline-flex;width:34px;height:34px;border-radius:50%;background:#F6B93B;color:#fff;align-items:center;justify-content:center;font-size:16px;flex:none">▶</span>
-  <span style="text-align:left;line-height:1.3"><b>心路新路主題曲</b><br><span style="font-size:13px;color:#8C5A2B">《開始自己的新路》</span></span>
-</button>
 <script>
 (function () {
   var audio = document.getElementById('themeSong');
-  var btn = document.getElementById('themeSongBtn');
-  var icon = document.getElementById('themeSongIcon');
+  var cardBtn = document.getElementById('songCardPlay');
   var KEY = 'xl-theme-song-paused';
   var userPaused = false;
   try { userPaused = localStorage.getItem(KEY) === '1'; } catch (e) {}
   audio.volume = 0.6;
   function sync() {
     var on = !audio.paused;
-    icon.textContent = on ? '❚❚' : '▶';
-    btn.setAttribute('aria-label', on ? '暫停心路新路主題曲' : '播放心路新路主題曲');
+    if (cardBtn) cardBtn.textContent = on ? '❚❚ 停止播放，請按這' : '▶ 開始播放，請按這';
   }
   audio.addEventListener('play', sync);
   audio.addEventListener('pause', sync);
   audio.addEventListener('ended', sync);
   function tryPlay() { return audio.play().catch(function () {}); }
   function startOnFirstTouch(e) {
-    if (e && btn.contains(e.target)) return;
+    if (e && cardBtn && cardBtn.contains(e.target)) return;
     document.removeEventListener('pointerdown', startOnFirstTouch, true);
     document.removeEventListener('keydown', startOnFirstTouch, true);
     if (!userPaused && audio.paused && audio.currentTime === 0) tryPlay();
   }
-  btn.addEventListener('click', function () {
+  function toggle() {
     if (audio.paused) { userPaused = false; try { localStorage.removeItem(KEY); } catch (e) {} tryPlay(); }
     else { userPaused = true; try { localStorage.setItem(KEY, '1'); } catch (e) {} audio.pause(); }
-  });
+  }
+  if (cardBtn) cardBtn.addEventListener('click', toggle);
   if (!userPaused) {
     tryPlay();
     document.addEventListener('pointerdown', startOnFirstTouch, true);
