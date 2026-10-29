@@ -291,7 +291,7 @@
         <!-- 🌟 心路新路之歌：歌詞卡（重複的段落只列一次），按鈕和左下角播放器同一首歌 -->
         <section id="song-lyrics-section" style="padding-top:0; padding-bottom:10px; border-top:none;">
             <div class="song-card">
-                <button id="songCardPlay" type="button" class="song-card-play">▶ 開始播放，請按這</button>
+                <button id="songCardPlay" type="button" class="song-card-play">❚❚ 停止播放，請按這</button>
                 <div class="song-card-title">《開始自己的新路》</div>
                 <div class="song-card-credit"><span>作詞：邱雪媚（AI 協作）</span>　<span>編曲・演唱：AI 音樂生成</span></div>
                 <div class="song-card-lyrics">
@@ -1954,13 +1954,11 @@
 (function () {
   var audio = document.getElementById('themeSong');
   var cardBtn = document.getElementById('songCardPlay');
-  var KEY = 'xl-theme-song-paused';
+  // 每次進站都自動播放；按鈕依「訪客有沒有按停止」顯示，瀏覽器暫時擋住自動播放時仍顯示「停止播放」
   var userPaused = false;
-  try { userPaused = localStorage.getItem(KEY) === '1'; } catch (e) {}
   audio.volume = 0.6;
   function sync() {
-    var on = !audio.paused;
-    if (cardBtn) cardBtn.textContent = on ? '❚❚ 停止播放，請按這' : '▶ 開始播放，請按這';
+    if (cardBtn) cardBtn.textContent = userPaused ? '▶ 開始播放，請按這' : '❚❚ 停止播放，請按這';
   }
   audio.addEventListener('play', sync);
   audio.addEventListener('pause', sync);
@@ -1973,15 +1971,14 @@
     if (!userPaused && audio.paused && audio.currentTime === 0) tryPlay();
   }
   function toggle() {
-    if (audio.paused) { userPaused = false; try { localStorage.removeItem(KEY); } catch (e) {} tryPlay(); }
-    else { userPaused = true; try { localStorage.setItem(KEY, '1'); } catch (e) {} audio.pause(); }
+    userPaused = !userPaused;
+    if (userPaused) audio.pause(); else tryPlay();
+    sync();
   }
   if (cardBtn) cardBtn.addEventListener('click', toggle);
-  if (!userPaused) {
-    tryPlay();
-    document.addEventListener('pointerdown', startOnFirstTouch, true);
-    document.addEventListener('keydown', startOnFirstTouch, true);
-  }
+  tryPlay();
+  document.addEventListener('pointerdown', startOnFirstTouch, true);
+  document.addEventListener('keydown', startOnFirstTouch, true);
   sync();
 })();
 </script>
