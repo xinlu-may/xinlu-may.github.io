@@ -155,6 +155,17 @@
         .book-cover-card img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
         /* 足跡清單 */
+        /* 服務足跡：左邊題目（編號）、右邊單位（列點） */
+        .camp-nav-bar.fp-nav { grid-template-columns: repeat(4, 1fr); }
+        .fp-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; align-items: start; }
+        .fp-sub { background: #2C5E3B; color: #fff; font-size: 19px; font-weight: bold; padding: 6px 14px; border-radius: 10px; margin: 0 0 10px; }
+        .fp-ol { margin: 0 0 22px 28px; padding: 0; }
+        .fp-ol li { font-size: 18px; color: #37474F; line-height: 1.6; padding: 3px 0; }
+        .fp-places { background: #FBF7EE; border: 1px solid #EADFC8; border-radius: 14px; padding: 14px 16px; }
+        .fp-places-title { font-size: 19px; font-weight: bold; color: #C0602B; margin: 0 0 8px; }
+        .fp-ul { margin: 0 0 0 20px; padding: 0; list-style: disc; }
+        .fp-ul li { font-size: 17px; color: #4a3a2a; line-height: 1.55; padding: 2px 0; }
+        @media (max-width: 768px) { .camp-nav-bar.fp-nav { grid-template-columns: repeat(2, 1fr); } .fp-grid { grid-template-columns: 1fr; } #pane-footprint .camp-tab-content { padding: 14px 8px; } .fp-ol { margin-left: 22px; } .fp-ol li { font-size: 17px; } }
         .footprint-list { list-style: none; margin-top: 15px; }
         .footprint-list li { font-size: 22px; color: #455A64; padding: 8px 0; display: flex; align-items: center; gap: 10px; font-weight: 500; }
         .footprint-list li::before { content: '🌟'; }
@@ -1040,7 +1051,7 @@
             <div class="service-tab-pane" id="pane-footprint">
 
             <!-- 🌟 架構：雪媚老師服務足跡 🌟 -->
-            <p class="main-text-p">多年來，雪媚老師深受中小學及幼兒園、教會公益機構及企業信賴，足跡遍及多個專業學習群體與諮詢中心。我們致力於將身心關懷與真理智慧帶到每一個需要的地方。</p>
+            <p class="main-text-p">雪媚老師從事兒童教育、親職教育、教師培訓與團隊訓練已二十餘年。從幼兒園、國中小到社區機構、教會與企業，她用溫暖又實用的方式，陪伴父母、老師與同工讀懂孩子，也重新認識自己，讓家庭、班級和團隊找到彼此合作的新路。</p>
 
             <div class="service-card" style="margin-bottom:25px;">
                 <div class="card-header-toggle" onclick="toggleCard(this)">
@@ -1049,63 +1060,284 @@
                 </div>
                 <div class="card-content-pane">
                     <div class="pane-inner">
-                        <div class="camp-nav-bar">
-                            <button class="camp-nav-btn active" id="btnFootTab1" onclick="switchFootprintTab(1)">中小學及幼兒園</button>
-                            <button class="camp-nav-btn" id="btnFootTab2" onclick="switchFootprintTab(2)">教會公益機構及企業</button>
+                        <div class="camp-nav-bar fp-nav">
+                            <button class="camp-nav-btn active" id="btnFootTab1" onclick="switchFootprintTab(1)">學校演講</button>
+                            <button class="camp-nav-btn" id="btnFootTab2" onclick="switchFootprintTab(2)">社區講座</button>
+                            <button class="camp-nav-btn" id="btnFootTab3" onclick="switchFootprintTab(3)">教會</button>
+                            <button class="camp-nav-btn" id="btnFootTab4" onclick="switchFootprintTab(4)">企業與其他</button>
                         </div>
 
                         <div class="camp-tab-content active" id="contentFootTab1">
-                            <p style="font-size:21px; color:#2C5E3B; font-weight:bold; margin-bottom:12px;">親職演講、特殊教育研習</p>
-                            <ul class="footprint-list">
-                                <li>「是故意還是真的聽不懂？」特殊生親師溝通主題：大坎國小、江翠國小、雙龍三多國小、大埔國小、頭湖國小</li>
-                                <li>「有效處理親子衝突，轉化家庭氛圍」主題：九份國小、汐止北港國小、柑園國小、興化國小、武林國小</li>
-                                <li>「轉化家庭氛圍，建立有效教養方式」主題：新莊裕民國小、麗園國小</li>
-                                <li>八里國小：面對孩子你需要新眼光、親子衝突講座、母親節親職講座、附幼親職講座、青春期親子溝通、陪孩子面對手機上癮、如何不讓手機偷走家人感情、過動妥瑞亞斯伯格特質、AI時代父母心靈活力秘訣（多年期合作）</li>
-                                <li>安坑國小：親職演講「被小孩氣到沒辦法好好教？」、如何幫助特教生在普通班適應、幫助孩子建構AI時代需要的競爭力</li>
-                                <li>九份國小：陪孩子面對手機上癮、溝通與教養</li>
-                                <li>青潭國小：婚姻教育成長工作坊、用心管教有效教</li>
-                                <li>牡丹國小：過動兒輔導研習、過動兒的相處與教學、特殊生的核心訓練、教師研習－學童情緒因應（多年期合作）</li>
-                                <li>文山國中：陪伴青春期孩子使用手機、思祈班職業介紹</li>
-                                <li>南美國小：愛與管教的平衡</li>
-                                <li>厚德國小：優化親師溝通創造三贏</li>
-                                <li>新興國小、頂溪國小、長安國小：在親子衝突中創造雙贏、轉化親子氛圍建立有效教養之道</li>
-                                <li>士林菁分幼兒園：打造孩子核心競爭力</li>
-                                <li>興南國小：ADHD、亞斯伯格類型學生輔導</li>
-                                <li>板橋中山國中：輔諮輔志工增能培訓</li>
-                                <li>興文國小：引導家長落實家庭教育</li>
-                                <li>蘆洲國小：線上輔導研習</li>
-                                <li>大埃國小：特殊生的親師溝通</li>
-                                <li>彭化培英國小附幼、南投附幼：親職講座</li>
-                                <li>士林福中兒少小站：親子衝突主題分享</li>
-                            </ul>
+                            <div class="fp-grid">
+                                <div class="fp-topics">
+                                    <p class="fp-sub">親職講座</p>
+                                    <ol class="fp-ol">
+                                        <li>愛與管教的平衡</li>
+                                        <li>面對孩子，你需要新眼光</li>
+                                        <li>被小孩氣到沒辦法好好教？</li>
+                                        <li>有效處理親子衝突，轉化家庭氛圍</li>
+                                        <li>轉化家庭氛圍，建立有效教養之道</li>
+                                        <li>在親子衝突中創造雙贏</li>
+                                        <li>用心管，有效教</li>
+                                        <li>溝通與教養</li>
+                                        <li>打造孩子核心競爭力</li>
+                                        <li>幫助孩子建構 AI 時代需要的競爭力</li>
+                                        <li>AI 時代父母心靈活力秘訣</li>
+                                        <li>青春動茲動：如何與青春期的孩子良性溝通</li>
+                                        <li>陪孩子面對手機上癮</li>
+                                        <li>陪伴青春期孩子使用手機</li>
+                                        <li>手機到底給不給？</li>
+                                        <li>如何不讓手機偷走家人之間的感情</li>
+                                        <li>懂孩子・懂自己：情緒導航家長共學團</li>
+                                        <li>引導家長落實家庭教育的溝通心法</li>
+                                        <li>婚姻教育成長工作坊</li>
+                                    </ol>
+                                    <p class="fp-sub">教師研習、特殊教育與輔導</p>
+                                    <ol class="fp-ol">
+                                        <li>點亮生命：都是情緒惹的禍？</li>
+                                        <li>學童情緒因應</li>
+                                        <li>是故意還是真的聽不懂？非智力障礙自閉類群特質學生的情緒行為探究及因應</li>
+                                        <li>特殊生的親師溝通</li>
+                                        <li>優化親師溝通，創造三贏</li>
+                                        <li>認識過動、妥瑞、亞斯伯格：特殊需求學生的認識與相處</li>
+                                        <li>過動兒的相處與教學撇步</li>
+                                        <li>ADHD、亞斯類型學童輔導策略</li>
+                                        <li>注意力不足學童提升專注及情緒調節技巧</li>
+                                        <li>特殊生的核心訓練目標制定攻略</li>
+                                        <li>如何幫助特教生在普通班適應得更好</li>
+                                        <li>輔導、認輔志工增能研習：認識過動與亞斯</li>
+                                        <li>壓力一定要扛嗎？</li>
+                                    </ol>
+                                </div>
+                                <div class="fp-places">
+                                    <p class="fp-places-title">👣 服務足跡</p>
+                                    <ul class="fp-ul">
+                                        <li>八里國小</li>
+                                        <li>安坑國小</li>
+                                        <li>蘆洲國小</li>
+                                        <li>牡丹國小</li>
+                                        <li>九份國小</li>
+                                        <li>厚德國小</li>
+                                        <li>大坎國小</li>
+                                        <li>江翠國小</li>
+                                        <li>三多國小</li>
+                                        <li>大埔國小</li>
+                                        <li>頭湖國小</li>
+                                        <li>興南國小</li>
+                                        <li>興文國小</li>
+                                        <li>新興國小</li>
+                                        <li>頂溪國小</li>
+                                        <li>長安國小</li>
+                                        <li>新莊裕民國小</li>
+                                        <li>麗園國小</li>
+                                        <li>青潭國小</li>
+                                        <li>汐止北港國小</li>
+                                        <li>柑園國小</li>
+                                        <li>興化國小</li>
+                                        <li>武林國小</li>
+                                        <li>南美國小</li>
+                                        <li>雲海國小</li>
+                                        <li>仁愛國小</li>
+                                        <li>明倫國小</li>
+                                        <li>中壢興仁國小</li>
+                                        <li>國語實小</li>
+                                        <li>彭福國小</li>
+                                        <li>文山國中</li>
+                                        <li>板橋中山國中</li>
+                                        <li>新店高中</li>
+                                        <li>彰化培英國小附幼</li>
+                                        <li>南投附幼</li>
+                                        <li>士林菁芬幼兒園</li>
+                                        <li>幼心幼兒園</li>
+                                        <li>佳音幼兒園</li>
+                                        <li>純得幼兒園</li>
+                                        <li>葫蘆幼兒園</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="camp-tab-content" id="contentFootTab2">
-                            <ul class="footprint-list">
-                                <li>拿撒勒人會：南部愛情講座、北區牧者退休會、士林教會「尋見真我」工作坊、宣聖堂同理心親子活動及「孩子講不聽怎麼辦」親職講座</li>
-                                <li>拿撒勒人會神學院：受邀任教「基礎教牧輔導」、「基本會談技巧」課程</li>
-                                <li>西美中會：長老教會牧者退休會「家庭伊甸園氛圍的建造」、教育部兒主師資培訓</li>
-                                <li>板橋福音堂：智慧家庭「手機時代如何保持親密與互動」、運動兒家長成長團體</li>
-                                <li>台灣信義會：社福研討會</li>
-                                <li>中華信義會：兒主師資培訓</li>
-                                <li>衛理公會憲友堂：如何幫助兒童與青少年的情緒管理</li>
-                                <li>文山老教會：兒主師資訓練</li>
-                                <li>木柵衛理堂：兒童師資訓練</li>
-                                <li>蘆洲禮拜堂：主日「活出愛」</li>
-                                <li>林森南路禮拜堂：陪伴過動孩子的春天</li>
-                                <li>樂福萬隆教會：認識孩子對手機的依賴及因應</li>
-                                <li>慈光堂：讓家充滿笑聲的祕訣</li>
-                                <li>迦南松年大學・桃園市全人生命教育協會：認識孩子對手機的依賴及因應、轉化氛圍建立有效教養之道</li>
-                                <li>雙全協會：長期關係與生命教育系列講座（衝突處理、自我價值、人際界線、戒癮與身心整合等主題）</li>
-                                <li>好鄰居協會：志工溝通訓練</li>
-                                <li>勝利之家：早療人員教保班培訓</li>
-                                <li>美之城兒童俱樂部：師資培訓</li>
-                            </ul>
-                            <p style="font-size:21px; color:#2C5E3B; font-weight:bold; margin-top:20px; margin-bottom:12px;">企業</p>
-                            <ul class="footprint-list">
-                                <li>威盛電子：親職講座</li>
-                                <li>飛奇兒體操：教練研習－共贏思維之教學引導技巧</li>
-                            </ul>
-                            <p style="font-size:18px; color:#3a3a3a; margin-top:10px;">（企業合作場次持續增加中）</p>
+                            <div class="fp-grid">
+                                <div class="fp-topics">
+                                    <p class="fp-sub">長照、樂齡與照顧者</p>
+                                    <ol class="fp-ol">
+                                        <li>返樸歸真：找回真正的自己，讓生命無憾！</li>
+                                        <li>喜樂人生的秘訣</li>
+                                        <li>如何有效關心人</li>
+                                        <li>那殺不死我們的，將讓我們更強大</li>
+                                        <li>設計符合自己風格的人生畢業典禮</li>
+                                        <li>我被詐騙了</li>
+                                        <li>家人需要我照顧，但是我真的太累了</li>
+                                        <li>成長經驗如何影響我們面對家人</li>
+                                        <li>年過了，跟家人互動的情緒也要過喔</li>
+                                        <li>回家，不再一樣！找回新的自己過「新」年</li>
+                                        <li>打造自己的身心健康幸福導航系統</li>
+                                        <li>找到生命中失落的祝福：聖經中的心靈醫治良方</li>
+                                        <li>關懷印尼移工培訓：關懷技巧</li>
+                                        <li>與尼有約健康工作坊暨減壓活動</li>
+                                        <li>有尼有我，再遠也要幸福：新住民家庭遠距親子關係的維繫</li>
+                                    </ol>
+                                    <p class="fp-sub">社區協會、社服機構與志工訓練</p>
+                                    <ol class="fp-ol">
+                                        <li>從國中生割頸案談雙贏的衝突處理</li>
+                                        <li>終極安全感：發現天賦本質</li>
+                                        <li>我們不一樣：個人差異的形成</li>
+                                        <li>如何修復不被愛的痛苦</li>
+                                        <li>界線的辨識與建立</li>
+                                        <li>終極關懷：活躍生命動力來源</li>
+                                        <li>即時停止生命的耗損</li>
+                                        <li>為何人人離不開手機</li>
+                                        <li>找到關係中連結與獨立的平衡</li>
+                                        <li>愛上癮症</li>
+                                        <li>改寫人生劇本，習慣新的人設</li>
+                                        <li>如何擺脫傷害自己的壞習慣</li>
+                                        <li>懂自己的情緒地圖</li>
+                                        <li>了解自己及他人的冰山世界</li>
+                                        <li>認識孩子對手機的依賴及因應</li>
+                                        <li>如何面對因手機引發的家庭衝突</li>
+                                        <li>科技時代家庭經營之道（六堂工作坊：認識手機上癮、大腦可塑性、家庭依附模式、修復家人關係、家庭會議訂手機規則、伊甸園「甚好」人觀的家庭氛圍）</li>
+                                        <li>親子衝突主題分享</li>
+                                        <li>過動特質兒童教養討論會</li>
+                                        <li>情緒因應、社交技巧不足特質兒童教養討論會</li>
+                                        <li>早療人員教保班培訓</li>
+                                        <li>志工溝通訓練</li>
+                                        <li>原始點志工訓練</li>
+                                    </ol>
+                                </div>
+                                <div class="fp-places">
+                                    <p class="fp-places-title">👣 服務足跡</p>
+                                    <ul class="fp-ul">
+                                        <li>文山區順興社區發展協會</li>
+                                        <li>龍恩關懷據點與雲彩關懷據點（三峽復興堂）</li>
+                                        <li>台中市國際關懷印尼協會</li>
+                                        <li>迦南松年大學</li>
+                                        <li>桃園市全人生命教育協會</li>
+                                        <li>雙全協會</li>
+                                        <li>好鄰居協會</li>
+                                        <li>勝利之家</li>
+                                        <li>士林福中兒少小站</li>
+                                        <li>原始點</li>
+                                        <li>台灣心靈家園關懷協會</li>
+                                        <li>彩虹愛家生命教育協會</li>
+                                        <li>1919 救助協會</li>
+                                        <li>世界展望會</li>
+                                        <li>伊甸基金會</li>
+                                        <li>新竹人本基金會</li>
+                                        <li>樂福社區關懷協會</li>
+                                        <li>勵友中心</li>
+                                        <li>伯大尼兒少家園</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="camp-tab-content" id="contentFootTab3">
+                            <div class="fp-grid">
+                                <div class="fp-topics">
+                                    <p class="fp-sub">兒童事工訓練</p>
+                                    <ol class="fp-ol">
+                                        <li>如何幫助兒童與青少年的情緒管理</li>
+                                        <li>兒童主日學師資訓練</li>
+                                        <li>兒童俱樂部師資培訓</li>
+                                        <li>教會兒童事工團隊督導</li>
+                                    </ol>
+                                    <p class="fp-sub">團隊、同工與牧者訓練</p>
+                                    <ol class="fp-ol">
+                                        <li>家庭伊甸園氛圍的建造</li>
+                                        <li>牧者退休會</li>
+                                        <li>尋見真我工作坊</li>
+                                        <li>從聖經中尋見真我讀書會</li>
+                                        <li>青少契尋見真我系列講座</li>
+                                        <li>基礎教牧輔導、基本會談技巧</li>
+                                        <li>社福研討會</li>
+                                    </ol>
+                                    <p class="fp-sub">教會親子與婚姻講座</p>
+                                    <ol class="fp-ol">
+                                        <li>如何讓孩子聽話</li>
+                                        <li>如何讓家充滿笑聲</li>
+                                        <li>孩子講不聽怎麼辦？</li>
+                                        <li>同理心親子活動</li>
+                                        <li>陪伴過動孩子的春天</li>
+                                        <li>過動兒家長成長團體</li>
+                                        <li>智慧家庭：手機時代如何保持親密與互動</li>
+                                        <li>愛情為何總讓人無法自拔？</li>
+                                        <li>溝通不是萬靈丹</li>
+                                        <li>長輩心靈建造</li>
+                                    </ol>
+                                    <p class="fp-sub">主日與培靈分享</p>
+                                    <ol class="fp-ol">
+                                        <li>讓我們將愛進行到底</li>
+                                        <li>如果我是中華隊</li>
+                                        <li>準確的愛家導航</li>
+                                        <li>下一代信仰生命的建造</li>
+                                        <li>天下的母親真的都一樣嗎？</li>
+                                        <li>活出愛</li>
+                                        <li>錦上一定要添花？</li>
+                                        <li>先知，您認真？</li>
+                                        <li>神不是公義的神嗎？</li>
+                                        <li>定化，不黑化</li>
+                                        <li>我習慣戴口罩</li>
+                                        <li>母親節主日分享</li>
+                                    </ol>
+                                </div>
+                                <div class="fp-places">
+                                    <p class="fp-places-title">👣 服務足跡</p>
+                                    <ul class="fp-ul">
+                                        <li>林森南路禮拜堂</li>
+                                        <li>蘆洲禮拜堂</li>
+                                        <li>板橋福音堂</li>
+                                        <li>慈光堂</li>
+                                        <li>衛理公會城中教會</li>
+                                        <li>木柵衛理堂</li>
+                                        <li>衛理公會恩友堂</li>
+                                        <li>文山老教會</li>
+                                        <li>中華信義會</li>
+                                        <li>台灣信義會</li>
+                                        <li>西美中會</li>
+                                        <li>拿撒勒人會（士林教會、宣聖堂、潮州教會）</li>
+                                        <li>拿撒勒人會神學院</li>
+                                        <li>永和聖教會</li>
+                                        <li>合一教會</li>
+                                        <li>樂福萬隆教會</li>
+                                        <li>萬隆基督的教會</li>
+                                        <li>板橋榮恩堂</li>
+                                        <li>沐光教會</li>
+                                        <li>蘆洲聖愛教會</li>
+                                        <li>新竹關東橋聖潔會</li>
+                                        <li>新生基督教會</li>
+                                        <li>蘭陽靈糧堂</li>
+                                        <li>潮州來義教會</li>
+                                        <li>美之城兒童俱樂部</li>
+                                        <li>六張犁長老教會</li>
+                                        <li>南勢角長老教會</li>
+                                        <li>丹鳳教會</li>
+                                        <li>玉成教會</li>
+                                        <li>澳洲墨爾本與加拿大華人教會</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="camp-tab-content" id="contentFootTab4">
+                            <div class="fp-grid">
+                                <div class="fp-topics">
+                                    <ol class="fp-ol">
+                                        <li>優化 AI 時代的家庭氛圍</li>
+                                        <li>共贏思維之教學引導技巧</li>
+                                        <li>性別珍愛，經營真愛</li>
+                                        <li>強化優勢共好的性別關係：兼顧維繫健康的家人關係</li>
+                                    </ol>
+                                </div>
+                                <div class="fp-places">
+                                    <p class="fp-places-title">👣 服務足跡</p>
+                                    <ul class="fp-ul">
+                                        <li>威盛電子</li>
+                                        <li>飛奇兒體操</li>
+                                        <li>國軍</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1857,7 +2089,7 @@
 
         // 服務足跡三分類頁籤切換邏輯
         function switchFootprintTab(tabNum) {
-            ['1','2'].forEach(n => {
+            ['1','2','3','4'].forEach(n => {
                 document.getElementById('btnFootTab' + n).classList.remove('active');
                 document.getElementById('contentFootTab' + n).classList.remove('active');
             });
