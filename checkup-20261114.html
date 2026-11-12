@@ -225,13 +225,13 @@ function answers(){ const a=[]; for(let i=1;i<=40;i++){ const c=form.querySelect
    formAction 留空時，不會回傳任何資料。 */
 const SEND = {
   session: "20261114 培英國小附幼（4–6 歲）",
-  formAction: "",            // 例：https://docs.google.com/forms/d/e/表單代碼/formResponse
+  formAction: "https://docs.google.com/forms/d/e/1FAIpQLSdLZsxUhrUwU3Sel41nL6kx6fGi3cNGxrStiEDme-7VpG6gtw/formResponse",
   entries: {
-    session: "",             // 場次
-    age: "",                 // 年齡
-    gender: "",              // 性別
-    scores: ["","","","","","","",""],  // 生理、大腦、認知、情緒、人際、心理韌性、螢幕習慣、親子互動 的分數（0–15）
-    answers: ""              // 40 題作答（逗號分隔，3=幾乎都會、0=還在學）
+    session: "entry.333272030",     // 場次
+    age: "entry.1842789852",        // 年齡
+    gender: "entry.1797438254",     // 性別
+    scores: ["entry.1076109366","entry.2098203913","entry.799162303","entry.776822354","entry.1313996400","entry.1668692819","entry.69897219","entry.542330978"],  // 生理、大腦、認知、情緒、人際、心理韌性、螢幕習慣、親子互動 的分數（0–15）
+    answers: "entry.1199460170"     // 40 題作答（逗號分隔，3=幾乎都會、0=還在學）
   }
 };
 const SENT_KEY = KEY + "-sent";
