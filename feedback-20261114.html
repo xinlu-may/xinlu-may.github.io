@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>講座回饋表</title>
+<style>
+:root{ --bg:#F4F7FA; --card:#FFFFFF; --ink:#1E2A38; --muted:#5B6B7D; --line:#DCE4EC; --accent:#0E8C93; --accent-soft:#E2F4F4; --warm:#E07B39; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#0D1B2E; --card:#16273F; --ink:#EEF3F8; --muted:#A9B8CA; --line:#2B4563; --accent:#3FD0C9; --accent-soft:#143447; --warm:#FFB067; } }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;line-height:1.6;font-size:17px}
+header{background:linear-gradient(135deg,#081226,#0C3A52);color:#fff;padding:26px 16px 22px}
+header .wrap,main,footer{max-width:760px;margin:0 auto}
+.tag{display:inline-block;border:1px solid #3FD0C9;color:#7FE3F0;border-radius:999px;padding:2px 12px;font-size:13px}
+h1{font-size:28px;margin:10px 0 4px}
+header p{margin:4px 0 0;color:#C9D6E3;font-size:15px}
+main{padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
+.card h2{font-size:19px;margin:0 0 6px;color:var(--accent)}
+.note{font-size:14px;color:var(--muted)}
+.q{padding:12px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:none}
+.q .t{margin-bottom:8px;font-weight:bold}
+.q .t span{color:var(--muted);margin-right:6px;font-weight:normal}
+.q.missing .t{color:var(--warm)}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scale label,.chips label{display:block;text-align:center;border:1px solid var(--line);border-radius:10px;padding:8px 2px;font-size:14px;cursor:pointer;user-select:none;background:var(--card)}
+.scale input,.chips input{position:absolute;opacity:0;pointer-events:none}
+.scale label:has(input:checked),.chips label:has(input:checked){background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+.scale label:has(input:focus-visible),.chips label:has(input:focus-visible){outline:3px solid var(--warm)}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chips label{text-align:left;padding:8px 12px}
+.roles{grid-template-columns:repeat(3,1fr)}
+.roles label{text-align:center}
+textarea{width:100%;min-height:150px;font:inherit;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+button{font:inherit;border:none;border-radius:12px;padding:12px 20px;cursor:pointer}
+.primary{background:var(--warm);color:#fff;font-weight:bold;width:100%;font-size:19px}
+.ghost{background:var(--accent-soft);color:var(--ink)}
+#thanks{display:none;text-align:center;padding:30px 18px}
+footer{padding:8px 16px 40px;font-size:13px;color:var(--muted)}
+footer a{color:var(--accent)}
+@media (max-width:480px){ .scale label{font-size:12.5px;padding:8px 0} .chips{grid-template-columns:1fr} h1{font-size:24px} }
+@media print{
+  body{background:#fff;color:#000;font-size:11.5px} header{background:#fff;color:#000;padding:0 0 6px;border-bottom:2px solid #0E8C93}
+  header p,.tag{color:#333;border-color:#333} .noprint{display:none!important}
+  .card{border:1px solid #bbb;padding:8px 12px;margin:6px 0;break-inside:avoid} .q{padding:5px 0}
+  .scale,.chips,.roles{display:flex;flex-wrap:wrap;gap:4px 14px} .scale label,.chips label{border:none;padding:0;background:none!important;color:#000!important}
+  .scale label::before,.chips label::before{content:"□ "} .scale label:has(input:checked)::before,.chips label:has(input:checked)::before{content:"■ "}
+  textarea{min-height:110px;border:1px solid #999}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <span class="tag">2026/11/14 培英國小附幼親職講座</span>
+  <h1>講座回饋表</h1>
+  <p>AI 時代科技智慧育兒・講師 邱雪媚老師</p>
+</div></header>
+
+<main>
+<form id="form">
+  <section class="card">
+    <p style="margin:0">謝謝您今天的參與！這份回饋表<b>不記名</b>，約 2 分鐘，您的意見會幫助學校和講師把親職講座辦得更好。</p>
+  </section>
+
+  <section class="card">
+    <h2>一、基本資料</h2>
+    <div class="q" id="q-role"><div class="t">您的身分</div>
+      <div class="chips roles" id="roles"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>二、滿意度</h2>
+    <p class="note" style="margin:0 0 4px">請依照您的感受，選擇最符合的一項。</p>
+    <div id="scaleBox"></div>
+  </section>
+
+  <section class="card">
+    <h2>三、今天最有收穫的部分（可複選）</h2>
+    <div class="chips" id="best"></div>
+  </section>
+
+  <section class="card">
+    <h2>四、跟講師分享</h2>
+    <div class="t" style="font-weight:bold;margin-bottom:8px">跟講師分享你今天得到的收穫，以及對以後講題的建議</div>
+    <textarea id="share" maxlength="1500" placeholder="例如：今天印象最深的一句話、回家想試試的方法、希望以後聽到的主題……"></textarea>
+  </section>
+
+  <div class="noprint">
+    <button class="primary" id="btnSend" type="button">送出回饋表</button>
+    <p class="note" id="status" style="text-align:center"></p>
+  </div>
+</form>
+
+<section class="card" id="thanks">
+  <h2 style="font-size:24px">謝謝您的回饋！</h2>
+  <p>祝福您和孩子，一起在 AI 時代快樂成長。</p>
+  <p class="note">想收到心路新路的課程訊息，歡迎加入官方 LINE：<a href="https://line.me/R/ti/p/@431trrjk">@431trrjk</a></p>
+</section>
+</main>
+
+<footer>
+  心路新路有限公司｜全齡關懷健康幸福導航站・雪媚老師（邱雪媚）<br>
+  網站 <a href="https://xinlu-may.github.io" target="_blank" rel="noopener">xinlu-may.github.io</a>・官方 LINE <a href="https://line.me/R/ti/p/@431trrjk" target="_blank" rel="noopener">@431trrjk</a>
+  <span class="noprint">・<a href="#" onclick="window.print();return false;">列印空白回饋表</a></span>
+</footer>
+
+<script>
+const ROLES = ["幼兒園家長", "社區民眾", "其他"];
+const SCALE = [["非常同意",5],["同意",4],["普通",3],["不同意",2],["非常不同意",1]];
+const ITEMS = [
+  "講座主題符合我的需要",
+  "講師說明清楚，容易理解",
+  "我更了解評估孩子身心發展的向度（生理、大腦、認知、情緒、人際、心理韌性）",
+  "生活自我檢視和雷達圖，讓我更了解自己的孩子",
+  "我知道引導孩子使用手機、網路和 AI 的正確原則",
+  "我學到正向教養的引導技巧（例如：先連結再引導、具體稱讚）",
+  "我學到回家可以馬上運用的方法",
+  "講座的時間安排和場地合適",
+  "整體而言，我對這場講座感到滿意",
+  "我願意推薦其他家長參加類似的講座"
+];
+const BEST = ["AI 時代的學習與競爭力","大腦的重要與多巴胺","生活自我檢視與雷達圖","父母角色的轉變、先連結再引導","緩效多巴胺與內在動機","3C 和 AI 的使用原則"];
+
+/* ===== 回傳設定：接到老師的 Google 表單（回覆會整理成 Google 試算表）=====
+   formAction 留空時，不會送出任何資料。 */
+const SEND = {
+  session: "20261114 培英國小附幼",
+  formAction: "",               // 例：https://docs.google.com/forms/d/e/表單代碼/formResponse
+  entries: {
+    session: "", role: "",
+    items: ["","","","","","","","","",""],   // 第 1–10 題的分數（5=非常同意 … 1=非常不同意）
+    best: "", share: ""
+  }
+};
+const CLOSE_AT = new Date("2026-11-21T23:59:59+08:00");   // 之後自動關閉
+const SENT_KEY = "xinlu-feedback-20261114-sent";
+
+document.getElementById("roles").innerHTML = ROLES.map(r => `<label><input type="radio" name="role" value="${r}"><span>${r}</span></label>`).join("");
+document.getElementById("scaleBox").innerHTML = ITEMS.map((t,i) => `<div class="q" id="q${i+1}"><div class="t"><span>${i+1}.</span>${t}</div><div class="scale">` +
+  SCALE.map(s => `<label><input type="radio" name="s${i+1}" value="${s[1]}"><span>${s[0]}</span></label>`).join("") + `</div></div>`).join("");
+document.getElementById("best").innerHTML = BEST.map(b => `<label><input type="checkbox" name="best" value="${b}"><span>${b}</span></label>`).join("");
+
+const form = document.getElementById("form"), status = document.getElementById("status");
+form.addEventListener("change", e => { const q = e.target.closest(".q"); if (q) q.classList.remove("missing"); });
+
+if (CLOSE_AT && new Date() > CLOSE_AT) {
+  document.querySelector("main").innerHTML = `<section class="card" style="text-align:center;padding:36px 18px"><h2>本場講座的回饋表已經結束</h2><p>謝謝您參加 2026/11/14 培英國小附幼親職講座。</p></section>`;
+}
+let already = false; try { already = localStorage.getItem(SENT_KEY) === "1"; } catch(e) {}
+if (already) { form.style.display = "none"; document.getElementById("thanks").style.display = "block"; }
+
+document.getElementById("btnSend").onclick = () => {
+  document.querySelectorAll(".q.missing").forEach(q => q.classList.remove("missing"));
+  const miss = [];
+  const role = form.querySelector('input[name=role]:checked');
+  if (!role) miss.push(document.getElementById("q-role"));
+  const scores = ITEMS.map((_,i) => { const c = form.querySelector(`input[name=s${i+1}]:checked`); if (!c) miss.push(document.getElementById("q"+(i+1))); return c ? c.value : ""; });
+  if (miss.length) { miss.forEach(m => m.classList.add("missing")); miss[0].scrollIntoView({behavior:"smooth", block:"center"}); status.textContent = `還有 ${miss.length} 題沒有選，已用橘色標出來。`; return; }
+  const best = [...form.querySelectorAll('input[name=best]:checked')].map(c => c.value).join("、");
+  const share = document.getElementById("share").value.trim();
+  if (!SEND.formAction) { status.textContent = "回饋表還在準備中，暫時無法送出，請告訴現場工作人員，謝謝！"; return; }
+  const E = SEND.entries, fd = new URLSearchParams();
+  if (E.session) fd.append(E.session, SEND.session);
+  if (E.role) fd.append(E.role, role.value);
+  E.items.forEach((id,i) => { if (id) fd.append(id, scores[i]); });
+  if (E.best) fd.append(E.best, best);
+  if (E.share) fd.append(E.share, share);
+  status.textContent = "正在送出……";
+  fetch(SEND.formAction, {method:"POST", mode:"no-cors", body:fd})
+    .then(() => { try { localStorage.setItem(SENT_KEY, "1"); } catch(e) {} form.style.display = "none"; document.getElementById("thanks").style.display = "block"; window.scrollTo(0,0); })
+    .catch(() => { status.textContent = "網路不穩，沒有送出成功，請再按一次。"; });
+};
+</script>
+</body>
+</html>

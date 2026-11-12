@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>幼兒發展生活自我檢視（2–4 歲）</title>
+<style>
+:root{
+  --bg:#F4F7FA; --card:#FFFFFF; --ink:#1E2A38; --muted:#5B6B7D; --line:#DCE4EC;
+  --accent:#0E8C93; --accent-soft:#E2F4F4; --warm:#E07B39; --warm-soft:#FCEBDD; --navy:#0D1B2E;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1B2E; --card:#16273F; --ink:#EEF3F8; --muted:#A9B8CA; --line:#2B4563;
+    --accent:#3FD0C9; --accent-soft:#143447; --warm:#FFB067; --warm-soft:#3B2C22; --navy:#081226;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;line-height:1.6;font-size:17px}
+header{background:linear-gradient(135deg,#081226,#0C3A52);color:#fff;padding:28px 16px 24px}
+header .wrap{max-width:820px;margin:0 auto}
+.tag{display:inline-block;border:1px solid #3FD0C9;color:#7FE3F0;border-radius:999px;padding:2px 12px;font-size:13px}
+h1{font-size:28px;margin:10px 0 4px;line-height:1.3}
+h1 b{color:#3FD0C9}
+header p{margin:6px 0 0;color:#C9D6E3;font-size:15px}
+main{max-width:820px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
+.intro li{margin:4px 0}
+.note{font-size:14px;color:var(--muted)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.row label{font-size:15px}
+input[type=text],select{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.dim h2{font-size:20px;margin:0 0 2px;color:var(--accent)}
+.dim .sub{font-size:14px;color:var(--muted);margin-bottom:8px}
+.q{padding:12px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:none}
+.q .t{margin-bottom:8px}
+.q .t span{color:var(--muted);font-size:14px;margin-right:6px}
+.q.missing .t{color:var(--warm);font-weight:bold}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.opts label{display:block;text-align:center;border:1px solid var(--line);border-radius:10px;padding:8px 2px;font-size:15px;cursor:pointer;user-select:none;background:var(--card)}
+.opts input{position:absolute;opacity:0;pointer-events:none}
+.opts input:checked+span{font-weight:bold}
+.opts label:has(input:checked){background:var(--accent);border-color:var(--accent);color:#fff}
+.opts label:has(input:focus-visible){outline:3px solid var(--warm)}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0}
+.prog{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.bar .row{justify-content:space-between;font-size:14px;color:var(--muted);margin-top:4px}
+button{font:inherit;border:none;border-radius:12px;padding:12px 20px;cursor:pointer}
+.primary{background:var(--warm);color:#fff;font-weight:bold;width:100%;font-size:19px}
+.ghost{background:var(--accent-soft);color:var(--ink)}
+#result{display:none}
+#radar{width:100%;max-width:520px;display:block;margin:0 auto}
+.scores{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+@media (max-width:600px){ .scores{grid-template-columns:repeat(2,1fr)} }
+.sc{border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.sc b{display:block;font-size:15px}
+.sc .v{font-size:22px;color:var(--accent);font-weight:bold}
+.sc .lv{display:block;font-size:13px;color:var(--muted);white-space:nowrap}
+.hl{background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin:10px 0}
+.hl.warm{background:var(--warm-soft)}
+.hl h3{margin:0 0 4px;font-size:17px}
+.consent{margin-top:12px;padding:12px 14px;border:1px solid var(--accent);border-radius:12px;background:var(--accent-soft);font-size:15px}
+.consent input{width:20px;height:20px;vertical-align:-4px;margin-right:4px}
+.sent{color:var(--accent);font-weight:bold;margin:4px 0}
+.hl ul{margin:4px 0 0;padding-left:20px}
+footer{max-width:820px;margin:0 auto;padding:8px 16px 40px;font-size:13px;color:var(--muted)}
+footer a{color:var(--accent)}
+@media (max-width:480px){ .opts label{font-size:14px;padding:8px 0} h1{font-size:24px} }
+@media print{
+  body{background:#fff;color:#000;font-size:12px}
+  header{background:#fff;color:#000;padding:0 0 6px;border-bottom:2px solid #0E8C93}
+  header p,.tag{color:#333;border-color:#333}
+  h1 b{color:#0E8C93}
+  .bar,.noprint{display:none!important}
+  .card{border:1px solid #ccc;padding:8px 10px;margin:6px 0;break-inside:avoid}
+  .q{padding:4px 0}
+  .opts{grid-template-columns:repeat(4,auto);justify-content:start;gap:4px}
+  .opts label{padding:1px 10px;border-radius:4px}
+  .opts label:has(input:checked){background:#ddd;color:#000}
+  .opts label::before{content:"□ "} .opts label:has(input:checked)::before{content:"■ "}
+  #result{display:block!important;break-before:page}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <span class="tag">115 年親職講座｜AI 時代科技智慧育兒</span>
+  <h1>幼兒發展<b>生活自我檢視</b>（2–4 歲）</h1>
+  <p>適用 2–4 歲幼兒・共 8 個向度、40 題・約 8–10 分鐘</p>
+</div></header>
+
+<main>
+  <section class="card intro">
+    <b>填寫前請先看</b>
+    <ul>
+      <li>請想著<b>一個孩子</b>，依照<b>最近一個月</b>的印象作答，第一個感覺就好。</li>
+      <li>每題選一個：<b>幾乎都會</b>、<b>常常</b>、<b>有時</b>、<b>還在學</b>。</li>
+      <li>這是給家長參考的<b>生活觀察</b>，不是測驗，也不是醫療評估或診斷。</li>
+    </ul>
+    <div class="row noprint" style="margin-top:8px">
+      <label>孩子的年齡（必填）<br><select id="age"><option value="">請選擇</option><option>2 歲</option><option>3 歲</option><option>4 歲</option><option>其他</option></select></label>
+      <label>孩子的性別（必填）<br><select id="gender"><option value="">請選擇</option><option>男生</option><option>女生</option></select></label>
+      <label>孩子的暱稱（可不填，只顯示在您的手機上）<br><input type="text" id="nick" maxlength="12" placeholder="例：小寶"></label>
+    </div>
+    <div class="consent noprint">
+      <label><input type="checkbox" id="consent"> <b>我同意匿名回傳</b>：看結果時，會把孩子的年齡、性別和各題作答匿名回傳給心路新路有限公司，只用於整體統計和改善親職課程。不收集姓名、電話或任何可以辨識身分的資料，講師也無法知道是誰填的。</label>
+      <p class="note" style="margin:6px 0 0">不同意也沒關係，一樣可以填寫、看到雷達圖，只是資料不會送出。</p>
+    </div>
+  </section>
+
+  <div class="bar noprint">
+    <div class="prog"><i id="progbar"></i></div>
+    <div class="row"><span id="progtxt">已完成 0 / 40 題</span><button class="ghost" id="btnReset" type="button" style="padding:2px 10px;font-size:13px">清除重填</button></div>
+  </div>
+
+  <form id="form"></form>
+
+  <div class="noprint"><button class="primary" id="btnShow" type="button">看我的雷達圖</button></div>
+
+  <section id="result" class="card">
+    <h2 style="margin:0;color:var(--accent)" id="rtitle">檢視結果</h2>
+    <p class="note" id="rmeta"></p>
+    <p class="sent noprint" id="sendStatus"></p>
+    <svg id="radar" viewBox="0 0 520 470" role="img" aria-label="八個向度的雷達圖"></svg>
+    <div class="scores" id="scores"></div>
+    <div id="advice"></div>
+    <p class="note">分數只代表最近一個月的生活觀察。每個孩子都有自己的成長時間表；「還在學」代表需要多一點練習和陪伴。若有多項明顯落後同齡、出現退步，或已影響生活，建議請教小兒科醫師或各縣市兒童發展聯合評估中心。</p>
+    <div class="row noprint">
+      <button class="ghost" type="button" onclick="window.print()">列印／存成 PDF</button>
+      <button class="ghost" type="button" id="btnBack">回到題目修改</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  心路新路有限公司｜全齡關懷健康幸福導航站・雪媚老師（邱雪媚）<br>
+  網站 <a href="https://xinlu-may.github.io" target="_blank" rel="noopener">xinlu-may.github.io</a>・官方 LINE <a href="https://line.me/R/ti/p/@431trrjk" target="_blank" rel="noopener">@431trrjk</a><br>
+  本檢視為親職教育用的生活觀察工具，題目由講座內容整理設計，不作為發展評估或診斷依據。
+</footer>
+
+<script>
+const DIMS = [{"name":"生理","sub":"身體與作息：身體是大腦的地基","q":["每天睡得夠（含午睡約 11 小時以上），早上起得來","每天有跑、爬、走、玩球等在戶外活動的時間","會自己用湯匙吃飯、拿杯子喝水","吃飯時能坐著吃，不配手機或平板","吃飯、睡覺的時間大致固定"],"tip":["每天出門跑跳、玩沙玩水","固定睡前流程：洗澡、刷牙、說故事","吃飯時全家不配螢幕"]},{"name":"大腦","sub":"專注與自我控制：大腦的剎車剛開始長","q":["能專心玩一樣玩具或聽一本繪本 5 分鐘以上","聽到「停」或「等一下」，能停下來一會兒","在大人提醒下，能等一下再拿想要的東西","聽得懂一個步驟的指令（例：把鞋子拿過來）","換環境或換活動時，在大人陪伴下能慢慢接受"],"tip":["玩「音樂停、身體停」的遊戲，練習停下來","指令一次只說一個步驟","轉換前先預告：「再玩一次就要收囉」"]},{"name":"認知","sub":"好奇與語言：好奇心是學習的引擎","q":["喜歡探索新東西，會指給大人看","能用詞語或短句說出想要的（例：「要喝水」）","喜歡聽故事、看繪本，會指出書裡的東西","會模仿大人做事（例：掃地、講電話）","能說出常見東西的名稱"],"tip":["孩子指東西時，幫他說出名稱","每天共讀一本繪本，讓孩子指一指","多和孩子一來一往地說話"]},{"name":"情緒","sub":"被理解，才學得會表達","q":["會用表情、動作或簡單的話表達情緒","哭鬧時，在大人抱抱或安撫下能慢慢平靜","聽到「不可以」時，哭一陣子後能慢慢接受","和照顧者分開時，經過安撫能慢慢適應","一天當中，開心的時間比不開心多"],"tip":["幫孩子說出感受：「你很生氣，因為積木倒了」","抱一抱、陪他深呼吸，慢慢平靜","分開時好好說再見，說好什麼時候回來"]},{"name":"人際","sub":"從身邊的人開始學相處","q":["喜歡和熟悉的大人一起玩","會在其他孩子旁邊玩，偶爾一起玩","在大人引導下，能輪流玩一樣玩具","會用動作或話語打招呼、說謝謝","看到別人哭，會注意或想靠近"],"tip":["多安排和其他孩子一起玩的時間","示範輪流：「你玩一下，換他玩一下」","大人先示範打招呼、說謝謝"]},{"name":"心理韌性","sub":"跌倒了，還願意再試一次","q":["做不到時，願意再試一次","願意自己做小事（脫鞋、洗手、收玩具）","到新地方，在大人陪伴下願意慢慢探索","跌倒或受挫後，安撫一下能再去玩","願意嘗試新的食物或新的遊戲"],"tip":["讓孩子自己試，大人在旁邊多等一下","稱讚努力：「你自己穿好一隻鞋了！」","新環境先陪著，再慢慢放手"]},{"name":"螢幕習慣","sub":"手機、平板、電視與 AI 的使用","q":["每天看螢幕累計在 1 小時以內（2 歲以下盡量不看）","看螢幕時，大多有大人陪著一起看、一起聊","說好的時間到了，在大人提醒下能停下來","睡前一小時不看螢幕","沒有螢幕時，也能自己玩得開心"],"tip":["哭鬧時不用螢幕安撫，先抱抱、說出感受","用繪本、積木、戶外活動取代螢幕","全家吃飯和睡前不用螢幕"]},{"name":"親子互動","sub":"關係好，孩子才願意配合","q":["我每天有至少 15 分鐘，放下手機專心陪孩子玩","孩子需要我時，我能回應他（抱抱、看著他說話）","提醒孩子做事時，他大多願意配合","家裡有固定的生活作息（起床、吃飯、睡覺）","孩子做得好時，我會具體說出他好在哪裡"],"tip":["每天 15 分鐘專心陪玩，不看手機","具體稱讚：「我看到你自己把玩具收好了！」","給兩個選擇：「要先洗澡還是先刷牙？」"]}];
+const OPTS = [["幾乎都會",3],["常常",2],["有時",1],["還在學",0]];
+const KEY = "xinlu-checkup-20261114-2to4";
+const form = document.getElementById("form");
+let n = 0;
+DIMS.forEach((d, di) => {
+  const sec = document.createElement("section");
+  sec.className = "card dim";
+  sec.innerHTML = `<h2>${di+1}. ${d.name}</h2><div class="sub">${d.sub}</div>`;
+  d.q.forEach((q) => {
+    n++;
+    const div = document.createElement("div");
+    div.className = "q"; div.id = "q" + n;
+    div.innerHTML = `<div class="t"><span>${n}.</span>${q}</div><div class="opts" role="radiogroup" aria-label="第 ${n} 題">` +
+      OPTS.map(o => `<label><input type="radio" name="q${n}" value="${o[1]}"><span>${o[0]}</span></label>`).join("") + `</div>`;
+    sec.appendChild(div);
+  });
+  form.appendChild(sec);
+});
+
+function answers(){ const a=[]; for(let i=1;i<=40;i++){ const c=form.querySelector(`input[name=q${i}]:checked`); a.push(c?+c.value:null);} return a; }
+/* ===== 匿名回傳設定 =====
+   回傳到老師的 Google 表單（回覆會自動整理成 Google 試算表）。
+   formAction 留空時，不會回傳任何資料。 */
+const SEND = {
+  session: "20261114 培英國小附幼（2–4 歲）",
+  formAction: "",            // 例：https://docs.google.com/forms/d/e/表單代碼/formResponse
+  entries: {
+    session: "",             // 場次
+    age: "",                 // 年齡
+    gender: "",              // 性別
+    scores: ["","","","","","","",""],  // 生理、大腦、認知、情緒、人際、心理韌性、螢幕習慣、親子互動 的分數（0–15）
+    answers: ""              // 40 題作答（逗號分隔，3=幾乎都會、0=還在學）
+  }
+};
+const SENT_KEY = KEY + "-sent";
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({a:answers(), nick:nick.value, age:age.value, gender:gender.value, consent:consent.checked})); }catch(e){} }
+function load(){ try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(!s) return;
+  s.a.forEach((v,i)=>{ if(v!==null){ const r=form.querySelector(`input[name=q${i+1}][value="${v}"]`); if(r) r.checked=true; } });
+  nick.value=s.nick||""; age.value=s.age||""; gender.value=s.gender||""; consent.checked=!!s.consent; }catch(e){} }
+function progress(){ const done=answers().filter(v=>v!==null).length; progbar.style.width=(done/40*100)+"%"; progtxt.textContent=`已完成 ${done} / 40 題`; }
+const nick=document.getElementById("nick"), age=document.getElementById("age"), gender=document.getElementById("gender"), consent=document.getElementById("consent");
+const progbar=document.getElementById("progbar"), progtxt=document.getElementById("progtxt");
+form.addEventListener("change", e => { const q=e.target.closest(".q"); if(q) q.classList.remove("missing"); progress(); save(); });
+nick.addEventListener("input", save); age.addEventListener("change", save); gender.addEventListener("change", save); consent.addEventListener("change", save);
+load(); progress();
+
+/* ===== 講座結束後自動關閉 =====
+   超過下面的時間，掃 QR code 只會看到「已結束」，不能再填寫。
+   之後要在網站長期開放時，把 CLOSE_AT 改成 null。 */
+const CLOSE_AT = new Date("2026-11-14T23:59:59+08:00");
+if (CLOSE_AT && new Date() > CLOSE_AT) {
+  document.querySelector("main").innerHTML = `<section class="card" style="text-align:center;padding:36px 18px">
+    <h2 style="color:var(--accent);margin:0 0 10px">本場講座的問卷已經結束</h2>
+    <p>謝謝您參加 2026/11/14 培英國小附幼親職講座。</p>
+    <p>想了解孩子或全家人的「全齡關懷十大向度生活自我檢視」，<br>歡迎加入心路新路官方 LINE：<a href="https://line.me/R/ti/p/@431trrjk">@431trrjk</a></p></section>`;
+}
+
+function sendAnonymous(a, scores){
+  const st = document.getElementById("sendStatus");
+  if (!consent.checked) { st.textContent = "您沒有勾選同意，這次的資料不會送出。"; return; }
+  if (!SEND.formAction) { st.textContent = ""; return; }
+  let already = false; try { already = localStorage.getItem(SENT_KEY) === "1"; } catch(e) {}
+  if (already) { st.textContent = "✓ 這支手機已經匿名送出過，謝謝您的參與。"; return; }
+  const fd = new URLSearchParams(), E = SEND.entries;
+  if (E.session) fd.append(E.session, SEND.session);
+  if (E.age) fd.append(E.age, age.value);
+  if (E.gender) fd.append(E.gender, gender.value);
+  E.scores.forEach((id,i) => { if (id) fd.append(id, String(scores[i])); });
+  if (E.answers) fd.append(E.answers, a.join(","));
+  st.textContent = "正在匿名送出……";
+  fetch(SEND.formAction, {method:"POST", mode:"no-cors", body:fd})
+    .then(() => { try{ localStorage.setItem(SENT_KEY,"1"); }catch(e){} st.textContent = "✓ 已匿名送出，謝謝您的參與！"; })
+    .catch(() => { st.textContent = "網路不穩，資料沒有送出；稍後再按一次「看我的雷達圖」就會重送。"; });
+}
+
+document.getElementById("btnReset").onclick = () => { if(!confirm("確定要清除所有答案重新填寫嗎？")) return; form.reset(); nick.value=""; age.value=""; gender.value=""; consent.checked=false; try{localStorage.removeItem(KEY);}catch(e){} document.querySelectorAll(".q.missing").forEach(q=>q.classList.remove("missing")); document.getElementById("result").style.display="none"; progress(); };
+document.getElementById("btnBack").onclick = () => { document.getElementById("form").scrollIntoView({behavior:"smooth"}); };
+
+document.getElementById("btnShow").onclick = () => {
+  if (!age.value || !gender.value) { (age.value ? gender : age).focus(); age.scrollIntoView({behavior:"smooth",block:"center"}); alert("請先選擇孩子的年齡和性別（在最上面）。"); return; }
+  const a = answers();
+  const miss = a.map((v,i)=>v===null?i+1:null).filter(Boolean);
+  document.querySelectorAll(".q.missing").forEach(q=>q.classList.remove("missing"));
+  if (miss.length){ miss.forEach(i=>document.getElementById("q"+i).classList.add("missing")); document.getElementById("q"+miss[0]).scrollIntoView({behavior:"smooth",block:"center"}); alert(`還有 ${miss.length} 題沒有選，已用橘色標出來。`); return; }
+  render(a);
+};
+
+function level(p){ return p>=80?"亮點":p>=50?"穩定成長中":"可以多陪伴"; }
+function render(a){
+  const scores = DIMS.map((d,i)=>a.slice(i*5,i*5+5).reduce((s,v)=>s+v,0));
+  const pct = scores.map(s=>Math.round(s/15*100));
+  const who = nick.value.trim() || "孩子";
+  document.getElementById("rtitle").textContent = `${who}的生活自我檢視雷達圖`;
+  const d = new Date();
+  document.getElementById("rmeta").textContent = `${age.value}・${gender.value}・填寫日期 ${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}・每個向度滿分 15 分（以百分比畫圖）`;
+  drawRadar(pct);
+  document.getElementById("scores").innerHTML = DIMS.map((dm,i)=>`<div class="sc"><b>${dm.name}</b><span class="v">${scores[i]}</span> / 15 <span class="lv">${level(pct[i])}</span></div>`).join("");
+  const order = pct.map((p,i)=>[p,i]);
+  const top = [...order].sort((x,y)=>y[0]-x[0]).slice(0,2);
+  const low = [...order].sort((x,y)=>x[0]-y[0])[0];
+  let html = `<div class="hl"><h3>⭐ ${who}的亮點</h3>${top.map(([p,i])=>`<b>${DIMS[i].name}</b>（${p}%）`).join("、")}。今晚就具體說給孩子聽，讓他知道自己哪裡做得好。</div>`;
+  html += `<div class="hl warm"><h3>🌱 這個月可以多陪伴：${DIMS[low[1]].name}</h3>只選這一個向度，從下面挑一件小事開始：<ul>${DIMS[low[1]].tip.map(t=>`<li>${t}</li>`).join("")}</ul></div>`;
+  document.getElementById("advice").innerHTML = html;
+  const r = document.getElementById("result"); r.style.display="block"; r.scrollIntoView({behavior:"smooth"});
+  sendAnonymous(a, scores);
+}
+
+function drawRadar(pct){
+  const svg = document.getElementById("radar");
+  const css = getComputedStyle(document.documentElement);
+  const ink = css.getPropertyValue("--ink").trim(), line = css.getPropertyValue("--line").trim(), acc = css.getPropertyValue("--accent").trim(), warm = css.getPropertyValue("--warm").trim(), muted = css.getPropertyValue("--muted").trim();
+  const cx=260, cy=240, R=165, N=DIMS.length;
+  const pt=(i,r)=>{ const ang=-Math.PI/2+i*2*Math.PI/N; return [cx+r*Math.cos(ang), cy+r*Math.sin(ang)]; };
+  let s = "";
+  [20,40,60,80,100].forEach(lv=>{ const p=[...Array(N)].map((_,i)=>pt(i,R*lv/100).join(",")).join(" ");
+    s+=`<polygon points="${p}" fill="none" stroke="${line}" stroke-width="${lv===100?2:1}"/>`;
+    const ta=-Math.PI/2+Math.PI/N, lx=cx+R*lv/100*Math.cos(ta), ly=cy+R*lv/100*Math.sin(ta); s+=`<text x="${lx+3}" y="${ly-3}" font-size="11" fill="${muted}">${lv}</text>`; });
+  for(let i=0;i<N;i++){ const [x,y]=pt(i,R); s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${line}"/>`;
+    const [tx,ty]=pt(i,R+30); const anchor = Math.abs(tx-cx)<10?"middle":(tx>cx?"start":"end");
+    s+=`<text x="${tx}" y="${ty}" font-size="17" font-weight="bold" fill="${ink}" text-anchor="${anchor}" dominant-baseline="middle">${DIMS[i].name}</text>`;
+    s+=`<text x="${tx}" y="${ty+19}" font-size="13" fill="${acc}" text-anchor="${anchor}" dominant-baseline="middle">${pct[i]}%</text>`; }
+  const poly=pct.map((p,i)=>pt(i,R*Math.max(p,2)/100).join(",")).join(" ");
+  s+=`<polygon points="${poly}" fill="${acc}" fill-opacity="0.28" stroke="${acc}" stroke-width="3" stroke-linejoin="round"/>`;
+  pct.forEach((p,i)=>{ const [x,y]=pt(i,R*Math.max(p,2)/100); s+=`<circle cx="${x}" cy="${y}" r="5" fill="${p<50?warm:acc}" stroke="#fff" stroke-width="1.5"/>`; });
+  svg.innerHTML = s;
+}
+</script>
+</body>
+</html>
