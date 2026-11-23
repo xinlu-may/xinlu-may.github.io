@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生命故事花園・翻頁閱讀｜心路新路</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --desk:#2b2118; --paper:#fffaf3; --ink:#3a2c20; --accent:#2C5E3B; --gold:#c98a3a; --fs:20px; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { height:100%; }
+  body { background:var(--desk); color:#f3e9da; font-family:'PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif; overflow:hidden; display:flex; flex-direction:column; -webkit-tap-highlight-color:transparent; }
+  button { font-family:inherit; cursor:pointer; }
+
+  /* 上方列 */
+  .sr-top { flex:0 0 54px; display:flex; align-items:center; gap:10px; padding:8px 12px; }
+  .sr-back { background:#fffaf3; color:var(--accent); border:none; border-radius:18px; padding:8px 14px; font-size:14px; font-weight:bold; text-decoration:none; white-space:nowrap; }
+  .sr-title { flex:1; min-width:0; font-size:14px; opacity:.9; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center; }
+  .sr-tools { display:flex; gap:6px; flex:0 0 auto; }
+  .sr-btn { background:rgba(255,250,243,.14); color:#f3e9da; border:1px solid rgba(255,250,243,.28); border-radius:18px; padding:7px 12px; font-size:14px; font-weight:bold; }
+  .sr-btn:hover { background:rgba(255,250,243,.26); }
+
+  /* 書本舞台 */
+  .sr-stage { flex:1; min-height:0; display:flex; justify-content:center; align-items:center; gap:0; padding:0 8px; position:relative; }
+  .sr-book { display:flex; justify-content:center; align-items:stretch; position:relative; }
+  .sr-slot { position:relative; background:var(--paper); color:var(--ink); overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.45); }
+  .sr-slot.empty { background:transparent; box-shadow:none; }
+  .sr-spread .sr-slot.left { border-radius:10px 0 0 10px; box-shadow:-6px 8px 28px rgba(0,0,0,.45), inset -26px 0 28px -22px rgba(60,40,20,.35); }
+  .sr-spread .sr-slot.right { border-radius:0 10px 10px 0; box-shadow:6px 8px 28px rgba(0,0,0,.45), inset 26px 0 28px -22px rgba(60,40,20,.35); }
+  .sr-single .sr-slot { border-radius:10px; }
+  .sr-slot.turn { animation:srTurn .28s ease; }
+  @keyframes srTurn { from { opacity:.25; transform:translateX(var(--dx,14px)); } to { opacity:1; transform:none; } }
+
+  .sr-page { position:absolute; inset:0; padding:var(--pad,30px); overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch; font-size:var(--fs); line-height:2; }
+  .sr-page.measure { visibility:hidden; pointer-events:none; }
+  .sr-page p { margin:0 0 .8em; text-align:justify; overflow-wrap:anywhere; }
+  .sr-page p.c { text-align:center; }
+  .sr-page p.cont { margin-top:0; }
+  .sr-page h1 { font-size:1.5em; line-height:1.6; color:#4a3320; text-align:center; margin:.2em 0 .7em; font-weight:800; }
+  .sr-page h2 { font-size:1.2em; line-height:1.6; color:#6b4a22; text-align:center; margin:.3em 0 .7em; font-weight:800; padding-bottom:.35em; border-bottom:2px solid #e6d5b8; }
+  .sr-page h3 { font-size:1.05em; line-height:1.7; color:#8a4b12; text-align:center; margin:.3em 0 .5em; font-weight:800; }
+  .sr-page figure { margin:.2em auto .7em; text-align:center; }
+  .sr-page figure img { display:block; margin:0 auto; border-radius:6px; border:1px solid #e3dccf; background:#fff; max-width:100%; }
+  .sr-page figcaption { font-size:.68em; line-height:1.6; color:#8a6b55; margin-top:.4em; }
+  .sr-page .small { font-size:.7em; line-height:1.7; color:#8a6b55; text-align:center; margin-bottom:.7em; }
+  .sr-pageno { position:absolute; bottom:8px; left:0; right:0; text-align:center; font-size:12px; color:#b9a58a; pointer-events:none; }
+  .sr-cover { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .sr-cover .tag { color:var(--gold); font-weight:bold; letter-spacing:.3em; font-size:.7em; margin-bottom:.5em; }
+  .sr-cover h1 { margin:.4em 0 .2em; }
+  .sr-cover .by { font-size:.8em; color:#8a6b55; line-height:1.8; }
+  .sr-cover .hint { margin-top:1em; font-size:.65em; color:#a8957d; }
+  .sr-end { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; }
+  .sr-end .mark { color:var(--gold); font-weight:bold; letter-spacing:.2em; margin-bottom:.4em; }
+  .sr-end a { display:block; background:var(--accent); color:#fff; text-decoration:none; font-size:.8em; font-weight:bold; padding:11px 22px; border-radius:24px; min-width:200px; }
+  .sr-end a.alt { background:#78909C; }
+
+  /* 兩側翻頁按鈕 */
+  .sr-edge { position:absolute; top:50%; transform:translateY(-50%); width:44px; height:88px; border:none; background:rgba(255,250,243,.12); color:#f3e9da; font-size:28px; border-radius:10px; z-index:3; }
+  .sr-edge:hover { background:rgba(255,250,243,.28); }
+  .sr-edge:disabled { opacity:.25; cursor:default; }
+  .sr-edge.prev { left:6px; } .sr-edge.next { right:6px; }
+  @media (max-width: 899px) { .sr-edge { display:none; } }
+
+  /* 下方列 */
+  .sr-bottom { flex:0 0 auto; display:flex; align-items:center; gap:12px; padding:8px 14px 14px; max-width:900px; width:100%; margin:0 auto; }
+  .sr-nav { flex:0 0 auto; background:var(--accent); color:#fff; border:none; border-radius:22px; padding:11px 22px; font-size:16px; font-weight:bold; }
+  .sr-nav:disabled { background:rgba(255,250,243,.15); color:rgba(255,250,243,.4); cursor:default; }
+  .sr-mid { flex:1; min-width:0; text-align:center; font-size:13px; }
+  .sr-mid input[type=range] { width:100%; accent-color:#c98a3a; }
+
+  /* 目錄 */
+  .sr-toc { display:none; position:fixed; inset:0; z-index:20; background:rgba(0,0,0,.55); align-items:center; justify-content:center; padding:16px; }
+  .sr-toc.open { display:flex; }
+  .sr-toc-box { background:var(--paper); color:var(--ink); border-radius:16px; width:min(520px,100%); max-height:82vh; overflow:auto; padding:18px 18px 10px; }
+  .sr-toc-box h3 { font-size:18px; margin-bottom:10px; color:#4a3320; }
+  .sr-toc-item { display:flex; justify-content:space-between; gap:12px; width:100%; text-align:left; background:none; border:none; border-bottom:1px solid #eadfcb; padding:11px 4px; font-size:16px; color:var(--ink); }
+  .sr-toc-item:hover { background:#f6ecda; }
+  .sr-toc-item small { color:#9a8470; flex:0 0 auto; }
+  .sr-toc-close { display:block; margin:12px auto 6px; background:var(--accent); color:#fff; border:none; border-radius:20px; padding:9px 26px; font-size:15px; font-weight:bold; }
+  .sr-loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:16px; color:#d9c9ad; }
+  noscript { display:block; padding:30px; text-align:center; }
+</style>
+</head>
+<body>
+  <div class="sr-top">
+    <a class="sr-back" href="life-stories.html">← 生命故事花園</a>
+    <div class="sr-title" id="srTitle">載入中…</div>
+    <div class="sr-tools">
+      <button class="sr-btn" type="button" onclick="srToc(true)">目錄</button>
+      <button class="sr-btn" type="button" onclick="srFont(-1)" aria-label="縮小字體">A－</button>
+      <button class="sr-btn" type="button" onclick="srFont(1)" aria-label="放大字體">A＋</button>
+    </div>
+  </div>
+
+  <div class="sr-stage" id="srStage">
+    <button class="sr-edge prev" type="button" id="srEdgePrev" onclick="srGo(-1)" aria-label="上一頁">‹</button>
+    <div class="sr-book" id="srBook"></div>
+    <button class="sr-edge next" type="button" id="srEdgeNext" onclick="srGo(1)" aria-label="下一頁">›</button>
+    <div class="sr-loading" id="srLoading">載入中，請稍候…</div>
+  </div>
+
+  <div class="sr-bottom">
+    <button class="sr-nav" type="button" id="srPrev" onclick="srGo(-1)">‹ 上一頁</button>
+    <div class="sr-mid"><div id="srProgress">&nbsp;</div><input type="range" id="srRange" min="0" max="0" value="0" aria-label="跳到某一頁"></div>
+    <button class="sr-nav" type="button" id="srNext" onclick="srGo(1)">下一頁 ›</button>
+  </div>
+
+  <div class="sr-toc" id="srTocBox" onclick="if(event.target===this)srToc(false)">
+    <div class="sr-toc-box"><h3>📑 目錄</h3><div id="srTocList"></div><button class="sr-toc-close" type="button" onclick="srToc(false)">關閉</button></div>
+  </div>
+
+<noscript>此頁需要開啟 JavaScript 才能閱讀。</noscript>
+<script>
+const BOOKS = { dad: '邱鐘明弟兄《我要幫上帝蓋教會》', mom: '邱蔡淑金女士《阿金》', aunt: '蔡秀鳳小阿姨《瀟灑走一回》' };
+const SR = { id: '', data: null, pages: [], spreads: [], si: 0, fs: 20, spread: false, pageW: 0, pageH: 0, pad: 30, resizeT: null, ready: false };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const lsGet = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+
+(function init() {
+  const q = new URLSearchParams(location.search);
+  SR.id = BOOKS[q.get('book')] ? q.get('book') : 'aunt';
+  const saved = parseInt(lsGet('xlStoryFs'), 10);
+  SR.fs = (saved >= 15 && saved <= 30) ? saved : (innerWidth >= 900 ? 20 : 19);
+  fetch('stories/' + SR.id + '.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(d => { SR.data = d; $('srTitle').textContent = BOOKS[SR.id]; document.title = d.title + '｜生命故事花園・翻頁閱讀｜心路新路'; build(true); })
+    .catch(e => { $('srLoading').textContent = '載入失敗，請重新整理頁面（' + e.message + '）'; });
+})();
+
+function layout() {
+  const stage = $('srStage');
+  const vw = stage.clientWidth, vh = stage.clientHeight;
+  SR.spread = innerWidth >= 900;
+  SR.pad = SR.spread ? 38 : 24;
+  if (SR.spread) {
+    SR.pageW = Math.max(300, Math.min(540, Math.floor((vw - 120) / 2)));
+    SR.pageH = Math.max(320, Math.min(vh - 14, 840));
+  } else {
+    SR.pageW = Math.max(260, Math.min(vw - 8, 620));
+    SR.pageH = Math.max(320, Math.min(vh - 8, 900));
+  }
+  document.documentElement.style.setProperty('--fs', SR.fs + 'px');
+  document.documentElement.style.setProperty('--pad', SR.pad + 'px');
+}
+
+function blockUnits(blocks) {
+  // 把「照片＋緊接的說明」合成一個單位；標題標記為需要跟著下一段
+  const units = [];
+  for (let i = 0; i < blocks.length; i++) {
+    const b = blocks[i];
+    if (b.k === 'img') {
+      let cap = '';
+      if (blocks[i + 1] && blocks[i + 1].k === 'cap') { cap = blocks[i + 1].t; i++; }
+      units.push({ kind: 'img', idx: i, b, cap });
+    } else if (b.k === 'cap') {
+      // 前一個單位是照片就接在它的說明後面，否則當作小字段落
+      const prev = units[units.length - 1];
+      if (prev && prev.kind === 'img' && !prev.cap) prev.cap = b.t; else units.push({ kind: 'small', idx: i, t: b.t });
+    } else if (/^h/.test(b.k)) units.push({ kind: 'h', idx: i, level: b.k, t: b.t });
+    else units.push({ kind: 'p', idx: i, t: b.t, c: !!b.c });
+  }
+  return units;
+}
+
+function unitHtml(u, contentW, contentH) {
+  if (u.kind === 'h') return '<' + u.level + '>' + esc(u.t).replace(/\n/g, '<br>') + '</' + u.level + '>';
+  if (u.kind === 'small') return '<div class="small">' + esc(u.t).replace(/\n/g, '<br>') + '</div>';
+  if (u.kind === 'img') {
+    const b = u.b;
+    const sc = Math.min(contentW / b.w, (contentH * 0.68) / b.h, 1.8);
+    const w = Math.max(40, Math.round(b.w * sc)), h = Math.max(40, Math.round(b.h * sc));
+    return '<figure><img src="' + esc(b.f) + '" width="' + w + '" height="' + h + '" alt="' + esc(u.cap || '照片') + '" decoding="async">' + (u.cap ? '<figcaption>' + esc(u.cap).replace(/\n/g, '<br>') + '</figcaption>' : '') + '</figure>';
+  }
+  return para(u.t, u.c, false);
+}
+function para(t, c, cont) { return '<p' + (c || cont ? ' class="' + (c ? 'c' : '') + (cont ? ' cont' : '') + '"' : '') + '>' + esc(t).replace(/\n/g, '<br>') + '</p>'; }
+function sentences(s) {
+  const parts = s.match(/[^。！？!?；]*[。！？!?；]+["」』）)]*\n?|[^。！？!?；]+$/g) || [s];
+  // 保險：切完再接回去必須和原文完全一樣，否則不切（絕不能漏字）
+  return parts.join('') === s ? parts : [s];
+}
+
+function paginate() {
+  const d = SR.data, cw = SR.pageW - SR.pad * 2, ch = SR.pageH - SR.pad * 2 - 14;
+  const meas = document.createElement('div');
+  meas.className = 'sr-page measure'; meas.style.width = SR.pageW + 'px'; meas.style.height = (SR.pageH - 14) + 'px';
+  $('srBook').appendChild(meas);
+  const fits = (arr) => { meas.innerHTML = arr.join(''); return meas.scrollHeight <= meas.clientHeight + 1; };
+  const units = blockUnits(d.blocks);
+  const pages = []; let cur = [], curKinds = [], curHeads = [], curIdx = [];
+  const add = (html, kind, idx, head) => { cur.push(html); curKinds.push(kind); curIdx.push(idx); curHeads.push(head || null); };
+  const flush = () => {
+    if (!cur.length) return;
+    // 標題不能孤零零留在頁尾：把它搬到下一頁
+    let carry = null;
+    if (cur.length > 1 && curKinds[curKinds.length - 1] === 'h') carry = { html: cur.pop(), kind: curKinds.pop(), idx: curIdx.pop(), head: curHeads.pop() };
+    pages.push({ html: cur.join(''), start: curIdx[0], heads: curHeads.filter(Boolean) });
+    cur = []; curKinds = []; curIdx = []; curHeads = [];
+    if (carry) add(carry.html, carry.kind, carry.idx, carry.head);
+  };
+  for (const u of units) {
+    const h = unitHtml(u, cw, ch);
+    const head = (u.kind === 'h' && (u.level === 'h1' || u.level === 'h2')) ? u.t : null;
+    if (fits(cur.concat(h))) { add(h, u.kind, u.idx, head); continue; }
+    if (u.kind !== 'p') { flush(); add(h, u.kind, u.idx, head); continue; }
+    // 段落太長：依句子切開，接到後面幾頁
+    let chunk = ''; let first = true;
+    const sents = sentences(u.t);
+    // 連第一句都放不進這一頁剩下的空間，就先換頁，避免句子被硬生生切成兩半
+    if (cur.length && !fits(cur.concat(para(sents[0], u.c, false)))) flush();
+    for (const sent of sents) {
+      const trial = para(chunk + sent, u.c, !first);
+      if (fits(cur.concat(trial))) { chunk += sent; continue; }
+      if (chunk) { add(para(chunk, u.c, !first), 'p', u.idx); flush(); chunk = ''; first = false; }
+      let piece = '';
+      for (const chr of sent) {
+        if (fits(cur.concat(para(piece + chr, u.c, !first)))) piece += chr;
+        else { if (piece) add(para(piece, u.c, !first), 'p', u.idx); flush(); piece = chr; first = false; }
+      }
+      chunk = piece;
+    }
+    if (chunk) add(para(chunk, u.c, !first), 'p', u.idx);
+  }
+  flush();
+  flush();   // 最後一頁若有被搬下來的標題，要再存成一頁，不能漏掉
+  meas.remove();
+  return pages;
+}
+
+function coverHtml() {
+  const d = SR.data;
+  const ih = Math.round((SR.pageH - SR.pad * 2) * 0.58), iw = SR.pageW - SR.pad * 2;
+  return '<div class="sr-page sr-cover"><div class="tag">心路新路・生命故事花園</div><img src="' + esc(d.cover) + '" alt="' + esc(d.title) + '" style="max-width:100%;max-height:' + ih + 'px;width:auto;height:auto;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.25)">'
+    + '<h1>' + esc(d.title) + '</h1><div class="by">' + esc(d.author) + '<br>◎ ' + esc(d.editor) + '</div><div class="hint">點「下一頁」開始閱讀</div></div>';
+}
+function endHtml() {
+  const others = Object.keys(BOOKS).filter(k => k !== SR.id).map(k => '<a class="alt" href="story.html?book=' + k + '">讀：' + esc(BOOKS[k]) + '</a>').join('');
+  return '<div class="sr-page sr-end"><div class="mark">— 全文完 —</div><a href="life-stories.html">回到生命故事花園</a>' + others + '<a class="alt" href="https://lin.ee/@431trrjk" target="_blank" rel="noopener">💬 我也想撰寫我的生命故事</a></div>';
+}
+
+function build(restore) {
+  layout();
+  const keepIdx = restore ? parseInt(lsGet('xlStoryPos_' + SR.id), 10) : currentBlockIdx();
+  const body = paginate();
+  const pages = [{ cover: true }].concat(body.map(p => ({ html: p.html, start: p.start, heads: p.heads }))).concat([{ end: true }]);
+  SR.pages = pages;
+  // 攤開的書：封面單獨在右邊，之後兩頁一組；單頁模式每頁一組
+  const spreads = [];
+  if (SR.spread) { spreads.push([null, 0]); for (let i = 1; i < pages.length; i += 2) spreads.push([i, i + 1 < pages.length ? i + 1 : null]); }
+  else for (let i = 0; i < pages.length; i++) spreads.push([i]);
+  SR.spreads = spreads;
+  // 回到上次讀到的位置
+  let target = 0;
+  if (keepIdx > 0) { for (let i = 1; i < pages.length - 1; i++) if (pages[i].start <= keepIdx) target = i; }
+  SR.si = Math.max(0, spreads.findIndex(s => s.includes(target)));
+  const rg = $('srRange'); rg.max = Math.max(0, spreads.length - 1);
+  $('srLoading').style.display = 'none';
+  SR.ready = true;
+  render(0);
+  buildToc();
+}
+
+function currentBlockIdx() {
+  if (!SR.ready) return 0;
+  const sp = SR.spreads[SR.si] || [];
+  for (const i of sp) if (i != null && SR.pages[i] && SR.pages[i].start != null) return SR.pages[i].start;
+  return 0;
+}
+
+function pageHtml(i) {
+  if (i == null) return '';
+  const p = SR.pages[i];
+  if (p.cover) return coverHtml();
+  if (p.end) return endHtml();
+  return '<div class="sr-page">' + p.html + '</div><div class="sr-pageno">' + i + ' / ' + (SR.pages.length - 2) + '</div>';
+}
+
+function render(dir) {
+  const sp = SR.spreads[SR.si];
+  const book = $('srBook');
+  book.className = 'sr-book ' + (SR.spread ? 'sr-spread' : 'sr-single');
+  const mk = (idx, cls) => '<div class="sr-slot ' + cls + (idx == null ? ' empty' : '') + (dir ? ' turn' : '') + '" style="width:' + SR.pageW + 'px;height:' + (SR.pageH - 14) + 'px;--dx:' + (dir * 16) + 'px">' + pageHtml(idx) + '</div>';
+  book.innerHTML = SR.spread ? mk(sp[0], 'left') + mk(sp[1], 'right') : mk(sp[0], 'right');
+  const first = sp.find(x => x != null), last = [...sp].reverse().find(x => x != null);
+  const bodyTotal = SR.pages.length - 2;
+  let label = '封面';
+  if (first === 0 && last === 0) label = '封面';
+  else if (SR.pages[last].end || (SR.pages[first] && SR.pages[first].end)) label = '全文完';
+  else label = (first === last ? '第 ' + first : '第 ' + first + '–' + last) + ' 頁 / 共 ' + bodyTotal + ' 頁';
+  $('srProgress').textContent = label;
+  $('srRange').value = SR.si;
+  const atStart = SR.si === 0, atEnd = SR.si === SR.spreads.length - 1;
+  ['srPrev', 'srEdgePrev'].forEach(id => $(id).disabled = atStart);
+  ['srNext', 'srEdgeNext'].forEach(id => $(id).disabled = atEnd);
+  lsSet('xlStoryPos_' + SR.id, String(currentBlockIdx()));
+}
+
+function srGo(d) { if (!SR.ready) return; const n = Math.max(0, Math.min(SR.spreads.length - 1, SR.si + d)); if (n === SR.si) return; SR.si = n; render(d); }
+function srFont(d) { const n = Math.max(15, Math.min(30, SR.fs + d)); if (n === SR.fs) return; SR.fs = n; lsSet('xlStoryFs', String(n)); build(false); }
+function srToc(open) { $('srTocBox').classList.toggle('open', !!open); }
+function srJump(pageIdx) {
+  const si = SR.spreads.findIndex(s => s.includes(pageIdx)); if (si < 0) return;
+  const dir = si > SR.si ? 1 : -1; SR.si = si; render(dir); srToc(false);
+}
+function buildToc() {
+  const items = []; SR.pages.forEach((p, i) => (p.heads || []).forEach(t => items.push({ t, i })));
+  let html = '<button class="sr-toc-item" type="button" onclick="srJump(0)"><span>封面</span><small></small></button>';
+  items.forEach(it => { html += '<button class="sr-toc-item" type="button" onclick="srJump(' + it.i + ')"><span>' + esc(it.t) + '</span><small>第 ' + it.i + ' 頁</small></button>'; });
+  html += '<button class="sr-toc-item" type="button" onclick="srJump(' + (SR.pages.length - 1) + ')"><span>全文完</span><small></small></button>';
+  $('srTocList').innerHTML = html;
+}
+
+$('srRange').addEventListener('input', (e) => { if (!SR.ready) return; const n = parseInt(e.target.value, 10); const dir = n > SR.si ? 1 : -1; SR.si = n; render(dir); });
+document.addEventListener('keydown', (e) => {
+  if (!SR.ready) return;
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') { srGo(1); e.preventDefault(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { srGo(-1); e.preventDefault(); }
+  else if (e.key === 'Escape') srToc(false);
+});
+(function () {
+  let x0 = null, y0 = null; const st = $('srStage');
+  st.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  st.addEventListener('touchend', (e) => {
+    if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) srGo(dx < 0 ? 1 : -1);
+  }, { passive: true });
+})();
+window.addEventListener('resize', () => { if (!SR.data) return; clearTimeout(SR.resizeT); SR.resizeT = setTimeout(() => build(false), 250); });
+</script>
+</body>
+</html>

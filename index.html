@@ -1925,6 +1925,10 @@
 
         // 點擊服務項目按鈕：開啟全螢幕內容＋設定底部4按鈕
         function openServicePane(key) {
+            // 「生命故事花園」一按就直接進到花園頁，一進去就看得到三本書，不再先經過一頁說明
+            if (key === 'garden') { window.location.href = 'life-stories.html'; return; }
+            // 「心路新路專欄文章」同樣一按就直接進到專欄頁，一進去就看得到所有文章
+            if (key === 'column') { window.location.href = 'columns.html'; return; }
             document.querySelectorAll('.service-tab-pane').forEach(p => p.classList.remove('active'));
             const pane = document.getElementById('pane-' + key);
             if (pane) pane.classList.add('active');
@@ -1943,7 +1947,7 @@
             // assess（自我檢視）與 camp（兒少課程及營隊）內文已自帶報名／加LINE按鈕，
             // 底部共用按鈕在這兩個服務項目會重複，故隱藏，只保留「回到服務項目」「上一頁」
             const hideDuplicateBtns = (key === 'assess' || key === 'camp');
-            registerBtn.style.display = (hideDuplicateBtns || key === 'resilience') ? 'none' : '';
+            registerBtn.style.display = (hideDuplicateBtns || key === 'resilience' || key === 'garden' || key === 'column') ? 'none' : '';
             groupBtn.style.display = hideDuplicateBtns ? 'none' : '';
 
             // 兒童青少年課程及營隊頁內文已有自己的返回與功能按鈕，底部整列隱藏避免重複

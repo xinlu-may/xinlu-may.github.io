@@ -163,11 +163,12 @@
         }
 
         @media (max-width: 800px) {
-            .grid-container { grid-template-columns: repeat(2, 1fr); }
+            .grid-container { grid-template-columns: repeat(3, 1fr); gap: 12px; }
             .book-big-title { font-size: 28px; }
             .book-big-text { font-size: 19px; }
         }
-        @media (max-width: 500px) { .grid-container { grid-template-columns: 1fr; } }
+        /* 手機也維持一列三本，一進花園就同時看到三本書 */
+        @media (max-width: 500px) { .grid-container { grid-template-columns: repeat(3, 1fr); gap: 8px; } }
 
         /* ===== 選擇閱讀方式畫面 ===== */
         .mode-select-view {
@@ -289,26 +290,7 @@
             <img src="6b9fa503-9b0d-4b1b-ab89-3953a83ab790.png.png" alt="生命故事花園招牌橫幅">
         </div>
 
-        <div class="garden-intro-block">
-            <h2 class="garden-intro-title">🌻 關於生命故事花園</h2>
-            <p class="garden-intro-p">
-                每一個獨特的生命都是造物者給這個世界的一份禮物。<br>
-                透過撰寫生命故事，可以將這份禮物更好地傳遞給一代又一代，<br>
-                從這裡、那裡，還有遠方，<br>
-                請隨著每一個生命故事的翻頁書，一起進入這個美麗的生命故事花園。
-            </p>
-        </div>
-
-        <div class="garden-btn-container">
-            <a href="https://lin.ee/@431trrjk" target="_blank" class="garden-btn">
-                💬 我也想撰寫我的生命故事
-            </a>
-        </div>
-
-        <p class="garden-continue-text">
-            ✨ 歡迎各位的生命故事，精彩繼續……
-        </p>
-
+        <!-- 三本生命見證放在最上面：一進來就看得到 -->
         <div class="grid-max-width-control">
             <div class="grid-container">
                 <div class="grid-card" onclick="openBookEntry('dad')">
@@ -341,6 +323,28 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="garden-intro-block">
+            <h2 class="garden-intro-title">🌻 關於生命故事花園</h2>
+            <p class="garden-intro-p">
+                每一個獨特的生命都是造物者給這個世界的一份禮物。<br>
+                透過撰寫生命故事，可以將這份禮物更好地傳遞給一代又一代，<br>
+                從這裡、那裡，還有遠方，<br>
+                請隨著每一個生命故事的翻頁書，一起進入這個美麗的生命故事花園。
+            </p>
+        </div>
+
+        <div class="garden-btn-container">
+            <a href="https://lin.ee/@431trrjk" target="_blank" class="garden-btn">
+                💬 我也想撰寫我的生命故事
+            </a>
+        </div>
+
+        <p class="garden-continue-text">
+            ✨ 歡迎各位的生命故事，精彩繼續……
+        </p>
+
     </div>
 
 
@@ -653,6 +657,9 @@
 
         function openBookEntry(type) {
             if (photoEditionBooks[type]) {
+                // 三本生命見證改用新的「翻頁閱讀」頁（全文、照片完整不裁切、一頁一頁讀）
+                location.href = 'story.html?book=' + type;
+                return;
                 currentType = type;
                 document.getElementById('gardenMainView').style.display = 'none';
                 document.getElementById('mainNav').style.display = 'none';
@@ -811,7 +818,10 @@
         }
 
         function pbImgTag(key, altText) {
-            const src = (typeof dadImgB64 !== 'undefined' && dadImgB64[key]) ? dadImgB64[key] : ((typeof momImgB64 !== 'undefined' && momImgB64[key]) ? momImgB64[key] : ((typeof auntImgB64 !== 'undefined' && auntImgB64[key]) ? auntImgB64[key] : ''));
+            // 先查「目前這一本書」自己的圖片表，避免不同書的同名鍵（例如 cover）互相搶圖
+            const bookMaps = { dad: (typeof dadImgB64 !== 'undefined' ? dadImgB64 : {}), mom: (typeof momImgB64 !== 'undefined' ? momImgB64 : {}), aunt: (typeof auntImgB64 !== 'undefined' ? auntImgB64 : {}) };
+            const ownMap = bookMaps[currentType] || {};
+            const src = ownMap[key] ? ownMap[key] : (bookMaps.dad[key] || bookMaps.mom[key] || bookMaps.aunt[key] || '');
             if (!src && key.indexOf('images/') === 0) return `<img src="${key}" alt="${altText}" loading="lazy">`;
             if (!src) return '';
             return `<img src="${src}" alt="${altText}" loading="lazy">`;
