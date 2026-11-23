@@ -343,9 +343,9 @@
                 </a>
                 <a href="haohaohuo.html" class="news-hot-course" style="background:#8a2b1d; box-shadow:0 4px 12px rgba(138,43,29,0.25);">
                     <span class="news-hot-tag">🌸 最新講座・報名中</span>
-                    <span class="news-hot-title">《蘭香如故》好好活</span>
-                    <span class="news-hot-sub">入戲・出戲 看戲說人生系列講座</span>
-                    <span class="news-hot-sub">📢 延期至 2027/2/20（六）10:00–12:00 線上・NT$300</span>
+                    <span class="news-hot-title">韌性提升講座</span>
+                    <span class="news-hot-sub">從《蘭香如故》女主角身上發掘韌性及生命力秘訣</span>
+                    <span class="news-hot-sub">2027/2/20（六）10:00–12:00 線上・NT$300</span>
                     <span class="news-hot-go">👉 看講座介紹與報名</span>
                 </a>
                 <a href="brain-parents.html" class="news-hot-course" style="background:#3b2f8f; box-shadow:0 4px 12px rgba(59,47,143,0.25); grid-column:1 / -1;">
@@ -451,6 +451,10 @@
                 <button class="service-tab-btn" data-tab="assess" onclick="openServicePane('assess')">
                     <span class="service-tab-icon">🧭</span>
                     <span class="service-tab-label">全齡關懷十大<br>向度自我檢視</span>
+                </button>
+                <button class="service-tab-btn" data-tab="resilience" onclick="openServicePane('resilience')">
+                    <span class="service-tab-icon">🌈</span>
+                    <span class="service-tab-label">全齡幸福韌性<br>提升教育課程</span>
                 </button>
                 <button class="service-tab-btn" data-tab="camp" onclick="openServicePane('camp')">
                     <span class="service-tab-icon">🌱</span>
@@ -595,6 +599,37 @@
                                 <a href="https://line.me/R/ti/p/@431trrjk" target="_blank" class="action-link-btn btn-line-theme" style="width:100%; box-sizing:border-box; display:block; text-align:center;">💬 加官方 LINE</a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="service-tab-pane" id="pane-resilience">
+            <div class="service-card">
+                <div class="card-header-toggle" onclick="toggleCard(this)">
+                    <h3>🌈 全齡幸福韌性提升教育課程</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-content-pane">
+                    <div class="pane-inner">
+                        <p style="font-size:21px; line-height:1.9; color:#262626; margin-bottom:14px;">人生不如意事十之八九。若期待一生順利平安，面對生命中不可避免的意外，以及成長路上的種種挑戰，將難以承受。</p>
+                        <p style="font-size:21px; line-height:1.9; color:#262626; margin-bottom:14px;">人生就像一場闖關遊戲，一關一關地過。最重要的是發揮韌性，一次又一次提升自己的應變能力。</p>
+                        <p style="font-size:21px; line-height:1.9; color:#262626; margin-bottom:22px;">韌性，是支持我們不斷前行的重要養分。「韌性提升系列課程」將陪伴大家學習善用資源，讓自己像 AI 一樣不斷迭代更新；同時學會辨識，在眾多資源中，哪些是安全且有建設性的。</p>
+
+                        <div class="sub-item-box" style="cursor:default;">
+                            <div class="sub-item-title" style="text-decoration:none;">👨‍👩‍👧 親職韌性提升系列</div>
+                            <div class="sub-item-desc">① 兒童期親職課程：教養兒童期孩子的父母<br>② 青春期親職課程：教養青春期孩子的父母<br>③ 成年子女親職課程：成年子女的父母</div>
+                        </div>
+                        <div class="sub-item-box" style="cursor:default;">
+                            <div class="sub-item-title" style="text-decoration:none;">💞 愛情韌性提升系列</div>
+                            <div class="sub-item-desc">④ 找不到對象<br>⑤ 關係經營</div>
+                        </div>
+                        <div class="sub-item-box" style="cursor:default;">
+                            <div class="sub-item-title" style="text-decoration:none;">🏅 成就與自我價值韌性提升系列</div>
+                            <div class="sub-item-desc">⑥ 學生課程：對自己成績不滿意的學生<br>⑦ 成人課程：對自己成就不滿意的大人</div>
+                        </div>
+
+                        <p style="font-size:24px; font-weight:bold; color:#E07B17; text-align:center; margin:26px 0 10px;">🌻 規劃中，敬請期待 🌻</p>
+                        <p style="font-size:16px; color:#777; text-align:center; line-height:1.7;">本課程為教育與生命成長陪伴，不是心理諮商或心理治療，也不做疾病診斷。</p>
                     </div>
                 </div>
             </div>
@@ -1860,6 +1895,7 @@
         // 服務項目：標題與每項目的按鈕設定
         const SERVICE_TITLES = {
             assess: '🧭 全齡關懷十大向度生活自我檢視',
+            resilience: '🌈 全齡幸福韌性提升教育課程',
             camp: '🌱 兒童青少年課程及營隊',
             adult: '💎 個人成長課程',
             elder: '👵 樂齡成長課程',
@@ -1873,6 +1909,7 @@
 
         const SERVICE_CONFIG = {
             assess:    { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('全齡關懷十大向度生活自我檢視'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
+            resilience:{ registerLabel:'📝 填寫報名表單', registerFn: () => {}, groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             camp:      { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('兒童青少年課程及營隊'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             adult:     { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('個人成長課程'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
             elder:     { registerLabel:'📝 填寫報名表單', registerFn: () => openBookingModal('樂齡成長課程'), groupLabel:'💬 加官方LINE好友', groupUrl:'https://line.me/R/ti/p/@431trrjk' },
@@ -1904,7 +1941,7 @@
             // assess（自我檢視）與 camp（兒少課程及營隊）內文已自帶報名／加LINE按鈕，
             // 底部共用按鈕在這兩個服務項目會重複，故隱藏，只保留「回到服務項目」「上一頁」
             const hideDuplicateBtns = (key === 'assess' || key === 'camp');
-            registerBtn.style.display = hideDuplicateBtns ? 'none' : '';
+            registerBtn.style.display = (hideDuplicateBtns || key === 'resilience') ? 'none' : '';
             groupBtn.style.display = hideDuplicateBtns ? 'none' : '';
 
             // 兒童青少年課程及營隊頁內文已有自己的返回與功能按鈕，底部整列隱藏避免重複
