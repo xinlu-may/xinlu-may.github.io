@@ -59,7 +59,7 @@
 
         /* 專欄文章卡片縮成小卡片，一個畫面可以看到更多篇名 */
         /* 尚未有題目的空白卡片（第 38、39 格）先隱藏，日後有文章再把這一行拿掉 */
-        #col-card-38, #col-card-39 { display: none !important; }
+        #col-card-39 { display: none !important; }
         .article-grid-container .article-card { aspect-ratio: auto; display: flex; align-items: center; background: #eef5ee; border-radius: 10px; box-shadow: none; }
         .article-grid-container .article-card .article-card-media { display: none; }
         .article-grid-container .article-card .article-card-caption { position: static; background: none; color: #2C5E3B; padding: 8px 12px; display: flex; align-items: baseline; gap: 8px; }
@@ -137,161 +137,161 @@
         <div class="article-grid-container">
             <!-- 共 39 格占位卡片，編號 1～39。日後提供圖片與題目／字幕後，逐格替換 article-card-media 內的內容與 article-card-title 文字即可，不影響其他格。 -->
 
+            <a class="article-card" id="col-card-38" href="column-light.html" style="cursor:pointer; text-decoration:none;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 38 篇</span><p class="article-card-title">黑暗趕不走，把光放進來就好了！</p></div>
+            </a>
             <a class="article-card" id="col-card-haohaohuo" href="column-haohaohuo.html" style="cursor:pointer; text-decoration:none;">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">最新</span><p class="article-card-title">一手爛牌，也能好好活——從《蘭香如故》看見活下去的力量</p></div>
+                <div class="article-card-caption"><span class="article-card-num">專題</span><p class="article-card-title">一手爛牌，也能好好活——從《蘭香如故》看見活下去的力量</p></div>
             </a>
-            <div class="article-card" id="col-card-01" onclick="openColumnArticle(1)" style="cursor:pointer;">
+            <div class="article-card" id="col-card-37" onclick="openColumnArticle(37)" style="cursor:pointer;">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 1 篇</span><p class="article-card-title">談自己——尋見真我，接納自己的過程</p></div>
-            </div>
-            <div class="article-card" id="col-card-02" onclick="openColumnArticle(2)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 2 篇</span><p class="article-card-title">我就是沒辦法！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-03" onclick="openColumnArticle(3)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 3 篇</span><p class="article-card-title">說再見，到底需要多少時間？</p></div>
-            </div>
-            <div class="article-card" id="col-card-04" onclick="openColumnArticle(4)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 4 篇</span><p class="article-card-title">壓、壓、壓不下去的焦慮（上）</p></div>
-            </div>
-            <div class="article-card" id="col-card-05" onclick="openColumnArticle(5)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 5 篇</span><p class="article-card-title">壓、壓、壓不下去的焦慮（下）</p></div>
-            </div>
-            <div class="article-card" id="col-card-06" onclick="openColumnArticle(6)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 6 篇</span><p class="article-card-title">眼淚不只是眼淚</p></div>
-            </div>
-            <div class="article-card" id="col-card-07" onclick="openColumnArticle(7)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 7 篇</span><p class="article-card-title">確診隔離是生命的石蕊試紙</p></div>
-            </div>
-            <div class="article-card" id="col-card-08" onclick="openColumnArticle(8)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 8 篇</span><p class="article-card-title">生命的冬天</p></div>
-            </div>
-            <div class="article-card" id="col-card-09" onclick="openColumnArticle(9)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 9 篇</span><p class="article-card-title">你追求的標準從哪裡來？</p></div>
-            </div>
-            <div class="article-card" id="col-card-10" onclick="openColumnArticle(10)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 10 篇</span><p class="article-card-title">別讓誤會成了人生的遺憾</p></div>
-            </div>
-            <div class="article-card" id="col-card-11" onclick="openColumnArticle(11)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 11 篇</span><p class="article-card-title">生氣只是表象，別被騙了！</p></div>
-            </div>
-            <div class="article-card" id="col-card-12" onclick="openColumnArticle(12)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 12 篇</span><p class="article-card-title">別讓所見限制了你的未來！</p></div>
-            </div>
-            <div class="article-card" id="col-card-13" onclick="openColumnArticle(13)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 13 篇</span><p class="article-card-title">遠離鬱悶，你需要加法人生！</p></div>
-            </div>
-            <div class="article-card" id="col-card-14" onclick="openColumnArticle(14)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 14 篇</span><p class="article-card-title">打破人生框架，你可以自己來！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-15" onclick="openColumnArticle(15)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 15 篇</span><p class="article-card-title">願你們平安！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-16" onclick="openColumnArticle(16)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 16 篇</span><p class="article-card-title">你當然要好好被照顧！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-17" onclick="openColumnArticle(17)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 17 篇</span><p class="article-card-title">受苦有時候來自錯誤的理解</p></div>
-            </div>
-            <div class="article-card" id="col-card-18" onclick="openColumnArticle(18)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 18 篇</span><p class="article-card-title">原來，我們只是不一樣，也真的不一樣！</p></div>
-            </div>
-            <div class="article-card" id="col-card-19" onclick="openColumnArticle(19)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 19 篇</span><p class="article-card-title">天冷、身體要保暖，心更不能凍著了！</p></div>
-            </div>
-            <div class="article-card" id="col-card-20" onclick="openColumnArticle(20)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 20 篇</span><p class="article-card-title">我生氣他的生氣！</p></div>
-            </div>
-            <div class="article-card" id="col-card-21" onclick="openColumnArticle(21)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 21 篇</span><p class="article-card-title">勇敢打破錯誤的價值框架</p></div>
-            </div>
-            <div class="article-card" id="col-card-22" onclick="openColumnArticle(22)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 22 篇</span><p class="article-card-title">我怎麼可能不焦慮？</p></div>
-            </div>
-            <div class="article-card" id="col-card-23" onclick="openColumnArticle(23)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 23 篇</span><p class="article-card-title">其實，只是需要一個瞭解！</p></div>
-            </div>
-            <div class="article-card" id="col-card-24" onclick="openColumnArticle(24)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 24 篇</span><p class="article-card-title">看起來，無路可走！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-25" onclick="openColumnArticle(25)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 25 篇</span><p class="article-card-title">你可以活成自己喜歡的樣子！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-26" onclick="openColumnArticle(26)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 26 篇</span><p class="article-card-title">在痛苦中，你可以試試靜靜的等待</p></div>
-            </div>
-            <div class="article-card" id="col-card-27" onclick="openColumnArticle(27)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 27 篇</span><p class="article-card-title">你要捍衛屬於自己的幸福</p></div>
-            </div>
-            <div class="article-card" id="col-card-28" onclick="openColumnArticle(28)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 28 篇</span><p class="article-card-title">不要自己嚇自己，沒有什麼失去是不能承受的！！</p></div>
-            </div>
-            <div class="article-card" id="col-card-29" onclick="openColumnArticle(29)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 29 篇</span><p class="article-card-title">從電影『小曉』思考過動兒教養方向</p></div>
-            </div>
-            <div class="article-card" id="col-card-30" onclick="openColumnArticle(30)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 30 篇</span><p class="article-card-title">2024一起來長大！</p></div>
-            </div>
-            <div class="article-card" id="col-card-31" onclick="openColumnArticle(31)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 31 篇</span><p class="article-card-title">當痛苦的感覺排山倒海的來⋯⋯</p></div>
-            </div>
-            <div class="article-card" id="col-card-32" onclick="openColumnArticle(32)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 32 篇</span><p class="article-card-title">不能左右選舉，但是你可以左右自己！</p></div>
-            </div>
-            <div class="article-card" id="col-card-33" onclick="openColumnArticle(33)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 33 篇</span><p class="article-card-title">打不死我們的，將會讓我們更強大！</p></div>
-            </div>
-            <div class="article-card" id="col-card-34" onclick="openColumnArticle(34)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 34 篇</span><p class="article-card-title">心靈自由比堅強更重要！</p></div>
-            </div>
-            <div class="article-card" id="col-card-35" onclick="openColumnArticle(35)" style="cursor:pointer;">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 35 篇</span><p class="article-card-title">從止損苦難的破壞，到滋養生命</p></div>
+                <div class="article-card-caption"><span class="article-card-num">第 37 篇</span><p class="article-card-title">青少年在哪裡學習感情問題？</p></div>
             </div>
             <div class="article-card" id="col-card-36" onclick="openColumnArticle(36)" style="cursor:pointer;">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
                 <div class="article-card-caption"><span class="article-card-num">第 36 篇</span><p class="article-card-title">地震教會我的事</p></div>
             </div>
-            <div class="article-card" id="col-card-37" onclick="openColumnArticle(37)" style="cursor:pointer;">
+            <div class="article-card" id="col-card-35" onclick="openColumnArticle(35)" style="cursor:pointer;">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 37 篇</span><p class="article-card-title">青少年在哪裡學習感情問題？</p></div>
+                <div class="article-card-caption"><span class="article-card-num">第 35 篇</span><p class="article-card-title">從止損苦難的破壞，到滋養生命</p></div>
             </div>
-            <div class="article-card" id="col-card-38">
+            <div class="article-card" id="col-card-34" onclick="openColumnArticle(34)" style="cursor:pointer;">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 38 篇</span><p class="article-card-title placeholder-text">標題等待中</p></div>
+                <div class="article-card-caption"><span class="article-card-num">第 34 篇</span><p class="article-card-title">心靈自由比堅強更重要！</p></div>
+            </div>
+            <div class="article-card" id="col-card-33" onclick="openColumnArticle(33)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 33 篇</span><p class="article-card-title">打不死我們的，將會讓我們更強大！</p></div>
+            </div>
+            <div class="article-card" id="col-card-32" onclick="openColumnArticle(32)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 32 篇</span><p class="article-card-title">不能左右選舉，但是你可以左右自己！</p></div>
+            </div>
+            <div class="article-card" id="col-card-31" onclick="openColumnArticle(31)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 31 篇</span><p class="article-card-title">當痛苦的感覺排山倒海的來⋯⋯</p></div>
+            </div>
+            <div class="article-card" id="col-card-30" onclick="openColumnArticle(30)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 30 篇</span><p class="article-card-title">2024一起來長大！</p></div>
+            </div>
+            <div class="article-card" id="col-card-29" onclick="openColumnArticle(29)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 29 篇</span><p class="article-card-title">從電影『小曉』思考過動兒教養方向</p></div>
+            </div>
+            <div class="article-card" id="col-card-28" onclick="openColumnArticle(28)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 28 篇</span><p class="article-card-title">不要自己嚇自己，沒有什麼失去是不能承受的！！</p></div>
+            </div>
+            <div class="article-card" id="col-card-27" onclick="openColumnArticle(27)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 27 篇</span><p class="article-card-title">你要捍衛屬於自己的幸福</p></div>
+            </div>
+            <div class="article-card" id="col-card-26" onclick="openColumnArticle(26)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 26 篇</span><p class="article-card-title">在痛苦中，你可以試試靜靜的等待</p></div>
+            </div>
+            <div class="article-card" id="col-card-25" onclick="openColumnArticle(25)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 25 篇</span><p class="article-card-title">你可以活成自己喜歡的樣子！！</p></div>
+            </div>
+            <div class="article-card" id="col-card-24" onclick="openColumnArticle(24)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 24 篇</span><p class="article-card-title">看起來，無路可走！！</p></div>
+            </div>
+            <div class="article-card" id="col-card-23" onclick="openColumnArticle(23)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 23 篇</span><p class="article-card-title">其實，只是需要一個瞭解！</p></div>
+            </div>
+            <div class="article-card" id="col-card-22" onclick="openColumnArticle(22)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 22 篇</span><p class="article-card-title">我怎麼可能不焦慮？</p></div>
+            </div>
+            <div class="article-card" id="col-card-21" onclick="openColumnArticle(21)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 21 篇</span><p class="article-card-title">勇敢打破錯誤的價值框架</p></div>
+            </div>
+            <div class="article-card" id="col-card-20" onclick="openColumnArticle(20)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 20 篇</span><p class="article-card-title">我生氣他的生氣！</p></div>
+            </div>
+            <div class="article-card" id="col-card-19" onclick="openColumnArticle(19)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 19 篇</span><p class="article-card-title">天冷、身體要保暖，心更不能凍著了！</p></div>
+            </div>
+            <div class="article-card" id="col-card-18" onclick="openColumnArticle(18)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 18 篇</span><p class="article-card-title">原來，我們只是不一樣，也真的不一樣！</p></div>
+            </div>
+            <div class="article-card" id="col-card-17" onclick="openColumnArticle(17)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 17 篇</span><p class="article-card-title">受苦有時候來自錯誤的理解</p></div>
+            </div>
+            <div class="article-card" id="col-card-16" onclick="openColumnArticle(16)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 16 篇</span><p class="article-card-title">你當然要好好被照顧！！</p></div>
+            </div>
+            <div class="article-card" id="col-card-15" onclick="openColumnArticle(15)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 15 篇</span><p class="article-card-title">願你們平安！！</p></div>
+            </div>
+            <div class="article-card" id="col-card-14" onclick="openColumnArticle(14)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 14 篇</span><p class="article-card-title">打破人生框架，你可以自己來！！</p></div>
+            </div>
+            <div class="article-card" id="col-card-13" onclick="openColumnArticle(13)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 13 篇</span><p class="article-card-title">遠離鬱悶，你需要加法人生！</p></div>
+            </div>
+            <div class="article-card" id="col-card-12" onclick="openColumnArticle(12)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 12 篇</span><p class="article-card-title">別讓所見限制了你的未來！</p></div>
+            </div>
+            <div class="article-card" id="col-card-11" onclick="openColumnArticle(11)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 11 篇</span><p class="article-card-title">生氣只是表象，別被騙了！</p></div>
+            </div>
+            <div class="article-card" id="col-card-10" onclick="openColumnArticle(10)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 10 篇</span><p class="article-card-title">別讓誤會成了人生的遺憾</p></div>
+            </div>
+            <div class="article-card" id="col-card-09" onclick="openColumnArticle(9)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 9 篇</span><p class="article-card-title">你追求的標準從哪裡來？</p></div>
+            </div>
+            <div class="article-card" id="col-card-08" onclick="openColumnArticle(8)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 8 篇</span><p class="article-card-title">生命的冬天</p></div>
+            </div>
+            <div class="article-card" id="col-card-07" onclick="openColumnArticle(7)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 7 篇</span><p class="article-card-title">確診隔離是生命的石蕊試紙</p></div>
+            </div>
+            <div class="article-card" id="col-card-06" onclick="openColumnArticle(6)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 6 篇</span><p class="article-card-title">眼淚不只是眼淚</p></div>
+            </div>
+            <div class="article-card" id="col-card-05" onclick="openColumnArticle(5)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 5 篇</span><p class="article-card-title">壓、壓、壓不下去的焦慮（下）</p></div>
+            </div>
+            <div class="article-card" id="col-card-04" onclick="openColumnArticle(4)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 4 篇</span><p class="article-card-title">壓、壓、壓不下去的焦慮（上）</p></div>
+            </div>
+            <div class="article-card" id="col-card-03" onclick="openColumnArticle(3)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 3 篇</span><p class="article-card-title">說再見，到底需要多少時間？</p></div>
+            </div>
+            <div class="article-card" id="col-card-02" onclick="openColumnArticle(2)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 2 篇</span><p class="article-card-title">我就是沒辦法！！</p></div>
+            </div>
+            <div class="article-card" id="col-card-01" onclick="openColumnArticle(1)" style="cursor:pointer;">
+                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
+                <div class="article-card-caption"><span class="article-card-num">第 1 篇</span><p class="article-card-title">談自己——尋見真我，接納自己的過程</p></div>
             </div>
             <div class="article-card" id="col-card-39">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
@@ -352,13 +352,16 @@
             { num: 35, title: "從止損苦難的破壞，到滋養生命", content: "心路新路專欄文章\n\n從止損苦難的破壞到滋養生命\n\n20240403花蓮7.2級地震把台灣嚇壞了！這是25年來，921地震之後強度最大的地震。衷心期盼每個受困的同胞都能得到最好的資源，生命及財產都安全！\n\n很多地震影片傳出，如果是在馬路上，看到前方有大樓倒塌；或者是山路上，看到坍方，因著深怕再有傷亡發生，我們都會聽到親友互相提醒：不要太靠近！！\n\n人在面對危險的時候會出現保護生命的本能。\n\n但如果是自家的房子半倒，雖然害怕，但仍會有人想要進去搶救財物。不是不看重生命，而是沒有立即的生命危險時，會放不下財物，以至於忽略可能的危險。但只要恢復理性，通常不會將財物看得比生命還要重要。\n\n在地震一類的天災苦難面前，人類是這麼渺小跟無能為力。除了身體、財物的損失，更難受的是心理的創傷。生活會慢慢重啟，但是經歷的恐懼、不安、失落、憂傷、茫然...等情緒會延續很長的時間，會哭、會做惡夢、失眠、提不起勁，如果還有親人的意外離世，恢復期更是難以預計。\n\n如同現在政府在各個災害現場拉起封鎖線，要防止再有人受傷；或者小心監控傾斜的建物，研擬最小程度破壞的處理。面對心裡的創傷及情緒，也要意識到：現在已經非常脆弱，要避免再增加心理的任何負擔，例如非理性的自責。\n\n要告訴自己：當下的反應已經盡全力了，事後回想，當然會想到更好的因應，但是在巨大恐懼、壓力及很短時間裡，只有以本能反應，任何不好的結果，都不是自己願意的。如果讓後悔、自責不斷擴大，就是讓自己繼續被打擊，現在只能保護、把握住還有的資源，相信會逐漸恢復力量，可以繼續前行。 \n\n如此，就能止損苦難對生命的繼續破壞。921之後，有的人過了好幾年，才能慢慢走出陰霾，重拾笑容。但是懂得止損苦難破壞力量的人，會讓自己把精力馬上投入生命重建中。\n\n我的小妹在921地震時，是埔里基督教醫院產科病房的護士，當時，剛從護專畢業，年紀很輕，地震當下，每個護士身上都用袋子裝了不止一個嬰兒衝出醫院，沒有時間緩和，就開始在克難環境中照顧孩子。嚇得不輕的她體會到生命的意義，隨後就開始裝備自己預備念神學院，現在跟著先生一起牧養信徒。我為此深深感謝，妹妹不但沒有因著在震央經歷許多人同時間離世的恐懼，落入創傷症候群，反而清晰了生命方向，讓她開始有意義又滿足的事奉直到如今！\n\n創傷情緒重建的第一步就是接受自己真實的狀態，毋須勉強自己堅強或壓抑。詩人說：神啊，憂傷痛悔的心，你必不輕看（詩篇 51:17）耶和華靠近傷心的人，拯救靈性痛悔的人（詩篇34:18），上帝極其願意接納我們的憂傷軟弱，遇到打擊，可以崩潰，會哭、無法接受事實都是正常。哭過之後，累了就睡一覺，哭腫的眼睛痛，記得冰敷。哭過了、休息夠了，有力氣了，再出發。\n\n軟弱中可以讓我們學習接受幫助、接受愛，心中會自然生發出感恩；很多人死裡逃生，知道只差一秒，前面被埋在土石中的就是自己，各種失去讓我們體會到擁有並不都是理所當然的，就會真正的珍惜。面對死亡，我們也會突然明白生命重要順序，就可以放下無所謂的得失，把力量放在最重要的事情上，種種苦難終究會成為生命的養分。 \n\n然而，有一種抗拒非但不能止損苦難對生命的破壞，甚至加劇並延長。那抗拒就是不接受事實，認為人生不應該出現這些苦難，甚至質問上帝：你怎麼搞的？怎麼可以讓這種事情發生？你這樣的上帝我才不要相信！！\n\n每個人都有完全的自由這樣抗拒，只是抗拒已經發生的事實會讓人產生許多的憤怒、苦毒，轉而把焦點放在責備上帝，抗拒無法掌控的事物會產生更深的無力感。最大的損失是無法從願意幫助我們走過困境的上帝支取恢復及前行的力量。看著被憤怒、傷心淹沒而無力的自己，我們會更軟弱！無疑是雪上加霜！\n\n盜賊來，無非要偷竊，殺害，毀壞；我來了，是要叫羊 得生命，並且得的更豐盛（約翰福音 10:10），我在苦難中時，發現會讓自己越來越糟糕的想法，就知道是從盜賊來的，沒有價值、可以忽略；讓我能恢復力量，生命更自由豐盛的才是耶穌要給我的，我就緊緊抓住。\n\n苦難已經讓我重創，所以，不能再失去耶穌為我們上十架犧牲而成就的新生命，相信接受耶穌救恩、跟隨祂的人都會經歷跟祂一樣從羞愧進入榮耀，並經歷如 經上 所記：神為愛他的人所預備的 是眼睛未曾看見，耳朵未曾聽見，人心也未曾想到的（哥林多前書 2:9） \n\n我真的很討厭這些苦難，希望上帝賜下平安順利給我所愛的台灣，但是既然無法阻止苦難的發生，我更願意用相信為台灣、為我所愛的人祈禱：讓我們領受相信盼望的心，棄絕憤怒苦毒，遠離苦難的傷害，活在期待醫治、重新得力、重建生命的新路上！\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。" },
             { num: 36, title: "地震教會我的事", content: "心路新路專欄文章\n\n心路新路專欄文章\n\n地震教會我的事\n\n經歷許多地震的台灣讓我看見專屬於這個土地的韌性以及力量！\n\n最近看到一個影片，整理了台灣九大地震。影片中記錄了早期房子不耐震，倒塌情況怵目驚心、慘不忍睹！（影片連結在留言）\n\n921地震之後，我們在台北教會組織了一個假日災後服務團隊，長達數月的時間每個週六進到災區進行心靈重建的服務，由於很快時間進到災區，到當地的時候還可以聞到死亡的氣息！\n\n那次經歷之後，地震對於20幾歲的我至今都是：人類無法抵擋的巨大的破壞力！渺小無助的人類只能恐懼並無奈地接受未知的下一次地震！\n\n很奇妙的，看完這個影片，吸引我注意力的卻是以往我忽略的：不管經過怎麼樣的摧毁，在重建之後已完全看不到當年的破敗！\n\n原來，在這一次地震之後被日本媒體稱讚我們房屋倒塌不嚴重以及震候恢復日常的快速其實是經歷多次毁壞、重建、毁壞、重建過程中累積許多經驗、承受能力、不斷檢討並學習新的防震建築工法而有的成果！\n\n這不就是每個人面對生命的創傷、毀壞、衰敗需要的復原力！我好興奮了發現這件事情！因為我所服務的對象他們需要的就是重建的信心盼望跟能力！\n\n感謝台灣有許多的專業人才以及無私奉獻的公部門團隊合作為著一次又一次的重建而付出，我們才得以以享受歲月靜好。\n\n但個人面對自己生命的創傷，常常因為孤軍奮鬥，被當下的驚恐困住了、也被自己單薄的力量無法快速重建、重複浸泡在挫敗中而逐漸失去盼望跟信心！\n\n看完影片之後，深深以我是台灣女兒為榮，喚醒我內心堅毅以及可以不擔憂未來繼續前行的態度，這是台灣這土地母親給我們的孕育！\n\n有一次聽著朋友描述他們工作場合的西方國家同事，遇到工作上的挫折常常瞬間會表現出非常受不了的情緒，跟其他台灣同事的內斂、低調面對形成很大對比。光是平復自己的憤怒就耗掉許多力氣了！\n\n我的確也觀察到面對生命創傷，讓自己平穩下來，恢復理性以及提高功能是最快重建生活喜樂的狀態！\n\n在面對後來的餘震，生活歷練多的長輩以及平常就不太擔心憂慮的人，比較多鎮定地坐在原位或就地找一下掩護，但仍然存在驚恐焦慮的人，每一次餘震就要嚇一次，甚至已經開始失眠！\n\n處於地震帶的臺灣，每過一段時間就需要釋放能量，地震是不可避免的必然。我們需要練就『不要怕』的鎮定，更要效法台灣幾十年來接受現實、不斷超越、認真重建，讓台灣的建築防震能力越來越高，百姓的防震意識及能力也越來越高的方向來成長！\n\n為此我有一個禱告：求主賜給個性容易急躁、焦慮的我「安靜的力量」就像聖經中所說的可以默然等候耶和華，我相信聖經說的：若沒有上帝的應許我們一根頭髮都不會掉！\n\n如果上帝允許我的財產、身心靈遭受了破壞，一定會給我重建的力量，而且重建之後的生命會比舊的生命更加提升、更加美好！\n\n地震之前，天王星大樓總是比旁邊低樓層的建築更引人注目，但此刻旁邊低樓層的建築沒有倒掉是更令人安慰感恩的！所以穩固比高度更重要！\n\n在許多日本的老舊房子改建中，可以看見舊的，不符合需求的建築物拆掉，雖然主人會有不捨的心情，但在設計師的巧思重建中，新的家帶給家人更大的幸福跟快樂！\n\n不管是建築物或者生命的重建，這次地震給我兩大提醒：未來比過去更重要、穩固比高度重要！\n\n哈該書2:9：這殿後來的榮耀必大過先前的榮耀，在這地方我必賜平安。這是萬軍之耶和華說的。』\n\n除了為台灣地震後重建繼續祈禱，也願我們面對自己生命創傷的時候，相信上帝非常樂意重建我們生命，給我們生命未來的榮耀祝福更要勝過先前的榮耀祝福！\n\n 《心路新路專欄文章介紹》\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。" },
             { num: 37, title: "青少年在哪裡學習感情問題？", content: "心路新路專欄文章\n\n**青少年在哪裡學習感情問題？**\n\n近日，在魏連嶽老師『信仰、神學與人生』課程中，老師提到這個議題，真心覺得很重要，值得我們這些大人們好好思考。\n\n先說說青少年會面對什麼情感問題\n\n- 自身條件不符主流價值，沒有人喜歡，自我形像差、自卑、與人疏離。\n\n- 渴望感受愛情，花心思想吸引異性，又不知如何開始，患得患失，情緒起伏大。\n\n- 受人歡迎，許多愛慕者，蒙懂中\n\n沒有這樣的課程，也不在家長覺得應該討論的話題。\n\n影音主流文化：強調愛情的必要與滿足。\n\n補習班分析升學趨勢的講座，座無虛席。但教導家長與孩子討論感情的講座比例很低\n\n當個體缺乏比愛情更高的追求時，愛情就是最高的價值與追求。\n\n愛情可能就影響其身心健康：情殺\n\n成人的會談議題中：情感與關係比例最高\n\n美好的期待：讓自己家的孩子良善、正直，影響交往的對象\n\n跟孩子要有信任關係就可以持續影響小孩\n\n“愛情，眾水不能熄滅，洪流不能淹沒；如果有人拿自己家裏所有的財產去換取愛情，就必被藐視。”（歌八：7）\n\n『心路、新路』專欄簡介\n\n   每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n歡迎讀者將自己目前的困擾、難處、生命故事投書到此連結\n\n[https://forms.gle/bKo1ehRFDygcDZZ7A](https://forms.gle/bKo1ehRFDygcDZZ7A)\n\n作者將會於每週選出其中一位的故事進行探討，與大家一起找出心路與新路。" },
+            { num: 38, title: "黑暗趕不走，把光放進來就好了！", content: "心路新路專欄文章\n\n黑暗趕不走，把光放進來就好了！\n\n很多人來找我聊的時候，第一句話常常是：「老師，我要怎麼樣才能不痛苦？」\n\n我很能理解！誰不想要痛苦趕快消失？但是，親愛的朋友們，我想先問大家一個問題：你有辦法把一個房間裡的黑暗「趕出去」嗎？\n\n用掃把掃？用手揮？對著黑暗大罵：你給我走開！！\n\n黑暗一點都不會少！\n\n可是，只要「啪」一聲打開電燈，或者點一根小小的蠟燭，黑暗馬上就退開了。我們根本沒有跟黑暗打架，只是把光放進去而已！\n\n心裡的痛苦也是這樣。想要「消滅痛苦」的人，常常越用力越痛；把力氣放在「提升韌力」、把光放進來的人，黑暗反而自己退了。\n\n越複習，越記得！\n\n我是幼教科班出身的，小時候大家都背過書吧？老師一定會說：要一直複習、一直複習，才記得住！複習十遍的，一定比只看一遍的記得牢。\n\n親愛的，大腦就是這麼聽話！\n\n痛苦的回憶也一樣。當我們一遍又一遍地想：他那天說了哪一句話、那個表情、那個語氣，我那時候有多委屈，如果當初怎樣就好了……每想一次，就是在幫這件事「複習」一次！等於在告訴大腦：這件事很重要喔，千萬不要忘記！\n\n大腦就乖乖地把它記得更牢、更清楚了。\n\n就像草地上本來沒有路，同一個地方一直走、一直走，草被踩平了，就成了一條小路。以後不用刻意，腳自己就往那裡走。痛苦的小路踩得越深，我們就越常不知不覺走回去。\n\n更辛苦的是，回想的時候，身體也會跟著再經歷一次：心跳變快、胸口悶悶的、晚上睡不著。事情明明只發生一次，我們卻在心裡重播了一百次，等於被傷了一百次！！\n\n這不是說痛苦不能說。好好哭一場、找一個願意聽你說的朋友，被陪伴著說出來，是非常重要的。但是「被陪伴著說出來」跟「自己一個人一直在心裡重播」，真的不一樣。前者讓心慢慢鬆開，後者讓人越陷越深。\n\n身體強壯，病菌就沒那麼可怕\n\n大家都知道，我們不可能把世界上所有的病菌都消滅。但是身體強壯的人，睡得好、吃得好、有運動，同樣的感冒來了，躺一兩天就好了；身體虛弱的人，可能就拖很久。\n\n心靈也是一樣！人生的風雨不會因為我們不喜歡就不來，失落、誤會、病痛、離別，總有一天會敲門。但是，當我們內在的韌性力量提高了，同樣的事情來了，痛苦的感受自然就變小，也比較快站起來。\n\n我們沒辦法讓人生沒有風雨，但是我們可以讓自己更有力量走過風雨！\n\n停電的時候，你在找什麼？\n\n大家應該都有過停電的經驗吧？一停電，眼前一片漆黑，這時候你會做什麼？\n\n我想沒有人會坐在原地研究：這個黑到底有多黑？為什麼會這麼黑？是誰害我這麼黑？\n\n我們做的第一件事，就是摸摸找找：手電筒在哪裡？手機在哪裡？蠟燭放哪裡去了？\n\n找到光，路就看得見了！\n\n在黑暗中想找一條路，最快的真的不是研究黑暗，而是找光！\n\n只要今天沒有被打倒，我就還有明天\n\n說到這裡，我想跟大家說說我自己。\n\n我也曾經在極度的黑暗跟痛苦中，黑到完全看不見路，完全沒有辦法自救！那時候，我沒有力氣去想明年、下個月，甚至明天要怎麼辦。\n\n所以我把全部的力量，只放在一件事情上：我只要能夠過好這一天！只要今天沒有被打倒，我就還有明天！\n\n一天一天，我就這麼走過來了。\n\n現在回頭看，那一個又一個「只要過好今天」，就是我在最黑的時候，為自己點起的一根小蠟燭。光雖然小小的，只照得到眼前一步，但是夠了！一步一步，就走出來了！\n\n最近看《蘭香如故》，我好有共鳴！劇中的女主角一夜之間失去了全族，頂著別人的名字，成了最卑微的奴婢，她手上的牌，比我們大多數人都爛！可是她憑著母親留給她的一個「活」字，憑著要好好活下去的信念，從一個脆弱無助的生命，慢慢長出許多韌性跟力量，不但活了下來，還活得發光發亮！\n\n她沒有把力氣花在消滅黑暗，而是一天一天，讓自己更有力量。這不就是韌力提升嗎？\n\n把思念放在對的地方\n\n保羅在監獄裡寫信給腓立比的信徒，給了我們一個很實際的提醒：\n\n腓立比書 4:8 弟兄們，我還有未盡的話：凡是真實的、可敬的、公義的、清潔的、可愛的、有美名的，若有什麼德行，若有什麼稱讚，這些事你們都要思念。\n\n保羅沒有說「你們不要想壞事」，他說的是：這些美好的事，你們要去『思念』！\n\n這不就是在大腦裡踩出一條新的小路嗎？我們常常思念什麼，那條路就越來越好走。今天開始，不用跟痛苦的念頭打架，只要發現自己又走回那條老路時，溫柔地跟自己說：「我又走到舊路上了，換個方向吧！」然後把注意力轉向一件真實、美好的事。\n\n一次、兩次、十次、一百次……新的路就這樣慢慢被踩出來了！\n\n親愛的朋友們，如果你正在一個很黑很黑的地方，請相信你不孤單。我們不需要用盡力氣去消滅黑暗，只要先過好今天，一點一點地，讓光進來。光多一點，黑暗就少一點！\n\n非常歡迎大家利用現在到過年的這段時間，把《蘭香如故》看完！年後，我要跟大家一起來解鎖：劇中女主角的韌性力量，到底是怎麼一次又一次不斷提升的？秘訣是什麼？講座資訊和報名連結就附在文章下面喔！\n\n約翰福音 8:12 耶穌又對眾人說：「我是世界的光。跟從我的，就不在黑暗裡走，必要得著生命的光。」\n\n《心路新路專欄文章介紹》\n\n每個人都有一個想要達到的目標、地方，並為此努力著。但是，走著走著，有時會感到對前方感到迷惘、困惑、疲累，甚至發現自己不見了！此時，需要重新找到『心路』：與自己內心連結之路。重新好好認識自己，除了自己在想什麼、如何感受這個世界以外，更重要的，找回自己受造之初、與生俱來的本質及祝福。當人可以找到自己原來的樣子，一條嶄新的、喜樂的、有盼望的、有力量的、回到上帝創造心意的『新路』，也即將開啟。\n\n歡迎到作者邱雪媚的FB進行交流。\n\n————————————————\n\n【韌性提升講座】從《蘭香如故》女主角身上發掘韌性及生命力秘訣\n\n如果你覺得，人生拿了一手爛牌……\n如果你覺得，自己受到了不公平的對待……\n如果你覺得，環境給你太多壓迫……\n如果你覺得，自己懷才不遇、遭人嫉妒……\n如果你不甘心，人生只有眼前這番光景……\n如果你想要，活得不再被別人左右……\n邀請你跟我一起，走進《蘭香如故》。\n\n面對艱難的處境，多數人會有兩極化的反應：一個是壓抑忍耐，一個是崩潰爆炸。《蘭香如故》劇中的女主角沒有出現這兩種極端。為了已故母親以及慈愛養母勉勵她「好好活」，她展現了超強韌性，並運用許多策略，以至於不但活了下來，活得開心，而且活得發光發亮。讓我們藉著這部美麗、優質的戲劇作品，陪你找到好好活的力量。\n\n講座資訊\n◆ 時間：2027 年 2 月 20 日（六）上午 10:00–12:00\n◆ 形式：線上講座；當天無法參與者，可申請一週回看\n◆ 費用：NT$300\n◆ 主講：邱雪媚 老師\n◆ 行前準備：建議先看完整部《蘭香如故》。如不知道如何收看，請到 LINE 小幫手詢問。\n\n這兩個小時，我們會談\n1. 一手爛牌，第一步是先活下來\n2. 拿回自己的名字，別人的標籤不是你\n3. 同樣的痛苦，為什麼有人走進死胡同，有人走出一條路\n4. 不吵架、不硬碰，也能改變局面\n5. 從小累積的本事，會在最難的時候救你\n6. 讓活得好的渴望高於一切\n\n報名方式\n1. 匯款 NT$300 到下方帳戶\n2. 填寫報名表單（匯款日期、帳號後五碼）\n3. 確認款項後，會寄確認信到您的 Email；講座當天會把線上連結寄到同一個 Email\n\n國泰世華銀行（代碼 013）\n帳號：132-50-013341-8\n戶名：邱雪媚\n匯款時請註明姓名以及「韌性提升講座20270220」\n\n講座介紹：https://xinlu-may.github.io/haohaohuo.html\n報名表單：https://forms.gle/Tp8nS37nTpRm2JtF7\n有問題請洽官方 LINE 心路小幫手：@431trrjk（https://line.me/R/ti/p/@431trrjk）" },
         ];
 
         function openColumnArticle(num) {
             const article = columnArticles.find(a => a.num === num);
             if (!article) return;
             document.getElementById('articleViewTitle').innerText = `第 ${article.num} 篇　${article.title}`;
-            document.getElementById('articleViewContent').innerText = article.content;
+            const box = document.getElementById('articleViewContent');
+            box.innerText = article.content;
+            box.innerHTML = box.innerHTML.replace(/https?:\/\/[^\s<）)」]+/g, u => `<a href="${u}" target="_blank" rel="noopener" style="color:#1B5E20; word-break:break-all;">${u}</a>`);
             document.getElementById('fullscreenArticleView').classList.add('open');
             window.scrollTo(0, 0);
         }
