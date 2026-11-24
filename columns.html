@@ -360,7 +360,7 @@
             // 每一篇都有自己的標題配圖（images/columns/col-篇號.jpg）
             const cover = document.getElementById('articleViewCover');
             cover.style.display = 'block'; cover.alt = article.title;
-            cover.src = 'images/columns/' + (NEW_COVERS.indexOf(article.num) >= 0 ? 'new-' : 'col-') + String(article.num).padStart(2, '0') + '.jpg';
+            cover.src = 'images/columns/' + (NEW_COVERS.indexOf(article.num) >= 0 ? 'new-' : 'col-') + String(article.num).padStart(2, '0') + '.jpg?v=20261124';
             const box = document.getElementById('articleViewContent');
             box.innerText = article.content;
             box.innerHTML = box.innerHTML.replace(/https?:\/\/[^\s<）)」]+/g, u => `<a href="${u}" target="_blank" rel="noopener" style="color:#1B5E20; word-break:break-all;">${u}</a>`);
@@ -383,7 +383,7 @@
             if (!key || !media) return;
             key = String(key).padStart(2, '0');
             // 雪媚親自製作的新圖（new-篇號.jpg）優先；還沒換圖的篇數沿用 card-篇號.jpg
-            var img = new Image(); img.loading = 'lazy'; img.alt = ''; img.src = 'images/columns/' + (NEW_COVERS.indexOf(+key) >= 0 ? 'new-' : 'card-') + key + '.jpg';
+            var img = new Image(); img.loading = 'lazy'; img.alt = ''; img.src = 'images/columns/' + (NEW_COVERS.indexOf(+key) >= 0 ? 'new-' : 'card-') + key + '.jpg?v=20261124';
             media.innerHTML = ''; media.appendChild(img);
         });
     </script>
