@@ -51,21 +51,22 @@
         /* 🌟 文章格狀卡片 */
         .article-grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
             margin-bottom: 50px;
         }
-        @media (max-width: 500px) { .article-grid-container { grid-template-columns: 1fr; gap: 10px; } }
+        @media (max-width: 860px) { .article-grid-container { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+        @media (max-width: 540px) { .article-grid-container { grid-template-columns: 1fr; gap: 14px; } }
 
         /* 專欄文章卡片縮成小卡片，一個畫面可以看到更多篇名 */
         /* 尚未有題目的空白卡片（第 38、39 格）先隱藏，日後有文章再把這一行拿掉 */
         #col-card-39 { display: none !important; }
-        .article-grid-container .article-card { aspect-ratio: auto; display: flex; align-items: center; background: #eef5ee; border-radius: 10px; box-shadow: none; }
-        .article-grid-container .article-card .article-card-media { display: none; }
-        .article-grid-container .article-card .article-card-caption { position: static; background: none; color: #2C5E3B; padding: 8px 12px; display: flex; align-items: baseline; gap: 8px; }
-        .article-grid-container .article-card .article-card-num { font-size: 12.5px; margin-bottom: 0; opacity: 0.7; white-space: nowrap; display: inline; }
-        .article-grid-container .article-card .article-card-title { font-size: 15px; line-height: 1.35; }
-        .article-grid-container .article-card:hover { transform: none; background: #e3f0e6; }
+        /* 每一篇都是一張大圖卡：底圖＋文章名稱＋右上角號碼（文字已畫在圖裡，下面的文字只給螢幕閱讀器和搜尋引擎） */
+        .article-grid-container .article-card { aspect-ratio: 1200 / 630; display: block; background: #eef5ee; border-radius: 14px; border: none; box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
+        .article-grid-container .article-card .article-card-media { position: absolute; inset: 0; background: #eef5ee; }
+        .article-grid-container .article-card .article-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .article-grid-container .article-card .article-card-caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; padding: 0; background: none; }
+        .article-grid-container .article-card:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(44,94,59,0.22); }
 
         .article-card {
             position: relative;
@@ -305,7 +306,8 @@
     <!-- 全螢幕文章閱讀視窗 -->
     <div class="fullscreen-article-view" id="fullscreenArticleView">
         <div class="article-max-wrapper">
-            <h2 id="articleViewTitle" style="font-size:26px; color:#1B5E20; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:14px;"></h2>
+            <img id="articleViewCover" src="" alt="" width="1200" height="630" style="width:100%; height:auto; display:block; border-radius:14px; margin-bottom:16px; box-shadow:0 6px 18px rgba(60,40,20,.25);" onerror="this.style.display='none'">
+            <h2 id="articleViewTitle" style="font-size:22px; color:#1B5E20; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:14px;"></h2>
             <div id="articleViewContent" style="font-size:19px; line-height:1.9; color:#262626; white-space:pre-wrap;"></div>
             <div style="text-align:center; margin-top:30px; padding-top:20px; border-top:1px dashed #d8e2da;">
                 <button class="action-link-btn" style="background:#78909C; border:none; padding:13px 32px; border-radius:35px; color:white; font-size:18px; font-weight:bold; border:none; cursor:pointer;" onclick="closeColumnArticle()">🔙 返回專欄列表</button>
@@ -359,6 +361,10 @@
             const article = columnArticles.find(a => a.num === num);
             if (!article) return;
             document.getElementById('articleViewTitle').innerText = `第 ${article.num} 篇　${article.title}`;
+            // 每一篇都有自己的標題配圖（images/columns/col-篇號.jpg）
+            const cover = document.getElementById('articleViewCover');
+            cover.style.display = 'block'; cover.alt = article.title;
+            cover.src = 'images/columns/col-' + String(article.num).padStart(2, '0') + '.jpg';
             const box = document.getElementById('articleViewContent');
             box.innerText = article.content;
             box.innerHTML = box.innerHTML.replace(/https?:\/\/[^\s<）)」]+/g, u => `<a href="${u}" target="_blank" rel="noopener" style="color:#1B5E20; word-break:break-all;">${u}</a>`);
@@ -372,5 +378,15 @@
         }
     </script>
 <div class="xl-disclaimer" style="max-width:900px;margin:30px auto 20px;padding:14px 18px;font-size:13.5px;line-height:1.75;color:#777;text-align:center;border-top:1px solid #e5e5e5;font-family:'PingFang TC','Microsoft JhengHei',sans-serif;"><div style="margin-bottom:8px;color:#555;font-size:14.5px;"><b>聯絡我們</b>｜心路新路有限公司（統一編號 61981803，負責人 邱雪媚）｜Email：<a href="mailto:xinlumay@gmail.com" style="color:#2C5E3B;">xinlumay@gmail.com</a>｜官方 LINE：<a href="https://line.me/R/ti/p/@431trrjk" style="color:#2C5E3B;">@431trrjk</a>｜<a href="refund.html" style="color:#2C5E3B;">退費說明</a></div>本公司提供個人成長諮詢、生命成長陪伴與教育課程，非心理諮商或心理治療，亦不進行心理疾病之診斷。如有身心疾病或危機狀況，請尋求醫療機構或合格心理師協助。</div>
+    <script>
+        // 列表圖卡：每張卡的底圖（含文章名稱與右上角號碼）放在 images/columns/card-編號.jpg
+        document.querySelectorAll('.article-grid-container .article-card').forEach(function (card) {
+            var m = /^col-card-(\d+)$/.exec(card.id), key = m ? String(m[1]).padStart(2, '0') : (card.id === 'col-card-haohaohuo' ? 'sp' : null);
+            var media = card.querySelector('.article-card-media');
+            if (!key || !media || key === '39') return;
+            var img = new Image(); img.loading = 'lazy'; img.alt = ''; img.src = 'images/columns/card-' + key + '.jpg';
+            media.innerHTML = ''; media.appendChild(img);
+        });
+    </script>
 </body>
 </html>
