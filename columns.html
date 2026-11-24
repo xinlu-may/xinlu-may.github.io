@@ -62,9 +62,9 @@
         /* 尚未有題目的空白卡片（第 38、39 格）先隱藏，日後有文章再把這一行拿掉 */
         #col-card-39 { display: none !important; }
         /* 每一篇都是一張大圖卡：底圖＋文章名稱＋右上角號碼（文字已畫在圖裡，下面的文字只給螢幕閱讀器和搜尋引擎） */
-        .article-grid-container .article-card { aspect-ratio: 1200 / 630; display: block; background: #eef5ee; border-radius: 14px; border: none; box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
+        .article-grid-container .article-card { aspect-ratio: 16 / 9; display: block; background: #eef5ee; border-radius: 14px; border: none; box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
         .article-grid-container .article-card .article-card-media { position: absolute; inset: 0; background: #eef5ee; }
-        .article-grid-container .article-card .article-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .article-grid-container .article-card .article-card-media img { width: 100%; height: 100%; object-fit: cover; object-position: left center; display: block; }
         .article-grid-container .article-card .article-card-caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; padding: 0; background: none; }
         .article-grid-container .article-card:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(44,94,59,0.22); }
 
@@ -138,13 +138,13 @@
         <div class="article-grid-container">
             <!-- 共 39 格占位卡片，編號 1～39。日後提供圖片與題目／字幕後，逐格替換 article-card-media 內的內容與 article-card-title 文字即可，不影響其他格。 -->
 
-            <a class="article-card" id="col-card-38" href="column-light.html" style="cursor:pointer; text-decoration:none;">
+            <a class="article-card" id="col-card-light" data-cover="39" href="column-light.html" style="cursor:pointer; text-decoration:none;">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 38 篇</span><p class="article-card-title">黑暗趕不走，把光放進來就好了！</p></div>
+                <div class="article-card-caption"><span class="article-card-num">第 39 篇</span><p class="article-card-title">黑暗趕不走，把光放進來就好了！</p></div>
             </a>
-            <a class="article-card" id="col-card-haohaohuo" href="column-haohaohuo.html" style="cursor:pointer; text-decoration:none;">
+            <a class="article-card" id="col-card-haohaohuo" data-cover="38" href="column-haohaohuo.html" style="cursor:pointer; text-decoration:none;">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">專題</span><p class="article-card-title">一手爛牌，也能好好活——從《蘭香如故》看見活下去的力量</p></div>
+                <div class="article-card-caption"><span class="article-card-num">第 38 篇</span><p class="article-card-title">一手爛牌，也能好好活——從《蘭香如故》看見活下去的力量</p></div>
             </a>
             <div class="article-card" id="col-card-37" onclick="openColumnArticle(37)" style="cursor:pointer;">
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
@@ -294,10 +294,6 @@
                 <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
                 <div class="article-card-caption"><span class="article-card-num">第 1 篇</span><p class="article-card-title">談自己——尋見真我，接納自己的過程</p></div>
             </div>
-            <div class="article-card" id="col-card-39">
-                <div class="article-card-media"><span class="article-card-placeholder">✍️</span></div>
-                <div class="article-card-caption"><span class="article-card-num">第 39 篇</span><p class="article-card-title placeholder-text">標題等待中</p></div>
-            </div>
 
         </div>
 
@@ -364,7 +360,7 @@
             // 每一篇都有自己的標題配圖（images/columns/col-篇號.jpg）
             const cover = document.getElementById('articleViewCover');
             cover.style.display = 'block'; cover.alt = article.title;
-            cover.src = 'images/columns/col-' + String(article.num).padStart(2, '0') + '.jpg';
+            cover.src = 'images/columns/' + (NEW_COVERS.indexOf(article.num) >= 0 ? 'new-' : 'col-') + String(article.num).padStart(2, '0') + '.jpg';
             const box = document.getElementById('articleViewContent');
             box.innerText = article.content;
             box.innerHTML = box.innerHTML.replace(/https?:\/\/[^\s<）)」]+/g, u => `<a href="${u}" target="_blank" rel="noopener" style="color:#1B5E20; word-break:break-all;">${u}</a>`);
@@ -379,12 +375,15 @@
     </script>
 <div class="xl-disclaimer" style="max-width:900px;margin:30px auto 20px;padding:14px 18px;font-size:13.5px;line-height:1.75;color:#777;text-align:center;border-top:1px solid #e5e5e5;font-family:'PingFang TC','Microsoft JhengHei',sans-serif;"><div style="margin-bottom:8px;color:#555;font-size:14.5px;"><b>聯絡我們</b>｜心路新路有限公司（統一編號 61981803，負責人 邱雪媚）｜Email：<a href="mailto:xinlumay@gmail.com" style="color:#2C5E3B;">xinlumay@gmail.com</a>｜官方 LINE：<a href="https://line.me/R/ti/p/@431trrjk" style="color:#2C5E3B;">@431trrjk</a>｜<a href="refund.html" style="color:#2C5E3B;">退費說明</a></div>本公司提供個人成長諮詢、生命成長陪伴與教育課程，非心理諮商或心理治療，亦不進行心理疾病之診斷。如有身心疾病或危機狀況，請尋求醫療機構或合格心理師協助。</div>
     <script>
-        // 列表圖卡：每張卡的底圖（含文章名稱與右上角號碼）放在 images/columns/card-編號.jpg
+        // 列表圖卡：每張卡的底圖（含文章名稱與號碼）放在 images/columns/card-編號.jpg；已換成新圖的篇數放在 new-編號.jpg
+        var NEW_COVERS = [32, 33, 34, 35, 36, 37, 38, 39];
         document.querySelectorAll('.article-grid-container .article-card').forEach(function (card) {
-            var m = /^col-card-(\d+)$/.exec(card.id), key = m ? String(m[1]).padStart(2, '0') : (card.id === 'col-card-haohaohuo' ? 'sp' : null);
+            var m = /^col-card-(\d+)$/.exec(card.id), key = card.dataset.cover || (m ? String(m[1]) : null);
             var media = card.querySelector('.article-card-media');
-            if (!key || !media || key === '39') return;
-            var img = new Image(); img.loading = 'lazy'; img.alt = ''; img.src = 'images/columns/card-' + key + '.jpg';
+            if (!key || !media) return;
+            key = String(key).padStart(2, '0');
+            // 雪媚親自製作的新圖（new-篇號.jpg）優先；還沒換圖的篇數沿用 card-篇號.jpg
+            var img = new Image(); img.loading = 'lazy'; img.alt = ''; img.src = 'images/columns/' + (NEW_COVERS.indexOf(+key) >= 0 ? 'new-' : 'card-') + key + '.jpg';
             media.innerHTML = ''; media.appendChild(img);
         });
     </script>
