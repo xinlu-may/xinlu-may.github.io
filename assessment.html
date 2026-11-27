@@ -171,6 +171,7 @@ function buildRoutingForm(){
       <option value="16-18歲">16-18 歲</option>
       <option value="18-24歲">18-24 歲</option>
       <option value="25-65歲">25-65 歲</option>
+      <option value="65歲以上">65 歲以上</option>
     </select>
     <div id="r_ver_box" style="display:none;">
       <label>由誰填寫？</label>
@@ -189,12 +190,14 @@ function buildRoutingForm(){
       <label>感情狀態</label>
       <select id="r_partner" onchange="routePartnerChanged()">
         <option value="no">單身</option>
-        <option value="yes">有伴侶</option>
+        <option value="yes">已婚／有固定伴侶</option>
       </select>
-      <div id="r_child_box" style="display:none;">
-        <label>是否有小孩</label>
-        <select id="r_child"><option value="no">無小孩</option><option value="yes">有小孩</option></select>
+      <div id="r_dating_box">
+        <label>目前有沒有交往對象？</label>
+        <select id="r_dating"><option value="no">沒有交往對象</option><option value="yes">有交往對象</option></select>
       </div>
+      <label>有沒有子女？</label>
+      <select id="r_child"><option value="no">沒有子女</option><option value="yes">有子女</option></select>
       <label>居住情況</label>
       <select id="r_live">
         <option value="origin">住在原生家庭</option>
@@ -213,15 +216,24 @@ function buildRoutingForm(){
 function routeAgeChanged(){
   const age = document.getElementById('r_age').value;
   const isMinorSelfable = ['7-10歲','10-13歲','13-15歲','16-18歲'].includes(age);
-  const isAdult = ['18-24歲','25-65歲'].includes(age);
+  const isAdult = ['18-24歲','25-65歲','65歲以上'].includes(age);
   document.getElementById('r_ver_box').style.display = isMinorSelfable ? 'block' : 'none';
   document.getElementById('r_adult_box').style.display = isAdult ? 'block' : 'none';
   document.getElementById('r_faith_box').style.display = age ? 'block' : 'none';
-  if(isAdult) routePartnerChanged();
+  if(isAdult){
+    const occ = document.getElementById('r_occ');
+    const study = [...occ.options].find(o=>o.value==='study');
+    const neet = [...occ.options].find(o=>o.value==='neet');
+    const senior = age==='65歲以上';
+    study.hidden = study.disabled = senior;
+    neet.textContent = senior ? '已退休／目前無就業' : '目前無就學無就業';
+    if(senior && occ.value==='study') occ.value='work';
+    routePartnerChanged();
+  }
 }
 function routePartnerChanged(){
   const p = document.getElementById('r_partner').value;
-  document.getElementById('r_child_box').style.display = (p==='yes') ? 'block' : 'none';
+  document.getElementById('r_dating_box').style.display = (p==='no') ? 'block' : 'none';
 }
 
 function submitRouting(){
@@ -231,18 +243,26 @@ function submitRouting(){
   let ver='self', occ=null, partner=null, child=null, live=null;
   if(age==='4-6歲') ver='observer';
   else if(['7-10歲','10-13歲','13-15歲','16-18歲'].includes(age)) ver=document.getElementById('r_ver').value;
-  if(['18-24歲','25-65歲'].includes(age)){
+  let dating=null, hasChild=null, matchAge=age;
+  if(['18-24歲','25-65歲','65歲以上'].includes(age)){
     ver='self';
     occ=document.getElementById('r_occ').value;
     partner=document.getElementById('r_partner').value;
-    child = partner==='yes' ? document.getElementById('r_child').value : null;
+    dating = partner==='no' ? document.getElementById('r_dating').value : null;
+    hasChild=document.getElementById('r_child').value;
+    // 單身但有交往對象 → 以「有伴侶」題本配對；題本沒有「單身＋有子女」，單身無對象者先用單身題本
+    const pairedPartner = (partner==='yes' || dating==='yes') ? 'yes' : 'no';
+    child = pairedPartner==='yes' ? hasChild : null;
+    partner = pairedPartner;
     live=document.getElementById('r_live').value;
+    if(age==='65歲以上') matchAge='25-65歲';
   }
+
   const faith = document.getElementById('r_faith') ? document.getElementById('r_faith').value : '大眾版';
-  const setNo = matchSet(age, ver, occ, partner, child, live);
+  const setNo = matchSet(matchAge, ver, occ, partner, child, live);
   if(!setNo){ showErr(err,'找不到對應的題本，請確認選項，或聯繫雪媚老師。'); return; }
   S.setNo = setNo;
-  S.routing = { age, ver, occ, partner, child, live, faith };
+  S.routing = { age, ver, occ, partner, dating, child:(hasChild||child), live, faith };
   loadQuestions().then(()=>{ goScreen('sc2'); S.idx=0; renderQ(); });
 }
 
@@ -265,6 +285,17 @@ async function loadQuestions(){
   if(error){ alert('題目載入失敗，請稍後再試'); throw error; }
   const drop = faith==='大眾版' ? '基督徒版' : '大眾版';
   S.qs = data.filter(q => !(q.dimension.indexOf('靈性')>=0 && q.dimension.indexOf(drop)>=0));
+  // 依填答者身分調整用語：就業中不出現「學校」，有子女者不出現「獨居」
+  const rt = S.routing || {};
+  S.qs.forEach(q => {
+    let t = q.q_text;
+    if(rt.occ==='work'){ t = t.replace('各自的學校或職場','各自的職場').replace('學校或社群','職場或社群'); }
+    else if(rt.occ==='neet'){ t = t.replace('各自的學校或職場','各自的生活圈').replace('學校或社群','社群或生活圈'); }
+    if(rt.child==='yes'){ t = t.replace('獨居的生活','目前的生活'); }
+    if(rt.age==='65歲以上'){ t = t.replace('「找到工作或學校」','「還在工作」'); }
+    q.q_text = t;
+  });
+
 }
 
 const SCALE = [['1','從不'],['2','很少'],['3','有時'],['4','經常'],['5','總是']];
